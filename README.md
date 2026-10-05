@@ -44,8 +44,8 @@ All designs are parametric. They are built in FreeCAD, mostly from Python script
 </table>
 
 <p align="center">
-  <img src="liquid%20fertilezer%20applicator/simple_v2/previews/animation_strip_ground_following.gif" alt="Ground-following animation of the liquid fertilizer applicator" width="720"><br>
-  <i>Ground following of the liquid fertilizer applicator (simple_v2)</i>
+  <img src="liquid%20fertilezer%20applicator/advanved/previews/animation_strip_ground_following.gif" alt="Ground-following animation of the liquid fertilizer applicator" width="720"><br>
+  <i>Ground following of the liquid fertilizer applicator (advanced)</i>
 </p>
 
 ## Implements
