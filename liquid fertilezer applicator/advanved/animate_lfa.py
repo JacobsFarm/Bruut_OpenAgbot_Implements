@@ -31,7 +31,7 @@ import lfa_calc as C
 import build_lfa
 
 FOLDER = os.path.dirname(os.path.abspath(__file__))
-AGBOT_FOLDER = os.path.join(os.path.dirname(FOLDER), "agbot design")
+AGBOT_FOLDER = os.path.join(os.path.dirname(os.path.dirname(FOLDER)), "agbot design")
 DOC_NAME = "LFA_on_robot_animation"
 
 # ---------------------------------------------------------------------
