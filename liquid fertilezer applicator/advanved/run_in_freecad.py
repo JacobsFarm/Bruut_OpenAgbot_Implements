@@ -7,7 +7,7 @@ sys.dont_write_bytecode = True
 try:
     FOLDER = os.path.dirname(os.path.abspath(__file__))
 except NameError:
-    FOLDER = r"F:\veldrobot\aanbouwdelen\liquid fertilezer applicator"
+    FOLDER = r"F:\veldrobot\aanbouwdelen\liquid fertilezer applicator\advanved"
 
 if FOLDER not in sys.path:
     sys.path.insert(0, FOLDER)
