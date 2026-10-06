@@ -13,7 +13,7 @@ Z = V(0, 0, 1)
 
 
 # ---------------------------------------------------------------------
-# Basisfuncties (zelfde stijl als ../../liquid fertilezer applicator/advanved/lfa_parts.py)
+# Basisfuncties (zelfde stijl als ../../liquid fertilizer applicator/advanced/lfa_parts.py)
 # ---------------------------------------------------------------------
 def box_span(x, y, z):
     return Part.makeBox(x[1] - x[0], y[1] - y[0], z[1] - z[0], V(x[0], y[0], z[0]))

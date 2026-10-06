@@ -1,78 +1,78 @@
-# Doorzaaimachine (overseeder), eenvoudige versie: FreeCAD-model
+# Overseeder, simple version: FreeCAD model
 
-Doorzaaimachine voor de Bruut OpenAgbot, gebouwd op de bok en het hefraam van de
-[eenvoudige toediener versie 2](../../liquid%20fertilezer%20applicator/simple_v2/README.md).
+Overseeder for the Bruut OpenAgbot, built on the headstock and lift frame of the
+[simple applicator version 2](../../liquid%20fertilizer%20applicator/simple_v2/README.md).
 
-Per rij één element:
-- een dunne schijf Ø 300 × 3 staat 7° scheef en snijdt een V-sleuf van 15 mm;
-- een zaaischoen in de schaduw van de schijf legt het zaad op ca. 12 mm **in** de grond;
-- een dieptering op de schijf houdt de diepte vast;
-- een aandrukrol op een verende arm drukt de sleuf dicht.
+One element per row:
+- a thin Ø 300 × 3 disc stands at a 7° angle and cuts a 15 mm V-slot;
+- a seed boot in the lee of the disc places the seed at about 12 mm **in** the soil;
+- a depth ring on the disc holds the depth;
+- a press wheel on a spring-loaded arm closes the slot.
 
-Verder:
-- 8 rijen op 125 mm = 1 m per module; modules zijn met flenzen naast elkaar te koppelen;
-- elke rij volgt de grond met een eigen sleeparm en veerpoot;
-- 2 gasveren duwen het zwevende hefraam omlaag met robotgewicht;
-- een zaadbak met een vak voor gras (41 l) en een vak voor fijn zaad (18 l), elk met een eigen nokkenrol en motor die de rijsnelheid volgt;
-- trekkracht ca. 335 N normaal, tegen 461 N voor de toediener;
-- ca. € 1675 aan materiaal.
+In addition:
+- 8 rows at 125 mm = 1 m per module; modules can be coupled side by side with flanges;
+- every row follows the ground on its own trailing arm and spring leg;
+- 2 gas springs push the floating lift frame down with robot weight;
+- a seed hopper with a compartment for grass (41 l) and one for fine seed (18 l), each with its own cam roller and a motor that follows the driving speed;
+- draft force approx. 335 N normal, against 461 N for the applicator;
+- approx. € 1675 in materials.
 
-Let op:
-- **ca. 40 kg frontgewicht op de robot** is nodig om de machine met een volle bak te heffen;
-- in harde, droge zode alleen met 4 rijen (elk tweede element omhoog).
+Note:
+- **approx. 40 kg of front weight on the robot** is needed to lift the machine with a full hopper;
+- in hard, dry sward only with 4 rows (every second element raised).
 
-Zie [ONDERBOUWING.md](ONDERBOUWING.md).
+See [RATIONALE.md](RATIONALE.md).
 
-![overzicht](previews/1_iso_rear_right.png)
+![overview](previews/1_iso_rear_right.png)
 
-![bodemvolging](previews/13_ground_following.png)
+![ground following](previews/13_ground_following.png)
 
-## Bestanden
+## Files
 
-| Bestand | Inhoud |
+| File | Contents |
 | --- | --- |
-| `Overseeder.FCStd` | het model in werkstand (gegenereerd, niet met de hand aanpassen) |
-| `ovs_params.py` | alle maten, inclusief de robotaansluiting |
-| `ovs_kin.py` | kinematica: hefraam, langgat, gasveren, sleeparm, veerpoot, rolarm, schijf, zaadbak (puur Python) |
-| `ovs_parts.py` | één functie per onderdeel, geeft een `Part`-shape |
-| `build_ovs.py` | boomstructuur, kleuren, heffen, botscontrole, massa, afbeeldingen |
-| `ovs_calc.py` | dosering, neerdruk en gasveren, trekkracht, heffen, asbelasting, modulebreedtes, kosten (puur Python) |
-| `ovs_ground.py` | bodemvolging over de hobbelige strook van de toedieners (puur Python) |
-| `plot_ground_ovs.py` | vergelijkingsgrafiek met simple_v2 (matplotlib) |
-| `run_in_freecad.py` | macro: openen in FreeCAD en uitvoeren (F6) bouwt het model opnieuw |
-| `previews/` | afbeeldingen en de grafiek |
+| `Overseeder.FCStd` | the model in working position (generated, do not edit by hand) |
+| `ovs_params.py` | all dimensions, including the robot interface |
+| `ovs_kin.py` | kinematics: lift frame, slotted hole, gas springs, trailing arm, spring leg, roller arm, disc, hopper (pure Python) |
+| `ovs_parts.py` | one function per part, returns a `Part` shape |
+| `build_ovs.py` | model tree, colors, lifting, interference check, mass, images |
+| `ovs_calc.py` | dosing, down force and gas springs, draft force, lifting, axle load, module widths, cost (pure Python) |
+| `ovs_ground.py` | ground following over the bumpy strip of the applicators (pure Python) |
+| `plot_ground_ovs.py` | comparison chart with simple_v2 (matplotlib) |
+| `run_in_freecad.py` | macro: open in FreeCAD and run (F6) to rebuild the model |
+| `previews/` | images and the chart |
 
-De modulenamen beginnen met `ovs_`. Zo kunnen ze samen met de toedieners (`lfs_`, `lfs2_`, `lfa_`) in dezelfde
-FreeCAD-sessie geladen worden. `ovs_ground.py` leest de strook en de 80 robotposities uit
-`../../liquid fertilezer applicator/simple_v2/` voor de vergelijking. Het onderzoek staat in `../inspiration/`.
+The module names start with `ovs_`. This way they can be loaded in the same FreeCAD session as the applicators
+(`lfs_`, `lfs2_`, `lfa_`). `ovs_ground.py` reads the strip and the 80 robot positions from
+`../../liquid fertilizer applicator/simple_v2/` for the comparison. The research is in `../inspiration/`.
 
-## Assen
+## Axes
 
-Gelijk aan het robotmodel en de toedieners: x = rechts, y = rijrichting (voor = +y), z = omhoog, grond = z 0, mm.
-- y = 0 is het hart van de achterste onderbalk van de robot (robot-y = werktuig-y − 575).
-- Rijen op x = −437,5 … +437,5 (stap 125).
-- Draaipunt hefraam op (y, z) = (−70, 200); balk op (−330, 330).
-- Per element: draaipunt sleeparm (−330, 150), hart schijf (−540, 135), as aandrukrol (−835, 100).
-- De schijf staat 7° gedraaid om z door zijn hart: de voorkant wijst naar −x.
+Same as the robot model and the applicators: x = right, y = driving direction (front = +y), z = up, ground = z 0, mm.
+- y = 0 is the centre of the robot's rear lower beam (robot y = implement y − 575).
+- Rows at x = −437.5 … +437.5 (step 125).
+- Lift frame pivot at (y, z) = (−70, 200); toolbar at (−330, 330).
+- Per element: trailing arm pivot (−330, 150), disc centre (−540, 135), press wheel axle (−835, 100).
+- The disc is rotated 7° about z through its centre: the front points towards −x.
 
-## Opnieuw bouwen en gebruiken
+## Rebuilding and using
 
-In de Python-console van FreeCAD (map in `sys.path`, of via `run_in_freecad.py`):
+In FreeCAD's Python console (folder in `sys.path`, or via `run_in_freecad.py`):
 
 ```python
 import build_ovs, ovs_kin, ovs_params as P
-build_ovs.build()                                   # werkstand, slaat het FCStd op
+build_ovs.build()                                   # working position, saves the FCStd
 build_ovs.build(psi=ovs_kin.lift_angle(), phi=-P.u_stop_deg, chi=P.pw_link_range[0],
-                save_path=None, show_robot=True)    # geheven, met robotreferentie
-build_ovs.check_interference()                      # overlappende onderdelen (moet leeg zijn)
-build_ovs.mass_properties()                         # massa en zwaartepunten
-build_ovs.render_all()                              # afbeeldingen 1 t/m 12 en opslaan in werkstand
+                save_path=None, show_robot=True)    # lifted, with the robot reference
+build_ovs.check_interference()                      # overlapping parts (must be empty)
+build_ovs.mass_properties()                         # mass and centres of gravity
+build_ovs.render_all()                              # images 1 to 12 and save in working position
 ```
 
-`psi` = hefhoek van het hefraam, `phi` = hoek van de sleeparmen (een getal of een lijst per rij), `chi` = hoek van
-de rolarmen. Allemaal in graden, + = omhoog.
+`psi` = lift angle of the lift frame, `phi` = angle of the trailing arms (a number or a list per row), `chi` = angle of
+the roller arms. All in degrees, + = up.
 
-Zonder FreeCAD (elke Python 3; `plot_ground_ovs.py` heeft matplotlib nodig, die zit ook in de Python van FreeCAD):
+Without FreeCAD (any Python 3; `plot_ground_ovs.py` needs matplotlib, which is also in FreeCAD's Python):
 
 ```bash
 python ovs_calc.py
@@ -86,28 +86,28 @@ python ovs_ground.py
 python plot_ground_ovs.py
 ```
 
-## Boomstructuur
+## Model tree
 
 ```
 overseeder_1m_8_rows
-  headstock_robot_mount          bok (vast): bovenplaat, klemstrip, 4 wangen, langgatplaten, bouten, regelkastje
-  lift_actuator                  actuator 3000 N + 2 gasveren naast het langgat
-  swing_frame_moves_with_lift    (Placement = rotatie om de draaibouten)
+  headstock_robot_mount          headstock (fixed): top plate, clamp strip, 4 cheeks, slotted-hole plates, bolts, control box
+  lift_actuator                  3000 N actuator + 2 gas springs next to the slotted hole
+  swing_frame_moves_with_lift    (Placement = rotation about the pivot bolts)
     toolbar_with_coupling_flanges, frame_arms, cross_tube, actuator_lugs_on_toolbar
-    seed_hopper_and_metering     zaadbak, deksel, steunplaten, doseerhuis, 2 motoren
-    row_unit_1..8                houder, beugelbouten, veerpoot, veer, zaadslang
-      row_arm_N                  (Placement = armhoek) arm, schijf, naaf, dieptering, zaaischoen
-        press_arm_N              (Placement = rolarmhoek) rolarm, as, aandrukrol
-robot_reference_NOT_PART_OF_DESIGN   (verborgen; achterbalken, bovenbalken, achterwielen)
+    seed_hopper_and_metering     hopper, lid, support plates, metering housing, 2 motors
+    row_unit_1..8                holder, U-bolts, spring leg, spring, seed hose
+      row_arm_N                  (Placement = arm angle) arm, disc, hub, depth ring, seed boot
+        press_arm_N              (Placement = roller arm angle) roller arm, axle, press wheel
+robot_reference_NOT_PART_OF_DESIGN   (hidden; rear beams, upper beams, rear wheels)
 ```
 
-## Geschat, niet gemeten
+## Estimated, not measured
 
-- **Bodemkrachten per schijf**: neerdruk 90 N (zwaar 180 N), trekkracht schijf 25 N en schoen 8 N. Meet dit vóór de bouw (zie ONDERBOUWING § 13).
-- **Dieptering**: inzakken 0,075 mm/N.
-- **Aandrukrol**: 35 N.
-- **Doseerrollen**: cm³ per omwenteling en dichtheden van het zaad (ijken met een afdraaiproef).
-- **Robot**: 150 kg, zwaartepunt 500 mm voor de achteras, μ = 0,5.
-- **Actuator, motoren en gasveren**: waarden uit typische datasheets.
+- **Ground forces per disc**: down force 90 N (heavy 180 N), disc draft force 25 N and boot 8 N. Measure this before building (see RATIONALE § 13).
+- **Depth ring**: sinks in 0.075 mm/N.
+- **Press wheel**: 35 N.
+- **Metering rollers**: cm³ per revolution and seed densities (calibrate with a catch test).
+- **Robot**: 150 kg, centre of gravity 500 mm in front of the rear axle, μ = 0.5.
+- **Actuator, motors and gas springs**: values from typical datasheets.
 
-Een animatie zoals bij de toedieners is nog niet gemaakt; de bodemvolging staat in de grafiek.
+No animation like the applicators' has been made yet; the ground following is shown in the chart.
