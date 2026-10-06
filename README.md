@@ -2,83 +2,105 @@
 
 Open-source implements (attachments) for the **[Bruut OpenAgbot](https://github.com/JacobsFarm/Bruut_OpenAgbot)**, an open-source agricultural field robot. Want to know more about the project? Go to **[openagbot.com](https://openagbot.com)**.
 
-All designs are parametric. They are built in FreeCAD, mostly from Python scripts, and bolt onto the 50 mm hole grid of the robot's chassis beams.
+Every design is parametric: change a number, rebuild, and the whole model follows. They are built in FreeCAD from Python scripts, come with the calculations behind them and, for the advanced variants, an animation on the robot. Everything bolts onto the 50 mm hole grid of the robot's chassis beams.
 
 <p align="center">
-  <img src="dockweed%20drill/animatie_ridderzuringfrees.gif" alt="Dockweed drill removing a dock plant" width="720">
+  <img src="dockweed%20drill/animation_dockweed_drill.gif" alt="Dockweed drill removing a dock plant" width="720"><br>
+  <i>Dockweed drill: finds a dock plant and mills out its root</i>
 </p>
+
+**Jump to:** [Gallery](#gallery) · [Animations](#animations) · [Implements](#implements) · [Build it yourself](#build-it-yourself) · [Related](#related)
 
 ## Gallery
 
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="overseeder/advanced/previews/12_work_iso_with_robot.png" alt="Overseeder, advanced variant"><br>
-      <b>Overseeder (advanced)</b><br>8-row slit seeder with an air seeder
+      <a href="overseeder/"><img src="overseeder/advanced/previews/12_work_iso_with_robot.png" alt="Overseeder, advanced variant"></a><br>
+      <b><a href="overseeder/advanced/">Overseeder (advanced)</a></b><br>8-row slit seeder with an air seeder
     </td>
     <td align="center" width="50%">
-      <img src="overseeder/simple/previews/12_work_iso_with_robot.png" alt="Overseeder, simple variant"><br>
-      <b>Overseeder (simple)</b><br>Angled discs with a gravity hopper
+      <a href="overseeder/"><img src="overseeder/simple/previews/12_work_iso_with_robot.png" alt="Overseeder, simple variant"></a><br>
+      <b><a href="overseeder/simple/">Overseeder (simple)</a></b><br>Angled discs with a gravity hopper
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="liquid%20fertilezer%20applicator/advanved/previews/11_work_iso_with_robot.png" alt="Liquid fertilizer applicator"><br>
-      <b>Liquid fertilizer applicator</b><br>Disc and knife units on spring arms
+      <a href="liquid%20fertilizer%20applicator/advanced/"><img src="liquid%20fertilizer%20applicator/advanced/previews/11_work_iso_with_robot.png" alt="Liquid fertilizer applicator"></a><br>
+      <b><a href="liquid%20fertilizer%20applicator/">Liquid fertilizer applicator</a></b><br>Disc and knife units on spring arms
     </td>
     <td align="center">
-      <img src="dockweed%20drill/render_voor_links.png" alt="Dockweed drill"><br>
-      <b>Dockweed drill</b><br>Finds a dock plant and mills out its root
+      <a href="dockweed%20drill/"><img src="dockweed%20drill/render_front_left.png" alt="Dockweed drill"></a><br>
+      <b><a href="dockweed%20drill/">Dockweed drill</a></b><br>Finds a dock plant and mills out its root
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="trencher/render_links_achter.png" alt="Trencher"><br>
-      <b>Trencher</b><br>Wheel trencher for cutting narrow trenches
+      <a href="trencher/"><img src="trencher/render_left_rear.png" alt="Trencher"></a><br>
+      <b><a href="trencher/">Trencher</a></b><br>Wheel trencher for cutting narrow trenches
     </td>
     <td align="center">
-      <img src="feed%20pusher%20auger/advanced/previews/9_on_robot_iso.png" alt="Feed pusher auger"><br>
-      <b>Feed pusher auger</b><br>Pushes feed back to the feed fence
+      <a href="feed%20pusher%20auger/advanced/"><img src="feed%20pusher%20auger/advanced/previews/9_on_robot_iso.png" alt="Feed pusher auger"></a><br>
+      <b><a href="feed%20pusher%20auger/advanced/">Feed pusher auger</a></b><br>Pushes feed back to the feed fence
     </td>
   </tr>
 </table>
 
+## Animations
+
+The advanced designs are animated on the real robot model, with the loads and forces calculated per frame.
+
 <p align="center">
-  <img src="liquid%20fertilezer%20applicator/advanved/previews/animation_strip_ground_following.gif" alt="Ground-following animation of the liquid fertilizer applicator" width="720"><br>
-  <i>Ground following of the liquid fertilizer applicator (advanced)</i>
+  <img src="liquid%20fertilizer%20applicator/advanced/previews/animation_strip_ground_following.gif" alt="Ground-following animation of the liquid fertilizer applicator" width="720"><br>
+  <i><a href="liquid%20fertilizer%20applicator/advanced/">Liquid fertilizer applicator</a>: every element follows the bumpy ground on its own arm</i>
 </p>
 
 <p align="center">
   <img src="feed%20pusher%20auger/advanced/previews/animation_feed_pushing.gif" alt="Feed pushing animation with forces on the robot" width="720"><br>
-  <i>Feed pusher auger (advanced) pushing feed back to the fence, with the forces on the auger and the robot's reaction</i>
+  <i><a href="feed%20pusher%20auger/advanced/">Feed pusher auger</a>: pushing feed back to the fence, with the forces on the auger and the robot's reaction</i>
 </p>
 
 ## Implements
 
-| Folder | Description |
+| Implement | Variants | What it does |
+|---|---|---|
+| [**Overseeder**](overseeder/) | [simple](overseeder/simple/) · [advanced](overseeder/advanced/) | Grassland slit seeder. 1 m modules with 8 rows at 125 mm and coupling flanges. Cuts a 15 mm slot, places seed about 12 mm deep and closes the slot with a sprung press wheel. Simple: angled single disc, gravity hopper, about €1,675 in parts. Advanced: parallel linkage, depth bands, curved seed coulter and an air seeder, about €2,280 |
+| [**Liquid fertilizer applicator**](liquid%20fertilizer%20applicator/) | [simple](liquid%20fertilizer%20applicator/simple/) · [simple v2](liquid%20fertilizer%20applicator/simple_v2/) · [advanced](liquid%20fertilizer%20applicator/advanced/) | Injects liquid fertilizer into the soil. Simple: fixed knives, two gauge wheels and a 12 V pump, about €600 in parts. Simple v2: adds a cutting disc in front of each knife, about €900. Advanced: disc and knife units on spring arms, a ground-wheel-driven 5-channel peristaltic pump and a parallel linkage |
+| [**Feed pusher auger**](feed%20pusher%20auger/) | [simple](feed%20pusher%20auger/simple/) · [advanced](feed%20pusher%20auger/advanced/) | Pushes feed back to the feed fence. Simple: cheap version from flat plate and sectional flights. Advanced: Ø320 auger under a folded 2 mm hood, 24 V gearmotor with chain drive, open discharge end. Includes a feed-transport model and a force animation |
+| [**Dockweed drill**](dockweed%20drill/) | one design | Dock (broad-leaved dock) removal mill on a CNC gantry. Renders, animations, DXF and STEP files |
+| [**Trencher**](trencher/) | one design | Wheel trencher for narrow trenches. Renders and STEP export |
+| [Around-pole mower](around_pole_mower/) | notes only | Mower for working around poles |
+| [Mower unit](mower%20unit/) | notes only | General mower unit |
+
+Each folder holds its own requirements and notes (`*_requirements.md`, `README.md`, `RATIONALE.md` or `info.txt`). `RATIONALE.md` explains why the dimensions and choices are what they are.
+
+## Build it yourself
+
+1. Install [FreeCAD](https://www.freecad.org/) 1.1.
+2. Open a variant folder, for example `feed pusher auger/advanced/`, and run `run_in_freecad.py` in FreeCAD. It rebuilds the model and prints the key numbers.
+3. Change a dimension in the `*_params.py` file and run it again. Never edit the `.FCStd` by hand: it is generated.
+
+What is in a variant folder:
+
+| File | Contents |
 |---|---|
-| [`dockweed drill/`](dockweed%20drill/) | Dock (broad-leaved dock) removal drill/mill, with renders, animations, DXF and STEP files |
-| [`liquid fertilezer applicator/`](liquid%20fertilezer%20applicator/) | Liquid fertilizer applicator in three variants, each with calculations, a parametric model, previews and a ground-following animation. `advanved/`: disc and knife units on spring arms, a ground-wheel-driven 5-channel peristaltic pump and a parallel linkage. `simple/`: fixed knives, two wheelbarrow gauge wheels, a single-pivot frame and a 12 V pump with orifice plates; about €600 in parts. `simple_v2/`: as `simple/`, with a cutting disc in front of each knife; about €900 in parts |
-| [`overseeder/`](overseeder/) | Overseeder (grassland slit seeder) in two variants. Both are 1 m modules with 8 rows at 125 mm and coupling flanges. They cut a 15 mm slot, place seed about 12 mm deep and close the slot with a sprung press wheel. `simple/`: angled single disc with a seed boot and a two-compartment gravity hopper; about €1,675 in parts. `advanced/`: parallel linkage, straight disc with depth bands, curved seed coulter and an air seeder above the rear axle; about €2,280 in parts |
-| [`trencher/`](trencher/) | Trencher attachment, with renders and STEP export |
-| [`feed pusher auger/`](feed%20pusher%20auger/) | Feed pusher auger. `simpel/`: cheap version from flat plate and sectional flights. `advanced/`: Ø320 auger under a folded 2 mm hood, foot-mounted 24 V gearmotor on the hood with a chain drive, open discharge end at the fence side. It bolts to the rear wheel modules through the four holes in their bracket flanges, on the side of the fixed wheel motors. Includes calculations, a feed-transport model and an animation of the forces on the robot |
-| `around_pole_mower/` | Mower for working around poles (notes only) |
-| `mower unit/` | General mower unit (notes only) |
+| `*_params.py` | all dimensions, including the interface to the robot |
+| `*_parts.py` | one function per part |
+| `build_*.py` | model tree, colors, interference check, mass, renders, STEP export |
+| `*_calc.py` | the calculations (capacity, forces, torque, springs, axle loads) |
+| `animate_*.py`, `make_gif_*.py` | animation on the robot and the GIF |
+| `previews/` | renders and animations |
 
-Each folder holds its own requirements and notes (`*_idee_en_eisen.md`, `README.md` or `info.txt`).
-
-## Working with the designs
-
-- Models are stored as `.FCStd` (FreeCAD) with `.step` exports where available.
-- The `*.py` scripts generate the models parametrically. Change the parameter files (for example `*_params.py`) and rebuild in FreeCAD.
-- Requires [FreeCAD](https://www.freecad.org/) 1.1.
+The robot model itself lives in the [Bruut_OpenAgbot](https://github.com/JacobsFarm/Bruut_OpenAgbot) project. AI agents: see [AGENTS.md](AGENTS.md) for the workflow.
 
 ## Related
 
-- **Robot design:** [JacobsFarm/Bruut_OpenAgbot](https://github.com/JacobsFarm/Bruut_OpenAgbot): the base robot these implements mount on
+- **Robot design:** [JacobsFarm/Bruut_OpenAgbot](https://github.com/JacobsFarm/Bruut_OpenAgbot), the base robot these implements mount on
 - **Website:** [openagbot.com](https://openagbot.com)
 
 ## Notes
 
-- `inspiration/` folders and `agbot design/` (the base robot model) are excluded from the repository via `.gitignore`.
-- Some documentation is written in Dutch.
+- Models are stored as `.FCStd` (FreeCAD) with `.step` exports where available.
+- `inspiration/` folders and `agbots/` (the base robot models and their comparison) are excluded from the repository via `.gitignore`.
+- Code comments, docstrings and the older dockweed drill and trencher scripts are still partly in Dutch.
+- Licensed under the terms in [LICENSE](LICENSE).

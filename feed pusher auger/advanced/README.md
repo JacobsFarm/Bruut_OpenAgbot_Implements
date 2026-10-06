@@ -1,124 +1,124 @@
-# Voerschuifvijzel (advanced): FreeCAD-model
+# Feed pusher auger (advanced): FreeCAD model
 
-Voerschuifvijzel voor de Bruut OpenAgbot. Hij zit aan de achterkant van de robot, de kant van de vaste wielmotoren.
-Bij het voerschuiven rijdt de robot met de vijzel voorop; de stuurkoppen zitten dan achter.
-De vijzel pakt het weggeduwde voer op en voert het zijwaarts naar het voerhek. Daar valt het via de open eindplaat
-op de vloer.
+Feed pusher auger for the Bruut OpenAgbot. It sits at the back of the robot, on the side of the fixed wheel motors.
+When pushing feed, the robot drives with the auger first; the steering heads are then at the back.
+The auger picks up the pushed-away feed and carries it sideways to the feed fence. There it falls through the open end
+plate onto the floor.
 
-- **Kap:** één gezette plaat van 2 mm met 4 zetten, net als bij de simpele versie. Er is geen gewalste ronde bak meer.
-- **Aandrijving:** een tandwielmotor met voeten op een motorplaat bovenop de kap. Een ketting 08B-1 met spanner loopt
-  langs de linker zijplaat naar de vijzel.
-- **Bevestiging:** 4 armen, met elk 4 × M10 door de 4 gaten in de achterste flens van de zijplaten van de achterste
-  wielmodules.
+- **Hood:** one 2 mm folded sheet with 4 bends, as in the simple version. There is no rolled round trough any more.
+- **Drive:** a foot-mounted gearmotor on a motor plate on top of the hood. An 08B-1 chain with a tensioner runs
+  along the left side plate to the auger.
+- **Mounting:** 4 arms, each with 4 × M10 through the 4 holes in the rear flange of the side plates of the rear
+  wheel modules.
 
-Waarom het zo ontworpen is, staat in [ONDERBOUWING.md](ONDERBOUWING.md).
+Why it is designed this way is explained in [RATIONALE.md](RATIONALE.md).
 
-![op de robot](previews/9_on_robot_iso.png)
+![on the robot](previews/9_on_robot_iso.png)
 
-![animatie: voerschuiven langs het voerhek, met krachten en reactie van de robot](previews/animation_feed_pushing.gif)
+![animation: pushing feed along the feed fence, with forces and the robot's reaction](previews/animation_feed_pushing.gif)
 
-## Bestanden
+## Files
 
-| Bestand | Inhoud |
+| File | Contents |
 | --- | --- |
-| `Feed_Pusher_Auger.FCStd` | het model, met het robotmodel verborgen erbij. Gegenereerd, dus niet met de hand aanpassen |
-| `Feed_Pusher_Auger.step` | alleen de voerschuif, in robotcoördinaten |
-| `fpa_params.py` | alle maten, inclusief de robot-interface en de werkingsparameters |
-| `fpa_parts.py` | één functie per onderdeel; elke functie geeft een `Part`-shape |
-| `build_fpa.py` | boomstructuur, kleuren, botscontrole, speling tot de banden, massa, afbeeldingen, STEP |
-| `fpa_calc.py` | capaciteit, koppel, vermogen, breekbout, ketting, doorbuiging, wiellasten, zijkrachten en scheefloop (puur Python) |
-| `fpa_feed.py` | voermodel: hoogteveld in de voergang, opnemen, transport langs de vijzel en uitwerpen bij het hek (Python + numpy) |
-| `animate_fpa.py` | animatie: robot + voerschuif langs het voerhek, met krachten per frame |
-| `make_gif_fpa.py` | frames naar GIF met bijschrift, krachtenpaneel (bovenaanzicht) en de voerverdeling langs de vijzel |
-| `run_in_freecad.py` | macro: in FreeCAD openen en uitvoeren (F6) bouwt het model opnieuw en drukt de kerngetallen af |
-| `previews/` | afbeeldingen en de GIF |
+| `Feed_Pusher_Auger.FCStd` | the model, with the robot model hidden next to it. Generated, so do not edit by hand |
+| `Feed_Pusher_Auger.step` | the feed pusher only, in robot coordinates |
+| `fpa_params.py` | all dimensions, including the robot interface and the operating parameters |
+| `fpa_parts.py` | one function per part; each function returns a `Part` shape |
+| `build_fpa.py` | model tree, colors, collision check, clearance to the tires, mass, images, STEP |
+| `fpa_calc.py` | capacity, torque, power, shear bolt, chain, deflection, wheel loads, side forces and skew (pure Python) |
+| `fpa_feed.py` | feed model: height field in the feeding alley, picking up, transport along the auger and ejection at the fence (Python + numpy) |
+| `animate_fpa.py` | animation: robot + feed pusher along the feed fence, with forces per frame |
+| `make_gif_fpa.py` | frames to GIF with a caption, a force panel (top view) and the feed distribution along the auger |
+| `run_in_freecad.py` | macro: open in FreeCAD and run (F6) to rebuild the model and print the key figures |
+| `previews/` | images and the GIF |
 
-## Assen
+## Axes
 
-Gelijk aan het robotmodel: x = rechts, y = rijrichting van de robot (voor = +y), z = omhoog, grond = z 0, mm.
-De oorsprong is het midden van de robot. Het werktuig staat dus direct in robotcoördinaten; er is geen verschuiving nodig.
+Same as the robot model: x = right, y = driving direction of the robot (front = +y), z = up, ground = z 0, mm.
+The origin is the centre of the robot. The implement is therefore directly in robot coordinates; no offset is needed.
 
-- Vijzelas op y = −960 en z = 175. Het blad loopt tot 15 mm boven de vloer.
-- Voerhek aan de +x-kant: de vijzel voert naar +x.
-- De robot rijdt bij het voerschuiven naar −y.
+- Auger axis at y = −960 and z = 175. The flight runs up to 15 mm above the floor.
+- Feed fence on the +x side: the auger feeds towards +x.
+- When pushing feed the robot drives towards −y.
 
-## Opnieuw bouwen en gebruiken
+## Rebuilding and using
 
-In de Python-console van FreeCAD (map in `sys.path`, of via `run_in_freecad.py`):
+In FreeCAD's Python console (folder in `sys.path`, or via `run_in_freecad.py`):
 
 ```python
 import build_fpa
-build_fpa.build()                        # bouwt, slaat FCStd en STEP op (robot verborgen)
+build_fpa.build()                        # builds, saves FCStd and STEP (robot hidden)
 build_fpa.build(show_robot=True, save_path=None, step_path=None)
-build_fpa.check_interference()           # overlap onderling en met de robot (moet leeg zijn)
-build_fpa.clearance()                    # kleinste afstand kap / flap / armen tot de achterbanden
-build_fpa.mass_properties()              # massa en zwaartepunt
-build_fpa.render_all()                   # alle afbeeldingen in previews/, opslaan, STEP
+build_fpa.check_interference()           # overlap among parts and with the robot (must be empty)
+build_fpa.clearance()                    # smallest distance of hood / flap / arms to the rear tires
+build_fpa.mass_properties()              # mass and centre of gravity
+build_fpa.render_all()                   # all images in previews/, save, STEP
 ```
 
 ```python
 import fpa_calc
-fpa_calc.report()                        # kerngetallen
-fpa_calc.robot_reaction(-80, 40)         # wiellasten, zijkrachten, scheefstand bij 80 N opzij en 40 N terug
-fpa_calc.axle_loads()                    # aslasten zonder/met voerschuif en contragewicht
+fpa_calc.report()                        # key figures
+fpa_calc.robot_reaction(-80, 40)         # wheel loads, side forces, skew at 80 N sideways and 40 N backwards
+fpa_calc.axle_loads()                    # axle loads without/with feed pusher and counterweight
 ```
 
-## Animatie
+## Animation
 
-Bouwt een apart document `FPA_on_robot_animation` met:
+Builds a separate document `FPA_on_robot_animation` with:
 
-- het robotmodel uit `agbot design` (die bestanden worden niet aangepast);
-- de voerschuif;
-- een betonvloer en een voerhek met opstand;
-- een strook voer die de koeien hebben weggeduwd.
+- the robot model from `agbot design` (those files are not modified);
+- the feed pusher;
+- a concrete floor and a feed fence with a kerb;
+- a strip of feed that the cows have pushed away.
 
-Die strook ligt 600 tot 950 mm van het hek, met ca. 24 kg/m. Er zit een plek in waar al gevreten is en een klont van 10 kg.
+That strip lies 600 to 950 mm from the fence, at about 24 kg/m. It has a spot where feed has already been eaten and a clump of 10 kg.
 
-Per frame (8 per seconde, met 5 deelstappen):
-- **Voer:** het voermodel neemt voer op aan de voorkant van het blad en voert het per vak van 25 mm naar het hek,
-  begrensd door de capaciteit. Wat meer is, wordt voor de vijzel uit geschoven. Bij het hek valt het op de vloer
-  en zakt het uit tot een rand.
-- **Vijzel:** uit de massa in de vijzel volgen het koppel, het vermogen en de motorstroom.
-- **Krachten op de robot:** de zijkracht van het hek af (rood) en de duwkracht tegen de rijrichting in.
-- **Robot:** volgens `fpa_calc.robot_reaction` verandert de wiellast per wiel. De zijkracht van de vloer verschilt per
-  wiel (blauw). De robot loopt een fractie scheef, want de achterwielen staan vast, en de voorwielen sturen tegen.
-- **Snelheidsregeling:** boven 18 A motorstroom rijdt de robot langzamer, tot minimaal 25 % van de rijsnelheid.
+Per frame (8 per second, with 5 sub-steps):
+- **Feed:** the feed model picks up feed at the front of the flight and carries it in 25 mm cells to the fence,
+  limited by the capacity. Anything more is pushed ahead of the auger. At the fence it falls onto the floor
+  and settles into an edge.
+- **Auger:** from the mass in the auger follow the torque, the power and the motor current.
+- **Forces on the robot:** the side force away from the fence (red) and the pushing force against the driving direction.
+- **Robot:** according to `fpa_calc.robot_reaction` the load changes per wheel. The side force of the floor differs per
+  wheel (blue). The robot runs a fraction skew, because the rear wheels are fixed, and the front wheels steer against it.
+- **Speed control:** above 18 A motor current the robot drives slower, to a minimum of 25 % of the driving speed.
 
 ```python
 import animate_fpa
 animate_fpa.build()
 animate_fpa.play()                       # live, animate_fpa.stop()
-animate_fpa.summary()                    # bereik van massa, koppel, stroom, krachten, scheefstand, snelheid
+animate_fpa.summary()                    # range of mass, torque, current, forces, skew, speed
 animate_fpa.render_all(r"C:\temp\fpa_frames")
 import make_gif_fpa
 make_gif_fpa.main(r"C:\temp\fpa_frames", r"previews\animation_feed_pushing.gif")
-make_gif_fpa.main(r"C:\temp\fpa_frames", r"previews\animation_feed_pushing_clean.gif", overlay=False)  # zonder tekst
+make_gif_fpa.main(r"C:\temp\fpa_frames", r"previews\animation_feed_pushing_clean.gif", overlay=False)  # without text
 ```
 
-Rijplan, regeling en camera staan bovenaan `animate_fpa.py` (`SPEED`, `I_SET`, `I_MAX`, `CAM_A/B/C`).
-Het voer staat in `fpa_feed.FeedField._init_windrow`.
+Driving plan, control and camera are at the top of `animate_fpa.py` (`SPEED`, `I_SET`, `I_MAX`, `CAM_A/B/C`).
+The feed is in `fpa_feed.FeedField._init_windrow`.
 
-## Boomstructuur
+## Model tree
 
 ```
 Feed_pusher (feed_pusher_auger)
-  Mount          4 armen (adapterplaat op de wielbeugelflens + schot + eindplaat met langgaten) en bouten
-  Frame          kap 2 mm, ligger 80x80x3 met kopplaten, zijplaat links, lagerplaat rechts (open uitworp),
-                 zethoekjes, rubber flap + klemstrip, PE-glijslof, motorplaat
-  Bearings       UCF206 links en rechts
-  Drive          tandwielmotor met voeten, uitgaande as, kettingwiel 15T, ketting 08B-1, spanner, kettingkast
-  Auger_rotor    asstompen, kernbuis, blad Ø320 spoed 260, pennen (links breekbout M6), kettingwiel 30T (draait mee)
-  Counterweight  2 blokken van 20 kg op de voorste onderbalk
-Robot (in het FCStd verborgen; alleen ter controle)
+  Mount          4 arms (adapter plate on the wheel bracket flange + gusset + end plate with slotted holes) and bolts
+  Frame          2 mm hood, 80x80x3 beam with end plates, left side plate, right bearing plate (open discharge),
+                 folded angles, rubber flap + clamp strip, PE glide shoe, motor plate
+  Bearings       UCF206 left and right
+  Drive          foot-mounted gearmotor, output shaft, 15T sprocket, 08B-1 chain, tensioner, chain guard
+  Auger_rotor    stub shafts, core tube, Ø320 flight pitch 260, pins (M6 shear bolt on the left), 30T sprocket (rotates along)
+  Counterweight  2 blocks of 20 kg on the front lower beam
+Robot (hidden in the FCStd; for checking only)
 ```
 
-## Geschat, niet gemeten
+## Estimated, not measured
 
-- Robot: 150 kg met het zwaartepunt in het midden (gelijk aan de vloeibare-mesttoediener).
-- Voer: stortdichtheid 280 kg/m³, wrijving 0,5 op beton, weerstandsgetal vijzel λ = 4 (CEMA, vezelig).
-- Vijzel: transportrendement 0,65 en maximale vulgraad 0,6.
-- Banden: bandstijfheid 0,12 per graad per N wiellast en grip 0,6.
-- Tandwielmotor: massa 14 kg en maten van een B3-voetmotor.
-- Robotbeugel: de maten van de flensgaten komen uit `agbot_parts.side_plate`.
+- Robot: 150 kg with the centre of gravity in the middle (same as the liquid fertilizer applicator).
+- Feed: bulk density 280 kg/m³, friction 0.5 on concrete, auger resistance factor λ = 4 (CEMA, fibrous).
+- Auger: transport efficiency 0.65 and maximum fill factor 0.6.
+- Tires: tire stiffness 0.12 per degree per N of wheel load and grip 0.6.
+- Gearmotor: mass 14 kg and dimensions of a B3 foot-mounted motor.
+- Robot bracket: the dimensions of the flange holes come from `agbot_parts.side_plate`.
 
-Zie ONDERBOUWING § 6.
+See RATIONALE § 6.

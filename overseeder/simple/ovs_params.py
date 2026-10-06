@@ -3,7 +3,7 @@ import math
 # =====================================================================
 # Doorzaaimachine (overseeder) voor de Bruut OpenAgbot - parameters
 # Eenvoudige versie (zie ../advanced voor de geavanceerde).
-# Basis: de eenvoudige toediener versie 2 (../../liquid fertilezer applicator/simple_v2): dezelfde bok, hetzelfde
+# Basis: de eenvoudige toediener versie 2 (../../liquid fertilizer applicator/simple_v2): dezelfde bok, hetzelfde
 # hefraam met actuator en langgat. Anders:
 #   - per rij een zaai-element aan een eigen sleeparm met veerpoot (bodemvolging per rij),
 #   - een vlakke schijf onder 7 graden snijdt een ondiepe V-sleuf (15 mm), een zaaischoen in de schaduw van de

@@ -3,7 +3,7 @@
 
 Per robotpositie:
 - de robot rust met zijn vier wielen op het maaiveld (vlak door de wielpunten: hoogte, stampen, rollen),
-  precies zoals ../../liquid fertilezer applicator/simple_v2/lfs2_ground.py;
+  precies zoals ../../liquid fertilizer applicator/simple_v2/lfs2_ground.py;
 - elke sleeparm draait tot de dieptering op de schijf het maaiveld raakt (of hangt op de aanslag);
 - de aandrukrol volgt het maaiveld op zijn eigen rolarm (torsieveer);
 - de veerkracht volgt uit de armhoek, de kracht op de dieptering uit de armbalans (ovs_calc.unit_band); de
@@ -28,7 +28,7 @@ import ovs_kin as K
 import ovs_calc as C
 
 FOLDER = os.path.dirname(os.path.abspath(__file__))
-V2_FOLDER = os.path.join(os.path.dirname(os.path.dirname(FOLDER)), "liquid fertilezer applicator", "simple_v2")
+V2_FOLDER = os.path.join(os.path.dirname(os.path.dirname(FOLDER)), "liquid fertilizer applicator", "simple_v2")
 ADVANCED_JSON = os.path.join(V2_FOLDER, "ground_advanced_reference.json")
 
 # ---------------------------------------------------------------------

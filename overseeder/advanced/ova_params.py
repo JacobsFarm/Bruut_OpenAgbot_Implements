@@ -2,7 +2,7 @@ import math
 
 # =====================================================================
 # Doorzaaimachine, geavanceerde versie (overseeder advanced) - parameters
-# Basis: de geavanceerde toediener (../../liquid fertilezer applicator/advanved): aanbouwbok, parallellogram,
+# Basis: de geavanceerde toediener (../../liquid fertilizer applicator/advanced): aanbouwbok, parallellogram,
 # zwevende balk met actuator en langgat, elementen met vorkarm, schijf tussen twee vorkplaten, diepteringen aan
 # beide kanten en een veerpoot. Anders dan de toediener:
 #   - 8 rijen op 125 mm; per rij een gebogen zaaikouter direct achter de schijf en een aandrukrol in een gaffel;

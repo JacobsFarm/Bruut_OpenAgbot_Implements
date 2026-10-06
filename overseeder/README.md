@@ -1,28 +1,28 @@
-# Doorzaaimachine (overseeder) voor de Bruut
+# Overseeder for the Bruut
 
-Twee varianten van een doorzaaimachine die graszaad en klaver **in** een bestaande zode legt:
-- een schijf snijdt een ondiepe sleuf van 15 mm;
-- het zaad komt op ca. 12 mm;
-- een aandrukrol drukt de sleuf dicht;
-- 8 rijen op 125 mm = 1 m per module, met flenzen breder te koppelen;
-- elke rij volgt de grond met een eigen arm, en de diepte wordt op de schijf zelf ingesteld.
+Two variants of an overseeder that places grass seed and clover **into** an existing sward:
+- a disc cuts a shallow 15 mm slot;
+- the seed lands at about 12 mm;
+- a press wheel closes the slot;
+- 8 rows at 125 mm = 1 m per module, which can be coupled wider with flanges;
+- every row follows the ground on its own arm, and the depth is set on the disc itself.
 
-| | [Eenvoudig](simple/README.md) | [Geavanceerd](advanced/README.md) |
+| | [Simple](simple/README.md) | [Advanced](advanced/README.md) |
 | --- | --- | --- |
-| Basis | toediener `simple_v2` | geavanceerde toediener `advanved` |
-| Ophanging | hefraam om één draaipunt, actuator in een langgat | parallellogram, balk blijft evenwijdig |
-| Element | sleeparm, schijf 7° scheef met naaf aan één kant, schoen in de schaduw, dieptering aan één kant | vorkarm, schijf recht en aan twee kanten gelagerd, ringen aan twee kanten, kouter in het hart van de snede |
-| Aandrukrol | rolarm met torsieveer | gaffel met torsieveer |
-| Zaadbak | 41 + 18 l op het hefraam, zwaartekracht | 62 + 17 l op de robot, lucht (12 V-ventilator) |
-| Neerdruk | gewicht + 2 gasveren in het langgat | gewicht + 2 gasveren in het langgat |
-| Trekkracht normaal | 335 N | 375 N |
-| Snijdiepte binnen ±3 mm (testbaan) | 94 % | 98 % |
-| Frontgewicht nodig (robot 150 kg) | ca. 42 kg | ca. 46 kg |
-| Materiaal | ca. € 1675 | ca. € 2280 |
+| Base | applicator `simple_v2` | advanced applicator `advanced` |
+| Suspension | lift frame around a single pivot, actuator in a slotted hole | parallel linkage, the toolbar stays parallel |
+| Element | trailing arm, disc angled 7° with the hub on one side, shoe in the lee of the disc, depth ring on one side | fork arm, straight disc supported on both sides, rings on both sides, coulter in the centre of the cut |
+| Press wheel | roller arm with torsion spring | fork with torsion spring |
+| Seed hopper | 41 + 18 l on the lift frame, gravity | 62 + 17 l on the robot, air (12 V fan) |
+| Down force | weight + 2 gas springs in the slotted hole | weight + 2 gas springs in the slotted hole |
+| Normal draft force | 335 N | 375 N |
+| Cutting depth within ±3 mm (test track) | 94 % | 98 % |
+| Front weight needed (robot 150 kg) | approx. 42 kg | approx. 46 kg |
+| Materials | approx. € 1675 | approx. € 2280 |
 
-Het onderzoek waar beide op steunen (WUR, Teagasc, Super-G, Arkansas en machines) staat in `inspiration/`. Die map
-zit niet in git.
+The research both designs build on (WUR, Teagasc, Super-G, Arkansas and machines) is in `inspiration/`. That folder is
+not in git.
 
-![eenvoudig](simple/previews/1_iso_rear_right.png)
+![simple](simple/previews/1_iso_rear_right.png)
 
-![geavanceerd](advanced/previews/1_iso_rear_right.png)
+![advanced](advanced/previews/1_iso_rear_right.png)
