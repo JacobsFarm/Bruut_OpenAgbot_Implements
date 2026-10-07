@@ -28,6 +28,7 @@ See [RATIONALE.md](RATIONALE.md).
 | `build_lfs2.py` | model tree, colors, lifting, interference check, mass, images |
 | `lfs2_calc.py` | dosing, down force and ballast, shear bolt, lifting, axle load, cost (pure Python) |
 | `lfs2_ground.py` | ground following over the bumpy strip: cut, knife depth (pure Python) |
+| `lfs2_layout.py` | setup on the small robot: tank 100–300 l, 3, 4 or 6 wheels, 5, 3 or 2 elements; axle loads, traction, stability (pure Python, RATIONALE § 10) |
 | `plot_ground2.py` | comparison chart with v1 and the advanced variant (matplotlib) |
 | `ground_advanced_reference.json` / `ground_simple_v1_reference.json` | knife depth of the advanced variant and of v1 at the same positions |
 | `animate_lfs2.py` | animation: robot + applicator over the strip |

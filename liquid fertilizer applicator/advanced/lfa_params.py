@@ -109,7 +109,6 @@ rf_cross_z = 480                # tussen de achterste pennen, boven de klemmen v
 
 lift_height = 140               # toolbar omhoog op de kopakker
 unit_drop_deg = 8.0             # elementen zakken op hun aanslag (stelmoer) als de balk omhoog is
-wheel_drop_deg = 12.0           # loopwiel zakt op zijn aanslag (ca. 60 mm uitslag naar beneden)
 
 # elektrische lineaire actuator (bijv. 24 V, 2500 N, slag 150)
 # Zweefstand: de bovenste pen zit in een langgat (act_slot) langs de actuator-as. In het werk staat de
@@ -195,43 +194,69 @@ seat_offset = 45                         # lagere veerschotel boven de pen
 stop_gap = 20                            # stelmoer = onderaanslag (arm zakt unit_drop_deg)
 
 # ---------------------------------------------------------------------
-# Loopwiel + aandrijving pomp
+# Aandrukwiel per rij: drukt de sleuf achter het mes weer dicht
+# Sleeparm (2 strippen, het wiel ertussen) draait op een oor van de vorkplaten, achter het buisje. Twee torsieveren
+# op de as geven de aandrukkracht (3 gaten = 3 standen); een aanslagbout in een booggat begrenst de slag en draagt
+# het vaste veerbeen. De arm hangt aan de element-arm, dus het wiel volgt de schijf en loopt precies op de sleuf.
+# Het oor zit altijd aan de vorkplaten; press_wheel = False laat de set (arm, wiel, veren, bouten) weg.
 # ---------------------------------------------------------------------
-gw_x = 312                      # hart loopwiel
-gw_w = 40
-gw_rim_d = 360
-gw_d = 400                      # over de spikes
-gw_spikes = 16
-gw_spike_base = 28
-gw_spike_w = 30
-gw_hub_d = 60
-gw_web_t = 4
-gw_rolling_circ = 1190.0        # effectieve rolomtrek in gras (ijken in het veld)
+press_wheel = True
+pw_pivot = (-985.0, 165.0)               # (y, z) draaipunt sleeparm (element-arm, 0 graden)
+pw_wheel_rel = (-160.0, -40.0)           # wielas t.o.v. het draaipunt: wiel raakt de grond bij armhoek 0
+pw_d = 250                               # half-massieve rubber band, smal: drukt de sleufranden tegen elkaar
+pw_w = 40                                # binnen de vorkplaten (+-21,5): het wiel kan langs het oor draaien
+pw_rim_d = 170
+pw_hub_d = 40
+pw_hub_half = 28.0                       # naaf tot tegen de strippen
+pw_axle_d = 12                           # M12 as-bout
+pw_strap_t = 6
+pw_strap_in = 28.5                       # binnenkant strip, 1 mm buiten de vorkplaat (27,5)
+pw_strap_r = 18.0                        # halve breedte strip
+pw_head_r = 48.0                         # kop van de strip rond het draaipunt (booggat, veergaten)
+pw_pin_d = 16
+pw_ear_r = 22.0                          # oor van de vorkplaat rond het draaipunt
+pw_stop_rel = (0.0, -35.0)               # aanslagbout t.o.v. het draaipunt, vast in de vorkplaten
+pw_stop_d = 10                           # M10 pasbout
+pw_sleeve_d = 16                         # afstandsbus (tussen de vorkplaten en buiten de strip)
+pw_up_deg = -30.0                        # sleeparm omhoog t.o.v. de element-arm (aanslag, ca. 80 mm)
+pw_down_deg = 8.0                        # omlaag (aanslag, ca. 25 mm); geheven hangt de arm hierop
+# torsieveren (2x, links en rechts op de as, buiten de strippen)
+pw_spring_wire = 4.0                     # zacht en veel voorspanning: vlakke kracht over de slag, weinig
+pw_spring_dm = 30.0                      # gemiddelde wikkeldiameter
+pw_spring_coils = 8                      # terugwerking op de schijf (zie RATIONALE)
+pw_spring_e = 206000.0                   # N/mm2 verenstaal
+pw_spring_x0 = 40.0                      # binnenkant wikkeling (x); het bewegende veerbeen ligt ervoor
+pw_peg_r = 35.0                          # gaten voor de veerpen in de strip, t.o.v. het draaipunt
+pw_peg_angles = (120.0, 135.0, 150.0)    # graden (y-z vlak); verder rond = meer voorspanning
+pw_preload_deg = (40.0, 55.0, 70.0)      # voorspanning bij armhoek 0 per gat (aanname: vrije beenhoek)
+pw_preload_index = 1                     # standaard: middelste gat
+# De kracht op het aandrukwiel werkt met een lange arm (ca. 655 mm) tegen de veerpoot van het element in. Zonder
+# aanpassing zakt de balk dan tot het aandrukwiel loskomt. Daarom de veerschotel van de veerpoot hoger: in de
+# zweefstand staat de element-arm weer op ca. 2,7 graden en het aandrukwiel midden in zijn slag (lfa_calc.report()).
+# Zonder loopwiel dragen de elementen ook de 150 N die het loopwiel droeg: daarom 30 mm (25 mm met loopwiel).
+press_seat_shift = 30.0
+if press_wheel:
+    seat_offset = seat_offset + press_seat_shift
 
-jack = (bar_y - 45.0, 505.0)    # (y, z) as hulpas = draaipunt loopwielarm = pompas
+# ---------------------------------------------------------------------
+# Pompaandrijving: elektrische wormwielmotor met encoder direct op de pompas (geen loopwiel)
+# Het toerental volgt de rijsnelheid van de robot (RTK/wielencoders): n_pomp = 6 x dosis x rijafstand x v / slagvolume.
+# Wormwielkast tussen de klemmen van rij 4 (x 200) en rij 5 (x 400), motor staand erop, steun op de toolbar.
+# ---------------------------------------------------------------------
+jack = (bar_y - 45.0, 505.0)    # (y, z) pompas (naam uit de versie met loopwiel en hulpas)
 jack_d = 20
-jack_x = (160.0, 375.0)
-gw_wheel_rel = (-300.0, -305.0)  # wielas t.o.v. hulpas
-gw_arm_x = (278.0, 288.0)
-gw_arm_w = 40
-gw_axle_x = (262.0, 336.0)
-
-chain_pitch = 12.7              # 08B-1 (1/2")
-z_jack = 15
-z_wheel = 30
-sprocket_x = (266.5, 273.5)
-chain_x = (266.0, 274.0)
-
-bearing_plates_x = ((240.0, 248.0), (340.0, 348.0))
-bearing_flange = (113.0, 60.0, 11.0)     # UCFL204: lengte, breedte, dikte
-bearing_boss_d = 52
-bearing_boss_len = 14
-bearing_bolt_pitch = 90
-torsion_x = (291.0, 324.0)
-torsion_r = 26
-
-sensor_d = 18
-sensor_len = 50
+jack_x = (160.0, 236.0)         # as van de koppeling tot de flens van de wormwielkast
+pm_box_x = (240.0, 280.0)       # wormwielkast (holle uitgaande as langs x)
+pm_box_y = 60.0                 # kast rond de as, y
+pm_box_z = (-30.0, 38.0)        # kast t.o.v. de as, z
+pm_motor_d = 52.0               # 24 V DC-motor staand op de kast
+pm_motor_len = 95.0
+pm_encoder = (40.0, 22.0)       # diameter, lengte
+pm_bracket_t = 8.0              # draagplaat onder de kast, op 2 blokken op de toolbar
+pm_rpm_max = 200.0              # uitgaand toerental wormwielmotor (aanname, bijv. i = 15 bij 3000 omw/min)
+pm_rpm_min = 10.0               # daaronder loopt de pomp onrustig (aanname)
+pm_torque = 3.0                 # Nm koppel pomp met 5 slangen (aanname, meten)
+dose_l_ha = 505.0               # standaard dosis (instelbaar in de besturing)
 
 # ---------------------------------------------------------------------
 # Peristaltische pomp (5 kanalen, rollenpomp) en filter

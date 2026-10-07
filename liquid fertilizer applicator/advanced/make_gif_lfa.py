@@ -28,7 +28,7 @@ def nl(value, decimals=1):
 
 
 def caption(m):
-    pump = "pomp %s omw/min" % nl(m["pump_rpm"], 0) if m["wheel_contact"] else "pomp staat stil"
+    pump = "pomp %s omw/min" % nl(m["pump_rpm"], 0) if m["pump_on"] else "pomp staat stil"
     depths = [d for d in m["depth"] if d > 0.0]
     if not depths:
         knife = "messen boven de grond"
@@ -36,12 +36,20 @@ def caption(m):
         knife = "mesdiepte %s mm" % nl(min(depths), 0)
     else:
         knife = "mesdiepte %s–%s mm" % (nl(min(depths), 0), nl(max(depths), 0))
-    return [
+    lines = [
         "%s   ·   %s m/s   ·   %s m" % (m["state"], nl(m["v"] / 1000.0, 2), nl(m["dist"] / 1000.0)),
         "%s   ·   toegediend %s l" % (pump, nl(m["applied_l"], 2)),
         "balk %s%s mm   ·   %s" % ("+" if m["lift"] >= 0 else "", nl(m["lift"], 0), knife),
         "robot stampt %s°  rolt %s°" % (nl(m["pitch"]), nl(m["roll"])),
     ]
+    if "press_n" in m:
+        press = [f for f, c in zip(m["press_n"], m["press_contact"]) if c]
+        if not press:
+            lines.append("aandrukwielen van de grond")
+        else:
+            lines.append("aandrukwielen %d/%d op de sleuf, %s–%s N" % (len(press), len(m["press_n"]),
+                                                                     nl(min(press), 0), nl(max(press), 0)))
+    return lines
 
 
 def panel(draw, m, font, small, x0, y0):
@@ -55,14 +63,13 @@ def panel(draw, m, font, small, x0, y0):
         return bot - (v - lo) / (hi - lo) * (bot - top)
     zero = zy(0.0)
     draw.line((x0 + 10, zero, x0 + w - 10, zero), fill=(150, 150, 150, 255), width=1)
-    values = list(m["unit_dz"]) + [m["wheel_dz"]]
-    names = list(ROW_NAMES) + ["wiel"]
+    values = list(m["unit_dz"])
+    names = list(ROW_NAMES)
     slot_w = (w - 20) / len(values)
     for i, (v, name) in enumerate(zip(values, names)):
         cx = x0 + 10 + slot_w * (i + 0.5)
-        contact = m["wheel_contact"] if i == len(values) - 1 else m["unit_contact"][i]
-        color = (225, 110, 25, 255) if i < len(values) - 1 else (120, 125, 130, 255)
-        if not contact:
+        color = (225, 110, 25, 255)
+        if not m["unit_contact"][i]:
             color = (190, 190, 190, 255)
         y = zy(v)
         draw.rectangle((cx - 9, min(y, zero), cx + 9, max(y, zero) + 1), fill=color)
