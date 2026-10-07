@@ -17,6 +17,8 @@ The robot itself is in `agbots/` and is only read here.
 ```
 agbots/agbot design/       robot Bruut_OpenAgbot (standard), see README.md there
 agbots/agbot design big/   robot XL (Quinder 16", 60 mm beams)
+agbots/agbot slim/         rear wheels 250 mm apart, with the liquid fertilizer applicator (3 rows) and a headland-turn
+                           animation; loads the advanced applicator as a copy with overrides (slim_lfa.py)
 agbots/agbot comparison/   comparison of the two robots
 <implement>/advanced|simple/   per implement a folder per variant (liquid fertilizer applicator, overseeder,
                                feed pusher auger, ...), see below

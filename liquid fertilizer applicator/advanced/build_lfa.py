@@ -27,11 +27,10 @@ COLOR = {
     "filter": (0.16, 0.16, 0.18),
     "hose": (0.96, 0.96, 0.92),
     "suction": (0.30, 0.65, 0.35),
-    "wheel": (0.70, 0.72, 0.74),
-    "chain": (0.25, 0.25, 0.27),
     "actuator": (0.15, 0.15, 0.16),
     "chrome": (0.88, 0.89, 0.92),
-    "sensor": (0.95, 0.60, 0.10),
+    "tire": (0.09, 0.09, 0.09),
+    "rim": (0.93, 0.76, 0.16),
     "robot_beam_lower": (0.47, 0.31, 0.22),
     "robot_beam_upper": (0.11, 0.11, 0.12),
     "robot_tire": (0.07, 0.07, 0.07),
@@ -103,6 +102,29 @@ def contact_drop(rel, lift, max_deg):
         else:
             hi = mid
     return (lo + hi) / 2.0
+
+
+def press_beta(drop, bar_dz):
+    """Hoek van de sleeparm van het aandrukwiel (graden, + = wiel omlaag) op vlakke grond: het wiel raakt de grond,
+    of hangt op de onderaanslag. drop = armhoek element, bar_dz = balk t.o.v. de ontwerphoogte."""
+    w0 = G.pw_wheel_center()
+    r = P.pw_d / 2.0
+
+    def gap(beta):
+        w = G.rot_yz(G.rot_yz(w0, beta, P.pw_pivot), drop, P.u_pivot)
+        return w[1] + bar_dz - r
+    lo, hi = P.pw_up_deg, P.pw_down_deg
+    if gap(hi) >= 0.0:
+        return hi
+    if gap(lo) <= 0.0:
+        return lo
+    for _ in range(40):
+        mid = 0.5 * (lo + hi)
+        if gap(mid) > 0.0:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
 
 
 def pin_b(lift):
@@ -192,8 +214,8 @@ def build_toolbar(doc, parent):
     add_shape(doc, parent, "rf_cross", "rear_frame_cross_tube_actuator", G.rf_cross(), "frame")
 
 
-def build_drive(doc, parent, wheel_drop):
-    grp = new_part(doc, parent, "Drive", "ground_wheel_drive_and_pump")
+def build_drive(doc, parent):
+    grp = new_part(doc, parent, "Drive", "electric_pump_drive")
     add_shape(doc, grp, "pump", "peristaltic_pump_5ch", G.pump_body(), "pump")
     add_shape(doc, grp, "pump_nipples", "pump_hose_nipples", G.pump_nipples(), "steel")
     add_shape(doc, grp, "pump_bracket", "pump_bracket", G.pump_bracket(), "frame")
@@ -202,23 +224,11 @@ def build_drive(doc, parent, wheel_drop):
     add_shape(doc, grp, "suction_hose", "suction_hose_to_robot_tank", suction, "suction")
     add_shape(doc, grp, "camlock", "camlock_coupling", camlock, "zinc")
     add_shape(doc, grp, "coupling", "shaft_coupling", G.coupling(), "steel")
-    add_shape(doc, grp, "jackshaft", "drive_shaft", G.jackshaft(), "steel")
-    add_shape(doc, grp, "jack_sprocket", "sprocket_15T_drive_shaft", G.jack_sprocket(), "chain")
-    for i, tag in ((0, "left"), (1, "right")):
-        add_shape(doc, grp, "bearing_plate_" + tag, "bearing_plate_" + tag, G.bearing_plate(i), "frame")
-        add_shape(doc, grp, "bearing_" + tag, "flange_bearing_UCFL204_" + tag, G.flange_bearing(i), "pump")
-    add_shape(doc, grp, "bearing_bolts", "bearing_bolts_M10", G.bearing_bolts(), "zinc")
-    add_shape(doc, grp, "torsion_spring", "torsion_spring_ground_wheel", G.torsion_spring(), "spring")
-    bracket, sensor = G.sensor_parts()
-    add_shape(doc, grp, "sensor_bracket", "sensor_bracket", bracket, "frame")
-    add_shape(doc, grp, "sensor", "inductive_sensor_M18", sensor, "sensor")
-
-    arm = new_part(doc, grp, "Ground_wheel_arm", "ground_wheel_arm_swing", rotation_x(wheel_drop, P.jack))
-    add_shape(doc, arm, "gw_arm", "ground_wheel_arm", G.gw_arm(), "frame")
-    add_shape(doc, arm, "gw_axle", "ground_wheel_axle", G.gw_axle(), "steel")
-    add_shape(doc, arm, "gw_wheel", "ground_wheel_400_spiked", G.gw_wheel(), "wheel")
-    add_shape(doc, arm, "gw_sprocket", "sprocket_30T_ground_wheel", G.gw_wheel_sprocket(), "chain")
-    add_shape(doc, arm, "gw_chain", "roller_chain_08B", G.gw_chain(), "chain")
+    add_shape(doc, grp, "pump_shaft", "pump_shaft", G.jackshaft(), "steel")
+    box, motor = G.pump_gearmotor()
+    add_shape(doc, grp, "pm_gearbox", "worm_gearbox", box, "chrome")
+    add_shape(doc, grp, "pm_motor", "pump_motor_24V_with_encoder", motor, "actuator")
+    add_shape(doc, grp, "pm_bracket", "pump_motor_bracket", G.pump_motor_bracket(), "frame")
     return grp
 
 
@@ -247,10 +257,47 @@ def unit_shapes():
             "tube": G.u_tube(),
             "valve": G.u_valve(),
         })
+        if P.press_wheel:
+            _UNIT_CACHE.update({
+                "pw_pivot": G.pw_pivot_hardware(),
+                "pw_stop": G.pw_stop_hardware(),
+                "pw_coil_l": G.pw_coil(-1),
+                "pw_coil_r": G.pw_coil(1),
+                "pw_strap_l": G.pw_strap(-1),
+                "pw_strap_r": G.pw_strap(1),
+                "pw_peg_l": G.pw_peg(-1),
+                "pw_peg_r": G.pw_peg(1),
+                "pw_leg_l": G.pw_moving_leg(-1),
+                "pw_leg_r": G.pw_moving_leg(1),
+                "pw_axle": G.pw_axle(),
+                "pw_hub": G.pw_hub(),
+                "pw_rim": G.pw_rim(),
+                "pw_tire": G.pw_tire(),
+            })
     return _UNIT_CACHE
 
 
-def build_unit(doc, parent, index, x, drop, strut):
+def build_press_wheel(doc, arm, add, n, beta):
+    """Aandrukwiel: vaste delen op de element-arm, sleeparm als eigen sub-Part (draait om pw_pivot)."""
+    add(arm, "pw_pivot", "press_arm_pivot_pin", "zinc")
+    add(arm, "pw_stop", "press_arm_stop_bolt", "zinc")
+    add(arm, "pw_coil_l", "press_torsion_spring_left", "spring")
+    add(arm, "pw_coil_r", "press_torsion_spring_right", "spring")
+    sw = new_part(doc, arm, "Unit_%d_press_arm" % n, "unit_%d_press_wheel_arm" % n, rotation_x(beta, P.pw_pivot))
+    add(sw, "pw_strap_l", "press_arm_strap_left", "arm")
+    add(sw, "pw_strap_r", "press_arm_strap_right", "arm")
+    add(sw, "pw_peg_l", "press_spring_peg_left", "zinc")
+    add(sw, "pw_peg_r", "press_spring_peg_right", "zinc")
+    add(sw, "pw_leg_l", "press_spring_leg_left", "spring")
+    add(sw, "pw_leg_r", "press_spring_leg_right", "spring")
+    add(sw, "pw_axle", "press_wheel_axle_M12", "zinc")
+    add(sw, "pw_hub", "press_wheel_hub", "steel")
+    add(sw, "pw_rim", "press_wheel_rim", "rim")
+    add(sw, "pw_tire", "press_wheel_tire_250x40", "tire")
+    return sw
+
+
+def build_unit(doc, parent, index, x, drop, strut, beta=0.0):
     s = unit_shapes()
     n = index + 1
     tag = "U%d" % n
@@ -282,6 +329,8 @@ def build_unit(doc, parent, index, x, drop, strut):
     add(arm, "knife_hw", "knife_bolts_and_spacers", "zinc")
     add(arm, "tube", "injection_tube_8x1", "steel")
     add(arm, "valve", "check_valve", "valve")
+    if P.press_wheel:
+        build_press_wheel(doc, arm, add, n, beta)
     return unit
 
 
@@ -316,7 +365,6 @@ def build_into(doc, parent=None, lift=0.0, placement=None):
     theta, dy, dz = lift_state(lift)
     disc_rel = (P.disc_y - P.u_pivot[0], P.disc_z - P.u_pivot[1])
     drop = contact_drop(disc_rel, lift, P.unit_drop_deg)
-    wheel_drop = contact_drop(P.gw_wheel_rel, lift, P.wheel_drop_deg)
 
     root = new_part(doc, parent, "Applicator", "liquid_fertilizer_applicator", placement)
     build_headstock(doc, root)
@@ -324,10 +372,11 @@ def build_into(doc, parent=None, lift=0.0, placement=None):
     build_actuator(doc, root, lift)
     bar = new_part(doc, root, "Toolbar_assembly", "toolbar_assembly_moves_with_lift", translation(0.0, dy, dz))
     build_toolbar(doc, bar)
-    build_drive(doc, bar, wheel_drop)
+    build_drive(doc, bar)
     strut = G.u_strut(drop)
+    beta = press_beta(drop, dz) if P.press_wheel else 0.0
     for i, x in enumerate(P.row_x):
-        build_unit(doc, bar, i, x, drop, strut)
+        build_unit(doc, bar, i, x, drop, strut, beta)
     build_hoses(doc, bar, drop)
     return root
 
@@ -405,8 +454,9 @@ def check_interference(doc=None, include_robot=True, tol=1.0):
 
 # massa per object: vaste waarde (kg) voor gekochte delen die als massief blok getekend zijn,
 # anders volume x dichtheid (kg/mm3)
-MASS_FIXED = {"pump": 6.0, "act_body": 3.5, "act_rod": 0.8, "inlet_filter": 1.5, "sensor": 0.15, "camlock": 0.3}
-DENSITY = (("band", 1.2e-6), ("suction_hose", 1.3e-6 * 0.3), ("hose_", 1.3e-6 * 0.55), ("valve", 8.5e-6 * 0.5))
+MASS_FIXED = {"pump": 6.0, "act_body": 3.5, "act_rod": 0.8, "inlet_filter": 1.5, "camlock": 0.3,
+              "pm_gearbox": 1.2, "pm_motor": 1.3}         # wormwielmotor ca. 2,5 kg (aanname)
+DENSITY = (("band", 1.2e-6), ("pw_tire", 1.2e-6 * 0.5), ("pw_rim", 1.15e-6),("suction_hose", 1.3e-6 * 0.3), ("hose_", 1.3e-6 * 0.55), ("valve", 8.5e-6 * 0.5))
 STEEL = 7.85e-6
 
 
@@ -445,13 +495,21 @@ def mass_properties(doc=None):
     robot_names = {o.Name for o in robot.Group} if robot else set()
     feats = [o for o in doc.Objects if o.TypeId == "Part::Feature" and o.Name not in robot_names]
     moving = [o for o in doc.getObject("Toolbar_assembly").OutListRecursive if o.TypeId == "Part::Feature"]
-    arm = [o for o in doc.getObject("Unit_1_arm").OutListRecursive if o.TypeId == "Part::Feature"]
+    press = doc.getObject("Unit_1_press_arm")
+    pw = [o for o in press.OutListRecursive if o.TypeId == "Part::Feature"] if press else []
+    pw_names = {o.Name for o in pw}
+    arm = [o for o in doc.getObject("Unit_1_arm").OutListRecursive
+           if o.TypeId == "Part::Feature" and o.Name not in pw_names]
     m_all, c_all = _sum(feats)
     m_mov, c_mov = _sum(moving)
     m_arm, c_arm = _sum(arm)
-    return {"implement_kg": round(m_all, 1), "implement_cg": (round(c_all.y), round(c_all.z)),
-            "moving_kg": round(m_mov, 1), "implement_cg_y": round(c_mov.y),
-            "arm_kg": round(m_arm, 2), "arm_cg_y": round(c_arm.y)}
+    out = {"implement_kg": round(m_all, 1), "implement_cg": (round(c_all.y), round(c_all.z)),
+           "moving_kg": round(m_mov, 1), "moving_cg_y": round(c_mov.y),
+           "arm_kg": round(m_arm, 2), "arm_cg_y": round(c_arm.y)}
+    if pw:
+        m_pw, c_pw = _sum(pw)
+        out.update({"pw_kg": round(m_pw, 2), "pw_cg": (round(c_pw.y), round(c_pw.z))})
+    return out
 
 
 # ---------------------------------------------------------------------
@@ -495,7 +553,7 @@ GROUND = "render_ground"
 
 def add_ground(doc):
     grp = doc.getObject("Applicator")
-    shape = G.box_span((-700.0, 700.0), (-1250.0, 300.0), (-90.0, 0.0))
+    shape = G.box_span((-700.0, 700.0), (-1450.0, 300.0), (-90.0, 0.0))
     obj = doc.addObject("Part::Feature", GROUND)
     obj.Shape = shape
     obj.ViewObject.ShapeColor = (0.55, 0.40, 0.25)
@@ -515,12 +573,15 @@ def render_work_previews(doc=None):
     out.append(save_view("2_iso_front_left.png", (1.0, -1.1, -0.7)))
     out.append(save_view("4_top.png", (0.0, 0.0, -1.0), up=(0.0, 1.0, 0.0)))
     out.append(save_view("5_rear.png", (0.0, 1.0, 0.0)))
-    out.append(save_view("6_unit_detail.png", (-1.0, 0.75, -0.45), target=(-400, -700, 200), height=900))
-    out.append(save_view("7_drive_detail.png", (-1.0, 0.9, -0.6), target=(220, -560, 380), height=850))
+    out.append(save_view("6_unit_detail.png", (-1.0, 0.75, -0.45), target=(-400, -820, 200), height=1050))
+    out.append(save_view("7_drive_detail.png", (-1.0, 0.9, -0.6), target=(170, -450, 520), height=520))
+    if P.press_wheel:
+        out.append(save_view("12_press_wheel_detail.png", (-1.0, 0.55, -0.45), target=(-400, -1010, 160),
+                             height=430))
     add_ground(doc)
     try:
-        out.append(save_view("3_side_right.png", (-1.0, 0.0, 0.0), target=(0, -500, 330), height=1250))
-        out.append(save_view("8_unit_side.png", (-1.0, 0.0, 0.0), target=(0, -700, 200), height=700))
+        out.append(save_view("3_side_right.png", (-1.0, 0.0, 0.0), target=(0, -620, 330), height=1350))
+        out.append(save_view("8_unit_side.png", (-1.0, 0.0, 0.0), target=(0, -830, 200), height=820))
     finally:
         remove_ground(doc)
     return out
@@ -532,7 +593,7 @@ def render_all():
     doc = build(lift=P.lift_height, save_path=None, show_robot=True)
     add_ground(doc)
     try:
-        out.append(save_view("9_lifted_side_with_robot.png", (-1.0, 0.0, 0.0), target=(0, -400, 420), height=1400))
+        out.append(save_view("9_lifted_side_with_robot.png", (-1.0, 0.0, 0.0), target=(0, -500, 420), height=1550))
     finally:
         remove_ground(doc)
     out.append(save_view("10_lifted_iso_with_robot.png", (-1.0, 1.0, -0.6)))

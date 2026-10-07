@@ -151,52 +151,6 @@ def helix_spring(length, mean_r, wire, coils=None):
     return Part.Wire(helix.Edges).makePipeShell([profile], True, True)
 
 
-def sprocket(teeth, pitch, x0, x1, y, z, bore):
-    rp = pitch / (2.0 * math.sin(math.pi / teeth))
-    r_tip = rp + 2.0
-    r_root = rp - 4.0
-    pts = []
-    for i in range(teeth * 2):
-        a = math.pi * i / teeth
-        r = r_tip if i % 2 == 0 else r_root
-        pts.append(V(0, r * math.cos(a), r * math.sin(a)))
-    pts.append(pts[0])
-    body = Part.Face(Part.makePolygon(pts)).extrude(V(x1 - x0, 0, 0))
-    body = body.fuse(cyl_x(rp * 0.55, 0, x1 - x0, 0, 0))
-    body = body.cut(cyl_x(bore, -1, x1 - x0 + 1, 0, 0))
-    body.translate(V(x0, y, z))
-    return body
-
-
-def pitch_radius(teeth, pitch):
-    return pitch / (2.0 * math.sin(math.pi / teeth))
-
-
-def loop_face(c1, r1, c2, r2, x0):
-    # buitenomtrek (uitwendige raaklijnen) van twee cirkels in het y-z vlak
-    dy, dz = c2[0] - c1[0], c2[1] - c1[1]
-    d = math.hypot(dy, dz)
-    phi = math.atan2(dz, dy)
-    beta = math.acos((r1 - r2) / d)
-
-    def pt(c, r, a):
-        return V(x0, c[0] + r * math.cos(a), c[1] + r * math.sin(a))
-
-    a1, a2 = phi + beta, phi - beta
-    e1 = Part.Arc(pt(c1, r1, a1), pt(c1, r1, phi + math.pi), pt(c1, r1, a2)).toShape()
-    l1 = Part.LineSegment(pt(c1, r1, a2), pt(c2, r2, a2)).toShape()
-    e2 = Part.Arc(pt(c2, r2, a2), pt(c2, r2, phi), pt(c2, r2, a1)).toShape()
-    l2 = Part.LineSegment(pt(c2, r2, a1), pt(c1, r1, a1)).toShape()
-    return Part.Face(Part.Wire([e1, l1, e2, l2]))
-
-
-def chain_loop(c1, r1, c2, r2, x0, x1, inner=2.5, outer=8.5):
-    w = x1 - x0
-    out = loop_face(c1, r1 + outer, c2, r2 + outer, x0).extrude(V(w, 0, 0))
-    inn = loop_face(c1, r1 + inner, c2, r2 + inner, x0 - 1).extrude(V(w + 2, 0, 0))
-    return out.cut(inn)
-
-
 def hose(points, od):
     # punten = stuurpunten (poles): de slang loopt door begin- en eindpunt, raakt daar het eerste/laatste
     # segment en blijft binnen het stuurpolygoon (geen doorschieten zoals bij interpoleren)
@@ -524,15 +478,21 @@ def u_fork_plate(side):
     k = rel_disc(P.knife_clamp_rel)
     t = P.u_fork_t
     x0 = P.u_fork_in if side > 0 else -P.u_fork_in - t
+    q = P.pw_pivot
+    s = pw_stop_point()
     parts = [stadium_yz((py, pz), g, 18.0, x0, t),
              stadium_yz(g, d, 15.0, x0, t),
              stadium_yz((py, pz), d, 14.0, x0, t),
              stadium_yz(d, k, 30.0, x0, t),
-             Part.makeCylinder(26.0, t, V(x0, d[0], d[1]), X)]
+             Part.makeCylinder(26.0, t, V(x0, d[0], d[1]), X),
+             stadium_yz(k, q, P.pw_ear_r, x0, t),                 # oor voor de sleeparm van het aandrukwiel
+             stadium_yz(q, s, P.pw_sleeve_d / 2.0 + 6.0, x0, t)]
     body = fuse_all(parts)
     holes = [cyl_x(P.u_pin_d + 0.4, x0 - 1, x0 + t + 1, py, pz),
              cyl_x(P.rod_d + 0.4, x0 - 1, x0 + t + 1, g[0], g[1]),
-             cyl_x(P.axle_d + 0.4, x0 - 1, x0 + t + 1, d[0], d[1])]
+             cyl_x(P.axle_d + 0.4, x0 - 1, x0 + t + 1, d[0], d[1]),
+             cyl_x(P.pw_pin_d + 0.4, x0 - 1, x0 + t + 1, q[0], q[1]),
+             cyl_x(P.pw_stop_d + 0.4, x0 - 1, x0 + t + 1, s[0], s[1])]
     for kb in P.knife_bolt_rel:
         kp = rel_disc(kb)
         holes.append(cyl_x(10.4, x0 - 1, x0 + t + 1, kp[0], kp[1]))
@@ -681,78 +641,215 @@ def u_knife_hardware():
 
 
 # ---------------------------------------------------------------------
-# Loopwiel met arm, ketting en aandrijving pomp
+# Aandrukwiel (optie per rij): sleeparm op het oor van de vorkplaten, lokaal zoals het element
+# (x = 0 hart van de rij, armhoek 0). De sleeparm draait om pw_pivot; build_lfa zet hem in een eigen sub-Part.
 # ---------------------------------------------------------------------
-def gw_center():
-    return (P.jack[0] + P.gw_wheel_rel[0], P.jack[1] + P.gw_wheel_rel[1])
+def pw_stop_point():
+    return (P.pw_pivot[0] + P.pw_stop_rel[0], P.pw_pivot[1] + P.pw_stop_rel[1])
 
 
-def gw_arm():
-    j = P.jack
-    w = gw_center()
-    x0, x1 = P.gw_arm_x
-    arm = fuse_all([stadium_yz(j, w, P.gw_arm_w / 2.0, x0, x1 - x0),
-                    Part.makeCylinder(25.0, x1 - x0, V(x0, j[0], j[1]), X),
-                    Part.makeCylinder(25.0, x1 - x0, V(x0, w[0], w[1]), X)])
-    return arm.cut([cyl_x(P.jack_d + 0.4, x0 - 1, x1 + 1, j[0], j[1]),
-                    cyl_x(P.jack_d + 0.4, x0 - 1, x1 + 1, w[0], w[1])])
+def pw_wheel_center():
+    return (P.pw_pivot[0] + P.pw_wheel_rel[0], P.pw_pivot[1] + P.pw_wheel_rel[1])
 
 
-def gw_axle():
-    w = gw_center()
-    return cyl_x(P.jack_d, P.gw_axle_x[0], P.gw_axle_x[1], w[0], w[1])
+def pw_strap_x(side):
+    x0 = P.pw_strap_in
+    return (x0, x0 + P.pw_strap_t) if side > 0 else (-x0 - P.pw_strap_t, -x0)
 
 
-def gw_wheel():
-    w = gw_center()
-    x0 = P.gw_x - P.gw_w / 2.0
-    x1 = P.gw_x + P.gw_w / 2.0
-    rr = P.gw_rim_d / 2.0
-    rim = ring_x(P.gw_rim_d, P.gw_rim_d - 8.0, x0, x1, 0, 0)
-    web = ring_x(P.gw_rim_d - 7.0, P.gw_hub_d - 1.0, P.gw_x - P.gw_web_t / 2.0, P.gw_x + P.gw_web_t / 2.0, 0, 0)
-    holes = []
-    for i in range(6):
-        a = math.radians(60 * i)
-        holes.append(cyl_x(56.0, P.gw_x - 5, P.gw_x + 5, 112.0 * math.cos(a), 112.0 * math.sin(a)))
-    web = web.cut(holes)
-    hub = ring_x(P.gw_hub_d, P.jack_d, x0, x1, 0, 0)
-    spikes = []
-    rs = P.gw_d / 2.0
-    b = P.gw_spike_base / 2.0
-    for i in range(P.gw_spikes):
-        tri = poly_yz([(-b, rr - 1.0), (b, rr - 1.0), (0.0, rs)], P.gw_x - P.gw_spike_w / 2.0, P.gw_spike_w)
-        spikes.append(rotated(tri, 360.0 * i / P.gw_spikes, X))
-    wheel = fuse_all([rim, web, hub] + spikes)
-    wheel.translate(V(0, w[0], w[1]))
-    return wheel
+def pw_coil_len():
+    return (P.pw_spring_coils + 1) * P.pw_spring_wire
 
 
-def gw_wheel_sprocket():
-    w = gw_center()
-    return sprocket(P.z_wheel, P.chain_pitch, P.sprocket_x[0], P.sprocket_x[1], w[0], w[1], P.jack_d)
+def pw_leg_x(moving):
+    # bewegend veerbeen aan de binnenkant van de wikkeling (bij de veerpen), vast been aan de buitenkant
+    w = P.pw_spring_wire
+    if moving:
+        return P.pw_spring_x0 - w / 2.0 - 0.5
+    return P.pw_spring_x0 + pw_coil_len() + w / 2.0 + 0.5
 
 
-def jack_sprocket():
-    j = P.jack
-    return sprocket(P.z_jack, P.chain_pitch, P.sprocket_x[0], P.sprocket_x[1], j[0], j[1], P.jack_d)
+def pw_stop_slot_angles():
+    # de aanslagbout ligt vast; t.o.v. de strip beschrijft hij een boog tussen de twee aanslagen
+    a = math.degrees(math.atan2(P.pw_stop_rel[1], P.pw_stop_rel[0]))
+    return a - P.pw_down_deg, a - P.pw_up_deg
 
 
-def gw_chain():
-    r1 = pitch_radius(P.z_jack, P.chain_pitch)
-    r2 = pitch_radius(P.z_wheel, P.chain_pitch)
-    return chain_loop(P.jack, r1, gw_center(), r2, P.chain_x[0], P.chain_x[1])
+def arc_slot_yz(center, r, a0, a1, w, x0, t):
+    """Booggat (y-z vlak) rond center, straal r, van hoek a0 tot a1 (graden), breedte w."""
+    cy, cz = center
+    ro, ri, h = r + w / 2.0, r - w / 2.0, w / 2.0
+    b0, b1 = math.radians(a0), math.radians(a1)
+    bm = 0.5 * (b0 + b1)
+
+    def pt(rad, b):
+        return V(x0, cy + rad * math.cos(b), cz + rad * math.sin(b))
+
+    def cap(b, sign):
+        c = pt(r, b)
+        return V(x0, c.y - sign * h * math.sin(b), c.z + sign * h * math.cos(b))
+
+    edges = [Part.Arc(pt(ro, b0), pt(ro, bm), pt(ro, b1)).toShape(),
+             Part.Arc(pt(ro, b1), cap(b1, 1), pt(ri, b1)).toShape(),
+             Part.Arc(pt(ri, b1), pt(ri, bm), pt(ri, b0)).toShape(),
+             Part.Arc(pt(ri, b0), cap(b0, -1), pt(ro, b0)).toShape()]
+    return Part.Face(Part.Wire(edges)).extrude(V(t, 0, 0))
 
 
-def chain_links():
-    r1 = pitch_radius(P.z_jack, P.chain_pitch)
-    r2 = pitch_radius(P.z_wheel, P.chain_pitch)
-    c = math.hypot(P.gw_wheel_rel[0], P.gw_wheel_rel[1])
-    p = P.chain_pitch
-    n = 2 * c / p + (P.z_jack + P.z_wheel) / 2.0 + ((P.z_wheel - P.z_jack) / (2 * math.pi)) ** 2 * p / c
-    return n, c, r1, r2
+def pw_peg_point(index=None):
+    i = P.pw_preload_index if index is None else index
+    a = math.radians(P.pw_peg_angles[i])
+    q = P.pw_pivot
+    return (q[0] + P.pw_peg_r * math.cos(a), q[1] + P.pw_peg_r * math.sin(a))
 
 
+def pw_strap(side):
+    q = P.pw_pivot
+    w = pw_wheel_center()
+    x0, x1 = pw_strap_x(side)
+    t = x1 - x0
+    body = fuse_all([Part.makeCylinder(P.pw_head_r, t, V(x0, q[0], q[1]), X),
+                     stadium_yz(q, w, P.pw_strap_r, x0, t),
+                     Part.makeCylinder(P.pw_strap_r + 2.0, t, V(x0, w[0], w[1]), X)])
+    a0, a1 = pw_stop_slot_angles()
+    r_stop = math.hypot(*P.pw_stop_rel)
+    holes = [cyl_x(P.pw_pin_d + 0.4, x0 - 1, x1 + 1, q[0], q[1]),
+             cyl_x(P.pw_axle_d + 0.4, x0 - 1, x1 + 1, w[0], w[1]),
+             arc_slot_yz(q, r_stop, a0, a1, P.pw_stop_d + 1.0, x0 - 1, t + 2)]
+    for i in range(len(P.pw_peg_angles)):
+        p = pw_peg_point(i)
+        holes.append(cyl_x(10.4, x0 - 1, x1 + 1, p[0], p[1]))
+    return body.cut(holes)
+
+
+def pw_peg(side):
+    # veerpen (M10 met bus) in het gekozen gat, steekt buiten de strip uit tot voorbij het bewegende veerbeen
+    p = pw_peg_point()
+    x_out = pw_leg_x(True) + P.pw_spring_wire / 2.0 + 4.0
+    x0 = P.pw_strap_in
+    body = fuse_all([cyl_x(10.0, x0, x_out, p[0], p[1]), cyl_x(16.0, x_out, x_out + 3.0, p[0], p[1])])
+    return mirrored_x(body, side)
+
+
+def pw_pivot_hardware():
+    q = P.pw_pivot
+    xe = P.pw_spring_x0 + pw_coil_len() + 0.5
+    parts = [pin_x(-xe, xe, q[0], q[1], d=P.pw_pin_d, head_d=22.0, head_t=4.0),
+             ring_x(26.0, P.pw_pin_d, -P.u_fork_in, P.u_fork_in, q[0], q[1])]       # bus tussen de vorkplaten
+    for sx in (-1, 1):
+        a, b = sorted((sx * (P.u_fork_in + P.u_fork_t), sx * P.pw_strap_in))
+        parts.append(ring_x(26.0, P.pw_pin_d, a, b, q[0], q[1]))                 # sluitring vork - strip
+    return Part.makeCompound(parts)
+
+
+def pw_stop_hardware():
+    s = pw_stop_point()
+    # bus tot net voorbij het vaste veerbeen, dunne borgmoer: buitenste rij blijft binnen de robotbreedte
+    xs = pw_leg_x(False) + P.pw_spring_wire / 2.0 + 1.0
+    parts = [cyl_x(P.pw_stop_d, -xs - 6.4, xs + 5.0, s[0], s[1]),
+             ring_x(P.pw_sleeve_d, P.pw_stop_d, -P.u_fork_in, P.u_fork_in, s[0], s[1])]
+    for sx in (-1, 1):
+        a, b = sorted((sx * (P.pw_strap_in + P.pw_strap_t + 0.5), sx * xs))
+        parts.append(ring_x(P.pw_sleeve_d, P.pw_stop_d, a, b, s[0], s[1]))
+    head = rotated(hex_prism(17.0, 6.4, z0=0.0), -90.0, Y)
+    head.translate(V(-xs, s[0], s[1]))
+    nut = rotated(hex_prism(17.0, 5.0, z0=0.0), 90.0, Y)
+    nut.translate(V(xs, s[0], s[1]))
+    return Part.makeCompound(parts + [head, nut])
+
+
+def _leg(x, start_pt, end_pt):
+    r = P.pw_spring_wire / 2.0
+    a = V(x, start_pt[0], start_pt[1])
+    b = V(x, end_pt[0], end_pt[1])
+    return fuse_all([Part.makeCylinder(r, (b - a).Length, a, b - a), Part.makeSphere(r, b)])
+
+
+def _tangent_start(contact, sign):
+    # punt op de gemiddelde wikkelstraal waar een raaklijn naar contact begint
+    q = P.pw_pivot
+    dy, dz = contact[0] - q[0], contact[1] - q[1]
+    d = math.hypot(dy, dz)
+    r = P.pw_spring_dm / 2.0
+    a = math.atan2(dz, dy) + sign * math.acos(r / d)
+    return (q[0] + r * math.cos(a), q[1] + r * math.sin(a))
+
+
+def pw_fixed_leg_contact():
+    # vast veerbeen tegen de voorkant van de bus op de aanslagbout (veer duwt de bus naar achteren)
+    s = pw_stop_point()
+    return (s[0] + P.pw_sleeve_d / 2.0 + P.pw_spring_wire / 2.0 + 0.3, s[1])
+
+
+def pw_coil(side):
+    """Torsieveer: wikkeling + vast been (zit vast aan de element-arm)."""
+    q = P.pw_pivot
+    coil = helix_spring(pw_coil_len(), P.pw_spring_dm / 2.0, P.pw_spring_wire, coils=P.pw_spring_coils)
+    coil = rotated(coil, 90.0, Y)
+    coil.translate(V(P.pw_spring_x0, q[0], q[1]))
+    c = pw_fixed_leg_contact()
+    leg = _leg(pw_leg_x(False), _tangent_start(c, 1.0), c)
+    return mirrored_x(Part.makeCompound([coil, leg]), side)
+
+
+def pw_moving_leg(side):
+    """Bewegend veerbeen op de veerpen (draait mee met de sleeparm): duwt het wiel omlaag."""
+    p = pw_peg_point()
+    a = math.radians(P.pw_peg_angles[P.pw_preload_index])
+    off = 5.0 + P.pw_spring_wire / 2.0 + 0.3
+    c = (p[0] + off * math.sin(a), p[1] - off * math.cos(a))
+    return mirrored_x(_leg(pw_leg_x(True), _tangent_start(c, -1.0), c), side)
+
+
+def pw_tire():
+    w = pw_wheel_center()
+    h = P.pw_w / 2.0
+    r_in = P.pw_rim_d / 2.0
+    r = P.pw_d / 2.0
+    pts = [V(-h, r_in, 0), V(h, r_in, 0), V(h, r - 10.0, 0), V(h - 7.0, r, 0), V(-h + 7.0, r, 0), V(-h, r - 10.0, 0)]
+    pts.append(pts[0])
+    tire = Part.Face(Part.makePolygon(pts)).revolve(V(0, 0, 0), X, 360)
+    tire.translate(V(0, w[0], w[1]))
+    return tire
+
+
+def pw_rim():
+    # kunststof velg (PA): rand + schijf met 6 gaten
+    w = pw_wheel_center()
+    h = P.pw_w / 2.0
+    rim = ring_x(P.pw_rim_d, P.pw_rim_d - 10.0, -h + 2.0, h - 2.0, 0, 0)
+    web = ring_x(P.pw_rim_d - 9.0, P.pw_hub_d, -3.0, 3.0, 0, 0)
+    holes = [cyl_x(30.0, -5, 5, 52.0 * math.cos(math.radians(60 * i + 30)), 52.0 * math.sin(math.radians(60 * i + 30)))
+             for i in range(6)]
+    body = fuse_all([rim, web.cut(holes)])
+    body.translate(V(0, w[0], w[1]))
+    return body
+
+
+def pw_hub():
+    w = pw_wheel_center()
+    return ring_x(P.pw_hub_d, P.pw_axle_d, -P.pw_hub_half, P.pw_hub_half, w[0], w[1])
+
+
+def pw_axle():
+    w = pw_wheel_center()
+    xo = P.pw_strap_in + P.pw_strap_t
+    parts = [cyl_x(P.pw_axle_d, -xo, xo + P.u_bolt_m + 3.0, w[0], w[1])]
+    head = rotated(hex_prism(P.u_bolt_af, P.u_bolt_k, z0=0.0), -90.0, Y)
+    head.translate(V(-xo, w[0], w[1]))
+    nut = rotated(hex_prism(P.u_bolt_af, P.u_bolt_m, z0=0.0), 90.0, Y)
+    nut.translate(V(xo, w[0], w[1]))
+    for sx in (-1, 1):
+        a, b = sorted((sx * P.pw_hub_half, sx * P.pw_strap_in))
+        parts.append(ring_x(24.0, P.pw_axle_d, a, b, w[0], w[1]))
+    return Part.makeCompound(parts + [head, nut])
+
+
+# ---------------------------------------------------------------------
+# Pompaandrijving: wormwielmotor met encoder op de pompas
+# ---------------------------------------------------------------------
 def jackshaft():
+    # pompas: van de pomp via de koppeling tot in de holle as van de wormwielkast
     j = P.jack
     shaft = cyl_x(P.jack_d, P.jack_x[0], P.jack_x[1], j[0], j[1])
     stub = cyl_x(P.jack_d, P.pump_x[1], P.jack_x[0], j[0], j[1])
@@ -764,76 +861,31 @@ def coupling():
     return ring_x(P.coupling_d, P.jack_d, P.coupling_x[0], P.coupling_x[1], j[0], j[1])
 
 
-def bearing_plate(index):
-    x0, x1 = P.bearing_plates_x[index]
-    j = P.jack
-    pts = [(P.bar_front, P.bar_top), (P.bar_front, 470.0), (-400.0, 565.0), (-500.0, 565.0), (-500.0, 470.0),
-           (P.bar_rear, P.bar_top)]
-    plate = poly_yz(pts, x0, x1 - x0)
-    holes = [cyl_x(30.0, x0 - 1, x1 + 1, j[0], j[1])]
-    for sy in (-1, 1):
-        holes.append(cyl_x(10.4, x0 - 1, x1 + 1, j[0] + sy * P.bearing_bolt_pitch / 2.0, j[1]))
-    return plate.cut(holes)
+def pump_gearmotor():
+    """(wormwielkast met flens, motor + encoder + kabelwartel) op de pompas, motor staand."""
+    jy, jz = P.jack
+    x0, x1 = P.pm_box_x
+    h = P.pm_box_y / 2.0
+    box = box_span((x0, x1), (jy - h, jy + h), (jz + P.pm_box_z[0], jz + P.pm_box_z[1]))
+    box = box.makeFillet(5.0, [e for e in box.Edges if abs(e.Vertexes[0].Point.x - e.Vertexes[-1].Point.x) > 1])
+    flange = cyl_x(50.0, x0 - 4.0, x0, jy, jz)
+    xc = (x0 + x1) / 2.0
+    z_top = jz + P.pm_box_z[1]
+    motor = Part.makeCylinder(P.pm_motor_d / 2.0, P.pm_motor_len, V(xc, jy, z_top))
+    encoder = Part.makeCylinder(P.pm_encoder[0] / 2.0, P.pm_encoder[1], V(xc, jy, z_top + P.pm_motor_len))
+    gland = Part.makeCylinder(6.0, 18.0, V(xc + P.pm_motor_d / 2.0 - 4.0, jy, z_top + P.pm_motor_len - 30.0), X)
+    return fuse_all([box, flange]), fuse_all([motor, encoder, gland])
 
 
-def flange_bearing(index):
-    # UCFL204, ovale flens liggend (lange kant langs y)
-    j = P.jack
-    px0, px1 = P.bearing_plates_x[index]
-    fl, fw, ft = P.bearing_flange
-    if index == 0:
-        f0, f1 = px0 - ft, px0
-        b0, b1 = f0 - P.bearing_boss_len, f0
-    else:
-        f0, f1 = px1, px1 + ft
-        b0, b1 = f1, f1 + P.bearing_boss_len
-    flange = stadium_yz((j[0] - (fl - fw) / 2.0, j[1]), (j[0] + (fl - fw) / 2.0, j[1]), fw / 2.0, f0, ft)
-    boss = cyl_x(P.bearing_boss_d, b0, b1, j[0], j[1])
-    body = fuse_all([flange, boss])
-    holes = [cyl_x(P.jack_d, min(f0, b0) - 1, max(f1, b1) + 1, j[0], j[1])]
-    for sy in (-1, 1):
-        holes.append(cyl_x(10.4, f0 - 1, f1 + 1, j[0] + sy * P.bearing_bolt_pitch / 2.0, j[1]))
-    return body.cut(holes)
-
-
-def bearing_bolts():
-    j = P.jack
-    items = []
-    fl, fw, ft = P.bearing_flange
-    for i, (px0, px1) in enumerate(P.bearing_plates_x):
-        f0, f1 = (px0 - ft, px1) if i == 0 else (px0, px1 + ft)
-        for sy in (-1, 1):
-            y = j[0] + sy * P.bearing_bolt_pitch / 2.0
-            items.append(cyl_x(10.0, f0 - 6, f1 + 6, y, j[1]))
-            head = rotated(hex_prism(17.0, 6.4, z0=0.0), -90.0, Y)
-            head.translate(V(f0, y, j[1]))
-            nut = rotated(hex_prism(17.0, 8.4, z0=0.0), 90.0, Y)
-            nut.translate(V(f1, y, j[1]))
-            items += [head, nut]
-    return Part.makeCompound(items)
-
-
-def torsion_spring():
-    j = P.jack
-    x0, x1 = P.torsion_x
-    s = helix_spring(x1 - x0, P.torsion_r, 5.0, coils=6)
-    s = rotated(s, 90.0, Y)                  # as langs +x
-    s.translate(V(x0, j[0], j[1]))
-    return s
-
-
-def sensor_parts():
-    j = P.jack
-    x0 = P.bearing_plates_x[0][0]
-    xs = (P.sprocket_x[0] + P.sprocket_x[1]) / 2.0
-    z_plate = 565.0
-    bracket = box_span((x0, xs + 14.0), (j[0] - 12.0, j[0] + 12.0), (z_plate, z_plate + 6.0))
-    bracket = bracket.cut(cyl(P.sensor_d + 0.4, 20, "z", xs, j[0], z_plate + 3.0))
-    z0 = j[1] + pitch_radius(P.z_jack, P.chain_pitch) + 12.0      # boven de ketting
-    sensor = Part.makeCylinder(P.sensor_d / 2.0, P.sensor_len, V(xs, j[0], z0))
-    nuts = [hex_prism(24.0, 5.0, z0=z_plate - 5.0, cx=xs, cy=j[0]).cut(cyl(P.sensor_d, 20, "z", xs, j[0], z_plate)),
-            hex_prism(24.0, 5.0, z0=z_plate + 6.0, cx=xs, cy=j[0]).cut(cyl(P.sensor_d, 20, "z", xs, j[0], z_plate + 8))]
-    return bracket, fuse_all([sensor] + nuts)
+def pump_motor_bracket():
+    """Draagplaat onder de wormwielkast op twee blokken op de toolbar (zoals de pompsteun)."""
+    jy, jz = P.jack
+    x0, x1 = P.pm_box_x
+    z_top = jz + P.pm_box_z[0]
+    plate = box_span((x0, x1), (jy - P.pm_box_y / 2.0 - 5.0, P.bar_front - 3.0), (z_top - P.pm_bracket_t, z_top))
+    blocks = [box_span((bx, bx + 12.0), (P.bar_rear, P.bar_front - 3.0), (P.bar_top, z_top - P.pm_bracket_t))
+              for bx in (x0 + 2.0, x1 - 14.0)]
+    return fuse_all([plate] + blocks)
 
 
 # ---------------------------------------------------------------------

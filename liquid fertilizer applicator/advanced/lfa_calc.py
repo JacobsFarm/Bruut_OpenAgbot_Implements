@@ -12,12 +12,14 @@ G_ACC = 9.81
 
 # laatste meting uit het model (build_lfa.mass_properties: staal 7850 kg/m3, gekochte delen als vaste massa)
 MODEL = {
-    "implement_kg": 105.7,      # heel werktuig incl. aanbouwbok, pomp, actuator, slangen
-    "implement_cg_y": -484.0,   # zwaartepunt heel werktuig, werktuig-y
-    "moving_kg": 82.8,          # deel dat meegaat met heffen (toolbar + elementen + aandrijving)
-    "moving_cg_y": -592.0,
-    "arm_kg": 7.02,             # zwenkende arm van 1 element (vork, schijf, ringen, mes, buisje)
-    "arm_cg_y": -736.0,
+    "implement_kg": 115.5,      # heel werktuig incl. aanbouwbok, pomp met motor, actuator, slangen, 5 aandrukwielen
+    "implement_cg_y": -555.0,   # zwaartepunt heel werktuig, werktuig-y
+    "moving_kg": 91.7,          # deel dat meegaat met heffen (toolbar + elementen + pomp met motor)
+    "moving_cg_y": -676.0,
+    "arm_kg": 8.14,             # zwenkende arm van 1 element (vork, schijf, ringen, mes, buisje, as + veren aandrukwiel)
+    "arm_cg_y": -770.0,
+    "pw_kg": 2.52,              # sleeparm aandrukwiel (strippen, wiel, as, veerbenen), zonder de delen op de vork
+    "pw_cg": (-1096.0, 138.0),  # zwaartepunt sleeparm (y, z), armhoek 0
 }
 
 # aannames robot (niet gemeten: invullen zodra bekend)
@@ -45,17 +47,21 @@ def pump_ml_per_rev(tube_id=P.pump_tube_id):
     return 2.0 * math.pi * P.pump_roller_r * area * P.pump_fill / 1000.0
 
 
-def dose_l_ha(z_wheel, z_jack, tube_id=P.pump_tube_id):
-    i = z_wheel / float(z_jack)
-    per_m = i * pump_ml_per_rev(tube_id) / (P.gw_rolling_circ / 1000.0)    # ml per meter per rij
-    return per_m * 10.0 / (P.row_spacing / 1000.0)                          # ml/m -> l/ha
+def pump_rpm(dose=P.dose_l_ha, speed_m_s=1.0, tube_id=P.pump_tube_id):
+    """Pomptoerental (omw/min) dat de besturing instelt: n = 6 x dosis [l/ha] x rijafstand [m] x v [m/s] / V [ml]."""
+    return 6.0 * dose * (P.row_spacing / 1000.0) * speed_m_s / pump_ml_per_rev(tube_id)
 
 
-def dose_table():
+def dose_at_rpm(rpm, speed_m_s=1.0, tube_id=P.pump_tube_id):
+    return rpm * pump_ml_per_rev(tube_id) / (6.0 * (P.row_spacing / 1000.0) * speed_m_s)
+
+
+def dose_table(speeds=(0.5, 1.0, 1.5)):
+    """Doseerbereik (l/ha) per pompslang en rijsnelheid, tussen pm_rpm_min en pm_rpm_max van de pompmotor."""
     rows = []
     for tube in (4.8, 6.4, 8.0):
-        for zw, zj in ((15, 24), (20, 18), (24, 15), (30, 15), (36, 15), (40, 12)):
-            rows.append((tube, zw, zj, round(zw / float(zj), 2), round(dose_l_ha(zw, zj, tube))))
+        for v in speeds:
+            rows.append((tube, v, round(dose_at_rpm(P.pm_rpm_min, v, tube)), round(dose_at_rpm(P.pm_rpm_max, v, tube))))
     return rows
 
 
@@ -63,8 +69,9 @@ def flow_l_min(dose, speed_m_s):
     return dose * P.row_spacing / 1000.0 * speed_m_s / 10000.0 * 60.0
 
 
-def pump_rpm(z_wheel, z_jack, speed_m_s):
-    return z_wheel / float(z_jack) * speed_m_s / (P.gw_rolling_circ / 1000.0) * 60.0
+def pump_power_w(dose=P.dose_l_ha, speed_m_s=1.0, torque_nm=P.pm_torque):
+    """Asvermogen van de pompmotor (W) bij het aangenomen pompkoppel."""
+    return torque_nm * pump_rpm(dose, speed_m_s) * 2.0 * math.pi / 60.0
 
 
 # ---------------------------------------------------------------------
@@ -99,17 +106,116 @@ def disc_dz(drop):
     return rot_yz((P.disc_y, P.disc_z), drop, P.u_pivot)[1] - P.disc_z
 
 
-def float_equilibrium(wheel_n=150.0, moving_kg=None, extra_n=0.0):
-    """Zweefstand op vlakke grond: armhoek waarbij 5 elementen + loopwiel het balkgewicht (+ extra_n,
-    bijv. gasveren) dragen. Geeft (armhoek, kracht per element, balk hoger dan ontwerp in mm)."""
+# ---------------------------------------------------------------------
+# Aandrukwiel: sleeparm op de element-arm met 2 torsieveren
+# ---------------------------------------------------------------------
+def pw_spring_rate():
+    """Beide torsieveren samen (Nmm per graad): k = E d^4 / (64 D n) per veer."""
+    k_rad = P.pw_spring_e * P.pw_spring_wire ** 4 / (64.0 * P.pw_spring_dm * P.pw_spring_coils)
+    return 2.0 * k_rad * math.pi / 180.0
+
+
+def pw_preload(setting=None):
+    return P.pw_preload_deg[P.pw_preload_index if setting is None else setting]
+
+
+def pw_spring_stress(beta, setting=None):
+    """Buigspanning in de draad (MPa) bij sleeparmhoek beta, met correctiefactor voor de kromming."""
+    c = P.pw_spring_dm / P.pw_spring_wire
+    ki = (4 * c * c - c - 1) / (4 * c * (c - 1))
+    torque = pw_spring_rate() / 2.0 * max(0.0, pw_preload(setting) - beta)
+    return ki * 32.0 * torque / (math.pi * P.pw_spring_wire ** 3)
+
+
+def pw_points(drop, beta):
+    """Draaipunt, wielas en zwaartepunt van de sleeparm (y, z) in het balkframe."""
+    q0 = P.pw_pivot
+    w0 = (q0[0] + P.pw_wheel_rel[0], q0[1] + P.pw_wheel_rel[1])
+    cg0 = MODEL["pw_cg"]
+    q = rot_yz(q0, drop, P.u_pivot)
+    w = rot_yz(rot_yz(w0, beta, q0), drop, P.u_pivot)
+    cg = rot_yz(rot_yz(cg0, beta, q0), drop, P.u_pivot)
+    return q, w, cg
+
+
+def press_beta(drop, bar_dz):
+    """Sleeparmhoek waarbij het wiel de vlakke grond raakt (balk bar_dz boven de ontwerphoogte).
+    Geeft (hoek, contact): zonder contact hangt de arm op de onderaanslag."""
+    r = P.pw_d / 2.0
+
+    def gap(b):
+        return pw_points(drop, b)[1][1] + bar_dz - r
+    lo, hi = P.pw_up_deg, P.pw_down_deg
+    if gap(hi) >= 0.0:
+        return hi, False
+    if gap(lo) <= 0.0:
+        return lo, True
+    for _ in range(50):
+        mid = 0.5 * (lo + hi)
+        if gap(mid) > 0.0:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi), True
+
+
+def press_force(drop=0.0, beta=0.0, setting=None):
+    """Kracht van het aandrukwiel op de grond (N): veermoment + gewicht sleeparm, gedeeld door de arm."""
+    if not P.press_wheel:
+        return 0.0
+    q, w, cg = pw_points(drop, beta)
+    torque = pw_spring_rate() * max(0.0, pw_preload(setting) - beta)
+    return (torque + MODEL["pw_kg"] * G_ACC * abs(cg[0] - q[0])) / abs(w[0] - q[0])
+
+
+def unit_forces(drop=0.0, beta=None, setting=None, bar_dz=None, press_contact=True):
+    """Grondkrachten van een element (N): schijf (diepteringen), aandrukwiel en totaal.
+
+    Momentenevenwicht om het draaipunt van de element-arm: de kracht op het aandrukwiel werkt met de lange arm
+    (draaipunt - wiel) tegen de veerpoot in, het gewicht van de sleeparm erbij. beta None = wiel op vlakke grond,
+    met de balk bar_dz boven de ontwerphoogte (standaard: diepteringen op de grond)."""
+    fd = unit_downforce(drop=drop)[0]
+    if not P.press_wheel:
+        return {"disc": fd, "press": 0.0, "total": fd, "beta": None}
+    if beta is None:
+        dz = -disc_dz(drop) if bar_dz is None else bar_dz
+        beta, press_contact = press_beta(drop, dz)
+    fp = press_force(drop, beta, setting) if press_contact else 0.0
+    q, w, cg = pw_points(drop, beta)
+    disc_lever = abs(P.disc_y - P.u_pivot[0])
+    fd += (MODEL["pw_kg"] * G_ACC * abs(cg[0] - P.u_pivot[0]) - fp * abs(w[0] - P.u_pivot[0])) / disc_lever
+    return {"disc": fd, "press": fp, "total": fd + fp, "beta": beta}
+
+
+def press_carry_force(drop):
+    """Element rust alleen op het aandrukwiel (sleeparm op de bovenaanslag, schijf los): kracht onder het wiel (N)."""
+    fd0 = unit_downforce(drop=drop)[0]
+    q, w, cg = pw_points(drop, P.pw_up_deg)
+    disc_lever = abs(P.disc_y - P.u_pivot[0])
+    return (fd0 * disc_lever + MODEL["pw_kg"] * G_ACC * abs(cg[0] - P.u_pivot[0])) / abs(w[0] - P.u_pivot[0])
+
+
+def lifted_press_clearance():
+    """Bodemvrijheid van het aandrukwiel bij hefhoogte lift_height (element en sleeparm op hun onderaanslag)."""
+    q, w, cg = pw_points(P.unit_drop_deg, P.pw_down_deg)
+    return w[1] + P.lift_height - P.pw_d / 2.0
+
+
+def float_equilibrium(wheel_n=0.0, moving_kg=None, extra_n=0.0, setting=None):
+    """Zweefstand op vlakke grond: armhoek waarbij 5 elementen (schijf + aandrukwiel) het balkgewicht (+ extra_n, bijv.
+    gasveren; - wheel_n van een eventueel extra steunwiel) dragen. Geeft (armhoek, kracht per element, balk hoger dan
+    ontwerp in mm)."""
     moving_kg = MODEL["moving_kg"] if moving_kg is None else moving_kg
     need = (moving_kg * G_ACC + extra_n - wheel_n) / len(P.row_x)
+
+    def total(a):
+        return unit_forces(drop=a, setting=setting)["total"]
     lo, hi = -20.0, P.unit_drop_deg
-    if unit_downforce(drop=hi)[0] > need:
-        return hi, unit_downforce(drop=hi)[0], -disc_dz(hi)
+    if total(hi) > need:
+        return hi, total(hi), -disc_dz(hi)
     for _ in range(60):
         mid = 0.5 * (lo + hi)
-        if unit_downforce(drop=mid)[0] > need:
+        if total(mid) > need:
             lo = mid
         else:
             hi = mid
@@ -201,12 +307,6 @@ def max_soil_force(min_rear_n=600.0, **kw):
 # ---------------------------------------------------------------------
 # Samenvatting
 # ---------------------------------------------------------------------
-def chain_links():
-    p = P.chain_pitch
-    c = math.hypot(*P.gw_wheel_rel)
-    return 2 * c / p + (P.z_jack + P.z_wheel) / 2.0 + ((P.z_wheel - P.z_jack) / (2 * math.pi)) ** 2 * p / c
-
-
 def report(model=None):
     if model:
         MODEL.update(model)
@@ -215,11 +315,12 @@ def report(model=None):
     out["rows"] = len(P.row_x)
     out["work_depth_mm"] = P.work_depth
     out["pump_ml_rev_6.4"] = round(pump_ml_per_rev(), 2)
-    out["ratio_default"] = P.z_wheel / float(P.z_jack)
-    out["dose_default_l_ha"] = round(dose_l_ha(P.z_wheel, P.z_jack))
+    out["dose_default_l_ha"] = P.dose_l_ha
     out["flow_row_l_min_1ms"] = round(flow_l_min(out["dose_default_l_ha"], 1.0), 2)
-    out["pump_rpm_1ms"] = round(pump_rpm(P.z_wheel, P.z_jack, 1.0))
-    out["chain_links"] = round(chain_links(), 1)
+    out["pump_rpm_1ms"] = round(pump_rpm(P.dose_l_ha, 1.0))
+    out["pump_power_W_1ms"] = round(pump_power_w(P.dose_l_ha, 1.0))
+    out["dose_range_1ms_l_ha"] = (round(dose_at_rpm(P.pm_rpm_min)), round(dose_at_rpm(P.pm_rpm_max)))
+    out["speed_max_at_dose_m_s"] = round(P.pm_rpm_max / pump_rpm(P.dose_l_ha, 1.0), 2)
     f, fs, sl, lever = unit_downforce()
     out["spring_len_design"] = round(sl, 1)
     out["spring_force_design"] = round(fs)
@@ -228,6 +329,21 @@ def report(model=None):
     out["float_arm_angle_deg"] = round(a_eq, 1)
     out["float_unit_force_N"] = round(f_eq)
     out["float_bar_above_design_mm"] = round(h_eq, 1)
+    if P.press_wheel:
+        uf = unit_forces(drop=a_eq)
+        out["float_disc_force_N"] = round(uf["disc"])
+        out["float_press_force_N"] = round(uf["press"])
+        out["float_press_arm_deg"] = round(uf["beta"], 1)
+        out["press_spring_rate_Nmm_deg"] = round(pw_spring_rate(), 1)
+        settings = []
+        for i in range(len(P.pw_preload_deg)):
+            a_i = float_equilibrium(setting=i)[0]
+            f_i = unit_forces(drop=a_i, setting=i)
+            settings.append((round(f_i["press"]), round(f_i["disc"]), round(a_i, 1)))
+        out["press_settings_press_disc_arm"] = settings
+        out["press_force_range_N"] = (round(press_force(a_eq, P.pw_down_deg)), round(press_force(a_eq, -20.0)))
+        out["press_spring_stress_max_MPa"] = round(pw_spring_stress(P.pw_up_deg, len(P.pw_preload_deg) - 1))
+        out["press_clearance_lifted_mm"] = round(lifted_press_clearance(), 1)
     lo, hi = float_range()
     out["float_range_mm"] = (round(lo, 1), round(hi, 1))
     out["unit_down_travel_mm"] = round(-disc_dz(P.unit_drop_deg), 1)

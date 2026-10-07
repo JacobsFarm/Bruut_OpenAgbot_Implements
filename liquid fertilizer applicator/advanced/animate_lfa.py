@@ -4,10 +4,12 @@ Bouwt een apart document (de robotbestanden in "agbot design" worden niet aangep
 robot uit build_agbot + toediener uit build_lfa + golvend maaiveld met bulten, een kuil en een dwarsrichel.
 Per frame:
 - robot rust met 4 wielen op het maaiveld (vlak door de wielpunten: hoogte, stampen, rollen);
-- toolbar hangt vast aan de actuator (werkstand) of wordt geheven / gezakt;
-- elk element en het loopwiel zoeken hun eigen armhoek waarbij dieptering / wiel de grond raakt
+- toolbar zweeft op de elementen (werkstand) of wordt geheven / gezakt;
+- de pomp (elektrisch) draait in werkstand met een toerental dat de rijsnelheid volgt;
+- elk element zoekt zijn armhoek waarbij de dieptering de grond raakt
   (tussen de aanslagen), veerpoten en slangen rekken mee;
-- achter de messen verschijnen de sleuven, schijven en wielen draaien mee.
+- het aandrukwiel van elk element zoekt zijn sleeparmhoek; komt het op zijn bovenaanslag, dan draagt het de arm;
+- achter de messen verschijnen de sleuven (open), achter de aandrukwielen de dichtgedrukte naad.
 
 Gebruik in FreeCAD:
     import animate_lfa
@@ -31,7 +33,8 @@ import lfa_calc as C
 import build_lfa
 
 FOLDER = os.path.dirname(os.path.abspath(__file__))
-AGBOT_FOLDER = os.path.join(os.path.dirname(os.path.dirname(FOLDER)), "agbot design")
+AGBOT_FOLDER = os.path.join(os.path.dirname(os.path.dirname(FOLDER)), "agbots", "agbot design")
+AGBOT_MODULES = ("agbot_params", "agbot_parts", "build_agbot")
 DOC_NAME = "LFA_on_robot_animation"
 
 # ---------------------------------------------------------------------
@@ -48,8 +51,6 @@ Y_LIFT = 6300.0        # robotmidden waar het heffen begint
 
 # armhoeken (graden, + = arm zakt): aanslagen
 UNIT_UP = -16.0        # ca. 66 mm omhoog (veer bijna blokvast)
-WHEEL_UP = -20.0
-WHEEL_N = 150.0        # neerdruk loopwiel (torsieveer + gewicht arm)
 BLOCKED_N = 5000.0     # element tegen de bovenaanslag: grond duwt de balk omhoog
 
 # ---------------------------------------------------------------------
@@ -58,7 +59,7 @@ BLOCKED_N = 5000.0     # element tegen de bovenaanslag: grond duwt de balk omhoo
 BUMPS = (                    # x, y, hoogte, straal
     (-200.0, 900.0, 34.0, 150.0),     # molshoop onder rij 2
     (0.0, 1750.0, 24.0, 120.0),       # kleine bult onder rij 3
-    (260.0, 2450.0, -26.0, 240.0),    # kuil onder rij 4 en het loopwiel
+    (260.0, 2450.0, -26.0, 240.0),    # kuil onder rij 4 en 5
     (430.0, 4300.0, 28.0, 170.0),     # bult onder rij 5 en het rechter robotwiel
     (-380.0, 5600.0, -20.0, 220.0),   # kuil onder rij 1 en het linker robotwiel
 )
@@ -66,8 +67,10 @@ RIDGES = ((3300.0, 20.0, 150.0),)     # y, hoogte, breedte: hele werkbreedte teg
 TERRAIN_X = (-1500.0, 1500.0)
 TERRAIN_Y = (-2600.0, 9400.0)
 
-COLOR = {"grass": (0.45, 0.62, 0.31), "lines": (0.35, 0.50, 0.24), "slot": (0.20, 0.13, 0.08)}
+COLOR = {"grass": (0.45, 0.62, 0.31), "lines": (0.35, 0.50, 0.24), "slot": (0.20, 0.13, 0.08),
+         "closed": (0.52, 0.43, 0.27)}
 SLOT_HALF = 7.0
+CLOSED_HALF = 2.5      # dichtgedrukte sleuf: smalle naad
 
 _timer = None
 _play = {}
@@ -113,13 +116,31 @@ def terrain_shapes(step=100.0, line_step=250.0):
     return face, Part.makeCompound(lines)
 
 
-def slot_ribbon(points):
+def slot_ribbon(points, half=SLOT_HALF, lift=2.0):
     if len(points) < 2:
         return None
     pts = points[::2] + ([points[-1]] if len(points) % 2 == 0 else [])
-    left = Part.makePolygon([V(x - SLOT_HALF, y, terrain(x - SLOT_HALF, y) + 2.0) for x, y in pts])
-    right = Part.makePolygon([V(x + SLOT_HALF, y, terrain(x + SLOT_HALF, y) + 2.0) for x, y in pts])
+    if len(pts) < 2:
+        pts = [points[0], points[-1]]
+    left = Part.makePolygon([V(x - half, y, terrain(x - half, y) + lift) for x, y in pts])
+    right = Part.makePolygon([V(x + half, y, terrain(x + half, y) + lift) for x, y in pts])
     return Part.makeRuledSurface(left, right)
+
+
+def slot_shapes(points, flags, passed, count):
+    """(open, dicht): sleuf achter het mes. Punten waar het aandrukwiel overheen ging terwijl het de grond raakte zijn
+    dicht; de rest (nog voor het wiel, of toen het wiel geheven was) blijft open."""
+    runs = {True: [], False: []}
+    state = [flags[k] for k in range(passed)] + [False] * (count - passed)
+    start = 0
+    for k in range(1, count + 1):
+        if k == count or state[k] != state[start]:
+            seg = points[max(0, start - 1):k] if not state[start] else points[start:k]
+            ribbon = slot_ribbon(seg, CLOSED_HALF if state[start] else SLOT_HALF, 2.5 if state[start] else 2.0)
+            if ribbon is not None:
+                runs[state[start]].append(ribbon)
+            start = k
+    return tuple(Part.makeCompound(runs[s]) if runs[s] else None for s in (False, True))
 
 
 # ---------------------------------------------------------------------
@@ -206,8 +227,47 @@ def solve_arm(chain, axis_c, point, radius, lo, hi, iters=22):
     return 0.5 * (lo + hi), True, False
 
 
-GW_PT = (float(P.gw_x), P.jack[0] + P.gw_wheel_rel[0], P.jack[1] + P.gw_wheel_rel[1])
 DISC_PT = (0.0, P.disc_y, P.disc_z)
+PW_PT = (0.0, P.pw_pivot[0] + P.pw_wheel_rel[0], P.pw_pivot[1] + P.pw_wheel_rel[1])
+
+
+def press_arm(arm):
+    """Aandrukwiel aan de element-arm (arm = placement tot het frame van de element-arm).
+    Geeft (hoek sleeparm, contact, geblokkeerd)."""
+    if not P.press_wheel:
+        return 0.0, False, False
+    return solve_arm(arm, P.pw_pivot, PW_PT, P.pw_d / 2.0, P.pw_up_deg, P.pw_down_deg)
+
+
+PW_UP_PT = (0.0,) + tuple(G.rot_yz(PW_PT[1:], P.pw_up_deg, P.pw_pivot))
+
+
+def solve_unit(unit):
+    """Armhoeken van een element (unit = placement tot het elementframe). Eerst de diepteringen; komt het aandrukwiel
+    daarbij tegen zijn bovenaanslag, dan draagt het wiel de (dan starre) arm en komt de schijf los."""
+    a, contact, blocked = solve_arm(unit, P.u_pivot, DISC_PT, P.band_d / 2.0, UNIT_UP, P.unit_drop_deg)
+    b, pcontact, pblocked = press_arm(unit.multiply(build_lfa.rotation_x(a, P.u_pivot)))
+    carried = False
+    if pblocked and not blocked:
+        a, _, blocked = solve_arm(unit, P.u_pivot, PW_UP_PT, P.pw_d / 2.0, UNIT_UP, a)
+        contact, b, pcontact, pblocked, carried = False, P.pw_up_deg, True, False, True
+    return a, contact, blocked, b, pcontact, pblocked, carried
+
+
+def unit_force(a, contact, blocked, b, pcontact, pblocked, carried=False):
+    """Grondkrachten van een element (N): (totaal, schijf, aandrukwiel). Tegen de bovenaanslag: BLOCKED_N."""
+    if blocked or pblocked:
+        return BLOCKED_N, 0.0, 0.0
+    if carried:
+        fp = C.press_carry_force(a)
+        return fp, 0.0, fp
+    if not contact:
+        if pcontact:                        # element hangt in een kuil: alleen het aandrukwiel draagt
+            fp = C.press_force(a, b)
+            return fp, 0.0, fp
+        return 0.0, 0.0, 0.0
+    f = C.unit_forces(drop=a, beta=b, press_contact=pcontact)
+    return f["total"], f["disc"], f["press"]
 
 
 def bar_placement(pl_robot, lift):
@@ -216,69 +276,70 @@ def bar_placement(pl_robot, lift):
 
 
 def ground_forces(pl_robot, lift):
-    """Armhoeken en grondkrachten bij balkhoogte lift. Geeft (som krachten N, elementen, loopwiel)."""
+    """Armhoeken en grondkrachten bij balkhoogte lift. Geeft (som krachten N, elementen)."""
     bar = bar_placement(pl_robot, lift)
     units = []
     total = 0.0
     for x in P.row_x:
-        a, contact, blocked = solve_arm(bar.multiply(build_lfa.translation(x=x)), P.u_pivot, DISC_PT,
-                                        P.band_d / 2.0, UNIT_UP, P.unit_drop_deg)
-        force = BLOCKED_N if blocked else (C.unit_downforce(drop=a)[0] if contact else 0.0)
+        unit = bar.multiply(build_lfa.translation(x=x))
+        a, contact, blocked, b, pcontact, pblocked, carried = solve_unit(unit)
+        force, disc, press = unit_force(a, contact, blocked, b, pcontact, pblocked, carried)
         total += force
-        units.append({"a": a, "contact": contact, "force": force})
-    ga, gcontact, _ = solve_arm(bar, P.jack, GW_PT, P.gw_d / 2.0, WHEEL_UP, P.wheel_drop_deg)
-    total += WHEEL_N if gcontact else 0.0
-    return total, units, (ga, gcontact)
+        units.append({"a": a, "contact": contact, "force": force, "disc_n": disc, "b": b, "pcontact": pcontact,
+                      "pblocked": pblocked, "carried": carried, "press_n": press})
+    return total, units
 
 
 def solve_frame(frame):
-    """Zweefstand: de balk zakt tot de grond (elementen + loopwiel) het bewegende gewicht draagt, binnen
+    """Zweefstand: de balk zakt tot de grond (de elementen) het bewegende gewicht draagt, binnen
     het zweefbereik dat de actuatorlengte L en het langgat toelaten."""
     pl_robot, pitch, roll = robot_placement(frame["y"])
     weight = C.MODEL["moving_kg"] * C.G_ACC
     f_lo, f_hi = build_lfa.float_range(frame["L"])
-    total_lo, units, wheel = ground_forces(pl_robot, f_lo)
+    total_lo, units = ground_forces(pl_robot, f_lo)
     lift, hanging = f_lo, True
     if total_lo > weight:
         hanging = False
-        total_hi, units_hi, wheel_hi = ground_forces(pl_robot, f_hi)
+        total_hi, units_hi = ground_forces(pl_robot, f_hi)
         if total_hi >= weight:
-            lift, units, wheel = f_hi, units_hi, wheel_hi
+            lift, units = f_hi, units_hi
         else:
             lo, hi = f_lo, f_hi
             for _ in range(20):
                 mid = 0.5 * (lo + hi)
-                total, units, wheel = ground_forces(pl_robot, mid)
+                total, units = ground_forces(pl_robot, mid)
                 if total > weight:
                     lo = mid
                 else:
                     hi = mid
             lift = 0.5 * (lo + hi)
-            total, units, wheel = ground_forces(pl_robot, lift)
+            total, units = ground_forces(pl_robot, lift)
     theta, dy, dz = build_lfa.lift_state(lift)
     bar = bar_placement(pl_robot, lift)
     tip = G.rel_disc(P.knife_tip_rel)
     for x, u in zip(P.row_x, units):
-        k = bar.multiply(build_lfa.translation(x=x)).multiply(build_lfa.rotation_x(u["a"], P.u_pivot)).multVec(
-            V(0.0, tip[0], tip[1]))
+        arm = bar.multiply(build_lfa.translation(x=x)).multiply(build_lfa.rotation_x(u["a"], P.u_pivot))
+        k = arm.multVec(V(0.0, tip[0], tip[1]))
         u["depth"] = terrain(k.x, k.y) - k.z
         u["knife"] = (k.x, k.y)
         u["dz"] = C.disc_dz(u["a"])
-    ga, gcontact = wheel
-    gz = G.rot_yz((GW_PT[1], GW_PT[2]), ga, P.jack)[1] - GW_PT[2]
+        w = arm.multiply(build_lfa.rotation_x(u["b"], P.pw_pivot)).multVec(V(*PW_PT))
+        u["press_xy"] = (w.x, w.y)
     frame.update({"pl": pl_robot, "pitch": pitch, "roll": roll, "lift": lift, "hanging": hanging,
-                  "theta": theta, "dy": dy, "dz": dz, "units": units, "wa": ga, "wcontact": gcontact, "wdz": gz})
+                  "theta": theta, "dy": dy, "dz": dz, "units": units})
     return frame
 
 
 def prepare(fps=12):
     frames = [solve_frame(f) for f in simulate(fps)]
     dist = 0.0
-    spin = {"robot": 0.0, "disc": [0.0] * len(P.row_x), "wheel": 0.0}
+    n_rows = len(P.row_x)
+    spin = {"robot": 0.0, "disc": [0.0] * n_rows, "pump": 0.0, "press": [0.0] * n_rows}
     applied = 0.0
     slots = [[] for _ in P.row_x]
+    closed = [[] for _ in P.row_x]          # per sleufpunt: dichtgedrukt (wiel raakte de grond toen het erover ging)
     prev_y = frames[0]["y"]
-    eff_r = P.gw_rolling_circ / (2.0 * math.pi)
+    prev_t = frames[0]["t"]
     for f in frames:
         ds = f["y"] - prev_y
         prev_y = f["y"]
@@ -287,27 +348,47 @@ def prepare(fps=12):
         for i, u in enumerate(f["units"]):
             if u["contact"]:
                 spin["disc"][i] += ds / (P.band_d / 2.0)
+            if u["pcontact"]:
+                spin["press"][i] += ds / (P.pw_d / 2.0)
             if u["depth"] > 2.0:
                 slots[i].append(u["knife"])
-        if f["wcontact"]:
-            spin["wheel"] += ds / eff_r
-            applied += ds / 1000.0 * P.work_width / 1000.0 * 505.0 / 10000.0
+            while len(closed[i]) < len(slots[i]) and slots[i][len(closed[i])][1] <= u["press_xy"][1]:
+                closed[i].append(bool(P.press_wheel and u["pcontact"]))
+        # besturing: pomp draait als de actuator uit is (werkstand) en de robot rijdt, toerental volgt v
+        f["pump_on"] = f["L"] >= P.act_extended - 0.5 and f["v"] > 1.0
+        f["pump_rpm"] = C.pump_rpm(P.dose_l_ha, f["v"] / 1000.0) if f["pump_on"] else 0.0
+        spin["pump"] += f["pump_rpm"] / 60.0 * (f["t"] - prev_t)
+        prev_t = f["t"]
+        if f["pump_on"]:
+            applied += ds / 1000.0 * P.work_width / 1000.0 * P.dose_l_ha / 10000.0
         f["dist"] = dist
-        f["spin"] = {"robot": spin["robot"], "disc": list(spin["disc"]), "wheel": spin["wheel"]}
+        f["spin"] = {"robot": spin["robot"], "disc": list(spin["disc"]), "pump": spin["pump"],
+                     "press": list(spin["press"])}
         f["slots"] = [len(s) for s in slots]
+        f["passed"] = [len(c) for c in closed]
         f["applied"] = applied
-        ratio = P.z_wheel / float(P.z_jack)
-        f["pump_rpm"] = (f["v"] / eff_r * 60.0 / (2 * math.pi)) * ratio if f["wcontact"] else 0.0
-    return frames, slots
+    return frames, (slots, closed)
 
 
 # ---------------------------------------------------------------------
 # Document
 # ---------------------------------------------------------------------
+def load_robot():
+    """build_agbot uit agbots/agbot design. Andere robots (slim, big) gebruiken dezelfde modulenamen; staat er al een
+    andere versie in sys.modules, dan die eerst weghalen."""
+    if AGBOT_FOLDER in sys.path:
+        sys.path.remove(AGBOT_FOLDER)
+    sys.path.insert(0, AGBOT_FOLDER)
+    for name in AGBOT_MODULES:
+        mod = sys.modules.get(name)
+        if mod is not None and os.path.dirname(os.path.abspath(mod.__file__)) != os.path.abspath(AGBOT_FOLDER):
+            del sys.modules[name]
+    import build_agbot
+    return build_agbot
+
+
 def build():
-    if AGBOT_FOLDER not in sys.path:
-        sys.path.insert(0, AGBOT_FOLDER)
-    import build_agbot as BA
+    BA = load_robot()
     if DOC_NAME in App.listDocuments():
         App.closeDocument(DOC_NAME)
     doc = App.newDocument(DOC_NAME)
@@ -331,23 +412,23 @@ def build():
         if extra:
             obj.ViewObject.LineWidth = extra
     for i in range(len(P.row_x)):
-        obj = doc.addObject("Part::Feature", "anim_slot_%d" % (i + 1))
-        obj.ViewObject.ShapeColor = COLOR["slot"]
-        obj.ViewObject.LineColor = COLOR["slot"]
+        for name, color in (("anim_slot_%d", "slot"), ("anim_slot_closed_%d", "closed")):
+            obj = doc.addObject("Part::Feature", name % (i + 1))
+            obj.ViewObject.ShapeColor = COLOR[color]
+            obj.ViewObject.LineColor = COLOR[color]
     doc.recompute()
     record_base(doc)
     return doc
 
 
 SPIN_UNIT = ("disc", "hub", "band_l", "band_r")
-SPIN_WHEEL = ("gw_wheel", "gw_sprocket", "gw_axle")
+SPIN_PRESS = ("pw_tire", "pw_rim", "pw_hub") if P.press_wheel else ()
 
 
 def record_base(doc):
     _base.clear()
     names = ["link_%s_%s" % (lv, sd) for lv in ("upper", "lower") for sd in ("left", "right")]
-    names += ["U%d_%s" % (n + 1, k) for n in range(len(P.row_x)) for k in SPIN_UNIT]
-    names += list(SPIN_WHEEL) + ["jack_sprocket"]
+    names += ["U%d_%s" % (n + 1, k) for n in range(len(P.row_x)) for k in SPIN_UNIT + SPIN_PRESS]
     for n in names:
         _base[n] = doc.getObject(n).Placement
     for c in _cache.values():
@@ -407,19 +488,18 @@ def apply_frame(doc, f, slots=None):
         ang = -math.degrees(f["spin"]["disc"][i])
         for k in SPIN_UNIT:
             spin_about("U%d_%s" % (n, k), ang, (P.disc_y, P.disc_z), doc)
-    # loopwiel en pomp
-    doc.getObject("Ground_wheel_arm").Placement = build_lfa.rotation_x(f["wa"], P.jack)
-    wc = (P.jack[0] + P.gw_wheel_rel[0], P.jack[1] + P.gw_wheel_rel[1])
-    wang = -math.degrees(f["spin"]["wheel"])
-    for k in SPIN_WHEEL:
-        spin_about(k, wang, wc, doc)
-    spin_about("jack_sprocket", wang * P.z_wheel / float(P.z_jack), P.jack, doc)
+        if P.press_wheel:
+            doc.getObject("Unit_%d_press_arm" % n).Placement = build_lfa.rotation_x(u["b"], P.pw_pivot)
+            ang = -math.degrees(f["spin"]["press"][i])
+            for k in SPIN_PRESS:
+                spin_about("U%d_%s" % (n, k), ang, (PW_PT[1], PW_PT[2]), doc)
     # sleuven
     if slots is not None:
-        for i, s in enumerate(slots):
-            shape = slot_ribbon(s[:f["slots"][i]])
-            obj = doc.getObject("anim_slot_%d" % (i + 1))
-            obj.Shape = shape if shape is not None else Part.Shape()
+        points, closed = slots
+        for i, s in enumerate(points):
+            shapes = slot_shapes(s, closed[i], f["passed"][i], f["slots"][i])
+            for name, shape in zip(("anim_slot_%d", "anim_slot_closed_%d"), shapes):
+                doc.getObject(name % (i + 1)).Shape = shape if shape is not None else Part.Shape()
 
 
 def reset(doc=None):
@@ -473,12 +553,14 @@ def meta(f):
             "act_len": round(f["L"], 1), "hanging": f["hanging"],
             "state": STATE_NL[f["phase"]], "pitch": round(f["pitch"], 2), "roll": round(f["roll"], 2),
             "unit_dz": [round(u["dz"], 1) for u in f["units"]], "unit_contact": [u["contact"] for u in f["units"]],
-            "depth": [round(u["depth"], 1) for u in f["units"]], "wheel_dz": round(f["wdz"], 1),
-            "wheel_contact": f["wcontact"], "pump_rpm": round(f["pump_rpm"], 1), "applied_l": round(f["applied"], 3)}
+            "depth": [round(u["depth"], 1) for u in f["units"]], "pump_on": f["pump_on"],
+            "pump_rpm": round(f["pump_rpm"], 1), "applied_l": round(f["applied"], 3),
+            "press_n": [round(u["press_n"]) for u in f["units"]], "press_contact": [u["pcontact"] for u in f["units"]],
+            "disc_n": [round(u["disc_n"]) for u in f["units"]]}
 
 
-def summary(frames=None):
-    frames = frames or prepare()[0]
+def summary(data=None):
+    frames, (slots, closed) = data or prepare()
     work = [f for f in frames if f["phase"] == "work"]
     dz = [u["dz"] for f in work for u in f["units"]]
     depth = [u["depth"] for f in work for u in f["units"]]
@@ -490,10 +572,25 @@ def summary(frames=None):
                                  round(max(u["force"] for f in work for u in f["units"]))),
             "unit_dz_range": (round(min(dz), 1), round(max(dz), 1)),
             "knife_depth_range": (round(min(depth), 1), round(max(depth), 1)),
-            "wheel_dz_range": (round(min(f["wdz"] for f in work), 1), round(max(f["wdz"] for f in work), 1)),
             "pitch_range": (round(min(f["pitch"] for f in frames), 2), round(max(f["pitch"] for f in frames), 2)),
             "roll_range": (round(min(f["roll"] for f in frames), 2), round(max(f["roll"] for f in frames), 2)),
-            "unit_at_stop_frames": stops, "wheel_lost_contact": sum(1 for f in work if not f["wcontact"])}
+            "unit_at_stop_frames": stops, "pump_rpm_range": (round(min(f["pump_rpm"] for f in work)),
+                                                              round(max(f["pump_rpm"] for f in work))),
+            "disc_force_range": (round(min(u["disc_n"] for f in work for u in f["units"])),
+                                 round(max(u["disc_n"] for f in work for u in f["units"]))),
+            "press_force_range": (round(min(u["press_n"] for f in work for u in f["units"])),
+                                  round(max(u["press_n"] for f in work for u in f["units"]))),
+            "press_arm_range": (round(min(u["b"] for f in work for u in f["units"]), 1),
+                                round(max(u["b"] for f in work for u in f["units"]), 1)),
+            "press_lost_contact": sum(1 for f in work for u in f["units"] if not u["pcontact"]),
+            "press_at_up_stop": sum(1 for f in work for u in f["units"] if u["pblocked"] or u["carried"]),
+            "slot_closed_pct": slot_closed_pct(closed)}
+
+
+def slot_closed_pct(closed):
+    """Deel van de sleuflengte (werkstand) dat achter het aandrukwiel dichtgedrukt is, aan het eind van de rit."""
+    n = sum(len(c) for c in closed)
+    return round(100.0 * sum(sum(c) for c in closed) / n, 1) if n else 0.0
 
 
 def render_frames(folder, first=0, count=None, fps=12, size=(720, 480)):

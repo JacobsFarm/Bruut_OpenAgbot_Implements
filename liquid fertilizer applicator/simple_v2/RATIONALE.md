@@ -214,6 +214,7 @@ plates, shear bolt, interlock reversing/sharp steering, low ground clearance of 
 | `build_lfs2.py` | model tree, lifting (`build(psi=...)`), interference check, mass, images |
 | `lfs2_calc.py` | dosing, forces on the lift frame with discs (`LOADS`), ballast, lifting, axle load, cost |
 | `lfs2_ground.py` | ground following: cut of the disc, knife depth, knife deeper than the cut |
+| `lfs2_layout.py` | setup study on the small robot: tank 100–300 l, 3, 4 or 6 wheels, 5, 3 or 2 elements; axle loads, traction, stability (§ 10) |
 | `plot_ground2.py` | comparison chart (`previews/12_ground_following_comparison.png`) |
 | `ground_advanced_reference.json`, `ground_simple_v1_reference.json` | knife depth of the advanced variant and of v1 at the same positions |
 | `animate_lfs2.py` / `make_gif_lfs2.py` | animation behind the robot model and the GIF |
@@ -221,3 +222,116 @@ plates, shear bolt, interlock reversing/sharp steering, low ground clearance of 
 
 `build_lfs2.check_interference()` gives 0 hits in all positions: working position, both limits of the floating range and
 lifted, with the robot reference included. `animate_lfs2.check_fit()` gives 0 hits against the real robot model.
+
+## 10. Setup on the small robot: tank and wheels
+
+Question: what does the applicator with a tank of 100 l or more do to the small robot (4 × 8" hub motor, 162 kg), and what is
+the best place for the applicator, the tank and possibly 2 extra wheels? Recalculate with `python lfs2_layout.py`.
+Everything is estimated, see the list below.
+
+**Weight.** Robot 161.5 kg + applicator 101.4 kg + tank 100 l (11 kg + 120 kg liquid at 1.2 kg/l) = **394 kg, 2.4 × the empty
+robot**. A middle axle with 2 extra hub motors adds 44 kg (438 kg). While working the robot carries about 337 kg: the lift frame
+rests on the ground.
+
+**What limits the pull.** With this weight the grip is no longer the limit but the motors: 4 × 28 kgf continuous = 112 kgf. The
+robot itself takes 27 kgf (rolling resistance 0.08), so 85 kgf net on dry grass remains (80 on wet) against 47 kgf needed in
+a normal sward (heavy sward 90 kgf, 105 % of the nominal motor torque). Normal sward is fine on 4 wheels, heavy sward is not.
+
+**Position of the applicator, 4 wheels, tank 100 l** (share of the weight on the front wheels, %; tank position chosen per
+variant, 50 kg of ballast on the toolbar only in hard sward):
+
+| Applicator | Tank | Working full / empty | Lifted full / empty / empty + ballast | Max wheel load | Remarks |
+| --- | --- | --- | --- | --- | --- |
+| Behind (now) | low between the wheels, y +350 | 57 / 41 | 43 / 25 / **14** | 112 kg | wheels never drive over the cut; front axle too light with ballast |
+| In front | low, y −350 | 47 / 65 | 64 / 86 / 95 | 127 kg | rear axle nearly unloaded; both axles drive over the cut |
+| Between the axles | on top of the frame (z 870) | 51 / 55 | 50 / 52 / 49 | 99 kg | best balance, but see below |
+
+- **Behind** is the only position where, in the same pass, no wheel drives over the slots of the outer rows: the tyres run at
+  x = ±375 (325–425) and the outer rows at x = ±400. The weak point is the front axle when lifted, empty and with ballast: 14 % is below the 20 %
+  needed to steer. Solutions: no ballast (gas springs, § 3), or **25 kg at the front** (accu or ballast on the front cross beam).
+  With the tank as far forward as possible (y +350, the end of the free space under the beams) the front axle carries 25 % lifted and empty.
+- **In front** loads the steering axle and unloads the rear: not suitable.
+- **Between** balances best, but it needs a new cross beam at y +200 (knives stay ahead of the rear tyre), takes the space
+  under the robot so the tank goes on top (higher centre of gravity: side tip 31° instead of 40°), and the rear wheels drive over
+  the outer rows. That is only fine with 4 rows (x ±100 and ±300), i.e. 20 % less capacity.
+
+**6 wheels, tank 100 l** (middle axle at y = 0, 2 hub motors of 8"):
+
+| Variant | Working full / empty | Lifted full / empty / + ballast | Net pull dry / wet | Heavy sward dry / wet (70 % rule) | Slip when steering 25° |
+| --- | --- | --- | --- | --- | --- |
+| Middle axle fixed | 39 / 26 | 27 / **12** / **2** | 138 / 103 kgf | yes / no | **8.8°**, turning circle 1.6 m |
+| **Middle axle, down only while working** | 39 / 26 | 44 / 29 / 19 | 138 / 103 kgf | yes / no | 0°, circle 2.1 m |
+| Extra axle beside the applicator (y −900) | 53 / 39 | 35 / 16 / 8 | 124 / 88 kgf | yes / no | 0° |
+| Extra axle behind the applicator (y −1200) | 53 / 41 | 32 / 12 / 4 | 118 / 88 kgf | no / no | 0° |
+
+- While working the middle axle carries 64 kg per wheel with a full tank and 44 kg when empty. A motor needs 47 kg per wheel to
+  deliver its 28 kgf on dry grass, 80 kg on wet grass; so on wet grass the net pull drops from 138 to 103 kgf.
+- **Fixed, the middle axle acts as a pivot** when the implement hangs behind the robot: the front axle drops to 12 % (2 % with
+  ballast). It also scrubs sideways by 8.8° in every turn. **Lowering it only for working** solves both: lifted, the
+  robot is a 4-wheeler again. Small steering corrections in the row (±5°) give only 1.7° of slip.
+- An axle beside or behind the applicator carries the least weight, makes the robot longer and shifts the centre of gravity
+  back (tipping backwards from 27° to 15–19°). The middle axle is better in every respect.
+- With the lift axle the front needs about 10 kg of front weight (instead of 25 kg) for the ballast case.
+
+**Size of the tank** (best position per size, working position full):
+
+| Tank | 4 wheels: total / net pull dry / margin in normal sward | 6 wheels: total / net pull dry / margin | Max wheel load 4 / 6 wheels | Minutes per tank at 538 / 300 / 150 l/ha |
+| --- | --- | --- | --- | --- |
+| 100 l | 337 kg / 85 / 38 kgf | 381 kg / 138 / 91 kgf | 112 / 122 kg | 41 / 74 / 148 |
+| 150 l | 400 kg / 80 / 33 kgf | 444 kg / 133 / 86 kgf | 136 / 146 kg | 62 / 111 / 222 |
+| 200 l | 462 kg / 75 / 28 kgf | 506 kg / 128 / 81 kgf | 140 / 151 kg | 83 / 148 / 296 |
+| 300 l | 587 kg / 65 / 18 kgf | 631 kg / 118 / 71 kgf | 197 / 208 kg | 124 / 222 / 444 |
+
+- On 4 wheels the margin shrinks by about 10 kgf per 100 l. Within the 70 % rule a tank up to about 280 l is possible in
+  normal sward, in heavy sward none.
+- On 6 wheels heavy sward works up to about 180 l on dry grass; on wet grass not at any size.
+- **Wheel load is the limit, not traction:** 112 kg per wheel at 100 l and 140–150 kg at 200 l (lifted, full). That has to fit
+  the 4.00-8 tyre at the pressure chosen for grass (0.8 bar carries much less than the maximum 2.5 bar). Check the load table.
+- At 538 l/ha 100 l lasts 41 minutes (0.19 ha). With a normal application of several m³/ha the tank is the limit, not the robot:
+  think of a filling station, rather than of a tank above 200 l.
+
+**Best setup (to be confirmed in the field).**
+1. Applicator **behind**, as it is now; the tank **low between the wheels, as far forward as possible** (y +250 to +350).
+2. For 100–200 l and normal sward 4 wheels suffice. For heavy sward, wet grass or more than 200 l: **middle axle with 2 hub motors,
+   lowered only while working** (it can be linked to the lift of the applicator, 1 extra actuator).
+3. Avoid ballast on the toolbar (gas springs), or put 10–25 kg at the front.
+
+**Tricycle and fewer elements** (tank 100 l, applicator behind). A tricycle has one steered front wheel at x = 0 and two fixed
+rear wheels: one wheel unit with steering stack less (−36 kg; robot 126 kg, or 120 kg with an unpowered front wheel; centre of
+gravity moves back to y −20). The tank cannot go further forward than y 0 (the front tyre is in the way). With n elements the
+draft, the disc down force, the lift frame (3 elements: 48 kg, 2 elements: 37 kg, instead of 70 kg) and the ballast for hard
+sward (50 / 28 / 17 kg) scale along. Capacity: 0.27 / 0.16 / 0.11 ha/h for 5 / 3 / 2 elements.
+
+| Robot | Elements | Total working, full | Net pull dry / wet | Needed normal / heavy | Within 70 % rule normal / heavy | Front share lifted, empty (+ ballast) | Tip angle | Energy |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 4 wheels | 5 | 337 kg | 85 / 80 kgf | 47 / 90 kgf | yes / no | 25 (14) % | 27° | 2.5 kWh/ha |
+| 4 wheels | 3 | 331 kg | 86 / 77 kgf | 29 / 54 kgf | yes / yes | 31 (24) % | 32° | 3.1 kWh/ha |
+| 4 wheels | 2 | 328 kg | 86 / 75 kgf | 20 / 36 kgf | yes / yes | 35 (30) % | 35° | 3.9 kWh/ha |
+| Tricycle, 3 driven | 5 | 302 kg | 60 / 60 kgf | 47 / 90 kgf | no / no | 12 (2) % | 14° | 2.4 kWh/ha |
+| Tricycle, 3 driven | 3 | 296 kg | 60 / 60 kgf | 29 / 54 kgf | yes / no | 18 (11) % | 20° | 3.0 kWh/ha |
+| Tricycle, 3 driven | 2 | 293 kg | 61 / 61 kgf | 20 / 36 kgf | yes / yes | 22 (16) % | 23° | 3.7 kWh/ha |
+| Tricycle, rear 2 driven | 5 | 296 kg | 32 / 32 kgf | 47 / 90 kgf | no / no | 10 (0) % | 12° | 2.4 kWh/ha |
+| Tricycle, rear 2 driven | 3 | 290 kg | 33 / 33 kgf | 29 / 54 kgf | no / no | 16 (9) % | 18° | 2.9 kWh/ha |
+| Tricycle, rear 2 driven | 2 | 287 kg | 33 / 33 kgf | 20 / 36 kgf | yes / no | 19 (14) % | 21° | 3.6 kWh/ha |
+
+- **The number of elements matters more than the number of wheels.** On 4 wheels, 3 elements already handle heavy sward (54 kgf needed
+  against 86 net), which 5 elements do not. 2 elements bring the tricycle with 3 motors there as well.
+- **A tricycle has 3 motors:** 84 kgf continuous, 60 kgf net. Normal sward with 3 elements fits, heavy sward only with 2. With
+  only the rear wheels driven (56 kgf, 32 net) just 2 elements in normal sward remain.
+- **Tipping and steering.** The tip edges of a triangle are diagonal: 20–23° lifted instead of 32–35° with 4 wheels and the
+  same elements. The front wheel carries all the front weight (114 kg alone with 3 elements, working, full tank) and, with the tank
+  stuck at y 0, is too light when lifted and empty: 18 % (3 elements). That needs 5 kg of front weight without toolbar ballast and
+  30 kg with it (the 22 kg accu can go forward). Check tyre and steering stack for the load of one wheel.
+- **Fewer elements cost energy per hectare.** The robot's rolling resistance is per metre driven: 2.5, 3.1, 3.9 kWh/ha for 5, 3, 2
+  elements on 4 wheels (only the wheels: no pump, no steering motors). On 2.4 kWh that is 0.95, 0.76 and 0.61 ha per charge.
+  At 538 l/ha 100 l covers 0.19 ha in all cases, but takes 41, 69 and 103 minutes.
+- A tricycle saves a hub motor, a steering unit (stepper + gearbox), a controller and bearings (prices not worked out).
+  The reverse tricycle (2 steered wheels in front, 1 at the back) is not calculated.
+
+**Estimated, not measured:** robot mass 161.5 kg and centre of gravity (y +95, z 544); mass of the tank (6 kg + 0.05 kg/l) and
+liquid density 1.2 kg/l; mass of the extra axle (44 kg); mass of a wheel unit (hub 8 kg, tyre 3 kg, bracket 8.9 kg) and steering
+stack (15.9 kg) for the tricycle, a chassis as heavy as the 4-wheeler; element 9.1 kg, depth wheels 14 kg, toolbar with arms 10.7 kg
+at 5 elements (scales with the width); accu to wheel 80 %; μ 0.6 dry / 0.35 wet and rolling resistance 0.08; motor 55 Nm
+continuous at a loaded radius of 0.20 m; a rigid frame with equal tyre stiffness on 3 axles; draft 450 N (heavy: 875 N).
+**Not modelled:** strength of the frame under the tank, load rating of the tyre, sloshing, slopes, uneven ground (a rigid
+3-axle frame unloads one axle on a bump: mount the middle axle on a spring or pivot arm), cost of the extra axle.
