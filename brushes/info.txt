@@ -1,1 +1,1 @@
-this folder contains the files for a mower unit
+This folder contains the files for the disc brushes (2 x 650/750 mm or 1 x 850 mm). See README.md.

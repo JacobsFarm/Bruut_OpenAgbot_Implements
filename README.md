@@ -44,6 +44,26 @@ Every design is parametric: change a number, rebuild, and the whole model follow
       <b><a href="feed%20pusher%20auger/advanced/">Feed pusher auger</a></b><br>Pushes feed back to the feed fence
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="brushes/simple/"><img src="brushes/simple/previews/1_double_750_iso_on_robot.png" alt="Disc brushes, 2 x 750 mm"></a><br>
+      <b><a href="brushes/">Disc brushes</a></b><br>2 × Ø650/750: windrow or spread wide
+    </td>
+    <td align="center">
+      <a href="brushes/simple/"><img src="brushes/simple/previews/3_single_850_iso_on_robot.png" alt="Disc brush, 1 x 850 mm"></a><br>
+      <b><a href="brushes/simple/">Disc brush Ø850</a></b><br>Sweeps the robot's own width to one side
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="marker/simple/"><img src="marker/simple/previews/1_work_iso_on_robot.png" alt="Field marker on the robot"></a><br>
+      <b><a href="marker/">Field marker</a></b><br>Marks GPS points with paint, via an XYZ stage
+    </td>
+    <td align="center">
+      <a href="marker/simple/"><img src="marker/simple/previews/7_head_detail.png" alt="Field marker paint head"></a><br>
+      <b><a href="marker/simple/">Field marker paint head</a></b><br>Spray can, servo and a sprung shroud that senses the ground
+    </td>
+  </tr>
 </table>
 
 ## Animations
@@ -60,6 +80,16 @@ The advanced designs are animated on the real robot model, with the loads and fo
   <i><a href="feed%20pusher%20auger/advanced/">Feed pusher auger</a>: pushing feed back to the fence, with the forces on the auger and the robot's reaction</i>
 </p>
 
+<p align="center">
+  <img src="brushes/simple/previews/animation_windrow_double_750.gif" alt="Disc brushes making a windrow" width="720"><br>
+  <i><a href="brushes/simple/">Disc brushes</a>: two Ø750 brushes turn inwards and sweep a layer of loose material into a windrow</i>
+</p>
+
+<p align="center">
+  <img src="marker/simple/previews/animation_staking_out.gif" alt="Field marker staking out three points" width="720"><br>
+  <i><a href="marker/simple/">Field marker</a>: the robot stops a few centimetres off, the stage puts the nozzle exactly on each point</i>
+</p>
+
 ## Implements
 
 | Implement | Variants | What it does |
@@ -67,8 +97,10 @@ The advanced designs are animated on the real robot model, with the loads and fo
 | [**Overseeder**](overseeder/) | [simple](overseeder/simple/) · [advanced](overseeder/advanced/) | Grassland slit seeder. 1 m modules with 8 rows at 125 mm and coupling flanges. Cuts a 15 mm slot, places seed about 12 mm deep and closes the slot with a sprung press wheel. Simple: angled single disc, gravity hopper, about €1,675 in parts. Advanced: parallel linkage, depth bands, curved seed coulter and an air seeder, about €2,280 |
 | [**Liquid fertilizer applicator**](liquid%20fertilizer%20applicator/) | [simple](liquid%20fertilizer%20applicator/simple/) · [simple v2](liquid%20fertilizer%20applicator/simple_v2/) · [advanced](liquid%20fertilizer%20applicator/advanced/) | Injects liquid fertilizer into the soil. Simple: fixed knives, two gauge wheels and a 12 V pump, about €600 in parts. Simple v2: adds a cutting disc in front of each knife, about €900. Advanced: disc and knife units on spring arms, a ground-wheel-driven 5-channel peristaltic pump and a parallel linkage |
 | [**Feed pusher auger**](feed%20pusher%20auger/) | [simple](feed%20pusher%20auger/simple/) · [advanced](feed%20pusher%20auger/advanced/) | Pushes feed back to the feed fence. Simple: cheap version from flat plate and sectional flights. Advanced: Ø320 auger under a folded 2 mm hood, 24 V gearmotor with chain drive, open discharge end. Includes a feed-transport model and a force animation |
+| [**Disc brushes**](brushes/) | [simple](brushes/simple/) (2 × Ø650, 2 × Ø750, 1 × Ø850) | Sweeper disc brushes for loose material on concrete. Each brush on its own 48 V worm gearmotor; reverse the motors and the pair makes a windrow in the middle or spreads material wide. Units slide on U-bolts along an 80 × 80 toolbar under the rear beams. Includes an animation with a particle model of the material |
 | [**Dockweed drill**](dockweed%20drill/) | one design | Dock (broad-leaved dock) removal mill on a CNC gantry. Renders, animations, DXF and STEP files |
 | [**Trencher**](trencher/) | one design | Wheel trencher for narrow trenches. Renders and STEP export |
+| [**Field marker**](marker/) | [simple](marker/simple/) | Stakes out points from a coordinate list (piles, posts, planting positions, plot corners). The robot stops roughly behind the point; an XYZ stage from bought linear modules puts a spray-paint head exactly on it, with a GNSS antenna on a mast straight above the nozzle. Sprung spray shroud senses the ground. About €1,450 in parts. The concept README lists flag, peg, punch and soil-probe heads and 20 more functions |
 | [Around-pole mower](around_pole_mower/) | notes only | Mower for working around poles |
 | [Mower unit](mower%20unit/) | notes only | General mower unit |
 
