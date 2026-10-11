@@ -84,6 +84,16 @@ Every design is parametric: change a number, rebuild, and the whole model follow
       <b><a href="around_pole_mower/simple/">Fence mower arm</a></b><br>48 V motor, V-belt in the arm, deck spindle, PE guard ring
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="weed%20picker/mowing_deck/"><img src="weed%20picker/mowing_deck/previews/1_iso_on_robot.png" alt="Weed picker on the robot in front of a weed patch"></a><br>
+      <b><a href="weed%20picker/">Weed picker</a></b><br>Twin-rotor mowing deck: cuts thistles, ragwort and dock into one windrow
+    </td>
+    <td align="center">
+      <a href="weed%20picker/mowing_deck/"><img src="weed%20picker/mowing_deck/previews/8_linkage_actuator.png" alt="Weed picker linkage and actuator"></a><br>
+      <b><a href="weed%20picker/mowing_deck/">Weed picker linkage</a></b><br>Parallel linkage, actuator with float link: cut height 100–400 mm
+    </td>
+  </tr>
 </table>
 
 ## Animations
@@ -120,6 +130,11 @@ The advanced designs are animated on the real robot model, with the loads and fo
   <i><a href="around_pole_mower/simple/">Around-pole fence mower</a>: the post pushes the head back and in, it slides around and the spring swings it back behind the post</i>
 </p>
 
+<p align="center">
+  <img src="weed%20picker/mowing_deck/previews/animation_topping_windrow.gif" alt="Weed picker topping a weed patch into one windrow" width="720"><br>
+  <i><a href="weed%20picker/mowing_deck/">Weed picker</a>: two rotors turn inwards and throw the chopped weed into one windrow; the robot slows down in thick weed and raises the cut height while driving</i>
+</p>
+
 ## Implements
 
 | Implement | Variants | What it does |
@@ -133,6 +148,7 @@ The advanced designs are animated on the real robot model, with the loads and fo
 | [**Field marker**](marker/) | [simple](marker/simple/) | Stakes out points from a coordinate list (piles, posts, planting positions, plot corners). The robot stops roughly behind the point; an XYZ stage from bought linear modules puts a spray-paint head exactly on it, with a GNSS antenna on a mast straight above the nozzle. Sprung spray shroud senses the ground. About €1,450 in parts. The concept README lists flag, peg, punch and soil-probe heads and 20 more functions |
 | [**Mobile refiller**](mobile%20refiller/) | [liquid](mobile%20refiller/liquid/) | Support robot that brings liquid (and in concept seed, granular fertilizer, water, batteries) to the working robots, so they never leave the field. 268 l T-shaped tank with a pump below the liquid level, slewing boom with a trolley and a spout, RTK antenna on the spout and a camera for confirmation, powered trailer of 246 l (6 driven wheels). Tops up the working robot in the straight reverse of its headland turn while both drive: about 25 l per turn, ≈ 3 s standstill. About €6,000 in parts. The concept README lists all uses and variants (gravity buffer, on a tractor, docking station) |
 | [**Around-pole fence mower**](around_pole_mower/) | [simple](around_pole_mower/simple/) | Mows the strip under an electric fence and goes around the posts by itself. Trailing swing arm on a post behind the right rear wheel, held on a rest stop by a spring; a Ø400 nylon-string head (non-conductive, safe on wire and posts) under a guard ring cut from PE pipe 315 slides along each post. 48 V BLDC motor at the root of the arm, V-belt inside the arm to a bought lawn-tractor deck spindle; head 182 mm high, floats on an HDPE skid. ≈ 615 W at 0.5 m/s, 1.8 km of fence per hour, about €575 in parts. Includes the arm dynamics around a post and an animation with grass |
+| [**Weed picker**](weed%20picker/) | [mowing deck](weed%20picker/mowing_deck/) | Tops thistles, ragwort and dock above the grass and gathers them in one windrow, no bin. Two rotors with free-swinging blades (Ø510, 990 mm cut) in front of the robot turn inwards and throw the chopped weed out of a centre discharge between the front wheels. Each rotor: a 48 V BLDC motor straight on a lawn-tractor deck spindle; the left rotor runs 24 mm higher so the blades may overlap without timing. Cut height 100–400 mm from a 4000 N actuator on a parallel linkage, with a float link for humps. ≈ 1 kW at 0.5 m/s in scattered weeds, slower in dense patches; 82 kg (counterweight at the rear advised), about €1,040 in parts |
 | [Mower unit](mower%20unit/) | notes only | General mower unit |
 
 Each folder holds its own requirements and notes (`*_requirements.md`, `README.md`, `RATIONALE.md` or `info.txt`). `RATIONALE.md` explains why the dimensions and choices are what they are.
