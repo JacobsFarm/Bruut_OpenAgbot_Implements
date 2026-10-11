@@ -94,6 +94,16 @@ Every design is parametric: change a number, rebuild, and the whole model follow
       <b><a href="weed%20picker/mowing_deck/">Weed picker linkage</a></b><br>Parallel linkage, actuator with float link: cut height 100–400 mm
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="irrigation/stationary%20+%20roller/"><img src="irrigation/stationary%20+%20roller/previews/1_full_reel_iso_on_robot.png" alt="Irrigation hose reel on the robot"></a><br>
+      <b><a href="irrigation/">Irrigation hose reel</a></b><br>150 m lay-flat hose, laid out empty, floods a 4 m strip at 0.17 bar
+    </td>
+    <td align="center">
+      <a href="irrigation/stationary%20+%20roller/"><img src="irrigation/stationary%20+%20roller/previews/7_pinch_detail.png" alt="Pinch rollers of the hose reel"></a><br>
+      <b><a href="irrigation/stationary%20+%20roller/">Hose reel pinch rollers</a></b><br>Clamp the hose shut while irrigating, squeeze it empty while winding
+    </td>
+  </tr>
 </table>
 
 ## Animations
@@ -135,6 +145,11 @@ The advanced designs are animated on the real robot model, with the loads and fo
   <i><a href="weed%20picker/mowing_deck/">Weed picker</a>: two rotors turn inwards and throw the chopped weed into one windrow; the robot slows down in thick weed and raises the cut height while driving</i>
 </p>
 
+<p align="center">
+  <img src="irrigation/stationary%20+%20roller/previews/animation_one_strip.gif" alt="Irrigation hose reel: one strip laid out, irrigated, drained and wound" width="720"><br>
+  <i><a href="irrigation/stationary%20+%20roller/">Irrigation hose reel</a>: the robot lays the empty hose, the pump at the ditch floods a 4 m strip, the hose runs empty and the robot winds it up again</i>
+</p>
+
 ## Implements
 
 | Implement | Variants | What it does |
@@ -149,6 +164,7 @@ The advanced designs are animated on the real robot model, with the loads and fo
 | [**Mobile refiller**](mobile%20refiller/) | [liquid](mobile%20refiller/liquid/) | Support robot that brings liquid (and in concept seed, granular fertilizer, water, batteries) to the working robots, so they never leave the field. 268 l T-shaped tank with a pump below the liquid level, slewing boom with a trolley and a spout, RTK antenna on the spout and a camera for confirmation, powered trailer of 246 l (6 driven wheels). Tops up the working robot in the straight reverse of its headland turn while both drive: about 25 l per turn, ≈ 3 s standstill. About €6,000 in parts. The concept README lists all uses and variants (gravity buffer, on a tractor, docking station) |
 | [**Around-pole fence mower**](around_pole_mower/) | [simple](around_pole_mower/simple/) | Mows the strip under an electric fence and goes around the posts by itself. Trailing swing arm on a post behind the right rear wheel, held on a rest stop by a spring; a Ø400 nylon-string head (non-conductive, safe on wire and posts) under a guard ring cut from PE pipe 315 slides along each post. 48 V BLDC motor at the root of the arm, V-belt inside the arm to a bought lawn-tractor deck spindle; head 182 mm high, floats on an HDPE skid. ≈ 615 W at 0.5 m/s, 1.8 km of fence per hour, about €575 in parts. Includes the arm dynamics around a post and an animation with grass |
 | [**Weed picker**](weed%20picker/) | [mowing deck](weed%20picker/mowing_deck/) | Tops thistles, ragwort and dock above the grass and gathers them in one windrow, no bin. Two rotors with free-swinging blades (Ø510, 990 mm cut) in front of the robot turn inwards and throw the chopped weed out of a centre discharge between the front wheels. Each rotor: a 48 V BLDC motor straight on a lawn-tractor deck spindle; the left rotor runs 24 mm higher so the blades may overlap without timing. Cut height 100–400 mm from a 4000 N actuator on a parallel linkage, with a float link for humps. ≈ 1 kW at 0.5 m/s in scattered weeds, slower in dense patches; 82 kg (counterweight at the rear advised), about €1,040 in parts |
+| [**Irrigation**](irrigation/) | [stationary pump + hose reel](irrigation/stationary%20+%20roller/) | Irrigates grassland by flooding at low pressure from a petrol pump at the ditch. The robot carries a reel with 150 m of 3" lay-flat hose, lays it out empty over the field, and after the gift winds it up empty again: it never carries water. Outlets every 2 m (3.5 mm restrictor, flat drop tail) flood a 4 m strip with 7.4 m³/h at 0.17 bar, CU ≈ 99 % on level ground. Pinch rollers keep the reel dry while irrigating and squeeze the hose while winding. 122 min per strip of 500 m² at 25 mm; one robot keeps about 4 ha wet in a dry summer. 146 kg, about €1,900 in parts on the robot. Includes the hydraulics and an animation of one strip |
 | [Mower unit](mower%20unit/) | notes only | General mower unit |
 
 Each folder holds its own requirements and notes (`*_requirements.md`, `README.md`, `RATIONALE.md` or `info.txt`). `RATIONALE.md` explains why the dimensions and choices are what they are.
