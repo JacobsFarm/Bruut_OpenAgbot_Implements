@@ -104,6 +104,16 @@ Every design is parametric: change a number, rebuild, and the whole model follow
       <b><a href="irrigation/stationary%20+%20roller/">Hose reel pinch rollers</a></b><br>Clamp the hose shut while irrigating, squeeze it empty while winding
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="spotspray%20unit/boom/"><img src="spotspray%20unit/boom/previews/1_work_iso_on_robot.png" alt="Spot sprayer with a 3.75 m boom on the robot"></a><br>
+      <b><a href="spotspray%20unit/">Spot sprayer</a></b><br>Camera in front, 120 l tank, 3.75 m boom with 15 PWM nozzles
+    </td>
+    <td align="center">
+      <a href="spotspray%20unit/boom/"><img src="spotspray%20unit/boom/previews/5_folded_iso_rear.png" alt="Spot sprayer with both wings folded up"></a><br>
+      <b><a href="spotspray%20unit/boom/">Spot sprayer, wings folded</a></b><br>Each 1.25 m wing folds up in 3.2 s, also in the field
+    </td>
+  </tr>
 </table>
 
 ## Animations
@@ -150,6 +160,11 @@ The advanced designs are animated on the real robot model, with the loads and fo
   <i><a href="irrigation/stationary%20+%20roller/">Irrigation hose reel</a>: the robot lays the empty hose, the pump at the ditch floods a 4 m strip, the hose runs empty and the robot winds it up again</i>
 </p>
 
+<p align="center">
+  <img src="spotspray%20unit/boom/previews/animation_spot_spraying.gif" alt="Spot sprayer spraying dock and folding a wing for a post" width="720"><br>
+  <i><a href="spotspray%20unit/boom/">Spot sprayer</a>: the camera finds the docks, only the nozzles above a plant open; the right wing folds up for a fence post</i>
+</p>
+
 ## Implements
 
 | Implement | Variants | What it does |
@@ -165,6 +180,7 @@ The advanced designs are animated on the real robot model, with the loads and fo
 | [**Around-pole fence mower**](around_pole_mower/) | [simple](around_pole_mower/simple/) | Mows the strip under an electric fence and goes around the posts by itself. Trailing swing arm on a post behind the right rear wheel, held on a rest stop by a spring; a Ø400 nylon-string head (non-conductive, safe on wire and posts) under a guard ring cut from PE pipe 315 slides along each post. 48 V BLDC motor at the root of the arm, V-belt inside the arm to a bought lawn-tractor deck spindle; head 182 mm high, floats on an HDPE skid. ≈ 615 W at 0.5 m/s, 1.8 km of fence per hour, about €575 in parts. Includes the arm dynamics around a post and an animation with grass |
 | [**Weed picker**](weed%20picker/) | [mowing deck](weed%20picker/mowing_deck/) | Tops thistles, ragwort and dock above the grass and gathers them in one windrow, no bin. Two rotors with free-swinging blades (Ø510, 990 mm cut) in front of the robot turn inwards and throw the chopped weed out of a centre discharge between the front wheels. Each rotor: a 48 V BLDC motor straight on a lawn-tractor deck spindle; the left rotor runs 24 mm higher so the blades may overlap without timing. Cut height 100–400 mm from a 4000 N actuator on a parallel linkage, with a float link for humps. ≈ 1 kW at 0.5 m/s in scattered weeds, slower in dense patches; 82 kg (counterweight at the rear advised), about €1,040 in parts |
 | [**Irrigation**](irrigation/) | [stationary pump + hose reel](irrigation/stationary%20+%20roller/) | Irrigates grassland by flooding at low pressure from a petrol pump at the ditch. The robot carries a reel with 150 m of 3" lay-flat hose, lays it out empty over the field, and after the gift winds it up empty again: it never carries water. Outlets every 2 m (3.5 mm restrictor, flat drop tail) flood a 4 m strip with 7.4 m³/h at 0.17 bar, CU ≈ 99 % on level ground. Pinch rollers keep the reel dry while irrigating and squeeze the hose while winding. 122 min per strip of 500 m² at 25 mm; one robot keeps about 4 ha wet in a dry summer. 146 kg, about €1,900 in parts on the robot. Includes the hydraulics and an animation of one strip |
+| [**Spot sprayer**](spotspray%20unit/) | [folding boom](spotspray%20unit/boom/) | Sprays weeds plant by plant. A wide-angle global-shutter camera on a mast in front of the robot (1.48 m, 55° down) sees the whole 3.75 m strip from 1.8 m ahead; 2.65 s later the boom behind the robot opens only the nozzles above the plant. 15 clamp-on PWM nozzle bodies at 250 mm on a stainless wet pipe, 40° flat fans at 400 mm. Centre section 1.25 m, two 1.25 m wings that fold up in 3.2 s with a 24 V actuator each, also in the field for posts and trees. 120 l tank on the robot, diaphragm pump with bypass under the rear beams; the GNSS antenna moves to the mast top. ≈ 20 l/ha at 5 % weed cover, 1.1 ha/h; 91 kg, about €3,580 in parts. Includes an animation with docks and a fence post |
 | [Mower unit](mower%20unit/) | notes only | General mower unit |
 
 Each folder holds its own requirements and notes (`*_requirements.md`, `README.md`, `RATIONALE.md` or `info.txt`). `RATIONALE.md` explains why the dimensions and choices are what they are.
