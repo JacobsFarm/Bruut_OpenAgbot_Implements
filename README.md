@@ -64,6 +64,16 @@ Every design is parametric: change a number, rebuild, and the whole model follow
       <b><a href="marker/simple/">Field marker paint head</a></b><br>Spray can, servo and a sprung shroud that senses the ground
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="mobile%20refiller/liquid/"><img src="mobile%20refiller/liquid/previews/1_iso_refiller_with_trailer.png" alt="Mobile refiller with trailer"></a><br>
+      <b><a href="mobile%20refiller/">Mobile refiller</a></b><br>Support robot: 515 l, boom with spout, powered trailer
+    </td>
+    <td align="center">
+      <a href="mobile%20refiller/liquid/"><img src="mobile%20refiller/liquid/previews/7_docked_iso.png" alt="Mobile refiller docked next to the working robot"></a><br>
+      <b><a href="mobile%20refiller/liquid/">Mobile refiller, docked</a></b><br>RTK antenna on the spout, camera checks the funnel
+    </td>
+  </tr>
 </table>
 
 ## Animations
@@ -90,6 +100,11 @@ The advanced designs are animated on the real robot model, with the loads and fo
   <i><a href="marker/simple/">Field marker</a>: the robot stops a few centimetres off, the stage puts the nozzle exactly on each point</i>
 </p>
 
+<p align="center">
+  <img src="mobile%20refiller/liquid/previews/animation_refill_in_turn.gif" alt="Mobile refiller topping up the working robot in its headland turn" width="720"><br>
+  <i><a href="mobile%20refiller/">Mobile refiller</a>: tops up the working robot in the straight part of its turn, while both drive</i>
+</p>
+
 ## Implements
 
 | Implement | Variants | What it does |
@@ -101,6 +116,7 @@ The advanced designs are animated on the real robot model, with the loads and fo
 | [**Dockweed drill**](dockweed%20drill/) | one design | Dock (broad-leaved dock) removal mill on a CNC gantry. Renders, animations, DXF and STEP files |
 | [**Trencher**](trencher/) | one design | Wheel trencher for narrow trenches. Renders and STEP export |
 | [**Field marker**](marker/) | [simple](marker/simple/) | Stakes out points from a coordinate list (piles, posts, planting positions, plot corners). The robot stops roughly behind the point; an XYZ stage from bought linear modules puts a spray-paint head exactly on it, with a GNSS antenna on a mast straight above the nozzle. Sprung spray shroud senses the ground. About €1,450 in parts. The concept README lists flag, peg, punch and soil-probe heads and 20 more functions |
+| [**Mobile refiller**](mobile%20refiller/) | [liquid](mobile%20refiller/liquid/) | Support robot that brings liquid (and in concept seed, granular fertilizer, water, batteries) to the working robots, so they never leave the field. 268 l T-shaped tank with a pump below the liquid level, slewing boom with a trolley and a spout, RTK antenna on the spout and a camera for confirmation, powered trailer of 246 l (6 driven wheels). Tops up the working robot in the straight reverse of its headland turn while both drive: about 25 l per turn, ≈ 3 s standstill. About €6,000 in parts. The concept README lists all uses and variants (gravity buffer, on a tractor, docking station) |
 | [Around-pole mower](around_pole_mower/) | notes only | Mower for working around poles |
 | [Mower unit](mower%20unit/) | notes only | General mower unit |
 

@@ -1,9 +1,3 @@
-this folder contains the files for a mower unit
-
-mobile refiller for Seeds, liquid nitrogen, water etc.
-with auger or pump or with gravity,
-on the sprout a RTK antenna so the robot knows where it has te be exact and a camera for second confirmation
-more wheels for more forward powered, extra towed unit for extra capacity, to refill the main, this design is as autonomous robot, but add in the readme can placed on a stationary central place or on a tractor
-
-de buffer can drive if it doings turns it drive to the next turn teh robot does in the straight on the turn to refill, os the refiller only has to drive on the headland straight, or it drives to the robot to refill.
-
+This folder contains the mobile refiller: a support robot that tops up the working robots in the field (liquid,
+seed, granular fertilizer, water, batteries, ...). See README.md (concept and all uses) and liquid/ (FreeCAD model,
+calculations and the animation of a refill in the turn).
