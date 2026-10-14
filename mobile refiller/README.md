@@ -12,11 +12,19 @@ turn. The refiller waits beside that straight, puts its spout in the funnel of t
 while it pumps**. The working robot only stands still for about 3 seconds and never leaves the field. The refiller only
 drives along the headland, or to the robot when that is easier.
 
+The **simple variant** does it the other way round: a standard **1000 l IBC** on the robot, a hose hanging from a fixed
+arm, and the working robot **skips passes** (order 1, 7, 2, 8, 3, 9, ...) so that every turn is a U-turn in one go.
+The refiller stands *inside* that turn on the headland. The working robot stops for about 13 s on the straight part
+of its turn with its funnel under the nozzle, then drives on into its next pass. At the next turn the refiller drives
+1 m further. See [simple](simple/README.md) and [below](#simple-ibc-and-the-skip-pattern-modelled).
+
 | | Variant | Contents |
 | --- | --- | --- |
 | [Liquid](liquid/README.md) | `liquid/` | FreeCAD model: T-shaped 268 l tank, 24 V transfer pump, slewing boom with trolley and spout, RTK antenna and camera on the spout, powered trailer of 246 l (6 driven wheels in total), receiver kit for the working robot; calculations, animation of a refill in the turn; why: [RATIONALE](liquid/RATIONALE.md) |
+| [Simple (IBC)](simple/README.md) | `simple/` | FreeCAD model: standard 1000 l IBC set on with pallet forks, pump under the IBC, fixed mast with an arm and a hanging hose to a drip-stop nozzle, RTK antenna straight above the nozzle, receiver kit; skip pattern with U-turns only, the refiller inside the turn, 1 m further per refill; calculations, animation of two refills; ≈ €1,650 in parts; why: [RATIONALE](simple/RATIONALE.md) |
 | Granular / seed | concept (below) | auger instead of pump, hopper instead of tank, same boom, spout and positioning |
-| Stationary / on a tractor | concept (below) | the same spout head with RTK and camera on a fixed buffer at the field edge (gravity) or on a tractor / telehandler |
+| [Stationary](stationary/README.md) | `stationary/` | FreeCAD models of a refill station that stands on the headland: [IBC trailer](stationary/ibc_trailer/README.md) (1 or 2 IBCs), [three-point frame](stationary/three_point/README.md) (1 IBC) and a [standard flat wagon](stationary/flat_wagon/README.md) (6 IBCs); own control box with pump, motor and electronics, swinging arm with nozzle, RTK antenna above the nozzle; the working robot drives to it; calculations per carrier |
+| On a tractor (moving) / gravity | concept (below) | the same head on a tractor or telehandler that follows the working robot, or a gravity buffer on a stand |
 
 ![the liquid refiller with its trailer](liquid/previews/1_iso_refiller_with_trailer.png)
 
@@ -27,7 +35,16 @@ The refiller (blue) has already swung its boom over the spot. Spout down, pump o
 work tank is full after 9 s, spout up, boom back. The working robot turns into its next pass, the refiller reverses to
 the place of the next turn. Twice real speed.*
 
+![the simple refiller with a standard IBC](simple/previews/1_iso_refiller_ibc.png)
+
+![animation: refill in the middle of the U-turn](simple/previews/animation_refill_in_u_turn.gif)
+
+*Simple variant: the working robot skips passes and turns in one go (3 → 9). The refiller with the IBC waits inside
+the turn. The working robot stops on the straight under the nozzle, 22 l in 11 s, then drives on into pass 9. The
+refiller drives 1 m further. After a time skip the same happens at turn 4 → 10. Twice real speed.*
+
 **Jump to:** [Why](#why-a-refiller) · [How a refill in the turn works](#how-a-refill-in-the-turn-works) ·
+[Simple variant: IBC and skip pattern](#simple-ibc-and-the-skip-pattern-modelled) ·
 [Modes](#modes-of-operation) · [Use cases](#use-cases) · [The machine](#the-machine) ·
 [Positioning](#positioning-rtk-on-the-spout-camera-for-confirmation) · [More wheels and the trailer](#more-wheels-and-the-trailer) ·
 [Variants](#variants) · [Software](#software-and-planning) · [Requirements](#requirements) · [Numbers](#numbers-liquid-variant) ·
@@ -128,11 +145,13 @@ headlands (two refillers, or one that crosses over during the long passes).
 | Mode | When | How |
 | --- | --- | --- |
 | **Top-up in the turn** (above) | normal field work, every turn or every other turn | refiller drives only on the headland, synchronised with the turn |
+| **Top-up in the U-turn** ([simple variant](simple/README.md)) | normal field work with the skip pattern (U-turns only) | the refiller stands inside the turn, the working robot stops ≈ 13 s on the straight under the nozzle; the refiller moves 1 m per refill |
 | **Drive to the robot** | irregular fields, no headland space, the working robot has an urgent low level, spot work (weeding, marking, soil sampling) | the working robot stops where it is; the refiller drives to it (any heading), docks and fills standing still |
 | **Docking station at the field edge** | many robots, long working days, night work | the refiller stands at a fixed spot (or a fixed buffer with the same spout head); the working robots come to it during their turns |
 | **Shuttle** | farm tank far away | the refiller (with trailer) shuttles between the farm tank / IBC and the field while the working robot keeps working on its own 80-minute buffer |
 | **Fleet** | 2–4 working robots in one field or neighbouring fields | one refiller serves several robots; the planner chooses which turn of which robot it serves next |
-| **Stationary buffer** | no refiller robot (yet) | an IBC on a stand at the field edge with an electric valve and the same spout head; flows by gravity |
+| **Stationary station** ([modelled](stationary/README.md)) | no refiller robot (yet), or many litres at the field edge | IBCs on a trailer, a three-point frame or a flat wagon at the headland, own control box with pump and RTK antenna above the nozzle; the working robot drives to it when its tank is low |
+| **Stationary buffer** | no refiller robot, no power | an IBC on a stand at the field edge with an electric valve and the same spout head; flows by gravity |
 | **On a tractor or telehandler** | the farm already has a tractor driving to the field anyway | front-loader tank or 3-point-hitch tank with the boom and spout head; the operator drives, the head docks automatically |
 
 ## Use cases
@@ -254,6 +273,28 @@ Other ways to more traction and capacity:
 
 See [liquid/README.md](liquid/README.md). Pump transfer, open funnel, 150 l/min.
 
+### Simple: IBC and the skip pattern (modelled)
+
+See [simple/README.md](simple/README.md) and the [RATIONALE](simple/RATIONALE.md). The parts are simplified, and the
+field pattern of the working robot is changed instead.
+
+- **Standard 1000 l IBC** on a welded bed bolted to the upper beams (corner guides, 2 ratchet straps). It is set on and
+  swapped with pallet forks: no filling on the robot. One IBC is 1.98 ha at 505 l/ha, or 9.2 h of work.
+- **Pump under the IBC**, a **fixed mast with an arm** and a hose that hangs down to a drip-stop nozzle at 1.25 m. The
+  RTK antenna sits on the arm tip straight above the nozzle. No boom, trailer or camera. ≈ €1,650 in parts.
+- **Skip pattern**: the working robot works in the order 1, 7, 2, 8, 3, 9, ... (blocks of 12 passes, every other block
+  mirrored). Every turn is a U-turn, 6 m on the refiller headland (arc R 2.4 m, 1.2 m straight, arc) and 5 or 7 m on
+  the far one. Never reversing: 17.5 s per turn instead of 29.4 s.
+- **The refiller stands inside the turn**, its arm over the straight. The working robot stops with its funnel under
+  the nozzle (≈ 13 s at 505 l/ha on 200 m fields: 2.2 % of its time) and drives on. The middles of successive turns are
+  1 m apart, so the refiller drives **1 m further per refill**, and 7 m at a block change. It never leaves the headland,
+  and the headland is not deeper than for the U-turns alone (5.3 m).
+- Limits: a full IBC weighs 1.5 t in total. The heaviest wheel carries 470 kg (limit 500), the static tipping angle
+  is 16° sideways, and on wet grass a full IBC exceeds the continuous motor force. So the refiller only makes short
+  moves on the headland, and drives to the field on a hard track or partly filled.
+
+![skip pattern](simple/previews/pattern_skip_passes.png)
+
 ### Granular and seed (concept)
 
 - Hopper instead of tank (the same T-shape: a sump with the auger inlet between the beams).
@@ -262,6 +303,26 @@ See [liquid/README.md](liquid/README.md). Pump transfer, open funnel, 150 l/min.
 - Dosing by auger revolutions, checked with **load cells** under the hopper (kg instead of litres).
 - The spout ends in a sock or a sleeve that seals on the receiving hopper; a dust cover against wind loss.
 - Seed in particular: gentle conveying (low auger speed, or a belt). Mixtures can separate in an auger: test.
+
+### Stationary station: IBC trailer, three-point frame, flat wagon (modelled)
+
+See [stationary/README.md](stationary/README.md). No refiller robot: the IBCs stand still on the headland and the
+working robot drives to the station when its work tank is low (120 l per visit). Three carriers with the same refill
+head:
+
+- **Own control box** (steel, IP55) with the 24 V pump and its motor, a 25.6 V 50 Ah battery, controller, RTK
+  receiver, radio, flow meter and motorised valve; a mast with a pinned swinging arm, drop pipe and drip-stop nozzle;
+  the **RTK antenna straight above the nozzle**; a status beacon. The pump always sits below the bottom of the IBCs.
+- [IBC trailer](stationary/ibc_trailer/README.md): a dedicated single-axle trailer for **1 or 2 IBCs**, box and mast on
+  the drawbar, jockey wheel and drop legs.
+- [Three-point frame](stationary/three_point/README.md): **1 IBC** on a frame with legs, cat. 2 hitch; the mast is the
+  hitch tower, the box hangs under the platform.
+- [Flat wagon](stationary/flat_wagon/README.md): a **standard bale wagon** with 6 IBCs, a suction header along the
+  deck, the box under the deck and a mast skid on the rear left corner.
+- A visit costs the working robot 2–15 % of its time (dose and distance along the headland), against 2–3 % with a
+  moving refiller and 30–44 % for driving to the farm.
+
+![stationary refill station on an IBC trailer](stationary/ibc_trailer/previews/2_7_refill_iso.png)
 
 ### Gravity (stationary buffer)
 
@@ -361,4 +422,5 @@ From `liquid/mrl_calc.py` and the model; see the [liquid README](liquid/README.m
 - Masses of bought parts (pump 9 kg, slew drive 9 kg, control box 6 kg, hub motor 9 kg, ...).
 - Docking error budget (RTK 20 mm, heading of the working robot 25 mm, relative motion 30 mm, tilt 10 mm).
 - Battery 2.4 kWh. Gravity flow of a stationary buffer.
-- Everything for the granular, seed, battery, tractor and docking-station variants: concepts only.
+- Everything for the granular, seed, battery, moving-tractor and docking-station variants: concepts only. The
+  stationary carriers have their own list in [stationary/README.md](stationary/README.md#estimated-not-measured).

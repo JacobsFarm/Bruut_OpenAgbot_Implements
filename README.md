@@ -76,6 +76,26 @@ Every design is parametric: change a number, rebuild, and the whole model follow
   </tr>
   <tr>
     <td align="center">
+      <a href="mobile%20refiller/simple/"><img src="mobile%20refiller/simple/previews/1_iso_refiller_ibc.png" alt="Simple mobile refiller with a standard IBC"></a><br>
+      <b><a href="mobile%20refiller/simple/">Mobile refiller (simple)</a></b><br>Standard 1000 l IBC, pump, mast with a hanging hose
+    </td>
+    <td align="center">
+      <a href="mobile%20refiller/simple/"><img src="mobile%20refiller/simple/previews/8_refill_iso.png" alt="Working robot stopped under the nozzle in its U-turn"></a><br>
+      <b><a href="mobile%20refiller/simple/">Mobile refiller (simple), refill</a></b><br>Inside the U-turn: the working robot stops under the nozzle
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="mobile%20refiller/stationary/ibc_trailer/"><img src="mobile%20refiller/stationary/ibc_trailer/previews/2_7_refill_iso.png" alt="Stationary refill station on an IBC trailer"></a><br>
+      <b><a href="mobile%20refiller/stationary/">Stationary refill station</a></b><br>IBC trailer (1 or 2 IBCs): the working robot drives to it
+    </td>
+    <td align="center">
+      <a href="mobile%20refiller/stationary/flat_wagon/"><img src="mobile%20refiller/stationary/flat_wagon/previews/1_iso_flat_wagon.png" alt="Stationary refill station on a flat wagon with six IBCs"></a><br>
+      <b><a href="mobile%20refiller/stationary/">Stationary refill station, flat wagon</a></b><br>6 IBCs on a standard bale wagon; also a three-point frame
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
       <a href="around_pole_mower/simple/"><img src="around_pole_mower/simple/previews/1_iso_on_robot.png" alt="Around-pole fence mower on the robot"></a><br>
       <b><a href="around_pole_mower/">Around-pole fence mower</a></b><br>String head under the electric fence, swings around the posts
     </td>
@@ -146,6 +166,11 @@ The advanced designs are animated on the real robot model, with the loads and fo
 </p>
 
 <p align="center">
+  <img src="mobile%20refiller/simple/previews/animation_refill_in_u_turn.gif" alt="Simple mobile refiller topping up the working robot in the middle of its U-turn" width="720"><br>
+  <i><a href="mobile%20refiller/simple/">Mobile refiller (simple)</a>: the working robot skips passes and turns in one go; it stops under the hanging nozzle in the middle of the U-turn, and the refiller moves 1 m per refill</i>
+</p>
+
+<p align="center">
   <img src="around_pole_mower/simple/previews/animation_around_posts.gif" alt="Fence mower going around two posts" width="720"><br>
   <i><a href="around_pole_mower/simple/">Around-pole fence mower</a>: the post pushes the head back and in, it slides around and the spring swings it back behind the post</i>
 </p>
@@ -176,7 +201,7 @@ The advanced designs are animated on the real robot model, with the loads and fo
 | [**Dockweed drill**](dockweed%20drill/) | one design | Dock (broad-leaved dock) removal mill on a CNC gantry. Renders, animations, DXF and STEP files |
 | [**Trencher**](trencher/) | one design | Wheel trencher for narrow trenches. Renders and STEP export |
 | [**Field marker**](marker/) | [simple](marker/simple/) | Stakes out points from a coordinate list (piles, posts, planting positions, plot corners). The robot stops roughly behind the point; an XYZ stage from bought linear modules puts a spray-paint head exactly on it, with a GNSS antenna on a mast straight above the nozzle. Sprung spray shroud senses the ground. About €1,450 in parts. The concept README lists flag, peg, punch and soil-probe heads and 20 more functions |
-| [**Mobile refiller**](mobile%20refiller/) | [liquid](mobile%20refiller/liquid/) | Support robot that brings liquid (and in concept seed, granular fertilizer, water, batteries) to the working robots, so they never leave the field. 268 l T-shaped tank with a pump below the liquid level, slewing boom with a trolley and a spout, RTK antenna on the spout and a camera for confirmation, powered trailer of 246 l (6 driven wheels). Tops up the working robot in the straight reverse of its headland turn while both drive: about 25 l per turn, ≈ 3 s standstill. About €6,000 in parts. The concept README lists all uses and variants (gravity buffer, on a tractor, docking station) |
+| [**Mobile refiller**](mobile%20refiller/) | [liquid](mobile%20refiller/liquid/) · [simple](mobile%20refiller/simple/) · [stationary](mobile%20refiller/stationary/) | Support robot that brings liquid (and in concept seed, granular fertilizer, water, batteries) to the working robots, so they never leave the field. Liquid: 268 l T-shaped tank with a pump below the liquid level, slewing boom with a trolley and a spout, RTK antenna on the spout and a camera for confirmation, powered trailer of 246 l (6 driven wheels). Tops up the working robot in the straight reverse of its headland turn while both drive: about 25 l per turn, ≈ 3 s standstill. About €6,000 in parts. Simple: a standard 1000 l IBC set on with pallet forks, pump under the IBC, fixed mast with a hanging hose and the RTK antenna above the nozzle. The working robot skips passes so that every turn is a U-turn; the refiller stands inside the turn and the working robot stops ≈ 13 s under the nozzle; 1 m further per refill. About €1,650 in parts. Stationary: refill stations that stand on the headland (IBC trailer for 1 or 2 IBCs, three-point frame, 6 IBCs on a standard flat wagon), each with its own control box (pump, motor, battery, RTK receiver) and the RTK antenna above the nozzle; the working robot drives to them for 120 l per visit. The concept README lists all uses and variants (gravity buffer, on a tractor, docking station) |
 | [**Around-pole fence mower**](around_pole_mower/) | [simple](around_pole_mower/simple/) | Mows the strip under an electric fence and goes around the posts by itself. Trailing swing arm on a post behind the right rear wheel, held on a rest stop by a spring; a Ø400 nylon-string head (non-conductive, safe on wire and posts) under a guard ring cut from PE pipe 315 slides along each post. 48 V BLDC motor at the root of the arm, V-belt inside the arm to a bought lawn-tractor deck spindle; head 182 mm high, floats on an HDPE skid. ≈ 615 W at 0.5 m/s, 1.8 km of fence per hour, about €575 in parts. Includes the arm dynamics around a post and an animation with grass |
 | [**Weed picker**](weed%20picker/) | [mowing deck](weed%20picker/mowing_deck/) | Tops thistles, ragwort and dock above the grass and gathers them in one windrow, no bin. Two rotors with free-swinging blades (Ø510, 990 mm cut) in front of the robot turn inwards and throw the chopped weed out of a centre discharge between the front wheels. Each rotor: a 48 V BLDC motor straight on a lawn-tractor deck spindle; the left rotor runs 24 mm higher so the blades may overlap without timing. Cut height 100–400 mm from a 4000 N actuator on a parallel linkage, with a float link for humps. ≈ 1 kW at 0.5 m/s in scattered weeds, slower in dense patches; 82 kg (counterweight at the rear advised), about €1,040 in parts |
 | [**Irrigation**](irrigation/) | [stationary pump + hose reel](irrigation/stationary%20+%20roller/) | Irrigates grassland by flooding at low pressure from a petrol pump at the ditch. The robot carries a reel with 150 m of 3" lay-flat hose, lays it out empty over the field, and after the gift winds it up empty again: it never carries water. Outlets every 2 m (3.5 mm restrictor, flat drop tail) flood a 4 m strip with 7.4 m³/h at 0.17 bar, CU ≈ 99 % on level ground. Pinch rollers keep the reel dry while irrigating and squeeze the hose while winding. 122 min per strip of 500 m² at 25 mm; one robot keeps about 4 ha wet in a dry summer. 146 kg, about €1,900 in parts on the robot. Includes the hydraulics and an animation of one strip |
