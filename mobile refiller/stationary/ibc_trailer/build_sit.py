@@ -1,0 +1,273 @@
+"""Model of the stationary refill station on a dedicated IBC trailer (1 or 2 IBCs).
+
+Use in FreeCAD (via run_in_freecad.py, or with this folder and ../ on sys.path):
+    import build_sit
+    build_sit.build(1)                     # 1 IBC: saves FCStd and STEP (arm out to the left, IBC 800 l)
+    build_sit.build(2)                     # 2 IBCs
+    build_sit.set_arm(angle)               # 0 = out left, cfg['fold'] = transport (nozzle beside the IBC), -180 = right
+    build_sit.check_interference()         # overlap in the current pose (must be empty)
+    build_sit.check_fit()                  # arm from transport over the front to the right (must be empty)
+    build_sit.clearance()                  # sizes, heights, reach
+    build_sit.mass_properties()            # masses and centres of gravity
+    build_sit.build_docked(1)              # scene: working robot stopped with its funnel under the nozzle
+    build_sit.render_all()                 # all images in previews/ (both configurations)
+"""
+import os
+
+import FreeCAD as App
+import Part
+from FreeCAD import Vector as V
+
+import sit_params as P
+import sit_parts as T
+import stc_params as C
+import stc_parts as G
+import stc_build as B
+
+FOLDER = os.path.dirname(os.path.abspath(__file__))
+PREVIEW_DIR = os.path.join(FOLDER, "previews")
+ROOT = "Station"
+WORKER = "Robot"
+
+
+def doc_name(n):
+    return "Stationary_IBC_Trailer_%d" % n
+
+
+# ---------------------------------------------------------------------
+# Build
+# ---------------------------------------------------------------------
+STATE = {"n": 1}
+
+
+def build_into(doc, n=1, arm=0.0, litres=None):
+    c = P.cfg(n)
+    M = T.mast_spec(c)
+    litres = 0.8 * C.ibc_nominal_l if litres is None else litres
+    root = B.new_part(doc, None, ROOT, "stationary_refiller_ibc_trailer_%d" % n)
+    fr = B.new_part(doc, root, "Frame", "trailer_frame")
+    B.add_shape(doc, fr, "frame_side_rails", "side_rails_100x50x4", T.side_rails(c), "frame")
+    B.add_shape(doc, fr, "frame_end_rails", "front_and_rear_rail_100x50x4", T.end_rails(c), "frame")
+    B.add_shape(doc, fr, "frame_cross", "cross_members_80x40x3", T.cross_members(c), "frame")
+    B.add_shape(doc, fr, "frame_floor", "floor_plate_3mm", T.floor_plate(c), "deck")
+    B.add_shape(doc, fr, "frame_guides", "corner_guides_angle_50x5", T.corner_guides(c), "frame")
+    B.add_shape(doc, fr, "frame_a", "a_frame_drawbar_100x50x4", T.a_frame(c), "frame")
+    B.add_shape(doc, fr, "frame_box_cross", "box_cross_members_60x40x3", T.box_cross(c), "frame")
+    B.add_shape(doc, fr, "frame_mast_cross", "mast_cross_beam_100x100x4", T.mast_cross(c), "frame")
+    B.add_shape(doc, fr, "frame_eye", "tow_eye_40", T.tow_eye(c), "steel")
+    rg = B.new_part(doc, root, "Running_gear", "running_gear")
+    ax, plates = T.axle(c)
+    B.add_shape(doc, rg, "rg_axle", "axle_square_70_with_stubs", ax, "steel")
+    B.add_shape(doc, rg, "rg_plates", "axle_clamp_plates", plates, "steel")
+    B.add_shape(doc, rg, "rg_tyres", "tyres_" + c["tyre_size"], T.tyres(c), "tyre")
+    B.add_shape(doc, rg, "rg_rims", "rims", T.rims(c), "rim")
+    B.add_shape(doc, rg, "rg_guards", "mudguards", T.mudguards(c), "frame")
+    pk = B.new_part(doc, root, "Parking", "parking_gear_and_lights")
+    clamp, body, wheel = T.jockey(c)
+    B.add_shape(doc, pk, "park_jockey_clamp", "jockey_wheel_clamp", clamp, "frame")
+    B.add_shape(doc, pk, "park_jockey", "jockey_wheel_tube_and_crank", body, "steel")
+    B.add_shape(doc, pk, "park_jockey_wheel", "jockey_wheel_200", wheel, "tyre")
+    sl, legs, pins = T.drop_legs(c)
+    B.add_shape(doc, pk, "park_leg_sleeves", "drop_leg_sleeves_60", sl, "frame")
+    B.add_shape(doc, pk, "park_legs", "drop_legs_50_with_feet", legs, "steel")
+    B.add_shape(doc, pk, "park_leg_pins", "drop_leg_pins", pins, "zinc")
+    hs, ls, plate = T.rear_lights(c)
+    B.add_shape(doc, pk, "light_housings", "rear_light_clusters", hs, "black")
+    B.add_shape(doc, pk, "light_lenses", "rear_light_lenses", ls, "red")
+    B.add_shape(doc, pk, "light_plate", "number_plate", plate, "plate")
+    for i in range(n):
+        B.build_ibc(doc, root, "ibc%d" % (i + 1), T.ibc_placement(c, i), litres, strap_axis="y", strap_z=12.0)
+    B.build_box(doc, root, T.box_placement(c))
+    hz = B.new_part(doc, root, "Hoses", "hoses")
+    B.add_shape(doc, hz, "hose_suction", "suction_hoses_and_header_1.5in", T.suction_hoses(c), "hose")
+    B.add_shape(doc, hz, "hose_discharge", "discharge_hose_up_inside_mast", T.discharge_hose(c, M), "hose")
+    mast = B.build_mast_arm(doc, root, M, arm, beacon_face="+x")
+    B.add_shape(doc, mast, "mast_gussets", "mast_gussets_10mm", G.mast_gussets(M, c["rail_z"][1], ("+x", "-x")),
+                "frame")
+    return root, c, M
+
+
+def build(n=1, arm=0.0, litres=None, save=True, step=True):
+    STATE["n"] = n
+    doc = B.new_doc(doc_name(n), "Stationary refiller - IBC trailer %d" % n,
+                    "Generated by build_sit.py from sit_params.py and ../stc_*.py. Trailer coordinates: origin = middle "
+                    "of the axle on the ground, x = right, y = forward (tow eye), z = up. Arm: build_sit.set_arm(angle).")
+    build_into(doc, n, arm, litres)
+    doc.recompute()
+    base = os.path.join(FOLDER, doc_name(n))
+    if save:
+        doc.saveAs(base + ".FCStd")
+    if step:
+        B.export_step(doc, ROOT, base + ".step")
+    return doc
+
+
+def active(doc=None, n=None):
+    if doc is not None:
+        return doc
+    n = STATE["n"] if n is None else n
+    return App.getDocument(doc_name(n))
+
+
+def spec(n=None):
+    c = P.cfg(STATE["n"] if n is None else n)
+    return c, T.mast_spec(c)
+
+
+def set_arm(angle, doc=None):
+    doc = active(doc)
+    B.set_arm(doc, spec()[1], angle)
+
+
+def set_levels(litres, doc=None):
+    doc = active(doc)
+    for i in range(STATE["n"]):
+        B.set_ibc_level(doc, "ibc%d" % (i + 1), litres)
+    doc.recompute()
+
+
+# ---------------------------------------------------------------------
+# Checks
+# ---------------------------------------------------------------------
+OK = B.pair_ok([
+    # welded or bolted joints, parts that touch
+    ("frame_a", "frame_end_rails"), ("frame_a", "frame_side_rails"),("frame_a", "frame_box_cross"), ("frame_a", "frame_mast_cross"),
+    ("frame_a", "frame_eye"), ("frame_a", "park_jockey_clamp"), ("frame_side_rails", "park_leg_sleeves"),
+    ("park_leg_sleeves", "park_leg_pins"), ("park_legs", "park_leg_pins"), ("rg_axle", "rg_plates"),
+    ("rg_axle", "rg_rims"), ("rg_tyres", "rg_rims"), ("rg_plates", "frame_side_rails"),
+    ("rg_guards", "frame_side_rails"), ("mast", "frame_mast_cross"), ("mast_gussets", "mast"),
+    ("mast_gussets", "frame_mast_cross"), ("park_jockey_clamp", "park_jockey"),
+    ("light_housings", "frame_end_rails"), ("light_plate", "frame_end_rails"),
+    # hoses in their fittings and through their holes
+    ("hose_suction", "box_pump"), ("hose_suction", "box_glands"), ("hose_discharge", "box_line"),
+    ("hose_discharge", "box_glands"), ("hose_discharge", "mast"), ("arm_hose", "hose_discharge"),
+    ("arm_hose", "mast"), ("arm_hose", "mast_top_plate"), ("arm_hose", "arm_drop_pipe"),
+    ("arm_lock_pin", "mast_top_plate"), ("arm_lock_pin", "arm"), ("mast_pivot_pin", "arm"),
+    ("box_pump", "box_glands"), ("box_line", "box_glands"), ("box_line", "box_flow"), ("box_line", "box_mvalve"),
+    ("box_line", "box_pump"), ("box_pump_feet", "box_pump"), ("box_estop_base", "box_door"),
+    ("box_estop", "box_estop_base"), ("beacon_bracket", "mast"), ("beacon_bracket", "beacon_green")] +
+    [(t + "_camlock", t + "_valve") for t in ("ibc1", "ibc2")] +
+    [("hose_suction", t + "_camlock") for t in ("ibc1", "ibc2")])
+
+
+def check_interference(doc=None, tol=1.0):
+    return B.check_interference(active(doc), ROOT, OK, tol)
+
+
+def fit_angles(c):
+    return sorted(set(list(range(-180, int(c["fold"]) + 1, 15)) + [c["fold"]]))
+
+
+def check_fit(doc=None, tol=1.0):
+    """Arm from the transport lock over the left and the front to the right (it never swings over the IBC)."""
+    c, M = spec()
+    return B.check_fit(active(doc), ROOT, M, OK, fit_angles(c), tol)
+
+
+def clearance(doc=None):
+    doc = active(doc)
+    c, M = spec()
+    objs = B.kit_objects(doc, ROOT)
+    bb = B.bbox(doc, objs)
+    keep = doc.getObject("Arm").Placement
+    B.set_arm(doc, M, c["fold"])
+    bt = B.bbox(doc, objs)
+    doc.getObject("Arm").Placement = keep
+    doc.recompute()
+    return {"size_arm_out": (round(bb.XLength), round(bb.YLength), round(bb.ZLength)),
+            "size_transport": (round(bt.XLength), round(bt.YLength), round(bt.ZLength)),
+            "half_width_wheels": round(c["half_width"]), "reach": c["reach"], "transport_angle": round(c["fold"], 1),
+            "deck_z": c["deck_z"], "ibc_top_z": c["deck_z"] + C.ibc_top, "nozzle_tip_z": C.nozzle_tip_z,
+            "antenna_top_z": G.antenna_top(M), "eye_z": c["eye_z"], "box_bottom_z": c["box_z"],
+            "pump_axis_z": c["box_z"] + C.pump_axis[1], "bottle_bottom_z": c["deck_z"] + C.bottle_z0}
+
+
+def mass_properties(doc=None):
+    doc = active(doc)
+    groups = {
+        "trailer": lambda o: o.Name.startswith(("frame_", "rg_", "park_", "light_")),
+        "box": lambda o: o.Name.startswith("box_"),
+        "mast": lambda o: o.Name.startswith(("mast", "arm", "beacon")),
+        "hoses": lambda o: o.Name.startswith("hose_"),
+        "ibc_empty": B.is_ibc,
+        "liquid": B.is_liquid,
+    }
+    fixed = {"rg_tyres": 2 * (26.0 if STATE["n"] == 1 else 38.0), "rg_rims": 2 * (11.0 if STATE["n"] == 1 else 16.0),
+             "park_jockey_wheel": 2.0, "light_lenses": 0.3, "light_housings": 1.6}
+    density = {"hose_suction": B.HOSE, "hose_discharge": B.HOSE, "light_plate": 1.4e-6}
+    return B.mass_groups(doc, ROOT, groups, fixed, density)
+
+
+# ---------------------------------------------------------------------
+# Refill scene
+# ---------------------------------------------------------------------
+def docked_name(n):
+    return doc_name(n) + "_refill"
+
+
+def build_docked(n=1, litres=None, rx_fill=None, heading=0.0):
+    STATE["n"] = n
+    doc = B.new_doc(docked_name(n), "IBC trailer %d - refill" % n,
+                    "Generated by build_sit.build_docked(). The working robot stopped with its funnel under the nozzle.")
+    root, c, M = build_into(doc, n, 0.0, litres)
+    B.build_worker(doc, B.worker_placement(M, 0.0, heading), rx_fill=rx_fill)
+    doc.recompute()
+    return doc
+
+
+def check_docked(doc=None, tol=1.0):
+    doc = doc or App.getDocument(docked_name(STATE["n"]))
+    return B.check_docked(doc, ROOT, WORKER, OK, tol)
+
+
+def docked_gap(doc=None):
+    doc = doc or App.getDocument(docked_name(STATE["n"]))
+    return B.min_gap(doc, ROOT, WORKER)
+
+
+# ---------------------------------------------------------------------
+# Images
+# ---------------------------------------------------------------------
+def render_all(ns=(1, 2)):
+    import FreeCADGui as Gui
+    out = []
+    for n in ns:
+        doc = build(n, save=False, step=False)
+        c, M = spec(n)
+        cy = 0.5 * (c["deck_rear"] + c["eye_y"])
+        B.add_floor(doc, (-2600.0, 1600.0), (c["deck_rear"] - 800.0, c["eye_y"] + 1200.0))
+        tag = "%dibc" % n
+        out.append(B.save_view(PREVIEW_DIR, "%d_1_iso_%s.png" % (n, tag), (1.0, -1.0, -0.7), (-300, cy, 900),
+                               height=3900 + 900 * (n - 1)))
+        out.append(B.save_view(PREVIEW_DIR, "%d_2_side_%s.png" % (n, tag), (1.0, 0.0, 0.0), (0, cy, 1000),
+                               height=2600 + 600 * (n - 1)))
+        out.append(B.save_view(PREVIEW_DIR, "%d_3_front_%s.png" % (n, tag), (0.0, -1.0, 0.0), (-600, 0, 1050),
+                               height=2500))
+        arm = [o.Name for o in B.kit_objects(doc, ROOT) if B.in_arm(o)]
+        B.set_visible(doc, B.BOX_COVER + tuple(arm), False)
+        out.append(B.save_view(PREVIEW_DIR, "%d_4_control_box_open.png" % n, (1.0, -0.35, -0.6),
+                               (P.box_x, c["box_y"], c["box_z"] + 250), height=1300))
+        B.set_visible(doc, B.BOX_COVER + tuple(arm), True)
+        ibc = [o.Name for o in B.kit_objects(doc, ROOT) if o.Name.startswith("ibc")]
+        B.set_visible(doc, ibc, False)
+        out.append(B.save_view(PREVIEW_DIR, "%d_5_frame_without_ibc.png" % n, (1.0, -0.9, -0.9), (0, cy, 600),
+                               height=3400 + 700 * (n - 1)))
+        B.set_visible(doc, ibc, True)
+        B.set_arm(doc, M, c["fold"])
+        out.append(B.save_view(PREVIEW_DIR, "%d_6_transport.png" % n, (0.8, -1.0, -0.6), (0, cy, 900),
+                               height=3700 + 900 * (n - 1)))
+        App.closeDocument(doc.Name)
+        doc = build_docked(n)
+        Gui.updateGui()
+        B.add_stream(doc, M)
+        B.add_floor(doc, (-3200.0, 1600.0), (c["deck_rear"] - 1600.0, c["eye_y"] + 1200.0))
+        out.append(B.save_view(PREVIEW_DIR, "%d_7_refill_iso.png" % n, (1.0, 0.8, -0.6), (-800, cy, 700),
+                               height=4300 + 600 * (n - 1)))
+        out.append(B.save_view(PREVIEW_DIR, "%d_8_refill_top.png" % n, (0.0, 0.0, -1.0), (-800, cy - 300, 0),
+                               height=5600 + 700 * (n - 1), up=(0.0, 1.0, 0.0)))
+        out.append(B.save_view(PREVIEW_DIR, "%d_9_nozzle_over_funnel.png" % n, (1.0, 0.5, -0.35),
+                               (-c["reach"], c["mast_y"], 1200), height=900))
+        App.closeDocument(doc.Name)
+    for n in ns:
+        build(n)
+    return out

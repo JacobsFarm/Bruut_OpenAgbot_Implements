@@ -1,3 +1,6 @@
 This folder contains the mobile refiller: a support robot that tops up the working robots in the field (liquid,
-seed, granular fertilizer, water, batteries, ...). See README.md (concept and all uses) and liquid/ (FreeCAD model,
-calculations and the animation of a refill in the turn).
+seed, granular fertilizer, water, batteries, ...). See README.md (concept and all uses), liquid/ (FreeCAD model,
+calculations and the animation of a refill in the turn) and simple/ (standard IBC with a hanging hose; the working
+robot skips passes and is topped up in the middle of its U-turn). stationary/ holds refill stations that stand on
+the headland (IBC trailer for 1 or 2 IBCs, three-point frame, standard flat wagon), each with its own control box
+(pump, motor, electronics) and an RTK antenna above the nozzle; the working robot drives to them.
