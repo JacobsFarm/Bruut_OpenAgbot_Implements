@@ -67,10 +67,16 @@ lasts 5–6 days; a 100 W solar panel (≈ 300 Wh/day, not modelled) makes it in
 
 ## How a visit works
 
-![refill visit at the IBC trailer](ibc_trailer/previews/animation_refill_visit.gif)
+| | |
+| --- | --- |
+| ![refill visit at the IBC trailer](ibc_trailer/previews/animation_refill_visit.gif) | ![refill visit at the IBC trailer, 2 IBCs](ibc_trailer/previews/animation_refill_visit_2ibc.gif) |
+| [IBC trailer](ibc_trailer/README.md#a-refill-visit-animation), 1 IBC (`animate_sit.py`) | IBC trailer, 2 IBCs (`animate_sit.build(2)`) |
+| ![refill visit at the three-point frame](three_point/previews/animation_refill_visit.gif) | ![refill visit at the flat wagon](flat_wagon/previews/animation_refill_visit.gif) |
+| [three-point frame](three_point/README.md#a-refill-visit-animation) (`animate_s3p.py`): docks on the left side of the frame | [flat wagon](flat_wagon/README.md#a-refill-visit-animation) (`animate_sfw.py`): docks beside the rear left corner, nozzle at 1270 mm |
 
-A visit at the [IBC trailer](ibc_trailer/README.md#a-refill-visit-animation) (`ibc_trailer/animate_sit.py`): pass
-end, along the headland, 120 l at 120 l/min (standstill 61.5 s), turn round, back into the next pass.
+The same visit at every station (`stc_anim.py`): pass end, along the headland, 120 l at 120 l/min (standstill
+61.5 s, the same as `stc_calc.refill_time`), turn round on the headland, back into the next pass. 1000 l/ha on a
+200 m field: every 6 passes 120 l. GIFs at 5 × speed, 20 × while pumping.
 
 1. The working robot predicts its tank level. When the next return to the station headland will leave less than the
    reserve (27 l), it sends `REQUEST(litres)` to the station.
@@ -100,6 +106,8 @@ has its own `*_params.py`, `*_parts.py`, `build_*.py`, `*_calc.py` and `run_in_f
 | `stc_parts.py` | IBC in IBC-local coordinates (shapes from `../simple/mrs_parts.py`), control box (enclosure, door, emergency stop, pump, flow meter, motorised valve, battery, DIN plate), mast and arm from a spec (`mast_spec`), beacon, wheels, mudguards, jockey wheel, drop legs, tow eye, lights |
 | `stc_build.py` | model tree helpers, `COLOR`, `build_ibc`, `build_box`, `build_mast_arm`, the working robot in the refill scene (robot, applicator and receiver kit via `../simple/build_mrs.py`), interference / fit / docking checks, mass, STEP export, images |
 | `stc_calc.py` | pump and hose operating point, a visit of the working robot (detour, docking, pumping), comparison with driving to the farm, battery, nozzle tolerance, steel sections |
+| `stc_anim.py` | animation of a refill visit, shared by the carriers: `Carrier` (what a station gives), `Visit` (scene on the headland, simulation with the figures of `stc_calc.visit`, camera, `summary`, `check_docked`, `check_fit`, `render_all`, `play`). Each carrier has a thin `animate_<p>.py` |
+| `stc_gif.py` | frames to GIF: caption, tank / pump / beacon panel, map from above. Each carrier has a thin `make_gif_<p>.py` |
 
 Use in FreeCAD: run `run_in_freecad.py` of a carrier (it puts this folder on `sys.path`), then e.g.
 `build_sit.render_all()`. The calculations also run without FreeCAD: `python sit_calc.py`.

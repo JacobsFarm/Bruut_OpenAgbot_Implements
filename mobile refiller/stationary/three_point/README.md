@@ -21,6 +21,18 @@ Why it is built like this: [RATIONALE.md](RATIONALE.md).
 | ![side](previews/2_side.png) | ![nozzle](previews/9_nozzle_over_funnel.png) | |
 | side view | nozzle 106 mm above the funnel rim | |
 
+### A refill visit (animation)
+
+![refill visit](previews/animation_refill_visit.gif)
+
+The frame stands on its legs on the headland, parallel to the field edge (the tractor has gone), arm out to the
+left. The working robot finishes pass p (1000 l/ha, 200 m: every 6 passes 120 l), drives along the headland and
+stops on the left side of the frame with its funnel under the nozzle. The station pumps 120 l at 120 l/min
+(IBC 800 → 680 l, work tank 27 → 147 l, beacon amber; standstill 61.5 s = `stc_calc.refill_time`). The robot turns
+round on the headland, drives back under the arm and into pass p + 1. GIF at 5 × speed, 20 × while pumping. The
+scene and the route are the same for all stations: see the
+[IBC trailer RATIONALE § 7](../ibc_trailer/RATIONALE.md#7-the-refill-visit-in-the-animation).
+
 ## Key figures
 
 From the model (`build_s3p.mass_properties`, `check_*`, `clearance`) and `s3p_calc.report()`. Liquid 1.2 kg/l.
@@ -38,6 +50,9 @@ From the model (`build_s3p.mass_properties`, `check_*`, `clearance`) and `s3p_ca
 | Pump | axis at 260 mm, bottom of the IBC at 795 mm: always flooded. 120 l/min, 194 W |
 
 Checks: `check_interference()`, `check_fit()` (arm 0 → 180°, over the IBC) and `check_docked()` are empty.
+Animation: `animate_s3p.check_docked()` is empty and `animate_s3p.check_fit()` finds no overlap in any frame (every
+2nd frame; the 24 frames within 400 mm of the station, including the docked pose, checked in 3D); `summary()`
+gives the range of the key figures.
 
 ## The model
 
@@ -62,6 +77,8 @@ Station (App::Part, frame coordinates: origin = middle of the IBC footprint on t
 | `s3p_parts.py` | one function per frame and hitch part, placements, hoses |
 | `build_s3p.py` | `build`, `set_arm`, `set_lift`, `set_levels`, `check_interference`, `check_fit`, `clearance`, `mass_properties`, `build_docked`, `check_docked`, `render_all` |
 | `s3p_calc.py` | masses, tractor (lift, front ballast, top link, pins, mast), tipping on the legs, pump; `python s3p_calc.py` |
+| `animate_s3p.py` | animation of a refill visit: `build()`, `play()`, `stop()`, `summary()`, `check_docked()`, `check_fit()`, `render_all(folder)`; separate document `Stationary_three_point_on_robot_animation`. Thin wrapper around `../stc_anim.py` |
+| `make_gif_s3p.py` | frames to GIF (`../stc_gif.py`): `make_gif_s3p.main(folder, "previews/animation_refill_visit.gif")` |
 | `run_in_freecad.py` | macro: reload, build, print the report |
 | `Stationary_Three_Point.FCStd`, `.step` | generated |
 
