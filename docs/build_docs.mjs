@@ -45,7 +45,7 @@ Follow [AGENTS.md](../../AGENTS.md): make a folder per variant (\`simple/\`, \`a
 estimated and not measured. Then move the folder out of \`implement ideas/\` and add it to the table in the main
 [README](../../README.md) and to [docs](../../docs/).
 
-Source: the attachments list of the website (functionality's.json).
+${i.extra ? "Source: own brainstorm, not on the website list." : "Source: the attachments list of the website (functionality's.json)."}
 `;
 }
 
@@ -57,8 +57,8 @@ for (const i of ideas) {
 }
 const indexMd = `# Implement ideas
 
-Attachments from the website's list ([openagbot.com](https://openagbot.com), functionality's.json) that are **not worked out
-yet**. Each folder holds a \`README.md\` with what the implement does, a first concept, what can be reused from the finished
+Attachments that are **not worked out
+yet**: those from the website's list ([openagbot.com](https://openagbot.com), functionality's.json) and extra ideas from brainstorming (marked in their README). Each folder holds a \`README.md\` with what the implement does, a first concept, what can be reused from the finished
 implements and the open questions, so it can be worked out later in the layout described in [AGENTS.md](../AGENTS.md).
 
 ${categories
