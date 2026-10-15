@@ -22,17 +22,17 @@ agbots/agbot slim/         rear wheels 250 mm apart, with the liquid fertilizer 
 agbots/agbot comparison/   comparison of the two robots
 <implement>/advanced|simple/   per implement a folder per variant (liquid fertilizer applicator, overseeder,
                                feed pusher auger, ...), see below
+<implement>/v1|v2/         same, numbered versions (dockweed drill: v1 X axis on HGR15 rails, v2 on PTO tubes)
 <implement>/inspiration/   source material, not in git
 ```
 
 `agbots/` and `inspiration/` are in `.gitignore`. The implement reads the robot model from `agbots/agbot design`
 (`AGBOT_FOLDER` in `build_*.py`) and does not modify anything there.
-The dockweed drill and the trencher are older single scripts (`*_design.py`, `*_requirements.md`) and do not follow the
-layout below.
+The trencher is an older single script (`*_design.py`, `*_requirements.md`) and does not follow the layout below.
 
 ## Files per implement (single source of truth)
 
-Prefix = short code of the implement (`fpa`, `lfa`, `ova`, ...). Not every variant has all files.
+Prefix = short code of the implement (`fpa`, `lfa`, `ova`, `dwd2`, ...). Not every variant has all files.
 
 | File | Contents |
 | --- | --- |
@@ -54,7 +54,9 @@ Prefix = short code of the implement (`fpa`, `lfa`, `ova`, ...). Not every varia
 ## Coordinates
 
 x = right, y = driving direction (front = +y), z = up, ground = z 0. Unit mm. Origin = centre of the robot,
-so the implement stands directly in robot coordinates.
+so the implement stands directly in robot coordinates. An implement may draw in its own frame and map it in
+`<p>_parts.py` (the dockweed drill draws behind the rear beam with v = distance behind it and mirrors to y), as long
+as the part functions return robot coordinates.
 Standard robot: wheel centres (+-375, +-500), axle at z 215. Wheel unit local: origin = axle centre, top plate top
 z 349. The XL has different dimensions: use the parameters, not these numbers.
 
@@ -94,10 +96,18 @@ Beams: lower top z = `z_lower_beam_top`, upper `z_upper_beam_top` (local, +215 f
   `summary()` gives the range of the key figures, to check the run.
 - The GIF goes in `previews/` and is shown in the README.
 
+## Long runs in FreeCAD
+
+- The MCP client times out after ~2 minutes while FreeCAD keeps working; the printed result is then lost. For
+  `check_poses()`, `render_all()` or rendering animation frames: start the function with `QtCore.QTimer.singleShot`
+  from `execute_code`, write the result to a JSON file and wait for that file.
+- Files written from FreeCAD's Python with `open(..., "w")` get CRLF line endings; keep the scripts LF.
+
 ## Check after every change
 
 1. No interference: `build_<p>.check_interference()` (`common()` volume between visible parts, bounding-box
-   pre-filter) must be empty. For an animation also check the end positions (`check_fit()` where present).
+   pre-filter) must be empty. For moving axes also check the end positions (`check_poses()`, `check_fit()`
+   where present).
 2. Check clearance to tires and steering sweep (`clearance()`) and mass/centre of gravity (`mass_properties()`).
 3. Compare parts from OpenSCAD with an STL export (`C:\Program Files\OpenSCAD\openscad.exe`, `-D toggle=false`):
    volume < 0.01 % difference.

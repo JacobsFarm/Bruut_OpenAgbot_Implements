@@ -3,7 +3,9 @@
 // "does" = the function as described on the website; "concept" = first thoughts on how to build it on the Bruut;
 // "reuse" = existing implements/parts to start from; "open" = what has to be decided or measured before building.
 
-export const ideas = [
+import { moreIdeas } from "./data_ideas_more.mjs";
+
+const websiteIdeas = [
   // ---------- Soil cultivation & weed control ----------
   {
     slug: "push_blade",
@@ -293,3 +295,5 @@ export const ideas = [
     open: ["Communication link and message set", "Pass allocation and re-allocation", "Collision and crossing rules", "Charging and refilling logistics for many units"],
   },
 ];
+
+export const ideas = [...websiteIdeas, ...moreIdeas.map((i) => ({ ...i, extra: true }))];
