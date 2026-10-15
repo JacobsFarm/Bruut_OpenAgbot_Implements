@@ -27,6 +27,11 @@ drives along the headland to the trailer and stops with its funnel under the noz
 arm and turns into pass p + 1. GIF at 5 × speed, 20 × while pumping. Why it drives like this:
 [RATIONALE § 7](RATIONALE.md#7-the-refill-visit-in-the-animation).
 
+The same visit at the trailer with 2 IBCs: both IBCs hang on one suction header and go down together
+(2 × 800 → 2 × 740 l); the robot docks beside the drawbar, the box and the wheel.
+
+![refill visit, 2 IBCs](previews/animation_refill_visit_2ibc.gif)
+
 | | | |
 | --- | --- | --- |
 | ![control box open](previews/1_4_control_box_open.png) | ![frame without IBC](previews/1_5_frame_without_ibc.png) | ![transport](previews/1_6_transport.png) |
@@ -58,9 +63,10 @@ From the model (`build_sit.mass_properties`, `check_*`, `clearance`) and `sit_ca
 
 Checks: `check_interference()` and `check_fit()` (arm from the transport lock over the left and the front to the
 right) are empty for both configurations; `check_docked()` (working robot with applicator and receiver kit) is empty.
-Animation: `animate_sit.check_docked()` is empty and `animate_sit.check_fit()` finds no overlap in any frame (every
-2nd frame; the 28 frames where the outlines come within 400 mm, including the docked pose and the passes under the
-arm, are checked in 3D); `summary()` gives the range of the key figures (litres, levels, speeds, lift, times).
+Animation: `animate_sit.check_docked(n)` is empty and `animate_sit.check_fit(n)` finds no overlap in any frame, for
+1 and 2 IBCs (every 2nd frame; the frames where the outlines come within 400 mm, including the docked pose and the
+passes under the arm, are checked in 3D: 28 for 1 IBC, 31 for 2 IBCs); `summary(n)` gives the range of the key
+figures (litres, levels, speeds, lift, times).
 
 ## The model
 
@@ -88,8 +94,8 @@ Station (App::Part, trailer coordinates: origin = middle of the axle on the grou
 | `sit_parts.py` | one function per trailer part, placements of the IBCs, box and mast, hoses |
 | `build_sit.py` | `build(n)`, `set_arm`, `set_levels`, `check_interference`, `check_fit`, `clearance`, `mass_properties`, `build_docked(n)`, `check_docked`, `docked_gap`, `render_all` |
 | `sit_calc.py` | masses, axle and nose load, tyres, tipping, drawbar, mast, pump; `python sit_calc.py` |
-| `animate_sit.py` | animation of a refill visit (1 IBC): `build()`, `play()`, `stop()`, `summary()`, `check_docked()`, `check_fit()`, `render_all(folder)`; separate document `Stationary_IBC_trailer_on_robot_animation` with the field, the headland, the trailer, the working robot (agbot design + applicator advanced + receiver kit) |
-| `make_gif_sit.py` | frames to GIF with caption, tank / pump / beacon panel and a map from above: `make_gif_sit.main(folder, "previews/animation_refill_visit.gif")` |
+| `animate_sit.py` | animation of a refill visit, 1 or 2 IBCs (`n`): `build(n)`, `play(n)`, `stop()`, `summary(n)`, `check_docked(n)`, `check_fit(n)`, `render_all(folder, n)`; separate document `Stationary_IBC_trailer_<n>_on_robot_animation` with the field, the headland, the trailer, the working robot (agbot design + applicator advanced + receiver kit). Thin wrapper around `../stc_anim.py` |
+| `make_gif_sit.py` | frames to GIF with caption, tank / pump / beacon panel and a map from above (`../stc_gif.py`): `make_gif_sit.main(folder, "previews/animation_refill_visit.gif")` (`_2ibc.gif` for 2 IBCs) |
 | `run_in_freecad.py` | macro: reload, build (`N_IBC = 2` before running for 2 IBCs), print the report |
 | `Stationary_IBC_Trailer_1/2.FCStd`, `.step` | generated |
 | `previews/` | images (`1_*` one IBC, `2_*` two IBCs) |

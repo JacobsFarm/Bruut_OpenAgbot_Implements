@@ -27,6 +27,19 @@ Why it is built like this: [RATIONALE.md](RATIONALE.md).
 | ![side](previews/2_side.png) | ![nozzle](previews/9_nozzle_over_funnel.png) | |
 | side view | nozzle 126 mm above the funnel rim | |
 
+### A refill visit (animation)
+
+![refill visit](previews/animation_refill_visit.gif)
+
+The wagon stands on the headland, parallel to the field edge, with its rear towards the passes and the arm out to
+the left (reach 840 mm from the mast on the corner). The working robot finishes pass p (1000 l/ha, 200 m: every 6
+passes 120 l), drives along the headland and stops beside the rear left corner with its funnel under the nozzle
+(nozzle at 1270 mm). The station pumps 120 l at 120 l/min; the 6 IBCs hang on one suction header and go down
+together (6 × 800 → 6 × 780 l); work tank 27 → 147 l, beacon amber, standstill 61.5 s = `stc_calc.refill_time`.
+The robot turns round on the headland and drives back along the wagon, under the arm, into pass p + 1. GIF at
+5 × speed, 20 × while pumping. The scene and the route are the same for all stations: see the
+[IBC trailer RATIONALE § 7](../ibc_trailer/RATIONALE.md#7-the-refill-visit-in-the-animation).
+
 ## Key figures
 
 From the model (`build_sfw.mass_properties`, `check_*`, `clearance`) and `sfw_calc.report()`. Liquid 1.2 kg/l.
@@ -45,6 +58,9 @@ From the model (`build_sfw.mass_properties`, `check_*`, `clearance`) and `sfw_ca
 | Mast and arm | 72 Nm at the foot, 5 / 12 MPa (× 2), tip deflection 0.5 mm |
 
 Checks: `check_interference()` (kit and wagon), `check_fit()` (arm −90 → 0°) and `check_docked()` are empty.
+Animation: `animate_sfw.check_docked()` is empty and `animate_sfw.check_fit()` (kit and wagon against the working
+robot) finds no overlap in any frame (every 2nd frame; the 31 frames within 400 mm, including the docked pose and
+the drive back along the wagon, checked in 3D); `summary()` gives the range of the key figures.
 
 ## The model
 
@@ -69,6 +85,8 @@ Station (App::Part)
 | `sfw_parts.py` | one function per wagon and kit part, placements, hoses |
 | `build_sfw.py` | `build`, `set_arm`, `set_levels`, `check_interference`, `check_fit`, `clearance`, `mass_properties`, `build_docked`, `check_docked`, `render_all` |
 | `sfw_calc.py` | masses, axle and tyre loads for 1–4 rows, tipping, pump, mast; `python sfw_calc.py` |
+| `animate_sfw.py` | animation of a refill visit: `build()`, `play()`, `stop()`, `summary()`, `check_docked()`, `check_fit()`, `render_all(folder)`; separate document `Stationary_flat_wagon_on_robot_animation`. Thin wrapper around `../stc_anim.py` |
+| `make_gif_sfw.py` | frames to GIF (`../stc_gif.py`): `make_gif_sfw.main(folder, "previews/animation_refill_visit.gif")` |
 | `run_in_freecad.py` | macro: reload, build, print the report |
 | `Stationary_Flat_Wagon.FCStd`, `.step` | generated (the STEP contains the kit and the IBCs, not the wagon) |
 

@@ -134,6 +134,36 @@ Every design is parametric: change a number, rebuild, and the whole model follow
       <b><a href="spotspray%20unit/boom/">Spot sprayer, wings folded</a></b><br>Each 1.25 m wing folds up in 3.2 s, also in the field
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="in%20row%20weeder/finger/"><img src="in%20row%20weeder/finger/previews/1_work_iso_on_robot.png" alt="In-row finger weeder under the robot"></a><br>
+      <b><a href="in%20row%20weeder/">In-row finger weeder</a></b><br>2 rows of broccoli, a stepper-driven finger per row, camera under the robot
+    </td>
+    <td align="center">
+      <a href="in%20row%20weeder/finger/"><img src="in%20row%20weeder/finger/previews/6_knives_from_above_out_and_in.png" alt="In-row weeder knives from above"></a><br>
+      <b><a href="in%20row%20weeder/finger/">In-row weeder knives</a></b><br>One knife out beside a plant, the other in the row line
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="bandrake/electric/"><img src="bandrake/electric/previews/1_work_iso_on_robot.png" alt="Electric belt rake in front of the robot"></a><br>
+      <b><a href="bandrake/">Electric belt rake</a></b><br>1.5 m, 48 V drive, castors on actuators: one windrow from outside to inside
+    </td>
+    <td align="center">
+      <a href="bandrake/electric/"><img src="bandrake/electric/previews/9_nursery_bed_iso.png" alt="Belt rake in a nursery bed"></a><br>
+      <b><a href="bandrake/electric/">Belt rake in a nursery bed</a></b><br>Combs out weed seedlings between young trees
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="weeds%20burner/propane_hood/"><img src="weeds%20burner/propane_hood/previews/1_work_iso_on_robot.png" alt="Propane flame weeder behind the robot"></a><br>
+      <b><a href="weeds%20burner/">Flame weeder</a></b><br>Hooded 1.5 m, 6 burners, 2 × 18 kg propane on the robot
+    </td>
+    <td align="center">
+      <a href="weeds%20burner/propane_hood/"><img src="weeds%20burner/propane_hood/previews/3_flames_through_the_hood.png" alt="Flames under the hood"></a><br>
+      <b><a href="weeds%20burner/propane_hood/">Flame weeder, flames</a></b><br>Pre-emergence: burns the seedlings on a freshly sown bed
+    </td>
+  </tr>
 </table>
 
 ## Animations
@@ -190,6 +220,26 @@ The advanced designs are animated on the real robot model, with the loads and fo
   <i><a href="spotspray%20unit/boom/">Spot sprayer</a>: the camera finds the docks, only the nozzles above a plant open; the right wing folds up for a fence post</i>
 </p>
 
+<p align="center">
+  <img src="in%20row%20weeder/finger/previews/animation_in_row_weeding.gif" alt="In-row weeder: the fingers swing out around every broccoli plant" width="720"><br>
+  <i><a href="in%20row%20weeder/finger/">In-row finger weeder</a>: the camera finds the broccoli, each stepper swings its knife out around every plant and back into the row line</i>
+</p>
+
+<p align="center">
+  <img src="in%20row%20weeder/double_arm/previews/animation_double_arm_weeding.gif" alt="In-row weeder with double arms opening around every plant" width="720"><br>
+  <i><a href="in%20row%20weeder/double_arm/">In-row weeder, double arms</a>: two knives per row open to both sides of every plant and close behind it, each on its own stepper</i>
+</p>
+
+<p align="center">
+  <img src="bandrake/electric/previews/animation_raking_windrow.gif" alt="Belt rake raking moss and thatch into one windrow" width="720"><br>
+  <i><a href="bandrake/electric/">Electric belt rake</a>: the tines carry the litter and the previous pass's windrow to the left into one windrow; at the headland the castor actuators lift the rake</i>
+</p>
+
+<p align="center">
+  <img src="weeds%20burner/propane_hood/previews/animation_flaming_bed.gif" alt="Flame weeder flaming a sown bed" width="720"><br>
+  <i><a href="weeds%20burner/propane_hood/">Flame weeder</a>: six burners under the hood kill the seedlings on a sown bed; when the robot stops only the pilot flames stay on</i>
+</p>
+
 ## Implements
 
 | Implement | Variants | What it does |
@@ -206,6 +256,9 @@ The advanced designs are animated on the real robot model, with the loads and fo
 | [**Weed picker**](weed%20picker/) | [mowing deck](weed%20picker/mowing_deck/) | Tops thistles, ragwort and dock above the grass and gathers them in one windrow, no bin. Two rotors with free-swinging blades (Ø510, 990 mm cut) in front of the robot turn inwards and throw the chopped weed out of a centre discharge between the front wheels. Each rotor: a 48 V BLDC motor straight on a lawn-tractor deck spindle; the left rotor runs 24 mm higher so the blades may overlap without timing. Cut height 100–400 mm from a 4000 N actuator on a parallel linkage, with a float link for humps. ≈ 1 kW at 0.5 m/s in scattered weeds, slower in dense patches; 82 kg (counterweight at the rear advised), about €1,040 in parts |
 | [**Irrigation**](irrigation/) | [stationary pump + hose reel](irrigation/stationary%20+%20roller/) | Irrigates grassland by flooding at low pressure from a petrol pump at the ditch. The robot carries a reel with 150 m of 3" lay-flat hose, lays it out empty over the field, and after the gift winds it up empty again: it never carries water. Outlets every 2 m (3.5 mm restrictor, flat drop tail) flood a 4 m strip with 7.4 m³/h at 0.17 bar, CU ≈ 99 % on level ground. Pinch rollers keep the reel dry while irrigating and squeeze the hose while winding. 122 min per strip of 500 m² at 25 mm; one robot keeps about 4 ha wet in a dry summer. 146 kg, about €1,900 in parts on the robot. Includes the hydraulics and an animation of one strip |
 | [**Spot sprayer**](spotspray%20unit/) | [folding boom](spotspray%20unit/boom/) | Sprays weeds plant by plant. A wide-angle global-shutter camera on a mast in front of the robot (1.48 m, 55° down) sees the whole 3.75 m strip from 1.8 m ahead; 2.65 s later the boom behind the robot opens only the nozzles above the plant. 15 clamp-on PWM nozzle bodies at 250 mm on a stainless wet pipe, 40° flat fans at 400 mm. Centre section 1.25 m, two 1.25 m wings that fold up in 3.2 s with a 24 V actuator each, also in the field for posts and trees. 120 l tank on the robot, diaphragm pump with bypass under the rear beams; the GNSS antenna moves to the mast top. ≈ 20 l/ha at 5 % weed cover, 1.1 ha/h; 91 kg, about €3,580 in parts. Includes an animation with docks and a fence post |
+| [**In-row weeder**](in%20row%20weeder/) | [finger, 2 rows](in%20row%20weeder/finger/) · [double arms](in%20row%20weeder/double_arm/) | Hoes inside two rows of broccoli (375 mm apart, the wheels in the inter-rows). Two row units under the belly, each on a parallelogram with a gauge wheel in the robot's wheel track: a NEMA 23 closed-loop stepper with a 10:1 gearbox swings a 220 mm arm with a spring-steel finger and a flat knife 20 mm deep. Between the plants the knife is in the row line; it swings out in 98 ms before each plant and back in 148 ms after it, never closer than 50 mm to a stem. A global-shutter camera with LED bars under the front beams finds the plants 0.84 s ahead. 0.5 m/s, 6,400 plants/h; 55 kg, about €2,240 in parts. Double arms: two knives per row (4 steppers) that open to both sides of each plant and close behind it, timed by the real distance to the stem: 90 % of the row band outside the safe zones hoed, 68 kg, about €2,820. Includes the stepper move, the zone around each plant and animations |
+| [**Belt rake**](bandrake/) | [electric](bandrake/electric/) | Band rake in front of the robot: a 260 mm rubber belt with 15 tine bars around two drums (1.52 m working width), 48 V 750 W gearmotor on the drive drum, swath board at the left end. Combs weed seedlings out of nursery beds between young trees (10 mm deep, 0.6 m/s) or rakes moss and thatch out of grassland from the outside inwards into one windrow (1.2 m/s, 0.49 ha/h). Two swivel castors on 24 V actuators carry the 110 kg rake, set the depth and lift it 100 mm for the headland, so the robot never carries it; a free parallelogram pushes it. About €2,380 in parts. Includes the tine forces, side force on the robot and an animation |
+| [**Weeds burner**](weeds%20burner/) | [propane hood](weeds%20burner/propane_hood/) | Pre-emergence flame weeder for freshly sown beds: an insulated 1.5 × 0.8 m hood behind the robot with 6 flat-flame burners (13 kg/h, 167 kW), 34 kg/ha at 0.7 m/s. Two 18 kg forklift cylinders with liquid withdrawal on the robot, a vaporiser coil inside the hood, two main solenoid valves, a motorised regulator, pilots with igniters and flame sensors; the valves close at once when the robot stops. The hood rides on two steel swivel castors, pulled by a free parallelogram, with a heat shield towards the robot. 0.84 ha per filling, gas ≈ €55/ha; 131 kg empty, about €3,400 in parts. Includes dose, gas supply, safety and an animation |
 | [Mower unit](mower%20unit/) | notes only | General mower unit |
 
 Each folder holds its own requirements and notes (`*_requirements.md`, `README.md`, `RATIONALE.md` or `info.txt`). `RATIONALE.md` explains why the dimensions and choices are what they are.

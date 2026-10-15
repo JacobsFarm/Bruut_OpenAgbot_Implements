@@ -1,0 +1,69 @@
+<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>Mobile refiller</title>
+<style>
+@page{size:A4;margin:11mm 14mm}
+body{font-family:"Segoe UI",Arial,sans-serif;font-size:10pt;line-height:1.42;color:#222;margin:0}
+h1{font-size:21pt;margin:0 0 2pt;color:#1d4f7a}
+h2{font-size:13.5pt;margin:12pt 0 3pt;color:#1d4f7a;border-bottom:2px solid #d9e6f1;padding-bottom:2pt}
+p{margin:4pt 0}
+.sub{color:#666;margin-bottom:6pt}
+.page{page-break-after:always}.page:last-child{page-break-after:auto}
+figure{margin:6pt 0;text-align:center}
+figure img{max-width:100%;border:1px solid #ddd;border-radius:3px}
+figcaption{font-size:8.5pt;color:#555;margin-top:2pt}
+.row{display:flex;gap:8pt}.row figure{flex:1;margin:4pt 0}
+.row img{width:100%;height:44mm;object-fit:contain;background:#fff}
+.q{background:#f2f7fb;border-left:4px solid #1d4f7a;padding:5pt 9pt;margin:5pt 0}
+ul{margin:3pt 0 3pt 16pt;padding:0}li{margin:2pt 0}
+</style></head><body>
+
+<div class="page">
+<h1>Mobile refiller voor de Bruut</h1>
+<div class="sub">Een tankwagen voor in het veld, zodat de toediener niet steeds naar het erf hoeft</div>
+
+<h2>Het idee</h2>
+<p>De toediener heeft maar een kleine tank mee. Is die leeg, dan moet hij terug om bij te vullen. Daar gaat veel tijd in zitten. Met een docking-systeem kan hij in het veld bijgevuld worden. Het ligt tussen "zo groot mogelijke capaciteit" en "volledig autonoom" in. Voor de opslag gaan we uit van standaard IBC's, dat lijkt het makkelijkst.</p>
+
+<h2>Dit moet er in elk geval op</h2>
+<p><b>Een antenne bovenop de overlader.</b> Zo weet de robot precies waar de kop zit. Daarbij kijkt een camera mee als dubbele check. Pas als die allebei kloppen, mag de kraan open om te vullen.</p>
+<figure><img src="img/funnel.png" style="max-height:55mm"><figcaption>De kop boven de trechter van de toediener. De antenne zit er recht boven, de camera ernaast.</figcaption></figure>
+
+<h2>Variant 1: vaste vulplek op de kopakker</h2>
+<p>Een IBC-aanhanger staat op de kopakker. De toediener rijdt er naartoe, de arm met de kop komt boven de trechter, vullen, klaar. Past 1 of 2 IBC's.</p>
+<div class="row"><figure><img src="img/station_iso.png"><figcaption>IBC-aanhanger op de kopakker, met een toediener die gevuld wordt.</figcaption></figure><figure><img src="img/flat_wagon.png"><figcaption>Balenwagen (standaard platte wagen) voor 6 IBC's.</figcaption></figure></div>
+</div>
+
+<div class="page">
+<h2>Variant 2: een rijdende tank (leuke extra)</h2>
+<p>Een IBC op een eigen robot, of als aanhanger die de robot zelf meetrekt. Is hij leeg, dan rijdt hij zelf naar huis, of naar een plek dichter bij het veld om te vullen. Technisch kan dit allemaal. Of het ook financieel interessant is, is een tweede.</p>
+<p>De rijdende tank rijdt in lijn met de toediener mee. Zo hoeft de toediener nooit stil te staan en hoeft hij niet steeds op dezelfde plek te vullen. Het vullen gebeurt <b>in de bocht</b>.</p>
+<div class="row">
+<figure><img src="img/liquid_iso.png"><figcaption>Refiller met tank en aanhanger</figcaption></figure>
+<figure><img src="img/simple_iso.png"><figcaption>Simpele versie: standaard IBC op de robot</figcaption></figure>
+</div>
+<figure><img src="img/liquid_turn.png" style="max-height:62mm"><figcaption>Beeld uit de animatie: de refiller rijdt mee langs de kopakker en pompt terwijl de toediener keert.</figcaption></figure>
+<p><b>Kleinere tank:</b> het kan ook een kleinere tank zijn. Die rijdt dan zelf terug naar het erf, vult zich daar op stenen en komt als een soort carrier weer terug.</p>
+
+<h2>Variant 3: refiller in het midden van de bocht</h2>
+<p>De toediener slaat rijen over, zodat elke keer een hele U-bocht past. De refiller staat binnen die bocht en de toediener staat even stil onder het mondstuk.</p>
+<figure><img src="img/simple_uturn.png" style="max-height:56mm"><figcaption>Beeld uit de animatie: vullen midden in de U-bocht.</figcaption></figure>
+</div>
+
+<div class="page">
+<h2>Aandrukwielen achter de toediener</h2>
+<p>Achter de toediener heb ik een paar aandrukwielen gemaakt. Na het insnijden en toedienen sluiten die de sleuf meteen weer.</p>
+<div class="row">
+<figure><img src="img/lfa.png"><figcaption>De toediener met snijschijven, messen en aandrukwielen</figcaption></figure>
+<figure><img src="img/lfa_robot.png"><figcaption>De toediener onder de robot</figcaption></figure>
+</div>
+
+<h2>Toediener tussen het frame</h2>
+<p>Ik heb ook een versie gemaakt waar de toediener direct tussen het frame zit. De twee achterwielen sluiten dan de baan van 2 toedieners weer dicht. Dat kan en het komt uit, maar ik ben er zelf geen grote fan van.</p>
+<figure><img src="img/dicht.png" style="max-height:56mm"><figcaption>Robot met de achterwielen die de sporen van de toedieners dichtrijden.</figcaption></figure>
+
+<h2>3 vragen aan u</h2>
+<div class="q"><b>1.</b> Hoeveel liter gaat er op een hectare, inclusief verdunning?<br>
+<div class="q"><b>2.</b> Is het beter om één grote gift te geven, of vaker een kleinere gift? </div>
+<div class="q"><b>3.</b> Heeft u ervaring met rijsnelheid? Welke werkt mooi, en welke snelheid heeft veel effect?</div>
+<span style="color:#555">(huidige hubmotor gaan van 6 km/h tot 0.1 km/h )</span></div>
+</div>
+</body></html>
