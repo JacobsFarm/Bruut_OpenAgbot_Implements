@@ -14,12 +14,6 @@ implements and the open questions, so it can be worked out later in the layout d
 | [Drop-on-demand boom (coarse droplets)](drop_on_demand_boom/README.md) | Boom with individually controlled injectors that fire single coarse droplets on demand at low pressure. |
 | [Grassland aerator](grassland_aerator/README.md) | Improving soil structure and air supply in grassland. |
 
-## Mowing
-
-| Idea | What it does |
-|---|---|
-| [Sickle bar mower](sickle_bar_mower/README.md) | Mowing at various heights, including 'topping' plants above ground level. |
-
 ## Spraying, Fertilizing & Irrigation
 
 | Idea | What it does |
