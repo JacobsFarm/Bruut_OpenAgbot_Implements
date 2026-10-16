@@ -52,16 +52,6 @@ const websiteIdeas = [
     reuse: "Floating lift frame with gas springs of the overseeder (the aerator can be combined with it as a slot cutter); lifted by the same actuator.",
     open: ["Tine type: solid spike, hollow tine or slitting knife", "Down force needed for penetration depth", "Passive roller versus driven roller", "Combining with the overseeder in one pass"],
   },
-  // ---------- Mowing ----------
-  {
-    slug: "sickle_bar_mower",
-    name: "Sickle bar mower",
-    category: "Mowing",
-    does: "Mowing at various heights, including 'topping' plants above ground level.",
-    concept: "A bought double-knife or single-knife cutter bar on a parallel linkage in front of the robot, with a 48 V motor and a crank drive. Height by an actuator, a float link lets it follow the ground. The weed picker already tops weeds with rotors; the bar gives a clean cut with low power.",
-    reuse: "Parallel linkage, actuator, float link and 48 V drive of the weed picker (weed picker/mowing_deck).",
-    open: ["Bar length (robot width or wider)", "Power per metre in grass and in thick weeds", "Cut-material handling: left in swath or gathered", "Stone and molehill protection (breakaway)"],
-  },
   // ---------- Spraying, fertilizing & irrigation ----------
   {
     slug: "irrigation_direct_pump",

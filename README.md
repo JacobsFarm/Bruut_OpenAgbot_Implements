@@ -164,6 +164,16 @@ Every design is parametric: change a number, rebuild, and the whole model follow
       <b><a href="weeds%20burner/propane_hood/">Flame weeder, flames</a></b><br>Pre-emergence: burns the seedlings on a freshly sown bed
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="sickle%20bar%20mower/triple/"><img src="sickle%20bar%20mower/triple/previews/1_work_iso_on_robot.png" alt="Triple sickle bar mower on the robot in a grass field"></a><br>
+      <b><a href="sickle%20bar%20mower/">Triple sickle bar mower</a></b><br>1.25 m in front + 2 × 1.0 m wings in the middle: 3.25 m
+    </td>
+    <td align="center">
+      <a href="sickle%20bar%20mower/triple/"><img src="sickle%20bar%20mower/triple/previews/4_transport_iso.png" alt="Sickle bar mower in transport: front bar lifted, wings folded up"></a><br>
+      <b><a href="sickle%20bar%20mower/triple/">Sickle bar mower, transport</a></b><br>Front bar up 300 mm, wings folded up: 1.59 m wide
+    </td>
+  </tr>
 </table>
 
 ## Animations
@@ -240,6 +250,11 @@ The advanced designs are animated on the real robot model, with the loads and fo
   <i><a href="weeds%20burner/propane_hood/">Flame weeder</a>: six burners under the hood kill the seedlings on a sown bed; when the robot stops only the pilot flames stay on</i>
 </p>
 
+<p align="center">
+  <img src="sickle%20bar%20mower/triple/previews/animation_mow_fold.gif" alt="Triple sickle bar mower mowing a 3.25 m strip and folding for transport" width="720"><br>
+  <i><a href="sickle%20bar%20mower/triple/">Triple sickle bar mower</a>: three double-knife bars mow a 3.25 m strip; at the headland the front bar lifts and the wings fold up</i>
+</p>
+
 ## Implements
 
 | Implement | Variants | What it does |
@@ -259,6 +274,7 @@ The advanced designs are animated on the real robot model, with the loads and fo
 | [**In-row weeder**](in%20row%20weeder/) | [finger, 2 rows](in%20row%20weeder/finger/) · [double arms](in%20row%20weeder/double_arm/) | Hoes inside two rows of broccoli (375 mm apart, the wheels in the inter-rows). Two row units under the belly, each on a parallelogram with a gauge wheel in the robot's wheel track: a NEMA 23 closed-loop stepper with a 10:1 gearbox swings a 220 mm arm with a spring-steel finger and a flat knife 20 mm deep. Between the plants the knife is in the row line; it swings out in 98 ms before each plant and back in 148 ms after it, never closer than 50 mm to a stem. A global-shutter camera with LED bars under the front beams finds the plants 0.84 s ahead. 0.5 m/s, 6,400 plants/h; 55 kg, about €2,240 in parts. Double arms: two knives per row (4 steppers) that open to both sides of each plant and close behind it, timed by the real distance to the stem: 90 % of the row band outside the safe zones hoed, 68 kg, about €2,820. Includes the stepper move, the zone around each plant and animations |
 | [**Belt rake**](bandrake/) | [electric](bandrake/electric/) | Band rake in front of the robot: a 260 mm rubber belt with 15 tine bars around two drums (1.52 m working width), 48 V 750 W gearmotor on the drive drum, swath board at the left end. Combs weed seedlings out of nursery beds between young trees (10 mm deep, 0.6 m/s) or rakes moss and thatch out of grassland from the outside inwards into one windrow (1.2 m/s, 0.49 ha/h). Two swivel castors on 24 V actuators carry the 110 kg rake, set the depth and lift it 100 mm for the headland, so the robot never carries it; a free parallelogram pushes it. About €2,380 in parts. Includes the tine forces, side force on the robot and an animation |
 | [**Weeds burner**](weeds%20burner/) | [propane hood](weeds%20burner/propane_hood/) | Pre-emergence flame weeder for freshly sown beds: an insulated 1.5 × 0.8 m hood behind the robot with 6 flat-flame burners (13 kg/h, 167 kW), 34 kg/ha at 0.7 m/s. Two 18 kg forklift cylinders with liquid withdrawal on the robot, a vaporiser coil inside the hood, two main solenoid valves, a motorised regulator, pilots with igniters and flame sensors; the valves close at once when the robot stops. The hood rides on two steel swivel castors, pulled by a free parallelogram, with a heat shield towards the robot. 0.84 ha per filling, gas ≈ €55/ha; 131 kg empty, about €3,400 in parts. Includes dose, gas supply, safety and an animation |
+| [**Sickle bar mower**](sickle%20bar%20mower/) | [triple](sickle%20bar%20mower/triple/) | Mows grass with three double-knife cutter bars: 1.25 m in front of the robot and two 1.0 m wings in the middle of the frame, 3.25 m in one pass. One module for all three: flat bar with an RHS behind it, upper and lower knife (50 mm pitch, stroke 50, 600 rpm), a crank gearbox with two cranks 180° apart (the knife forces cancel) and a 48 V 1000 W BLDC motor. Front bar on a parallel linkage with a float link and a roll pin; the wings hang on a mid frame under the top beams and fold up with a 4000 N actuator each (anchor in a slot: they float −9° … +17°). ≈ 2.2 kW for mowing at 1 m/s, 1.0 ha/h, transport 1.59 m wide; 210 kg, of which 163 kg rests on the shoes while mowing; about €3,200 in parts. Includes the knife drive, actuator forces, axle loads and an animation |
 | [Mower unit](mower%20unit/) | notes only | General mower unit |
 
 **Not worked out yet:** [implement ideas/](implement%20ideas/) holds one folder with a `README.md` per attachment from the website's list that has no model yet. **Overview document** with every implement and variant on its own page: [docs/bruut_implements.pdf](docs/bruut_implements.pdf) ([HTML](docs/bruut_implements.html)), generated with `node docs/build_docs.mjs --pdf`.

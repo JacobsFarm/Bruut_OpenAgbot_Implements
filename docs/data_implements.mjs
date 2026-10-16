@@ -113,6 +113,14 @@ export const implementsList = [
         facts: ["≈ 1 kW at 0.5 m/s", "82 kg (rear counterweight advised)", "About €1,040 in parts", "Animation in a weed patch"] },
     ] },
   {
+    name: "Sickle bar mower", folder: "sickle bar mower", category: "Mowing",
+    summary: "Mows grass with double-knife cutter bars instead of rotating blades: a clean cut at low power, the grass left lying in a swath to dry. The bars follow the ground on their shoes.",
+    variants: [
+      { name: "Triple", folder: "sickle bar mower/triple", hero: "sickle bar mower/triple/previews/1_work_iso_on_robot.png",
+        text: "Three double-knife bars: 1.25 m in front of the robot on a parallel linkage with a float link and a roll pin, and two 1.0 m wings in the middle of the frame on a mid frame under the top beams. Each bar: upper and lower knife (50 mm pitch, stroke 50, 600 rpm), a crank gearbox with two cranks 180° apart so the knife forces cancel, and a 48 V 1000 W BLDC motor. The wings fold up with a 4000 N actuator each; the anchor slides in a slot so they float with the ground.",
+        facts: ["3.25 m working width", "≈ 2.2 kW mowing at 1 m/s, 1.0 ha/h", "210 kg, 163 kg on the shoes while mowing", "About €3,200 in parts"] },
+    ] },
+  {
     name: "Irrigation", folder: "irrigation", category: "Spraying, Fertilizing & Irrigation",
     summary: "Irrigates grassland by flooding at low pressure from a pump at the ditch: little energy, no wind drift, no evaporation in the air.",
     variants: [
