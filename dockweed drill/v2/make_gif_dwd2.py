@@ -27,7 +27,23 @@ def nl(value, decimals=1):
     return ("%.*f" % (decimals, value)).replace(".", ",")
 
 
+def caption_mow(m, speedup):
+    """Bijschrift voor animate_dwd2_nettles (maaischijf)."""
+    disc = "maaischijf %d rpm · %d W · %s A" % (m["rpm"], m["power"], nl(m["current"])) if m["rpm"] else \
+        "maaischijf staat stil"
+    pot = "pot op het gras" if m["pot_on_ground"] else "pot %d mm boven de grond" % m["rim"]
+    return [
+        m["text"],
+        "bos %d/%d · baan %d/%d · gemaaid %d/%d stengels · t %s s (%dx versneld)" % (
+            m["patch"], m["n_patches"], m["row"], m["n_rows"], m["cut"], m["n_stems"], nl(m["t"]), speedup),
+        "X %+d mm · mesjes %d mm boven de grond · %s" % (m["x"], m["z"], pot),
+        disc,
+    ]
+
+
 def caption(m, speedup):
+    if m.get("mode") == "mow":
+        return caption_mow(m, speedup)
     spindle = "spil %d rpm · %d W · %s A" % (m["rpm"], m["power"], nl(m["current"])) if m["rpm"] else "spil staat stil"
     pot = "pot op de zode" if m["pot_on_ground"] else "pot hangt"
     depth = "diepte %d mm" % m["depth"] if m["depth"] > 0 else "frees boven de grond"
@@ -61,10 +77,11 @@ def panel(draw, m, small, x0, y0):
         draw.text((cx, zy(v) - 2), nl(v, 0), fill=(40, 40, 40, 255), font=small, anchor="mb")
 
 
-def decorate(image, m, font, small, speedup):
+def decorate(image, m, font, small, speedup, values=True):
+    """values=False: alleen de fasetekst, geen meetwaarden en geen wiellastpaneel."""
     overlay = Image.new("RGBA", image.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
-    lines = caption(m, speedup)
+    lines = caption(m, speedup) if values else [m["text"]]
     pad = 8
     line_h = font.size + 5
     width = max(draw.textlength(line, font=font) for line in lines) + 2 * pad
@@ -72,18 +89,27 @@ def decorate(image, m, font, small, speedup):
                            fill=(255, 255, 255, 215))
     for i, line in enumerate(lines):
         draw.text((10 + pad, 10 + pad + i * line_h), line, fill=(30, 30, 30, 255), font=font)
-    panel(draw, m, small, image.width - 262, image.height - 144)
+    if values:
+        panel(draw, m, small, image.width - 262, image.height - 144)
     return Image.alpha_composite(image.convert("RGBA"), overlay).convert("RGB")
 
 
-def main(folder, out_path, fps=12, last_hold_ms=1500, sim_dt=0.25):
+def main(folder, out_path, fps=12, last_hold_ms=1500, sim_dt=0.25, scale=1.0, values=True):
+    """scale < 1 verkleint de frames (nearest, geen extra kleuren) voor een kleinere GIF, bijvoorbeeld bij gras.
+    values=False laat de meetwaarden en het wiellastpaneel weg (alleen de fasetekst)."""
     with open(os.path.join(folder, "frames.json"), encoding="utf-8") as handle:
         metas = json.load(handle)
     names = sorted(n for n in os.listdir(folder) if n.startswith("frame_") and n.endswith(".png"))
-    font = load_font(15)
-    small = load_font(13)
+    font = load_font(max(11, int(round(15 * scale))))
+    small = load_font(max(10, int(round(13 * scale))))
     speedup = int(round(sim_dt * fps))
-    images = [decorate(Image.open(os.path.join(folder, n)), metas[int(n[6:10])], font, small, speedup) for n in names]
+
+    def load(n):
+        im = Image.open(os.path.join(folder, n))
+        if scale != 1.0:
+            im = im.convert("RGB").resize((int(im.width * scale), int(im.height * scale)), Image.NEAREST)
+        return im
+    images = [decorate(load(n), metas[int(n[6:10])], font, small, speedup, values) for n in names]
 
     sample = [images[i] for i in range(0, len(images), max(1, len(images) // 12))]
     sheet = Image.new("RGB", (images[0].width, images[0].height * len(sample)))

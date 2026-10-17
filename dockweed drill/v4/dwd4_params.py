@@ -149,17 +149,87 @@ jack_play = 0.3                     # speling na het opvullen met PE-strips [mm]
 # ---------------------------------------------------------------------
 sb_back_t = 6.0
 spindle_dv = 75.0                   # hart spil achter de achterplaat (achterplaat op de achterkant van de binnenbuis)
-sb_lo = 408.0                       # onderste lagerplaat boven onderkant gereedschap (40 hoger dan v2: hoge bus)
-sb_hi = 568.0                       # bovenste lagerplaat
-sb_mo = 700.0                       # motorplaat
-shaft_d = 35.0
-bearing_dist = sb_hi - sb_lo        # 160
-motor_P = 1500.0                    # BLDC 48 V
-motor_rpm = 3000.0
-motor_peak = 2.0                    # VESC stroomgrens x nominaal
-cutter_rpm = 1500.0
-mower_rpm = 3000.0
-idle_w = 80.0                       # verlies spil + lagers bij 1500 rpm (geschat)
+sb_lo = 408.0                       # onderste plaat boven onderkant gereedschap (40 hoger dan v2: hoge bus)
+
+# 2x UCP 204 staand lagerblok (op voorraad, parts/lagers/UCP 204: IBU 995.00647). De spil staat verticaal, dus de
+# lagerblokken zitten met hun voet tegen een staande lagerplaat tussen de zijplaten.
+ucp_d = 20.0                        # asdiameter
+ucp_bolt = 95.0                     # boutgatafstand (e)
+ucp_L = 127.0                       # lengte voet (a)
+ucp_b = 38.0                        # breedte voet (b), hier langs de spil (z)
+ucp_slot = (13.0, 19.0)             # sleufgaten
+ucp_H = 65.0                        # totale hoogte (I)
+ucp_h = 33.3                        # ashoogte vanaf de voet (Z)
+ucp_foot_t = 14.0                   # dikte voet (geschat)
+ucp_ring_d = 64.0                   # buitenmaat lagerhuis rond de as (geschat)
+ucp_ring_w = 31.0                   # breedte binnenring met stelschroeven (UC204)
+ucp_kg = 0.65
+bearing_plate_t = 10.0              # staande lagerplaat, voet van de lagerblokken ertegen
+bearing_lo = sb_lo + 8.0 + 31.0     # hart onderste UCP 204 boven onderkant gereedschap
+bearing_dist = 140.0                # hart-hart lagers
+bearing_hi = bearing_lo + bearing_dist
+sb_mo = bearing_hi + ucp_b / 2 + 4.0          # bovenplaat van de spilbok (boven het bovenste lager, onder de ketting)
+shaft_d = ucp_d                     # spilas O20 C45 (h7) door de lagers
+shaft_top = sb_mo + 8.0 + 40.0      # bovenkant spilas (kettingwiel erop)
+spindle_tube = (42.4, 4.0)          # buis 42,4 x 4 over de overhang (gelast op de as en de spilflens): O20 alleen is
+                                    # te slap voor 400 mm overhang (zie dwd4_calc.shaft)
+spindle_tube_top = bearing_lo - ucp_b / 2 - 3.0        # buis stopt net onder het onderste lagerhuis
+
+# Spilmotor: 800 W tandwielmotor met voet (op voorraad, parts/800 watt motor; AliExpress 1005013021961260, 48 V
+# geborsteld, 500 rpm uitgaand volgens de advertentie: CONTROLEER het typeplaatje). Staat rechtop achter de spil,
+# uitgaande as omhoog, 10B-1 ketting naar de spil (snelle overbrenging 38T -> 12T).
+motor_P = 800.0                     # W, opgegeven vermogen
+motor_rpm = 500.0                   # uitgaand toerental tandwielmotor (advertentie)
+motor_V = 48.0
+motor_peak = 2.0                    # stroomgrens regelaar x nominaal (geborsteld, kort)
+motor_shaft_d = 19.0                # uitgaande as O19 h6, spie 6x6
+motor_shaft_out = 35.0
+motor_total_len = 260.0             # tekening: 260 over de as
+motor_nose = (35.0, 65.0, 45.0, 80.0)    # (van, tot, O van, O tot) langs de as vanaf het aseinde (als fpa V2, geschat)
+motor_ring = (65.0, 110.0, 120.0)        # tandwielkast met spanring
+motor_body = (110.0, 255.0, 105.0)       # motorhuis
+motor_cap = (255.0, 260.0, 95.0)
+motor_foot = (119.0, 234.0)              # voet 115 lang (tekening)
+motor_foot_holes = (139.0, 219.0)        # 2 gaten op 80 (tekening)
+motor_foot_w = 90.0                      # AANNAME
+motor_foot_hole_dx = 70.0                # gatafstand dwars (AANNAME)
+motor_foot_t = 6.0
+motor_foot_h = 64.0                      # ashoogte boven de onderkant van de voet (tekening)
+motor_kg = 9.0                           # geschat
+motor_plate_t = 10.0                # motorplaat achter de spilbok, met lippen in sleuven van de zijplaten (kettingspanning)
+motor_slot = 12.0                   # verstelling langs de ketting (sleuven in de zijplaten)
+chain_pitch = 15.875                # 10B-1 (ISO 606), zie parts/Kettingwielen/ketting 10B.txt
+roller_d = 10.16
+sprocket_w = 9.1
+chain_break_N = 22200.0
+z_motor_sprocket = 38               # 10B-1-38-T, Taper-Lock 2012 + bus 19 (parts/Kettingwielen/19mm h6 shaft)
+z_spindle_sprocket = 12             # 10B-1-12, boring 20 H7 + spie 6x6 (CONTROLEER levering, lijst heeft 16/19/30)
+chain_links = 50                    # even aantal schakels -> hartafstand (dwd4_calc.chain_center)
+drive_chain_z = sb_mo + 8.0 + 18.0  # kettingvlak boven onderkant gereedschap
+chain_guard_gap = 8.0               # kettingkast: ruimte rond de schakelplaten
+sb_back_top = 710.0                 # bovenkant achterplaat spilbok (boven de onderkant van de binnenbuis: bouten)
+
+
+def pitch_d(z):
+    """Steekcirkel kettingwiel (mm)."""
+    return chain_pitch / math.sin(math.pi / z)
+
+
+def chain_center(links=None):
+    """Hartafstand (mm) motor - spil bij een even aantal schakels (ISO 606 benadering)."""
+    n = chain_links if links is None else links
+    z1, z2 = z_spindle_sprocket, z_motor_sprocket
+    a = n - (z1 + z2) / 2.0
+    k = ((z2 - z1) / (2 * math.pi)) ** 2
+    c = (a + math.sqrt(a * a - 8 * k)) / 4.0
+    return c * chain_pitch
+
+
+spindle_motor_dv = chain_center()   # spilmotor achter de spil (+v, van de robot af), x = 0: vrij van de potstangen op x = +-100
+
+cutter_rpm = 1500.0                 # regelaar op 95 % (max. 500 x 38/12 = 1583 rpm)
+mower_rpm = 1500.0                  # zelfde spil: de geborstelde tandwielmotor haalt geen 3000 rpm meer
+idle_w = 80.0                       # verlies spil + lagers + ketting bij 1500 rpm (geschat)
 
 # ---------------------------------------------------------------------
 # Pot (rust met eigen gewicht op de zode, sensor = maaiveldreferentie)

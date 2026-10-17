@@ -32,6 +32,7 @@ AGBOT_MODULES = ("agbot_params", "agbot_parts", "build_agbot")
 COLOR = {
     "frame": (0.25, 0.27, 0.30),
     "galv": (0.62, 0.66, 0.68),
+    "guard": (0.62, 0.66, 0.68),
     "alu": (0.80, 0.82, 0.85),
     "chrome": (0.72, 0.74, 0.77),
     "steel": (0.55, 0.57, 0.60),
@@ -50,15 +51,16 @@ COLOR = {
     "leaf": (0.18, 0.45, 0.12),
     "root": (0.45, 0.30, 0.20),
 }
-TRANSPARENT = {"stainless": 25}
+TRANSPARENT = {"stainless": 25, "guard": 65}
 ROBOT_TRANSPARENCY = 0
 SIDES = ((-1, "left"), (1, "right"))
 
 # materiaal per kleur (kg/mm3); gekochte delen met een catalogusmassa staan in MASS_FIXED
 DENSITY = {"alu": 2.70e-6, "rubber": 1.2e-6, "pe": 0.95e-6, "stainless": 7.9e-6, "led": 1.5e-6}
 STEEL = 7.85e-6
-MASS_FIXED = {"spindle_motor": 6.5, "x_motor": 1.6, "x_gearbox": 0.9, "jack_motor": 1.8, "ebox": 3.0,
-              "camera": 0.4, "led_bar": 0.6, "jaw_coupling": 0.9, "bearing_lower": 1.6, "bearing_upper": 1.6,
+MASS_FIXED = {"spindle_motor": P.motor_kg, "x_motor": 1.6, "x_gearbox": 0.9, "jack_motor": 1.8, "ebox": 3.0,
+              "camera": 0.4, "led_bar": 0.6, "bearing_lower": P.ucp_kg, "bearing_upper": P.ucp_kg,
+              "motor_sprocket": 1.9, "spindle_sprocket": 0.35, "drive_chain": 0.9,
               "jack_head": 2.5,
               "chain_lower": 0.25, "chain_upper": 0.15, "chain_bend": 0.05, "spiral_cable": 0.4,
               "pot_sensor": 0.05, "limit_switch": 0.05, "x_pulley": 0.15, "x_idlers": 0.1}
@@ -198,20 +200,27 @@ def build_z_carriage(doc, xc, z):
     add_shape(doc, zc, "inner_tube", "drop_leg_jack_inner_tube_50x50x5", G.inner_tube(), "red")
     add_shape(doc, zc, "inner_guide_ring", "jack_guide_ring_PE", G.inner_guide_ring(), "pe")
     add_shape(doc, zc, "inner_foot_plate", "jack_foot_plate_10mm", G.inner_foot_plate(), "orange")
-    add_shape(doc, zc, "cable_bracket_z", "spiral_cable_bracket_motor_plate", G.cable_bracket_z(), "galv")
+    add_shape(doc, zc, "cable_bracket_z", "spiral_cable_bracket_top_plate", G.cable_bracket_z(), "galv")
     add_shape(doc, zc, "sb_back", "spindle_bracket_back_plate_6mm", G.sb_back_plate(), "orange")
     add_shape(doc, zc, "sb_back_bolts", "spindle_bracket_bolts_M10", G.sb_back_bolts(), "galv")
-    add_shape(doc, zc, "sb_lower", "spindle_bracket_bearing_plate_lower_8mm", G.sb_plate_lower(), "orange")
-    add_shape(doc, zc, "sb_upper", "spindle_bracket_bearing_plate_upper_6mm", G.sb_plate_upper(), "orange")
-    add_shape(doc, zc, "sb_motor_plate", "spindle_bracket_motor_plate_8mm", G.sb_motor_plate(), "orange")
+    add_shape(doc, zc, "sb_lower", "spindle_bracket_lower_plate_8mm", G.sb_plate_lower(), "orange")
+    add_shape(doc, zc, "sb_top", "spindle_bracket_top_plate_8mm", G.sb_top_plate(), "orange")
     for side, tag in SIDES:
         add_shape(doc, zc, "sb_side_" + tag, "spindle_bracket_side_plate_5mm_" + tag, G.sb_side_plate(side), "orange")
-    add_shape(doc, zc, "bearing_lower", "flange_bearing_UCF207_lower", G.bearing_lower(), "blue")
-    add_shape(doc, zc, "bearing_upper", "flange_bearing_UCF207_upper", G.bearing_upper(), "blue")
-    add_shape(doc, zc, "spindle_shaft", "spindle_shaft_D35_C45", G.spindle_shaft(), "chrome")
+    add_shape(doc, zc, "sb_bearing_plate", "spindle_bracket_bearing_plate_10mm", G.sb_bearing_plate(), "orange")
+    add_shape(doc, zc, "bearing_lower", "pillow_block_UCP204_lower", G.bearing_lower(), "blue")
+    add_shape(doc, zc, "bearing_upper", "pillow_block_UCP204_upper", G.bearing_upper(), "blue")
+    add_shape(doc, zc, "bearing_bolts", "bearing_bolts_M12", G.bearing_bolts(), "galv")
+    add_shape(doc, zc, "spindle_shaft", "spindle_shaft_D20_C45", G.spindle_shaft(), "chrome")
+    add_shape(doc, zc, "spindle_tube", "spindle_tube_42_4x4_welded", G.spindle_tube(), "steel")
     add_shape(doc, zc, "spindle_flange", "spindle_flange_D110x12_welded", G.spindle_flange(), "chrome")
-    add_shape(doc, zc, "jaw_coupling", "jaw_coupling_D65", G.jaw_coupling(), "red")
-    add_shape(doc, zc, "spindle_motor", "spindle_motor_BLDC_48V_1500W_3000rpm", G.spindle_motor(), "black")
+    add_shape(doc, zc, "spindle_sprocket", "sprocket_10B_12T_bore20", G.spindle_sprocket(), "steel")
+    add_shape(doc, zc, "motor_plate", "spindle_motor_plate_10mm_slotted", G.motor_plate(), "orange")
+    add_shape(doc, zc, "spindle_motor", "gearmotor_800W_48V_500rpm_foot", G.spindle_motor(), "black")
+    add_shape(doc, zc, "spindle_motor_shaft", "gearmotor_shaft_D19", G.spindle_motor_shaft(), "chrome")
+    add_shape(doc, zc, "motor_sprocket", "sprocket_10B_38T_taperlock_2012", G.motor_sprocket(), "steel")
+    add_shape(doc, zc, "drive_chain", "chain_10B_1_%d_links" % P.chain_links, G.drive_chain(), "black")
+    add_shape(doc, zc, "chain_guard", "chain_guard_2mm", G.chain_guard(), "guard")
     add_shape(doc, zc, "pot_bushes", "pot_rod_bushes_PE_D40", G.pot_bushes(), "pe")
     add_shape(doc, zc, "pot_sensor", "pot_sensor_ground_contact_M12", G.pot_sensor(), "red")
     add_shape(doc, zc, "pot_sensor_bracket", "pot_sensor_bracket_3mm", G.pot_sensor_bracket(), "galv")
@@ -509,9 +518,10 @@ def laser_parts():
         ("jack_mounting_plate_8mm", G.jack_mount_plate(), "y"),
         ("jack_foot_plate_10mm", G.inner_foot_plate(), "z"),
         ("spindle_bracket_back_plate_6mm", G.sb_back_plate(), "y"),
-        ("spindle_bracket_bearing_plate_lower_8mm", G.sb_plate_lower(), "z"),
-        ("spindle_bracket_bearing_plate_upper_6mm", G.sb_plate_upper(), "z"),
-        ("spindle_bracket_motor_plate_8mm", G.sb_motor_plate(), "z"),
+        ("spindle_bracket_lower_plate_8mm", G.sb_plate_lower(), "z"),
+        ("spindle_bracket_bearing_plate_10mm", G.sb_bearing_plate(), "y"),
+        ("spindle_bracket_top_plate_8mm", G.sb_top_plate(), "z"),
+        ("spindle_motor_plate_10mm", G.motor_plate(), "y"),
         ("spindle_bracket_side_plate_5mm", G.sb_side_plate(-1), "x"),
         ("can_lid_steel_5mm", G.pot_lid(), "z"),
         ("cutter_cross_lower_hardox_10mm", cutter["cutter_cross_lower"], "z"),
@@ -659,6 +669,8 @@ def render_all(export=True):
     out.append(save_view("8_headstock_detail.png", (-1.0, 0.3, -0.35), target=(250, -620, 680), height=560))
     out.append(save_view("10_z_jack_detail.png", (-1.0, 1.3, -0.5), target=(P.work_x, -840, 950), height=1100,
                          size=(1000, 1100)))
+    out.append(save_view("11_spindle_drive_detail.png", (-1.0, 1.0, -0.55), target=(P.work_x, ys - 90, 400),
+                         height=750, size=(1000, 1000)))
     # detail frees in de grond: alleen spil, pot, gereedschap en een stuk grond
     set_robot_reference(False, doc)
     add_environment(doc, crushed=(P.work_x, ys, P.depth_std),

@@ -190,6 +190,21 @@ Energy ≈ 2.8 Wh per plant (spindle + axes): 1000 plants ≈ 3 kWh. Cutting pow
 (specific energy 0.5–2 MJ/m³, **estimated**). For comparison: MEV Ampferfräse with tractor and driver, 50–200
 holes/hour at 10 kW.
 
+### 4.1 Mowing a patch of nettles (mowing disc)
+
+Nettles grow in patches that stick out above the grass. The robot stops with the first row under the spindle line,
+the X slide already beside the patch. Z lowers until the pot feels the grass (same sensor as for drilling) and
+goes back `mow_lift` 20 mm: the blades are then 50 mm above the ground (`mow_z`), so the stubble disappears in grass
+of 70–120 mm and the pot slides over nothing (V3: the pot hangs, with the splash flap). The X slide sweeps across
+at `mow_feed` 150 mm/s (1 mm per blade at 3000 rpm), the robot steps `mow_step` 190 mm and the slide sweeps back.
+With a 230 mm swath that gives 40 mm overlap; `dwd2_calc.mow_rows` adds rows until the swath is `mow_margin` 30 mm
+past the outermost stem. A patch of 0.7 × 0.5 m takes 3 passes, ≈ 22 s, ≈ 2.2 Wh. The disc is housed in the pot
+(pot Ø 250 > tip circle Ø 230), so the clippings fall in the grass under the pot instead of being thrown.
+
+Unlike drilling (R4) the robot creeps 190 mm with the disc running; Z stays at mowing height and the pot hangs.
+Mowing power = 150 W idle + 3 kJ/m² × swath × feed ≈ 250 W (**estimated**, a rotary mower in grass needs about
+1.3 kJ/m²).
+
 ---
 
 ## 5. Mass and the robot's wheel loads (important)
