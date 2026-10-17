@@ -3,15 +3,24 @@
 Same machine as [v3](../v3/README.md) (gantry behind the Bruut OpenAgbot, X slide on PTO-shaft tubes, Ruud-style
 steel can, fixed high camera), but the **up/down axis (Z) is a trailer jack**: a square side-wind **drop-leg jack**
 (outer tube 2.5" / 65 mm, inner tube 2" / 50 mm, stroke 15" / 380 mm, trapezoidal screw with a bevel gear in the
-head). The outer tube is bolted to the X slide; the inner tube carries the orange spindle bracket of v2. A NEMA 23 on
+head). The outer tube is bolted to the X slide; the inner tube carries the orange spindle bracket. A NEMA 23 on
 the crank shaft replaces the hand crank. The screw is self-locking, so no brake is needed.
 
 Guide, screw, nut, gearbox and weather sealing come in one cheap, robust, off-the-shelf part.
+
+The spindle runs on parts in stock: the **800 W 48 V gearmotor** (`parts/800 watt motor`, 500 rpm) stands upright
+behind the spindle and drives it with a **10B-1 chain, 38T → 12T** (1500 rpm at the cutter), and the spindle shaft
+**Ø 20** runs in **2 × UCP 204** pillow blocks (`parts/lagers/UCP 204`) on a standing bearing plate. Below the
+bearings the overhang is a welded tube 42.4 × 4, because Ø 20 alone is too weak there.
 Why, and what it costs in speed and accuracy: [RATIONALE.md](RATIONALE.md).
 
 ![work position](previews/1_work_iso_rear_right.png)
 
 ![jack as Z axis](previews/10_z_jack_detail.png)
+
+![spindle drive: 800 W gearmotor, chain 38T-12T, 2 x UCP 204](previews/11_spindle_drive_detail.png)
+
+![spindle drive: 800 W gearmotor, chain 38T-12T, 2 x UCP 204](previews/11_spindle_drive_detail.png)
 
 ![animation: three plants](previews/animation_three_plants.gif)
 
@@ -21,11 +30,11 @@ Why, and what it costs in speed and accuracy: [RATIONALE.md](RATIONALE.md).
 | --- | --- |
 | `Dockweed_drill_v4.FCStd` | the model in working position (x 150, cutter 150 deep); generated, do not edit by hand |
 | `Dockweed_drill_v4.step` | STEP export of the implement |
-| `dxf/*.dxf` | 22 cutting contours (laser/plasma), including the jack mounting plate and the foot plate |
-| `dwd4_params.py` | all dimensions; jack (tubes, stroke, lead, efficiency, motor torque) in the Z section |
+| `dxf/*.dxf` | 23 cutting contours (laser/plasma), including the jack mounting plate, the foot plate, the bearing plate and the motor plate |
+| `dwd4_params.py` | all dimensions; jack (tubes, stroke, lead, efficiency, motor torque) in the Z section; UCP 204, 800 W gearmotor and chain in the spindle section |
 | `dwd4_parts.py` | one function per part, returns a `Part` shape in robot coordinates |
 | `build_dwd4.py` | model tree, poses, interference and clearance check, mass, STEP/DXF export, images |
-| `dwd4_calc.py` | as v2, plus `z_force_max`, `z_drive`, `jack_self_locking`, `z_guide` (play and bending of the jack) |
+| `dwd4_calc.py` | as v2, plus `z_force_max`, `z_drive`, `jack_self_locking`, `z_guide` (play and bending of the jack), `drive_chain` and `shaft` (Ø 20 with tube over the overhang) |
 | `animate_dwd4.py` | animation: robot drives (gantry first), stops at 3 plants and treats them |
 | `make_gif_dwd4.py` | frames to GIF with caption and a "wheel load" panel |
 | `run_in_freecad.py` | macro: rebuild, print mass and key figures |
@@ -44,10 +53,12 @@ dockweed_drill_v4
   x_carriage_moves_in_x        sleeves, X slide, X drive (as v2), jack mounting plate, jack outer tube with PE
                                guide bush, bevel gear head, screw, NEMA 23 on the crank shaft, spiral cable arm
     z_jack_inner_tube_moves_in_z   jack inner tube with PE guide ring and foot plate, spindle bracket (orange,
-                                   as v2 but 40 mm higher), 2x UCF207, shaft O35, jaw coupling, BLDC motor
+                                   40 mm higher than v2): lower plate, standing bearing plate with 2x UCP 204,
+                                   shaft O20 + tube 42.4x4, top plate, 800 W gearmotor behind it on a slotted
+                                   motor plate, chain 10B-1 38T -> 12T, chain guard
       tool_cutter_rotates_about_spindle
     pot_rests_on_ground        steel can 219.1x3.6 with lid, rods, set rings (as v3)
-  cables_follow_x_and_z        cable chain; spiral cable from the motor plate up to the arm on the jack
+  cables_follow_x_and_z        cable chain; spiral cable from the top plate up to the arm on the jack
 robot_reference_NOT_PART_OF_DESIGN
 ```
 
@@ -55,19 +66,20 @@ robot_reference_NOT_PART_OF_DESIGN
 
 | Quantity | v4 | v3 | v2 |
 | --- | --- | --- | --- |
-| Mass of the implement | 99.4 kg | 95.0 kg | 96.4 kg |
-| Z moving mass | 32.3 kg | 35.0 kg | 44.0 kg |
+| Mass of the implement | 105.9 kg | 95.0 kg | 96.4 kg |
+| Z moving mass | 38.8 kg | 35.0 kg | 44.0 kg |
 | Height (fixed parts / camera) | jack head 1.76 m, camera 1.9 m | 1.95 m, 2.1 m | 1.8 m |
 | Z force (plunge / rapid) | 620 / 450 N (limit 600 N) | 2060 / 825 N | 1700 N |
 | Z rapid speed | **40 mm/s** (crank 400 rpm) | 100 mm/s | 100 mm/s |
 | Cycle | **26.1 s, 138 plants/h** (151 with X while driving) | 23.6 s, 153/h | 23.6 s, 153/h |
 | Cutter wobble at 300 N side force, 150 deep | **2.6 mm** (1.4 bending + 1.3 play) | 0.28 mm mast + rollers | HGR15 |
 | Self-locking | trapezoidal screw (efficiency 0.3) | worm i30 | brake motor |
-| Spindle shaft Ø 35 | overhang 396 mm: 0.56 mm, 28 MPa, critical 4400 rpm | 0.45 mm | 0.42 mm |
-| Axle load driving (front / rear) | 48 / 201 kg; battery forward 70 / 179 kg | 49 / 196 kg | 48 / 199 kg |
-| Max. down force (x 0 / x ±500) | 1080 / 940 N | 1060 / 900 N | 1050 / 920 N |
+| Spindle drive | 800 W gearmotor 500 rpm, chain 38T → 12T, 1500 rpm (max 1583), 4.7 Nm / 735 W nominal | BLDC 1500 W | BLDC 1500 W |
+| Spindle shaft | Ø 20 in 2 × UCP 204 + tube 42.4 × 4, overhang 407 mm: 2.35 mm at 300 N, 155 MPa in the Ø 20, critical 2160 rpm (cutter 69 %) | Ø 35: 0.45 mm | Ø 35: 0.42 mm |
+| Axle load driving (front / rear) | 43 / 213 kg; battery forward 65 / 190 kg | 49 / 196 kg | 48 / 199 kg |
+| Max. down force (x 0 / x ±500) | 1160 / 1010 N | 1060 / 900 N | 1050 / 920 N |
 | Clearance | can ≥ 78 mm to the rear tyres; no interference in the 6 end positions, also against the robot | 60 mm | 82 mm |
-| Cost of Z axis + spindle bearing housing (indicative) | ≈ € 240–340 | ≈ € 235–335 | ≈ € 275–380 |
+| Cost of Z axis + spindle bearing housing (indicative) | ≈ € 230–330 (motor and bearings in stock) | ≈ € 235–335 | ≈ € 275–380 |
 
 ## Estimated, not measured
 
@@ -77,3 +89,11 @@ Same list as v2/v3, plus (all from typical 7000 lb drop-leg jacks, **check on th
 - max. crank speed 450 rpm (the jack is made for hand cranking: check heat and wear of screw and nut);
 - play between the tubes 0.3 mm after shimming with PE strips (as delivered often 1–2 mm);
 - NEMA 23 torque 2.2 Nm at 250 rpm and 1.6 Nm at 400 rpm; jack head mass 2.5 kg.
+
+Spindle drive (800 W gearmotor, UCP 204):
+- motor output 500 rpm and 48 V from the listing, not from the type plate; mass 9 kg; foot width 90 and hole
+  distance across 70 (M8) assumed; nose and housing diameters estimated from the photo;
+- UCP 204 foot thickness 14 and housing diameter 64 estimated (the other dimensions are from the datasheet);
+- 12T sprocket with a 20 mm bore: not in the Tyma list (16/19/30), check availability or bore one out;
+- sprocket masses (38T + bus 1.9 kg, 12T 0.35 kg) and chain 0.9 kg;
+- chain efficiency 0.97, idle loss 80 W.

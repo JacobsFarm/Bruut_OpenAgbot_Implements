@@ -861,3 +861,96 @@ def dock_plant(x, y, scale=1.0, z=0.0, spin=0.0):
     root = cyl(22 * scale, V(x, y, z - 10), UP, 26 * scale).fuse(
         Part.makeCone(2.0, 20.0 * scale, 320 * scale, V(x, y, z - 10 - 320 * scale), UP))
     return compound(leaves), root
+
+
+def nettle_patch(xc, yc, a, b, n, seed=1, h=(450.0, 650.0)):
+    """Bos brandnetels: n stengels in een grillige ellips (halve assen a in x, b in y). Geeft [(x, y, hoogte, seed)]."""
+    import random
+    rng = random.Random(seed)
+    out = []
+    gap = 45.0
+    tries = 0
+    while len(out) < n:
+        tries += 1
+        if tries % 2000 == 0:                                      # te vol: stengels mogen dichter op elkaar
+            gap *= 0.9
+        u, w = rng.uniform(-1, 1), rng.uniform(-1, 1)
+        ang = math.atan2(w, u)
+        edge = 0.82 + 0.18 * math.sin(3 * ang + seed)              # grillige rand
+        if u * u + w * w > edge * edge:
+            continue
+        x, y = xc + a * u, yc + b * w
+        if any((x - p[0]) ** 2 + (y - p[1]) ** 2 < gap ** 2 for p in out):
+            continue
+        r = math.hypot(u, w) / edge
+        out.append((x, y, h[1] - (h[1] - h[0]) * r * rng.uniform(0.6, 1.0), rng.randint(0, 10 ** 6)))
+    return out
+
+
+def nettle(x, y, h, seed=0):
+    """Grote brandnetel: stengel met kruiswijs tegenoverstaande, hangende bladparen. Geeft een compound."""
+    import random
+    rng = random.Random(seed)
+    parts = [cyl(3.5, V(0, 0, -5), UP, h + 5)]
+    nodes = max(3, int(h / 80))
+    turn = rng.uniform(0, 90)
+    for k in range(nodes):
+        z = h * (0.22 + 0.74 * k / (nodes - 1))
+        L = 95.0 * (1.0 - 0.55 * k / (nodes - 1)) * rng.uniform(0.85, 1.1)
+        for side in (0, 180):
+            b = leaf(L, 0.55 * L, 1.0)
+            b.rotate(V(0, 0, 0), V(0, 1, 0), rng.uniform(20, 40))
+            b.rotate(V(0, 0, 0), UP, turn + 90 * k + side)
+            b.translate(V(0, 0, z))
+            parts.append(b)
+    parts.append(Part.makeCone(3.5, 0.5, 25, V(0, 0, h), UP))
+    s = compound(parts)
+    s.rotate(V(0, 0, 0), V(math.cos(seed), math.sin(seed), 0), rng.uniform(0, 7))     # scheef groeien
+    s.translate(V(x, y, 0))
+    return s
+
+
+def nettle_stub(x, y, z_cut):
+    return cyl(3.5, V(x, y, -5), UP, z_cut + 5)
+
+
+def nettle_mulch(x, y, seed=0, reach=110.0):
+    """Gehakselde brandnetel: snippers die in de pot rondvliegen en in het gras vallen."""
+    import random
+    rng = random.Random(seed + 7)
+    bits = []
+    for _ in range(7):
+        L = rng.uniform(15, 32)
+        b = leaf(L, L * rng.uniform(0.4, 0.7), 1.0)
+        b.rotate(V(0, 0, 0), V(1, 0, 0), rng.uniform(-35, 35))
+        b.rotate(V(0, 0, 0), UP, rng.uniform(0, 360))
+        b.translate(V(x + rng.uniform(-reach, reach), y + rng.uniform(-reach, reach), rng.uniform(4, 55)))
+        bits.append(b)
+    return compound(bits)
+
+
+def grass_triangles(xr, yr, holes=(), spacing=60.0, h=(70.0, 120.0), seed=3):
+    """Gras als driehoekjes voor een Mesh: per pol 3 sprieten. holes = [(xc, yc, a, b)] ellipsen zonder gras.
+    Geeft [((x, y, z), (x, y, z), (x, y, z)), ...]."""
+    import random
+    rng = random.Random(seed)
+    tris = []
+    y = yr[0]
+    while y < yr[1]:
+        x = xr[0]
+        while x < xr[1]:
+            px, py = x + rng.uniform(-0.45, 0.45) * spacing, y + rng.uniform(-0.45, 0.45) * spacing
+            if not any(((px - hx) / ha) ** 2 + ((py - hy) / hb) ** 2 < 1.0 for hx, hy, ha, hb in holes):
+                for _ in range(3):
+                    a = rng.uniform(0, 2 * math.pi)
+                    w = rng.uniform(3.0, 5.0)
+                    lean = rng.uniform(10, 45)
+                    hz = rng.uniform(*h)
+                    ox, oy = rng.uniform(-8, 8), rng.uniform(-8, 8)
+                    c, s = math.cos(a), math.sin(a)
+                    bx, by = px + ox, py + oy
+                    tris.append(((bx - w * s, by + w * c, 0.0), (bx + w * s, by - w * c, 0.0),
+                                 (bx + lean * c, by + lean * s, hz)))
+            x += spacing
+        y += spacing
+    return tris

@@ -527,20 +527,42 @@ def inner_foot_plate():
 
 
 def _sb():
+    """(onderste plaat, bovenplaat) in z bij z_ref."""
     zc = _zc()
-    return zc + P.sb_lo, zc + P.sb_hi, zc + P.sb_mo
+    return zc + P.sb_lo, zc + P.sb_mo
 
 
-def _bearing_bolts():
-    vs = S["spindle"]
-    return [(dx, vs + dv) for dx in (-46, 46) for dv in (-46, 46)]
+def _bearing_z():
+    zc = _zc()
+    return zc + P.bearing_lo, zc + P.bearing_hi
+
+
+def _motor_xv():
+    """Hart spilmotor (x, v): achter de spil op hartafstand ketting = chain_center(), voet naar de spil (-v)."""
+    return 0.0, S["spindle"] + P.spindle_motor_dv
+
+
+def _motor_plate_v():
+    """(voorkant, achterkant) van de motorplaat; de voet zit tegen de achterkant."""
+    vf = _motor_xv()[1] - P.motor_foot_h
+    return vf - P.motor_plate_t, vf
+
+
+def _chain_z():
+    return _zc() + P.drive_chain_z
+
+
+def _motor_z(d):
+    """z op afstand d langs de motoras vanaf het einde van de uitgaande as (as wijst omhoog)."""
+    return _chain_z() + P.sprocket_w / 2 + 2.0 - d
 
 
 def sb_back_plate():
-    z_lo, z_bo, z_mo = _sb()
+    """Achterplaat van de spilbok (aan de binnenbuis van de steunpoot)."""
+    z_lo, z_mo = _sb()
     v0, v1 = S["sb_back"]
-    p = box(-80, 80, v0, v1, z_lo, z_mo + 10)
-    for (wz0, wz1) in ((z_lo + 30, z_lo + 135), (z_lo + 175, z_mo - 25)):     # lichtgaten
+    p = box(-80, 80, v0, v1, z_lo, _zc() + P.sb_back_top)
+    for (wz0, wz1) in ((z_lo + 30, z_lo + 120), (z_lo + 150, _zt_bottom() - 25)):     # lichtgaten
         p = p.cut(box(-32, 32, v0 - 1, v1 + 1, wz0, wz1))
     for dx, dz in _sb_back_bolts():
         p = p.cut(cyl(5.5, V(dx, v0 - 1, z_lo + dz), ALONG_V, 10))
@@ -550,7 +572,7 @@ def sb_back_plate():
 def _sb_back_bolts():
     b = _zt_bottom()
     z_lo = _sb()[0]
-    return [(dx, dz) for dx in (-55, 55) for dz in (60, 145, 260) if b < z_lo + dz]
+    return [(dx, dz) for dx in (-55, 55) for dz in (60, 145, 260) if b < z_lo + dz < _zc() + P.sb_back_top]
 
 
 def sb_back_bolts():
@@ -564,58 +586,94 @@ def sb_plate_lower():
     v1, vs = S["sb_back"][1], S["spindle"]
     p = box(-75, 75, v1, vs + 80, z_lo, z_lo + 8).fuse(box(-125, 125, vs - 25, vs + 45, z_lo, z_lo + 8)).removeSplitter()
     p = holes_z(p, [(0, vs)], 25, z_lo, 8)
-    p = holes_z(p, _bearing_bolts(), 7, z_lo, 8)
     p = holes_z(p, [(-P.pot_rod_dx, vs), (P.pot_rod_dx, vs)], 10.5, z_lo, 8)
     return to_robot(p)
 
 
-def sb_plate_upper():
-    z_bo = _sb()[1]
+def sb_top_plate():
+    """Bovenplaat boven het bovenste lager, onder de ketting (sluit de spilbok, draagt de spiraalkabelbeugel)."""
+    z_mo = _sb()[1]
     v1, vs = S["sb_back"][1], S["spindle"]
-    p = box(-75, 75, v1, vs + 80, z_bo, z_bo + 6)
-    return to_robot(holes_z(holes_z(p, [(0, vs)], 25, z_bo, 6), _bearing_bolts(), 7, z_bo, 6))
-
-
-def sb_motor_plate():
-    z_mo = _sb()[2]
-    v1, vs = S["sb_back"][1], S["spindle"]
-    p = box(-75, 75, v1, vs + 80, z_mo, z_mo + 8)
-    return to_robot(holes_z(holes_z(p, [(0, vs)], 21, z_mo, 8), _bearing_bolts(), 5.5, z_mo, 8))
+    return to_robot(holes_z(box(-75, 75, v1, vs + 80, z_mo, z_mo + 8), [(0, vs)], P.shaft_d / 2 + 2, z_mo, 8))
 
 
 def sb_side_plate(side):
-    z_lo, z_bo, z_mo = _sb()
+    z_lo, z_mo = _sb()
     v1, vs = S["sb_back"][1], S["spindle"]
     x = side * 78
-    p = box(x - 2.5, x + 2.5, v1, vs + 80, z_lo + 8, z_mo)
-    p = p.cut(box(x - 4, x + 4, v1 + 28, vs + 55, z_lo + 40, z_bo - 12))
-    p = p.cut(box(x - 4, x + 4, v1 + 28, vs + 55, z_bo + 40, z_mo - 22))
+    p = box(x - 2.5, x + 2.5, v1, _motor_plate_v()[0], z_lo + 8, z_mo)
+    p = p.cut(box(x - 4, x + 4, vs - 20, vs + 55, z_lo + 40, z_mo - 25))
+    for (v, z) in _motor_tab_bolts():                        # sleuven voor de lippen van de motorplaat
+        p = p.cut(box(x - 4, x + 4, v - 5.5 - P.motor_slot / 2, v + 5.5 + P.motor_slot / 2, z - 5.5, z + 5.5))
     return to_robot(p)
 
 
-def ucf207(zf):
-    """UCF207 vierkant flenslager (as 35): flens op z = zf, huis naar boven."""
+def _bearing_plate_v():
+    vb = S["spindle"] - P.ucp_h
+    return vb - P.bearing_plate_t, vb
+
+
+def sb_bearing_plate():
+    """Staande lagerplaat tussen de zijplaten: de voeten van de 2 UCP 204 zitten ertegen (M12, sleufgaten in z)."""
+    z_lo, z_mo = _sb()
+    v0, v1 = _bearing_plate_v()
+    p = box(-75.5, 75.5, v0, v1, z_lo + 8, z_mo)
+    for zb in _bearing_z():
+        for dx in (-P.ucp_bolt / 2, P.ucp_bolt / 2):
+            p = p.cut(box(dx - 6.5, dx + 6.5, v0 - 1, v1 + 1, zb - 9.5, zb + 9.5))
+    return to_robot(p)
+
+
+def ucp204(zb):
+    """UCP 204 staand lagerblok (as O20): voet tegen de lagerplaat (v), as verticaal op z = zb."""
     vs = S["spindle"]
-    A, J, tf = 117.0, 92.0, 14.0
-    fl = box(-A / 2, A / 2, vs - A / 2, vs + A / 2, zf, zf + tf)
-    fl = fl.common(cyl(A * 0.64, V(0, vs, zf - 1), UP, tf + 2))
-    h = fl.fuse(cyl(42, V(0, vs, zf + tf), UP, 20)).fuse(cyl(27, V(0, vs, zf + tf + 20), UP, 9)).removeSplitter()
-    for dx in (-J / 2, J / 2):
-        for dv in (-J / 2, J / 2):
-            h = h.cut(cyl(7, V(dx, vs + dv, zf - 1), UP, tf + 2))
-    return to_robot(h.cut(cyl(P.shaft_d / 2 + 0.3, V(0, vs, zf - 1), UP, tf + 32)))
+    vb = vs - P.ucp_h
+    a, b, tf = P.ucp_L, P.ucp_b, P.ucp_foot_t
+    foot = box(-a / 2, a / 2, vb, vb + tf, zb - b / 2, zb + b / 2)
+    for dx in (-P.ucp_bolt / 2, P.ucp_bolt / 2):
+        foot = foot.cut(box(dx - P.ucp_slot[0] / 2, dx + P.ucp_slot[0] / 2, vb - 1, vb + tf + 1,
+                            zb - P.ucp_slot[1] / 2, zb + P.ucp_slot[1] / 2))
+    r = P.ucp_ring_d / 2
+    body = box(-r * 0.8, r * 0.8, vb + tf - 1, vs, zb - b / 2 + 4, zb + b / 2 - 4)
+    ring = cyl(r, V(0, vs, zb - b / 2 + 4), UP, b - 8)
+    inner = cyl(P.ucp_d / 2 + 6, V(0, vs, zb - P.ucp_ring_w / 2), UP, P.ucp_ring_w)
+    h = foot.fuse(body).fuse(ring).fuse(inner).removeSplitter()
+    return to_robot(h.cut(cyl(P.ucp_d / 2, V(0, vs, zb - b), UP, 2 * b)))
 
 
 def bearing_lower():
-    return ucf207(_sb()[0] + 8)
+    return ucp204(_bearing_z()[0])
 
 
 def bearing_upper():
-    return ucf207(_sb()[1] + 8)
+    return ucp204(_bearing_z()[1])
+
+
+def bearing_bolts():
+    """4x M12 door de lagerplaat (moer aan de voorkant)."""
+    v0, v1 = _bearing_plate_v()
+    vt = v1 + P.ucp_foot_t
+    out = []
+    for zb in _bearing_z():
+        for dx in (-P.ucp_bolt / 2, P.ucp_bolt / 2):
+            out.append(cyl(6, V(dx, v0 - 12, zb), ALONG_V, vt - v0 + 20).fuse(cyl(10, V(dx, vt, zb), ALONG_V, 7.5)).fuse(
+                cyl(10, V(dx, v0 - 10, zb), ALONG_V, 10)))
+    return to_robot(compound(out))
 
 
 def spindle_shaft():
-    return to_robot(cyl(P.shaft_d / 2, V(0, S["spindle"], _zc() + 112), UP, P.sb_mo - 132))
+    """Spilas O20 C45: door beide lagers, onderin 30 mm in de prop van de spilbuis gelast, bovenin het kettingwiel."""
+    z0 = _zc() + P.spindle_tube_top - 30
+    return to_robot(cyl(P.shaft_d / 2, V(0, S["spindle"], z0), UP, _zc() + P.shaft_top - z0))
+
+
+def spindle_tube():
+    """Buis 42,4 x 4 over de overhang (spilflens tot onder het onderste lager), bovenin een prop met boring O20."""
+    ro = P.spindle_tube[0] / 2
+    ri = ro - P.spindle_tube[1]
+    z0, z1 = _zc() + 112, _zc() + P.spindle_tube_top
+    vs = S["spindle"]
+    return to_robot(pipe(ro, ri, V(0, vs, z0), UP, z1 - z0).fuse(pipe(ri + 0.5, P.shaft_d / 2, V(0, vs, z1 - 30), UP, 30)))
 
 
 def _flange_holes(sh, v, z0, t):
@@ -631,22 +689,127 @@ def spindle_flange():
     return to_robot(_flange_holes(cyl(55, V(0, S["spindle"], z), UP, 12), S["spindle"], z, 12))
 
 
-def jaw_coupling():
-    z = _zc() + P.sb_mo - 76
-    return to_robot(cyl(32.5, V(0, S["spindle"], z), UP, 76).cut(cyl(P.shaft_d / 2, V(0, S["spindle"], z - 1), UP, 57)))
+# Aandrijving spil: 800 W tandwielmotor rechtop (as omhoog) achter de spilbok, 10B-1 ketting 38T -> 12T
+def _sprocket(z, x, v, bore, hub_d, hub_len, up):
+    """Kettingwiel (tanden als schijf over de tandtoppen) met naaf boven (up) of onder het kettingvlak."""
+    zc = _chain_z()
+    r = P.pitch_d(z) / 2 + 0.3 * P.chain_pitch
+    w = P.sprocket_w
+    s = cyl(r, V(x, v, zc - w / 2), UP, w)
+    hz = zc + w / 2 - 0.01 if up else zc - w / 2 - hub_len + 0.01
+    s = s.fuse(cyl(hub_d / 2, V(x, v, hz), UP, hub_len)).removeSplitter()
+    return s.cut(cyl(bore / 2, V(x, v, zc - w / 2 - hub_len - 1), UP, w + 2 * hub_len + 2))
+
+
+def spindle_sprocket():
+    """10B-1 12T, boring 20 + spie, naaf naar boven tot de bovenkant van de as."""
+    hub = _zc() + P.shaft_top - (_chain_z() + P.sprocket_w / 2)
+    return to_robot(_sprocket(P.z_spindle_sprocket, 0, S["spindle"], P.shaft_d, 40, hub, True))
+
+
+def motor_sprocket():
+    """10B-1 38T Taper-Lock 2012 met bus 19, naaf naar beneden (naar de motor)."""
+    mx, vm = _motor_xv()
+    return to_robot(_sprocket(P.z_motor_sprocket, mx, vm, P.motor_shaft_d, 80, 22, False))
+
+
+def _hull(c1, r1, c2, r2, z0, h):
+    """Omhullende van twee cirkels (x, v) in het x-v-vlak, hoogte h vanaf z0 (ketting- en kastvorm)."""
+    (x1, v1), (x2, v2) = c1, c2
+    d = math.hypot(x2 - x1, v2 - v1)
+    phi = math.atan2(v2 - v1, x2 - x1)
+    al = math.acos((r1 - r2) / d)
+    pts = [V(x1 + r1 * math.cos(phi + al), v1 + r1 * math.sin(phi + al), z0),
+           V(x2 + r2 * math.cos(phi + al), v2 + r2 * math.sin(phi + al), z0),
+           V(x2 + r2 * math.cos(phi - al), v2 + r2 * math.sin(phi - al), z0),
+           V(x1 + r1 * math.cos(phi - al), v1 + r1 * math.sin(phi - al), z0)]
+    quad = Part.Face(Part.makePolygon(pts + [pts[0]])).extrude(V(0, 0, h))
+    return fuse([cyl(r1, V(x1, v1, z0), UP, h), cyl(r2, V(x2, v2, z0), UP, h), quad])
+
+
+def _chain_circles(extra):
+    mx, vm = _motor_xv()
+    return (0.0, S["spindle"]), P.pitch_d(P.z_spindle_sprocket) / 2 + extra, (mx, vm), \
+        P.pitch_d(P.z_motor_sprocket) / 2 + extra
+
+
+def drive_chain():
+    """10B-1 ketting, getekend als band van de schakelplaten (rollen niet getekend)."""
+    zc = _chain_z()
+    c1, r1, c2, r2 = _chain_circles(0.75 * P.chain_pitch)
+    outer = _hull(c1, r1, c2, r2, zc - 7, 14)
+    c1, r1, c2, r2 = _chain_circles(0.3 * P.chain_pitch + 1.0)
+    return to_robot(outer.cut(_hull(c1, r1, c2, r2, zc - 8, 16)))
+
+
+def chain_guard():
+    """Kettingkast 2 mm: rand rond de ketting en deksel, open aan de onderkant; aan de bovenplaat geschroefd."""
+    zc = _chain_z()
+    g = P.chain_guard_gap
+    z0, z1 = zc - 14, _zc() + P.shaft_top + 3
+    c1, r1, c2, r2 = _chain_circles(0.75 * P.chain_pitch + g)
+    inner = _hull(c1, r1, c2, r2, z0 - 1, z1 - z0 + 1)
+    outer = _hull(c1, r1 + 2, c2, r2 + 2, z0, z1 - z0 + 2)
+    return to_robot(outer.cut(inner))
+
+
+def motor_plate():
+    """Motorplaat 10 mm achter de spilbok, met 2 lippen 6 mm langs de zijplaten (M10 in sleuven: kettingspanning
+    in v). Motorvoet met 4x M8 tegen de achterkant."""
+    mx, vm = _motor_xv()
+    v0, v1 = _motor_plate_v()
+    za, zb = _motor_z(P.motor_foot[1]), _motor_z(P.motor_foot[0])
+    p = box(-80.5, 80.5, v0, v1, za - 12, zb + 12)
+    for side in (-1, 1):
+        xo = side * 80.5
+        p = p.fuse(box(min(xo, xo + 6 * side), max(xo, xo + 6 * side), v0 - 45, v1, za - 12, zb + 12))
+    p = p.removeSplitter()
+    for d in P.motor_foot_holes:
+        for dx in (-P.motor_foot_hole_dx / 2, P.motor_foot_hole_dx / 2):
+            p = p.cut(cyl(4.25, V(mx + dx, v0 - 1, _motor_z(d)), ALONG_V, P.motor_plate_t + 2))
+    for (v, z) in _motor_tab_bolts():
+        for x in (-83.5, 83.5):
+            p = p.cut(cyl(5.5, V(x - 4, v, z), V(1, 0, 0), 8))
+    return to_robot(p)
+
+
+def _motor_tab_bolts():
+    """(v, z) van de 2 M10 per lip (door de sleuven in de zijplaten)."""
+    v0 = _motor_plate_v()[0]
+    za, zb = _motor_z(P.motor_foot[1]), _motor_z(P.motor_foot[0])
+    return [(v0 - 25, za + 5), (v0 - 25, zb - 5)]
 
 
 def spindle_motor():
-    z_mo = _sb()[2]
-    vs = S["spindle"]
-    m = box(-55, 55, vs - 55, vs + 55, z_mo + 10, z_mo + 22).fuse(cyl(55, V(0, vs, z_mo + 22), UP, 160))
-    m = m.fuse(box(-30, 30, vs + 50, vs + 80, z_mo + 60, z_mo + 120)).fuse(cyl(30, V(0, vs, z_mo + 182), UP, 12))
-    return to_robot(m)
+    """800 W tandwielmotor met voet (maattekening parts/800 watt motor), as omhoog, voet naar de spil (-v)."""
+    mx, vm = _motor_xv()
+    zs = _motor_z(0)
+    d0, d1, da, db = P.motor_nose
+    nose = Part.makeCone(db / 2, da / 2, d1 - d0, V(mx, vm, zs - d1), UP)
+    parts = [nose]
+    for (a, b, dia) in (P.motor_ring, P.motor_body, P.motor_cap):
+        parts.append(cyl(dia / 2, V(mx, vm, zs - b), UP, b - a))
+    vf = vm - P.motor_foot_h
+    za, zb = _motor_z(P.motor_foot[1]), _motor_z(P.motor_foot[0])
+    foot = box(mx - P.motor_foot_w / 2, mx + P.motor_foot_w / 2, vf, vf + P.motor_foot_t, za, zb)
+    for d in P.motor_foot_holes:
+        for dx in (-P.motor_foot_hole_dx / 2, P.motor_foot_hole_dx / 2):
+            foot = foot.cut(cyl(4.25, V(mx + dx, vf - 1, _motor_z(d)), ALONG_V, P.motor_foot_t + 2))
+    saddle = box(mx - 30, mx + 30, vf + P.motor_foot_t - 1, vm - 40, za + 8, zb - 8)
+    parts += [foot, saddle]
+    return to_robot(fuse(parts))
+
+
+def spindle_motor_shaft():
+    """Uitgaande as O19 h6 van de motor, 35 mm uit de neus (omhoog), door het kettingwiel."""
+    mx, vm = _motor_xv()
+    zs = _motor_z(0)
+    return to_robot(cyl(P.motor_shaft_d / 2, V(mx, vm, zs - P.motor_shaft_out), UP, P.motor_shaft_out))
 
 
 def cable_bracket_z():
-    """Beugel op de motorplaat: onderste anker van de spiraalkabel."""
-    z = _sb()[2] + 8
+    """Beugel op de bovenplaat van de spilbok: onderste anker van de spiraalkabel."""
+    z = _sb()[1] + 8
     v = _spiral_v()
     return to_robot(box(SPIRAL_X - 26, -75, v - 15, v + 15, z, z + 6))
 
@@ -694,7 +857,7 @@ def pot_lid():
 
 
 def shaft_seal():
-    return to_robot(pipe(32, 18, V(0, S["spindle"], _rim() + P.pot_h + P.pot_lid_t), UP, 8))
+    return to_robot(pipe(32, P.spindle_tube[0] / 2 + 0.5, V(0, S["spindle"], _rim() + P.pot_h + P.pot_lid_t), UP, 8))
 
 
 def _rod_len():

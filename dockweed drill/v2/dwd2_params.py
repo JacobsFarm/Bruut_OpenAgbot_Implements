@@ -170,6 +170,13 @@ cutter_d = 180.0                    # vermorzelfrees: gat O180
 cutter_teeth = 4
 mower_tip_d = 230.0                 # maaischijf O200 met 3 mesjes
 mower_rim = 30.0                    # mesjes 30 mm boven de grond als de pot erop staat
+mow_lift = 20.0                     # maaien: na het voelen van de zode zoveel terug, pot hangt net boven het gras
+mow_z = mower_rim + mow_lift        # 50: mesjes boven de grond tijdens het maaien (stoppels verdwijnen in het gras)
+mow_feed = 150.0                    # X-voeding door een bos brandnetels [mm/s]
+mow_step = 190.0                    # robot schuift zoveel op tussen twee banen (zwad 230: 40 mm overlap)
+mow_margin = 30.0                   # zwad steekt zoveel buiten de buitenste stengel
+mow_idle_w = 150.0                  # maaischijf 3000 rpm, luchtweerstand + lagers (geschat)
+mow_energy = 3000.0                 # snij-energie dichte brandnetels [J/m2] (geschat, cirkelmaaier in gras ~1300)
 
 # ---------------------------------------------------------------------
 # Aandrijving en proces

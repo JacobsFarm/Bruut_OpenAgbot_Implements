@@ -27,7 +27,8 @@ Why it is designed this way: [RATIONALE.md](RATIONALE.md).
 | `build_dwd2.py` | model tree, colors, poses, interference and clearance check, mass, STEP/DXF export, images |
 | `dwd2_calc.py` | spindle, cutting energy, axes, cycle, PTO-tube guide, spindle shaft, axle loads, headstock bolts (pure Python) |
 | `animate_dwd2.py` | animation: robot drives (gantry first), stops at 3 plants and treats them |
-| `make_gif_dwd2.py` | frames to GIF with caption and a "wheel load" panel |
+| `animate_dwd2_nettles.py` | animation: mowing disc mows two patches of nettles above the grass in 3 passes each |
+| `make_gif_dwd2.py` | frames to GIF with caption and a "wheel load" panel (both animations) |
 | `run_in_freecad.py` | macro: rebuild, print mass and key figures |
 | `previews/` | images and the GIF |
 | `legacy/` | the first single script `dockweed_design_v2.py` and its requirements, for reference (it writes into this folder with old names: do not run it here) |
@@ -94,6 +95,7 @@ robot_reference_NOT_PART_OF_DESIGN   robot from agbots/agbot design (hidden)
 | Spindle | 1500 rpm, tip speed 14 m/s, 4.8 Nm, 750 W nominal / 1.5 kW peak; mowing 3000 rpm, 36 m/s |
 | Plunge 25 mm/s | 0.25 mm per tooth; hole Ø 180 × 150 = 3.8 l; cutting power 0.4–1.4 kW (estimated) |
 | Cycle | 23.6 s per plant: 153 plants/h, 168 if X moves while driving; ≈ 2.8 Wh per plant |
+| Mowing nettles | patch 0.7 × 0.5 m: 3 passes at 150 mm/s, ≈ 22 s, ≈ 250 W, 2.2 Wh; blades 50 mm above ground |
 | Z axis / X axis | SFU1610 + 3 Nm: 1700 N (limit 600 N) / belt 5:1: 895 N holding force |
 | PTO tubes | 544 mm², deflection 0.45 mm (Z, weight) and 0.96 mm (Y, 600 N Z force) at x = ±500, twist 0.36° |
 | Spindle shaft Ø 35 | 300 N side force: 0.42 mm, 25 MPa; critical speed ≈ 5100 rpm |
@@ -125,6 +127,32 @@ make_gif_dwd2.main(r"C:\temp\dwd2_frames", r"previews\animation_three_plants.gif
 
 Plants, speed and camera are at the top of `animate_dwd2.py` (`PLANTS`, `DT`, `CAM_WIDE`, `CAM_CLOSE`).
 
+### Mowing nettles
+
+![mowing nettles](previews/animation_nettles_mowing.gif)
+
+`animate_dwd2_nettles.py` builds `DWD2_nettles_on_robot_animation`: the robot with the mowing disc in grass with two
+patches of nettles (45–65 cm) sticking out above it. Per patch the robot stops with the first row under the spindle
+and the X slide beside the patch, the disc spins up to 3000 rpm, Z lowers until the pot feels the grass and goes
+back 20 mm (blades 50 mm above the ground), the slide sweeps to the right, the robot steps 190 mm forward, the
+slide sweeps back, one more step and a last sweep. Then Z goes up and the robot drives on to the next patch. A stem
+inside the tip circle becomes a 50 mm stub with some clippings in the grass. Rows come from `dwd2_calc.mow_rows`,
+power from `mow_power`, wheel loads from `axle_loads`; mowing parameters (`mow_*`) are in `dwd2_params.py`.
+
+```python
+import animate_dwd2_nettles as A
+A.build()
+A.play()                                             # live, A.stop()
+A.summary()                                          # time per patch, rows, X/Z range, stems cut (all)
+A.check_fit()                                        # robot vs implement at X +-500, driving/mowing/pot on grass
+A.render_all(r"C:\temp\dwd2_nettle_frames")
+import make_gif_dwd2
+make_gif_dwd2.main(r"C:\temp\dwd2_nettle_frames", r"previews\animation_nettles_mowing.gif",
+                   scale=0.75, values=False)              # only the phase text; values=True adds figures + wheel loads
+```
+
+Patches and camera are at the top of the script (`PATCHES`, `CAM_WIDE`, `CAM_CLOSE`).
+
 ## Estimated, not measured
 
 - Robot mass 150 kg and centre of gravity midway between the axles (`robot_kg`, `robot_cg_y`): weigh the robot.
@@ -134,4 +162,6 @@ Plants, speed and camera are at the top of `animate_dwd2.py` (`PLANTS`, `DT`, `C
 - Motor 48 V 1.5 kW 3000 rpm and its dimensions (generic BLDC); hole patterns of motors and carriages on the slides.
 - Friction of the sleeves on the PTO tubes (μ 0.15, greased with the plastic strips).
 - Robot: as in the robot model (steering stack, wooden blocks, hub motor and tyre replacements).
+- Mowing nettles: idle power of the disc 150 W, cutting energy 3 kJ/m², feed 150 mm/s; nettle and grass shapes
+  are illustrations.
 - The animation uses flat ground, a rigid robot and static wheel loads; no dynamics or slip.

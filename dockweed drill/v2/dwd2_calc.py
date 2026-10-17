@@ -130,6 +130,40 @@ def plants_per_hour(depth=P.depth_std, overlap_x=False):
     return 3600.0 / cycle_time(depth, overlap_x)
 
 
+def mow_power(feed=P.mow_feed, energy=P.mow_energy):
+    """Vermogen maaischijf (W) bij X-voeding feed (mm/s) door een bos brandnetels."""
+    return P.mow_idle_w + energy * (P.mower_tip_d / 1000.0) * (feed / 1000.0)
+
+
+def mow_rows(y_max, y_min, swath=P.mower_tip_d, step=P.mow_step, margin=P.mow_margin):
+    """Spillijnen (robot-y van de spil) om een bos tussen y_max en y_min te maaien. De robot rijdt naar -y,
+    de eerste baan ligt aan de kant van y_max; het zwad steekt margin buiten de buitenste stengels."""
+    half = swath / 2.0 - margin
+    rows = [y_max - half]
+    while rows[-1] - half > y_min:
+        rows.append(rows[-1] - step)
+    return rows
+
+
+def step_time(dist=P.mow_step, v=P.drive_speed, t_acc=0.8):
+    """Robot schuift dist op (driehoeks- of trapeziumprofiel, s)."""
+    a = v / t_acc
+    if dist <= v * t_acc:
+        return 2.0 * math.sqrt(dist / a)
+    return 2.0 * t_acc + (dist - v * t_acc) / v
+
+
+def mow_patch(width=700.0, depth=520.0):
+    """Een bos brandnetels van width (X) x depth (Y) mm: banen, tijd (s) en energie (Wh)."""
+    rows = mow_rows(depth / 2.0, -depth / 2.0)
+    n = len(rows)
+    t_z = (P.drive_z - P.mower_rim) / P.rapid_z + 0.3
+    t = 2 * t_z + P.mow_lift / P.rapid_z + n * width / P.mow_feed + (n - 1) * step_time()
+    e = mow_power() * n * width / P.mow_feed + P.mow_idle_w * (t - n * width / P.mow_feed) + 150.0 * t
+    return {"passes": n, "time_s": t, "energy_wh": e / 3600.0, "power_w": mow_power(),
+            "area_m2": width * depth / 1e6}
+
+
 def energy_per_plant(depth=P.depth_std):
     """Energie per plant (Wh): spil tijdens draaien + assen (geschat 150 W gemiddeld tijdens de cyclus)."""
     ph = dict(cycle(depth))
@@ -284,6 +318,7 @@ def report(model=None):
     lift = axle_loads(MODEL["x_moving_cg"][0])
     work = axle_loads(P.x_max, thrust(P.depth_std), True)
     hb = headstock_bolts()
+    mw = mow_patch()
     out = {
         "spindle": "%.0f rpm, O%.0f: tip %.1f m/s, %.1f Nm, %.0f W nominal / %.0f W peak; mowing %.0f m/s" % (
             P.cutter_rpm, P.cutter_d, sp["tip_speed_m_s"], sp["torque_nm"], sp["power_nom_w"], sp["power_peak_w"],
@@ -298,6 +333,8 @@ def report(model=None):
         "plants_per_hour": round(plants_per_hour()),
         "plants_per_hour_x_overlap": round(plants_per_hour(overlap_x=True)),
         "energy_wh_per_plant": round(energy_per_plant(), 2),
+        "mowing_nettles_700x520": "%d passes, %.0f s, %.1f Wh, %.0f W at %.0f mm/s, blades %.0f mm above ground" % (
+            mw["passes"], mw["time_s"], mw["energy_wh"], mw["power_w"], P.mow_feed, P.mow_z),
         "shaft": {k: round(v, 2) for k, v in sh.items()},
         "guide": {k: round(v, 2) for k, v in gd.items()},
         "spindle_y": round(SPINDLE_Y),

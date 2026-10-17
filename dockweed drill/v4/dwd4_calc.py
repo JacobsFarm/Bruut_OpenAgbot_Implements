@@ -16,11 +16,11 @@ E_STEEL = 210e3                      # N/mm2
 
 # laatste meting uit het model (build_dwd4.mass_properties: staal 7850 kg/m3, gekochte delen als vaste massa)
 MODEL = {
-    "implement_kg": 99.4,
-    "implement_cg": (102.0, -772.0, 798.0),    # robotcoordinaten, werkstand x 150, frees 150 diep
-    "x_moving_kg": 61.9,                      # alles dat met de X-as meegaat (slede, Z-slede, spil, pot, frees)
-    "x_moving_cg": (159.0, -828.0, 714.0),
-    "z_moving_kg": 32.3,
+    "implement_kg": 105.9,
+    "implement_cg": (105.0, -803.0, 755.0),    # robotcoordinaten, werkstand x 150, frees 150 diep
+    "x_moving_kg": 68.4,                      # alles dat met de X-as meegaat (slede, Z-slede, spil, pot, frees)
+    "x_moving_cg": (158.0, -870.0, 656.0),
+    "z_moving_kg": 38.8,
     "pot_kg": 5.9,
     "tool_kg": 2.5,
 }
@@ -39,18 +39,40 @@ TRACK = 2 * P.robot_wheel_x
 # ---------------------------------------------------------------------
 # Spil en frees
 # ---------------------------------------------------------------------
+CHAIN_EFF = 0.97
+
+
 def motor_torque():
-    """Nominaal koppel van de spilmotor (Nm)."""
+    """Nominaal koppel van de tandwielmotor op de uitgaande as (Nm)."""
     return P.motor_P / (2 * math.pi * P.motor_rpm / 60)
 
 
+def chain_ratio():
+    """Overbrenging motor -> spil (snel): z_motor / z_spil."""
+    return P.z_motor_sprocket / float(P.z_spindle_sprocket)
+
+
 def spindle(rpm=P.cutter_rpm):
-    T = motor_torque()
+    """Koppel op de spil (motorkoppel / overbrenging x rendement ketting); vermogen bij rpm (regelaar knijpt de
+    spanning, het koppel blijft)."""
+    T = motor_torque() / chain_ratio() * CHAIN_EFF
     P_nom = T * 2 * math.pi * rpm / 60
     R = P.cutter_d / 2000.0
-    return {"torque_nm": T, "power_nom_w": P_nom, "power_peak_w": min(P_nom * P.motor_peak, P.motor_P * P.motor_peak),
+    return {"torque_nm": T, "power_nom_w": P_nom, "power_peak_w": P_nom * P.motor_peak,
+            "rpm_max": P.motor_rpm * chain_ratio(),
             "tip_speed_m_s": 2 * math.pi * R * rpm / 60, "tip_force_n": T / R,
             "mower_tip_m_s": math.pi * P.mower_tip_d / 1000.0 * P.mower_rpm / 60}
+
+
+def drive_chain():
+    """10B-1 ketting motor -> spil: hartafstand, kettingsnelheid, trekkracht bij piekkoppel, omspanning klein wiel."""
+    C = P.chain_center()
+    r1, r2 = P.pitch_d(P.z_spindle_sprocket) / 2, P.pitch_d(P.z_motor_sprocket) / 2
+    v = P.motor_rpm * P.z_motor_sprocket * P.chain_pitch / 60000.0
+    F = motor_torque() * P.motor_peak * 1000.0 / r2
+    wrap = 180.0 - 2 * math.degrees(math.asin((r2 - r1) / C))
+    return {"links": P.chain_links, "center_mm": C, "ratio": chain_ratio(), "speed_m_s": v, "pull_peak_n": F,
+            "safety": P.chain_break_N / F, "wrap_small_deg": wrap}
 
 
 def chip(plunge=P.plunge_v, rpm=P.cutter_rpm):
@@ -223,17 +245,26 @@ def guide(x_moving_kg=None, z_force=P.z_force_limit):
 # Spilas
 # ---------------------------------------------------------------------
 def shaft(F=P.side_force):
-    """Spilas O35 in 2x UCF207: doorbuiging en spanning bij zijkracht F op het snijniveau, kritisch toerental."""
+    """Spilas O20 in 2x UCP 204, overhang in een buis 42,4 x 4: doorbuiging (arbeidsmethode, getrapte EI),
+    spanningen, lagerkrachten bij zijkracht F op het snijniveau, en kritisch toerental."""
     d = P.shaft_d
-    I = math.pi * d ** 4 / 64
-    a = (P.sb_lo + 8 + 20) - 40.0          # hart onderste UCF207 tot snijniveau (40 boven de tandonderkant)
+    EI_s = E_STEEL * math.pi * d ** 4 / 64
+    D, t = P.spindle_tube
+    EI_t = E_STEEL * math.pi * (D ** 4 - (D - 2 * t) ** 4) / 64
+    a = P.bearing_lo - 40.0                 # hart onderste UCP 204 tot snijniveau (40 boven de tandonderkant)
+    a_t = P.spindle_tube_top - 40.0         # tot de bovenkant van de buis: daarboven alleen O20
     L = P.bearing_dist
-    delta = F * a ** 2 * (L + a) / (3 * E_STEEL * I)
-    sigma = F * a / (math.pi * d ** 3 / 32)
-    k = 3 * E_STEEL * I / (a ** 2 * (L + a)) * 1000.0
+    n = 400
+    ds = a / n
+    integral = sum(((i + 0.5) * ds) ** 2 / (EI_t if (i + 0.5) * ds < a_t else EI_s) for i in range(n)) * ds
+    delta = F * (integral + a ** 2 * L / (3 * EI_s))
+    sigma_shaft = F * a / (math.pi * d ** 3 / 32)
+    sigma_tube = F * a_t / (math.pi * (D ** 4 - (D - 2 * t) ** 4) / (32 * D))
+    k = F / delta * 1000.0
     n_cr = math.sqrt(k / MODEL["tool_kg"]) * 60 / (2 * math.pi)
-    return {"overhang_mm": a, "defl_mm": delta, "stress_mpa": sigma, "critical_rpm": n_cr,
-            "mower_pct_of_critical": 100.0 * P.mower_rpm / n_cr}
+    return {"overhang_mm": a, "defl_mm": delta, "stress_shaft_at_bearing_mpa": sigma_shaft,
+            "stress_tube_mpa": sigma_tube, "bearing_lower_n": F * (a + L) / L, "bearing_upper_n": F * a / L,
+            "critical_rpm": n_cr, "cutter_pct_of_critical": 100.0 * P.cutter_rpm / n_cr}
 
 
 # ---------------------------------------------------------------------
@@ -320,9 +351,10 @@ def report(model=None):
     work = axle_loads(P.x_max, thrust(P.depth_std), True)
     hb = headstock_bolts()
     out = {
-        "spindle": "%.0f rpm, O%.0f: tip %.1f m/s, %.1f Nm, %.0f W nominal / %.0f W peak; mowing %.0f m/s" % (
-            P.cutter_rpm, P.cutter_d, sp["tip_speed_m_s"], sp["torque_nm"], sp["power_nom_w"], sp["power_peak_w"],
-            sp["mower_tip_m_s"]),
+        "spindle": "%.0f rpm (max %.0f), O%.0f: tip %.1f m/s, %.1f Nm, %.0f W nominal / %.0f W peak; mowing %.0f m/s" % (
+            P.cutter_rpm, sp["rpm_max"], P.cutter_d, sp["tip_speed_m_s"], sp["torque_nm"], sp["power_nom_w"],
+            sp["power_peak_w"], sp["mower_tip_m_s"]),
+        "drive_chain": {k: (round(v, 2) if isinstance(v, float) else v) for k, v in drive_chain().items()},
         "chip_mm": round(chip(), 2),
         "hole_l": round(hole_volume() * 1000, 2),
         "cut_power_w": (round(cut_power(energy=P.cut_energy[0])), round(cut_power()), round(cut_power(energy=P.cut_energy[1]))),
