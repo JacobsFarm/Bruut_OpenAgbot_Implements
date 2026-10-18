@@ -22,10 +22,11 @@ agbots/agbot slim/         rear wheels 250 mm apart, with the liquid fertilizer 
 agbots/agbot comparison/   comparison of the two robots
 <implement>/advanced|simple/   per implement a folder per variant (liquid fertilizer applicator, overseeder,
                                feed pusher auger, ...), see below
-<implement>/v1..v5/        same, numbered versions (dockweed drill: v1 X on HGR15 rails, v2 X on PTO tubes, v3 = v2 with
+<implement>/v1..v6/        same, numbered versions (dockweed drill: v1 X on HGR15 rails, v2 X on PTO tubes, v3 = v2 with
                            a Z mast on corner rollers and a Ruud-style can, v4 = v3 with a drop-leg trailer jack as Z and
                            the 800 W gearmotor + chain on 2x UCP 204, v5 = v4 with the motor directly on the spindle
-                           via a jaw coupling, no animation)
+                           via a jaw coupling, no animation, v6 = v5 with a 40x40 frame, PTO tubes bolted between side
+                           plates, Z tube on HGR15 rails driven by a 24 V actuator and a O30 spindle in 2x UCP 206)
 <implement>/inspiration/   source material, not in git
 ```
 
