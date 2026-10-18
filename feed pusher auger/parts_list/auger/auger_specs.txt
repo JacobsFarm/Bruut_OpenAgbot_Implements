@@ -1,0 +1,18 @@
+totale lengte van de wokkel": 1420 mm
+aandrijfkant: afstand tot breekbout hart van gat: 35mm
+aandrijfkant: diameter van m12 gat: 12.4 mm
+aandrijfkant: binnenkant buis diameter: 54 mm
+
+passieve draaiende kant, aan deze kant zit een vaste slijtvaste kunststof in de wokkelbuis waar een vaste ijzerin pin waar de wokkel omheen draait.
+diameter van de opening slijtvaste ring: 20 mm
+dikte van de opening slijtvaste ring: 30 mm
+
+vaste pin aan passief draaiende kant:
+lengte: 35 mm
+diameter: 20 mm
+ 
+
+
+Wokkel:
+buitendiameter buis: 60 mm
+totale diameter met de vijzelbladen: 300 mm
