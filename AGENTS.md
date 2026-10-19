@@ -27,6 +27,10 @@ agbots/agbot comparison/   comparison of the two robots
                            the 800 W gearmotor + chain on 2x UCP 204, v5 = v4 with the motor directly on the spindle
                            via a jaw coupling, no animation, v6 = v5 with a 40x40 frame, PTO tubes bolted between side
                            plates, Z tube on HGR15 rails driven by a 24 V actuator and a O30 spindle in 2x UCP 206)
+cambridge roll/             three trailed variants on one 50 mm tow ball: "cambridge roll" (cbr, also holds the tow
+                           hitch, coupling head, drawbar and the general tree/check helpers), "overrseeder" (ovd, drop
+                           seeder) and "overseeder with cambridge roll" (osr); ovd and osr import cbr from the sibling
+                           folder
 <implement>/inspiration/   source material, not in git
 ```
 
