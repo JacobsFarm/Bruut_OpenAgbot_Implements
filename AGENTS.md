@@ -30,7 +30,8 @@ agbots/agbot comparison/   comparison of the two robots
 cambridge roll/             three trailed variants on one 50 mm tow ball: "cambridge roll" (cbr, also holds the tow
                            hitch, coupling head, drawbar and the general tree/check helpers), "overrseeder" (ovd, drop
                            seeder) and "overseeder with cambridge roll" (osr); ovd and osr import cbr from the sibling
-                           folder
+                           folder; "overrseeder/mini print" (ovm) is a 3D-printable 120 mm test rig of its metering, local
+                           frame, no robot
 <implement>/inspiration/   source material, not in git
 ```
 

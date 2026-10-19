@@ -6,6 +6,10 @@ A 1 m drop seeder that lets grass seed fall on the lawn, trailed behind the Bruu
 only runs over bare patches and stops on full grass. The seeder unit is one module: here on its own wheels, in the
 [combination](../overseeder%20with%20cambridge%20roll/) between the arms of the roll.
 
+A 120 mm printable test version of the metering (hopper + fluted roller, same flute, for the catch test) is in
+[mini print/](mini%20print/README.md).
+Which roller shape suits perennial ryegrass and herb mixtures best is worked out in [onderzoek/](onderzoek/README.md).
+
 Not to be confused with the slit seeders in [overseeder/](../../overseeder/), which cut seed into the sward. This one
 broadcasts on the surface (repair of bare patches); a roll behind it presses the seed in.
 
