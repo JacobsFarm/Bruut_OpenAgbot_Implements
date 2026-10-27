@@ -10,3 +10,12 @@ parts/
 !/liquid fertilizer applicator/precision_applicator/applicator/README.md
 !/liquid fertilizer applicator/precision_applicator/applicator/readme.txt
 !/liquid fertilizer applicator/precision_applicator/applicator/previews/
+!/liquid fertilizer applicator/precision_applicator/applicator/parts/
+/liquid fertilizer applicator/precision_applicator/applicator/parts/*
+!/liquid fertilizer applicator/precision_applicator/applicator/parts/injector_knife/
+/liquid fertilizer applicator/precision_applicator/applicator/parts/injector_knife/*
+!/liquid fertilizer applicator/precision_applicator/applicator/parts/injector_knife/README.md
+!/liquid fertilizer applicator/precision_applicator/applicator/parts/injector_knife/previews/
+/liquid fertilizer applicator/precision_applicator/combined/*
+!/liquid fertilizer applicator/precision_applicator/combined/README.md
+!/liquid fertilizer applicator/precision_applicator/combined/previews/
