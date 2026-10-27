@@ -1,0 +1,1 @@
+rollenpomp gebaseerd op het idee van een infuus uit de ziekenhuizen, door het dichtdrukken van het slangetje onstaat een vacuump waardoor de vloeistof wordt aangetrokken en wordt heel precies toegediend doordat elk rondje dezelfde hoeveelheid vloeistof er door laat gaan 
