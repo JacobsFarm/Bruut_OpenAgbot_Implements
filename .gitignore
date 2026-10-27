@@ -1,3 +1,12 @@
 inspiration/
 agbots/
 parts/
+
+/liquid fertilizer applicator/precision_applicator/roller_pump/*
+!/liquid fertilizer applicator/precision_applicator/roller_pump/README.md
+!/liquid fertilizer applicator/precision_applicator/roller_pump/readme.txt
+!/liquid fertilizer applicator/precision_applicator/roller_pump/previews/
+/liquid fertilizer applicator/precision_applicator/applicator/*
+!/liquid fertilizer applicator/precision_applicator/applicator/README.md
+!/liquid fertilizer applicator/precision_applicator/applicator/readme.txt
+!/liquid fertilizer applicator/precision_applicator/applicator/previews/
