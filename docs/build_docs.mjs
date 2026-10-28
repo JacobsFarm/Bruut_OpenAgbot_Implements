@@ -72,7 +72,11 @@ ${categories
   .join("\n")}
 Already worked out (in the folders next to this one): overseeder, liquid fertilizer applicator, feed pusher auger, disc brushes
 (broom), dockweed drill (CNC weed driller), trencher, spot sprayer (atomising boom), in-row weeder (finger weeders), around-pole
-mower (mowing arm), weed picker, irrigation (hose reel), field marker, mobile refiller, belt rake and weeds burner.
+mower (mowing arm), weed picker, irrigation (hose reel), field marker, mobile refiller, belt rake, weeds burner,
+push blade (also the manure scraper job), fertilizer spreader, grassland harrow (molehill spreader), soil sampler, inter-row hoe, grassland aerator, three-point hitch (with the small cultivator), crate carrier (also the tool cart), counterweights, battery pack, solar canopy, compost spreader, stone picker, mulch layer, grass meter (NIR sensor), soil compaction meter, charging dock, UV-C mildew light, sawdust spreader, bedding rake, dumper barrow, biocontrol spreader and bag trailer.
+
+Covered elsewhere: the tow hitch (50 mm tow ball) and the patch seeder (drop seeder that a camera switches on over
+bare soil) are in [overseeding/](../overseeding/) (cambridge roll and overseeder).
 `;
 fs.writeFileSync(path.join(ideasDir, "README.md"), indexMd);
 

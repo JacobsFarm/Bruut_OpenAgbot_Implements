@@ -17,6 +17,7 @@ is a parametric FreeCAD model generated from Python, measured from the real part
 | [`applicator_v2/`](applicator_v2/README.md) | Applicator V2: 2 rows in the middle with a **press wheel** behind every knife that closes the slot again; also with 5 rows | ![V2](applicator_v2/previews/2_iso_rear.png) |
 | [`combined/`](combined/README.md) | V1 on the Bruut OpenAgbot: 5-section pump on the robot, applicator behind the rear wheels, 5 hoses, animation | ![combined](combined/previews/1_iso_rear_right.png) |
 | [`combined_v2/`](combined_v2/README.md) | V2 on the robot: pump, applicator V2 with press wheels and hoses, with 2 rows (2-section pump) or 5 rows (5-section pump), each with an animation | ![combined V2](combined_v2/previews/1_iso_rear_right.png) |
+| [`animations/`](animations/README.md) | V2 with 5 rows and a work tank works a whole field (12 passes, lifting at the edges, skipping passes or three-point turns) and is refilled by the IBC refiller, the boom refiller with trailer or a stationary IBC trailer; MP4s and GIFs | ![field run](animations/previews/field_run_simple_refill.png) |
 
 ## Animations
 
@@ -26,6 +27,15 @@ is a parametric FreeCAD model generated from Python, measured from the real part
 
 All three: lifted at the start, the actuator lowers the applicator while the robot drives off, the pump runs in step with
 the speed (500 l/ha at 0.75 m/s = 45 rpm), and the actuator lifts again at the end of the strip.
+
+**A whole field with refilling** ([`animations/`](animations/README.md)): the 5-row V2 works 12 passes and is kept
+topped up by one of the refillers from `mobile refiller` — MP4s of [the IBC refiller](animations/previews/field_run_simple.mp4),
+[the boom refiller with trailer](animations/previews/field_run_liquid.mp4), [a stationary IBC trailer](animations/previews/field_run_station.mp4)
+and [all three](animations/previews/field_runs_all.mp4).
+
+| IBC refiller in the U-turn | boom refiller while reversing | stationary IBC trailer |
+| --- | --- | --- |
+| ![simple](animations/previews/field_run_simple.gif) | ![liquid](animations/previews/field_run_liquid.gif) | ![station](animations/previews/field_run_station.gif) |
 
 ## How the folders fit together
 
@@ -38,5 +48,6 @@ The `.FCStd` and `.step` files are generated and not in git; the READMEs and pre
 
 ## Not yet
 
-- Tank and supply hose to the pump manifold; electrics and control.
+- Supply hose from the work tank to the pump manifold (the tank and funnel are only in the field animations);
+  electrics and control.
 - Floating over bumps.

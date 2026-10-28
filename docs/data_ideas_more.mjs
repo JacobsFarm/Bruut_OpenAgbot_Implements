@@ -4,33 +4,6 @@
 export const moreIdeas = [
   // ---------- Crop & soil ----------
   {
-    slug: "soil_sampler",
-    name: "Soil sampler",
-    category: "Crop & Soil",
-    does: "Pushes a sampling probe into the soil at GPS points and keeps each sample in a numbered tube, so a field can be sampled on a grid without a person walking it.",
-    concept: "A probe on a Z axis with a carousel of sample tubes behind the robot. The robot stops roughly on the point, the stage positions the probe exactly (as in the field marker), pushes it in, takes the core and drops it into a tube with the GPS position logged.",
-    reuse: "XYZ stage, Z axis with ground-sensing shroud and RTK antenna mast of the field marker; point list handling; soil compaction meter idea.",
-    open: ["Probe type and depth (topsoil only or a deeper profile)", "Push force versus robot weight (anchoring)", "Carousel size and cleaning of the probe between samples", "Sample label and hand-over to the lab"],
-  },
-  {
-    slug: "stone_picker",
-    name: "Stone picker",
-    category: "Crop & Soil",
-    does: "Picks stones out of grassland or a seedbed and carries them to a bin, which is then emptied at the field edge.",
-    concept: "A shallow comb or tine belt that lifts stones onto a short conveyor into a bin. Works in a pass like the belt rake and is lifted at the headland.",
-    reuse: "Belt, tine bars and castor-actuator lift of the belt rake (bandrake/electric); bin and tipping idea of the dumper.",
-    open: ["Stone size range and tine spacing", "Bin size versus robot axle load", "Soil loss over the belt (sieving)", "Emptying: tip at the headland or hand over to the refiller platform"],
-  },
-  {
-    slug: "molehill_spreader",
-    name: "Molehill spreader",
-    category: "Crop & Soil",
-    does: "Spreads molehills flat in grassland before mowing or overseeding, so the mower stays clean and the sward closes again.",
-    concept: "A drag chain or a light roller bar behind the robot (or a low rotating brush), floating on a parallelogram. A camera or the mole mapper tells where hills are, so the unit can be raised elsewhere.",
-    reuse: "Disc-brush drive and toolbar of the disc brushes; floating lift frame of the overseeder.",
-    open: ["Drag chain, harrow or brush", "Soil and stones in the hills: damage to the mower after all?", "Switch on only above hills (camera) or always"],
-  },
-  {
     slug: "mole_mapper",
     name: "Mole and tunnel mapper",
     category: "Crop & Soil",
@@ -48,25 +21,7 @@ export const moreIdeas = [
     reuse: "Seed hopper, metering rollers and slit elements of the overseeder; row geometry of the in-row weeder.",
     open: ["Slit versus broadcast between rows", "Species and seed rate", "Timing relative to crop height (clearance under the belly)"],
   },
-  {
-    slug: "mulch_layer",
-    name: "Mulch / foil layer",
-    category: "Crop & Soil",
-    does: "Lays mulch foil or paper along the rows, pressing the edges into the soil, to suppress weeds and keep moisture.",
-    concept: "A reel on a frame behind the robot, two shaped discs that bury the edges and a press roller. Tensioning via a brake on the reel; the robot pulls straight along the RTK line.",
-    reuse: "Reel and winding mechanics of the irrigation hose reel; discs and press wheels of the overseeder.",
-    open: ["Reel width and foil roll mass", "Edge covering: discs or soil throw", "Cutting and ending the foil at the headland", "Biodegradable foil: strength at the robot's pull"],
-  },
   // ---------- Weed & crop protection ----------
-  {
-    slug: "uv_mildew_light",
-    name: "UV-C light for mildew control",
-    category: "Weed & Crop Protection",
-    does: "Drives UV-C lamps along the rows, shining between and over the plants at night, to suppress powdery mildew and other fungal diseases without chemicals.",
-    concept: "A lamp bar with UV-C tubes or LED modules in a hood close to the crop, with reflectors that shine into the canopy from the sides and from below. The hood shields people and animals; the lamps switch off the moment the robot stops, and interlocks stop them when the hood is lifted or a person is detected. Dose is set by driving speed, so speed and lamp power give a fixed dose per square metre.",
-    reuse: "Hood and heat-shield thinking of the weeds burner; 48 V supply and control box; row units with gauge wheels of the in-row weeder for height above the crop.",
-    open: ["UV-C dose per pass against mildew species and crop (strawberry, cucumber, grape ...)", "Lamp type: UV-C tubes versus LED, and lifetime", "Hood height over the canopy and side reflectors", "Safety: eye and skin protection, interlocks, night-only operation", "Effects on beneficial insects and on the crop (leaf burn)"],
-  },
   {
     slug: "speaker",
     name: "Speech speaker",
@@ -104,15 +59,6 @@ export const moreIdeas = [
     open: ["Power and water use per hectare", "Boiler type: propane, electric or both", "Effect on perennial weeds with deep roots", "Weight and heat shielding"],
   },
   {
-    slug: "biocontrol_spreader",
-    name: "Biological-control spreader",
-    category: "Weed & Crop Protection",
-    does: "Releases beneficial organisms (parasitic wasps, predatory mites, nematodes) at set points or lines in the crop.",
-    concept: "A small cooled container with a dosing unit that drops carriers at GPS points or along rows. For nematodes a small tank with a pump and spray nozzle; for insects a dispenser with a drop tube.",
-    reuse: "Dosing pump and tank of the liquid fertilizer applicator and spot sprayer; GPS point handling of the field marker.",
-    open: ["Organism type, carrier and storage temperature", "Dosing per point or per metre", "Survival during dispensing", "Timing and weather limits"],
-  },
-  {
     slug: "pheromone_trap_service",
     name: "Pheromone trap service",
     category: "Weed & Crop Protection",
@@ -148,15 +94,6 @@ export const moreIdeas = [
     concept: "A flexible blade or rubber scraper at the front or back, as a variant of the push blade, with a stainless finish. Runs on a schedule on set routes.",
     reuse: "Push blade idea, feed pusher auger mounting on the rear wheel brackets.",
     open: ["Stainless or coated parts against manure corrosion", "Blade shape and floor type (slats, solid)", "Washing and cleaning of the robot"],
-  },
-  {
-    slug: "bedding_rake",
-    name: "Bedding rake",
-    category: "Livestock & Farm",
-    does: "Rakes and levels bedding (straw, sawdust, wood chips) in loose housing, stables and paddocks.",
-    concept: "A comb or spring-tine harrow behind the robot to loosen and level, with a small hopper to top up. Works with the bedding spreaders.",
-    reuse: "Tine bars and belt of the belt rake; hopper of the sawdust spreader.",
-    open: ["Tine type for straw versus sawdust", "Depth setting on soft bedding", "Animal interaction: noise and speed near animals"],
   },
   {
     slug: "chicken_house_robot",
@@ -214,33 +151,6 @@ export const moreIdeas = [
     open: ["Image quality in shade and at row ends", "Per-tree identification", "Status classes and reports"],
   },
   // ---------- Transport & general ----------
-  {
-    slug: "crate_carrier",
-    name: "Crate and box carrier",
-    category: "Transport & General",
-    does: "Follows a picker or runs a set route and carries full crates from the plant rows to the field edge, so pickers do not have to walk with loads.",
-    concept: "A flat platform on the top plate with crate guides and tie-downs, taking 4 to 8 standard crates. Follow-me mode via a tag or RTK on the picker, or fixed shuttle routes. Weight is kept low and centred over the axles.",
-    reuse: "Top-plate pattern and the mobile refiller's driving between two positions; speaker idea for warnings and messages.",
-    open: ["Crate type and number, payload", "Follow-me method: RTK tag, camera or radio", "Loading height for the picker", "Fruit bruising on bumpy ground"],
-  },
-  {
-    slug: "tool_cart",
-    name: "Tool and material cart",
-    category: "Transport & General",
-    does: "Carries tools, stakes, nets, and water along to where the work is, in the field or in a greenhouse.",
-    concept: "A rack or open box on the top plate or a small trailer, with tool holders. Follows the worker or drives to a stored point.",
-    reuse: "Crate carrier platform, tow hitch idea.",
-    open: ["Rack layout and capacity", "Following or fixed route", "Greenhouse use: width and floor"],
-  },
-  {
-    slug: "bag_trailer",
-    name: "Bag trailer",
-    category: "Transport & General",
-    does: "Pulls a small trailer with bags of seed, fertilizer or feed to a fixed point in the field or yard.",
-    concept: "A light single-axle trailer or a pallet on a platform, hitched to the tow hitch. Supplies refill stations or spreaders.",
-    reuse: "Trailer of the mobile refiller; tow hitch idea.",
-    open: ["Load per trip and slope", "Hitch type and reverse driving", "Unloading: by hand or tipped"],
-  },
   // ---------- Power & infrastructure ----------
   {
     slug: "charging_robot",
@@ -250,15 +160,6 @@ export const moreIdeas = [
     concept: "A support robot like the mobile refiller, with a battery pack and a charging plug on a boom or at a fixed side. The working robot docks at a stop point, or charging happens in the headland turn.",
     reuse: "Docking approach, RTK antenna above the connection and procedure of the mobile refiller; battery pack idea.",
     open: ["Charging connector and automatic plug-in", "Charging power and time", "Battery capacity on the charger robot", "Wireless versus conductive contact"],
-  },
-  {
-    slug: "wireless_charging_dock",
-    name: "Wireless charging dock",
-    category: "Power & Drive",
-    does: "A fixed docking station at the field edge or in the shed where the robot drives up and charges, either with contacts or wirelessly.",
-    concept: "A drive-on plate with an inductive coil or contact bars, a guide for alignment, and an RTK-assisted approach. The robot parks over the coil.",
-    reuse: "Docking alignment of the mobile refiller; solar panel idea as the power source.",
-    open: ["Wireless versus contact charging", "Power and efficiency", "Weatherproofing", "Alignment tolerance"],
   },
   {
     slug: "security_patrol",

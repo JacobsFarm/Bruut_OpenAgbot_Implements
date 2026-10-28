@@ -31,9 +31,9 @@ img{max-width:100%;display:block}
 .idx{columns:2;padding-left:5mm;margin:0;font-size:10pt}
 a{color:#2f6b1e}
 </style></head><body><section class="page cover"><p class="kicker">Bruut OpenAgbot</p><h1>Implements</h1>
-<p class="lead">Overview of all implements for the Bruut OpenAgbot: the 16 that are worked out in FreeCAD, with every variant on its own page, followed by the 59 ideas from the website that are not worked out yet.</p>
-<p class="meta">Generated from the repository READMEs · 2026-10-15 · <a href="https://openagbot.com">openagbot.com</a></p></section>
-<section class="page"><h2>Contents</h2><ol class="toc"><li><a href="#imp1">Overseeder</a><span>Sowing &amp; Planting</span></li><li><a href="#imp2">Liquid fertilizer applicator</a><span>Spraying, Fertilizing &amp; Irrigation</span></li><li><a href="#imp3">Feed pusher auger</a><span>Transport &amp; General</span></li><li><a href="#imp4">Disc brushes</a><span>Transport &amp; General</span></li><li><a href="#imp5">Dockweed drill</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#imp6">Trencher</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#imp7">Field marker</a><span>Measuring &amp; Sensors</span></li><li><a href="#imp8">Mobile refiller</a><span>Spraying, Fertilizing &amp; Irrigation</span></li><li><a href="#imp9">Around-pole fence mower</a><span>Mowing</span></li><li><a href="#imp10">Weed picker</a><span>Mowing</span></li><li><a href="#imp11">Sickle bar mower</a><span>Mowing</span></li><li><a href="#imp12">Irrigation</a><span>Spraying, Fertilizing &amp; Irrigation</span></li><li><a href="#imp13">Spot sprayer</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#imp14">In-row weeder</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#imp15">Belt rake</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#imp16">Weeds burner (flame weeder)</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#ideas">Implement ideas (not worked out yet)</a></li></ol></section><section class="page implement"><p class="kicker">Implement · Sowing &amp; Planting</p><h2 id="imp1">Overseeder</h2>
+<p class="lead">Overview of all implements for the Bruut OpenAgbot: the 39 that are worked out in FreeCAD, with every variant on its own page, followed by the 31 ideas from the website that are not worked out yet.</p>
+<p class="meta">Generated from the repository READMEs · 2026-10-28 · <a href="https://openagbot.com">openagbot.com</a></p></section>
+<section class="page"><h2>Contents</h2><ol class="toc"><li><a href="#imp1">Overseeder</a><span>Sowing &amp; Planting</span></li><li><a href="#imp2">Liquid fertilizer applicator</a><span>Spraying, Fertilizing &amp; Irrigation</span></li><li><a href="#imp3">Feed pusher auger</a><span>Transport &amp; General</span></li><li><a href="#imp4">Disc brushes</a><span>Transport &amp; General</span></li><li><a href="#imp5">Dockweed drill</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#imp6">Trencher</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#imp7">Field marker</a><span>Measuring &amp; Sensors</span></li><li><a href="#imp8">Mobile refiller</a><span>Spraying, Fertilizing &amp; Irrigation</span></li><li><a href="#imp9">Around-pole fence mower</a><span>Mowing</span></li><li><a href="#imp10">Weed picker</a><span>Mowing</span></li><li><a href="#imp11">Sickle bar mower</a><span>Mowing</span></li><li><a href="#imp12">Irrigation</a><span>Spraying, Fertilizing &amp; Irrigation</span></li><li><a href="#imp13">Spot sprayer</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#imp14">In-row weeder</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#imp15">Belt rake</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#imp16">Weeds burner (flame weeder)</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#imp17">Push blade</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#imp18">Fertilizer spreader</a><span>Spraying, Fertilizing &amp; Irrigation</span></li><li><a href="#imp19">Grassland harrow</a><span>Crop &amp; Soil</span></li><li><a href="#imp20">Soil sampler</a><span>Crop &amp; Soil</span></li><li><a href="#imp21">Inter-row hoe</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#imp22">Grassland aerator</a><span>Soil Cultivation &amp; Weed Control</span></li><li><a href="#imp23">Three-point hitch</a><span>Transport &amp; General</span></li><li><a href="#imp24">Crate carrier</a><span>Transport &amp; General</span></li><li><a href="#imp25">Counterweights</a><span>Transport &amp; General</span></li><li><a href="#imp26">Battery pack</a><span>Power &amp; Drive</span></li><li><a href="#imp27">Solar canopy</a><span>Power &amp; Drive</span></li><li><a href="#imp28">Compost spreader</a><span>Spreading &amp; Bedding</span></li><li><a href="#imp29">Stone picker</a><span>Crop &amp; Soil</span></li><li><a href="#imp30">Mulch layer</a><span>Crop &amp; Soil</span></li><li><a href="#imp31">Grass meter</a><span>Measuring &amp; Sensors</span></li><li><a href="#imp32">Soil compaction meter</a><span>Measuring &amp; Sensors</span></li><li><a href="#imp33">Charging dock</a><span>Power &amp; Drive</span></li><li><a href="#imp34">UV-C mildew light</a><span>Weed &amp; Crop Protection</span></li><li><a href="#imp35">Sawdust spreader</a><span>Spreading &amp; Bedding</span></li><li><a href="#imp36">Bedding rake</a><span>Livestock &amp; Farm</span></li><li><a href="#imp37">Dumper barrow</a><span>Transport &amp; General</span></li><li><a href="#imp38">Biocontrol spreader</a><span>Weed &amp; Crop Protection</span></li><li><a href="#imp39">Bag trailer</a><span>Transport &amp; General</span></li><li><a href="#ideas">Implement ideas (not worked out yet)</a></li></ol></section><section class="page implement"><p class="kicker">Implement · Sowing &amp; Planting</p><h2 id="imp1">Overseeder</h2>
 <p class="lead">Grassland slit seeder. 1 m modules with 8 rows at 125 mm and coupling flanges. A thin disc cuts a 15 mm slot, the seed is placed about 12 mm deep and a sprung press wheel closes the slot. Every row follows the ground on its own arm; two gas springs push the floating lift frame down with robot weight.</p>
 <div class="thumbs t2"><figure><img src="../overseeder/simple/previews/12_work_iso_with_robot.png" alt="Overseeder Simple"><figcaption><b>Simple</b></figcaption></figure><figure><img src="../overseeder/advanced/previews/12_work_iso_with_robot.png" alt="Overseeder Advanced"><figcaption><b>Advanced</b></figcaption></figure></div>
 <p class="meta">2 variants: Simple · Advanced<br>Folder: <code>overseeder/</code></p></section>
@@ -232,30 +232,216 @@ a{color:#2f6b1e}
 <p>Insulated 1.5 × 0.8 m hood behind the robot with 6 flat-flame burners (13 kg/h, 167 kW). Two 18 kg forklift cylinders with liquid withdrawal on the robot, a vaporiser coil in the hood, two main solenoid valves in series, a motorised regulator, pilots with igniters and flame sensors; the valves close at once when the robot stops.</p>
 <ul class="facts"><li>34 kg/ha at 0.7 m/s, 0.84 ha per filling</li><li>Gas ≈ €55/ha</li><li>131 kg empty, about €3,400 in parts</li></ul>
 <p class="meta">Folder: <code>weeds burner/propane_hood/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Soil Cultivation &amp; Weed Control</p><h2 id="imp17">Push blade</h2>
+<p class="lead">Front-mounted dozer / grader blade: pushes feed back to the feed fence, scrapes slurry and snow, grades soil and paths. Covers the manure scraper idea as well.</p>
+<div class="thumbs t1"><figure><img src="../push%20blade/simple/previews/1_iso_front_on_robot.png" alt="Push blade Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>push blade/</code></p></section>
+<section class="page variant"><p class="kicker">Push blade · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../push%20blade/simple/previews/1_iso_front_on_robot.png" alt="Push blade Simple"></div>
+<p>1100 x 450 moldboard on R700 with a bolted rubber edge (steel edge for soil), angle +-25 degrees on an M30 king pin with a lock pin, two lift arms on a front toolbar under the front lower beams, 24 V 1500 N actuator with a float slot.</p>
+<ul class="facts"><li>Net push 801 N on dry concrete, 348 N with manure</li><li>Lift 159 mm, clears the steered front tyres by 148 mm</li><li>81 kg</li></ul>
+<p class="meta">Folder: <code>push blade/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Spraying, Fertilizing &amp; Irrigation</p><h2 id="imp18">Fertilizer spreader</h2>
+<p class="lead">Spinning-disc spreader for granular fertilizer (and granular lime with a coarser roller). Dose follows the driving speed and a task map.</p>
+<div class="thumbs t1"><figure><img src="../fertilizer%20spreader/simple/previews/1_iso_rear_right_on_robot.png" alt="Fertilizer spreader Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>fertilizer spreader/</code></p></section>
+<section class="page variant"><p class="kicker">Fertilizer spreader · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../fertilizer%20spreader/simple/previews/1_iso_rear_right_on_robot.png" alt="Fertilizer spreader Simple"></div>
+<p>88 l PE hopper over and behind the rear axle on rails on the upper beams, fluted metering roller O80 on a 12 V gearmotor, vaned disc O400 on a 48 V BLDC motor behind the robot with a guard towards the robot. Optional 2 x 20 kg front counterweight.</p>
+<ul class="facts"><li>Driving width 4.1..6.7 m (500..900 rpm)</li><li>100..541 kg/ha at 1 m/s</li><li>~1.6 ha/h, 130 kg full</li></ul>
+<p class="meta">Folder: <code>fertilizer spreader/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Crop &amp; Soil</p><h2 id="imp19">Grassland harrow</h2>
+<p class="lead">Pasture harrow behind the robot: a levelling board spreads molehills and dung pats, two rows of spring tines rake out moss and work in seed. Covers the molehill spreader idea.</p>
+<div class="thumbs t1"><figure><img src="../grassland%20harrow/simple/previews/1_iso_rear_right_on_robot.png" alt="Grassland harrow Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>grassland harrow/</code></p></section>
+<section class="page variant"><p class="kicker">Grassland harrow · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../grassland%20harrow/simple/previews/1_iso_rear_right_on_robot.png" alt="Grassland harrow Simple"></div>
+<p>1300 mm harrow on two lift arms from a rear toolbar (the push blade geometry, mirrored): angle-iron levelling board, 32 double spring tines O8 (a track every 37.5 mm), floats on the sward, lifted by a 24 V actuator.</p>
+<ul class="facts"><li>Pull 629 N on grass, grip margin 1.44</li><li>0.56 ha/h at 1.5 m/s</li><li>85 kg</li></ul>
+<p class="meta">Folder: <code>grassland harrow/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Crop &amp; Soil</p><h2 id="imp20">Soil sampler</h2>
+<p class="lead">Takes soil cores at GPS points with a gouge on a ball-screw Z axis in the middle of the robot and collects 40 cores per plot in a cup of a 10-cup carousel.</p>
+<div class="thumbs t1"><figure><img src="../soil%20sampler/simple/previews/1_iso_on_robot_park.png" alt="Soil sampler Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>soil sampler/</code></p></section>
+<section class="page variant"><p class="kicker">Soil sampler · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../soil%20sampler/simple/previews/1_iso_on_robot_park.png" alt="Soil sampler Simple"></div>
+<p>SBR20 rails and an SFU1605 ball screw with a NEMA23 on a mast plate between two bridges on the upper beams, O25 gouge with ejector, sprung foot, swing chute and funnel, carousel of 10 cups of 1.3 l.</p>
+<ul class="facts"><li>0-10 cm grass needs 0.5..0.8 kN, 1.3 kN available</li><li>38 s per core, 25 min per plot</li><li>33 kg</li></ul>
+<p class="meta">Folder: <code>soil sampler/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Soil Cultivation &amp; Weed Control</p><h2 id="imp21">Inter-row hoe</h2>
+<p class="lead">Single-axis guided hoe behind the robot for row crops such as maize: two hoe units in the inter-rows behind the wheels, kept on the rows by a camera-steered ball-screw side shift.</p>
+<div class="thumbs t1"><figure><img src="../inter%20row%20hoe/simple/previews/1_iso_rear_right_on_robot.png" alt="Inter-row hoe Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>inter row hoe/</code></p></section>
+<section class="page variant"><p class="kicker">Inter-row hoe · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../inter%20row%20hoe/simple/previews/1_iso_rear_right_on_robot.png" alt="Inter-row hoe Simple"></div>
+<p>Rear toolbar and lift arms of the grassland harrow (3000 N actuator), carrier with 2 HGR15 rails, 8 mm shift plate moved +-75 mm by an SFU1610 ball screw and a closed-loop NEMA23. Two parallelogram units with a gauge wheel O250, a goosefoot 250 and two L-blades (550 mm per inter-row, 100 mm band each side of the row). Camera on a mast above the middle row.</p>
+<ul class="facts"><li>1.5 m per pass (2 x 750), ~0.43 ha/h at 1 m/s</li><li>Pull 764 N at 20 mm, grip margin 1.23</li><li>Side shift 80 mm/s, ~119 kg, needs the 2 x 20 kg front counterweight</li></ul>
+<p class="meta">Folder: <code>inter row hoe/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Soil Cultivation &amp; Weed Control</p><h2 id="imp22">Grassland aerator</h2>
+<p class="lead">Slitter aerator in the middle of the robot, between the axles: a passive roller with star discs cuts slits into grassland, pressed in by frame weight and ballast, both axles sharing the reaction.</p>
+<div class="thumbs t1"><figure><img src="../grassland%20aerator/simple/previews/1_iso_front_right_on_robot.png" alt="Grassland aerator Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>grassland aerator/</code></p></section>
+<section class="page variant"><p class="kicker">Grassland aerator · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../grassland%20aerator/simple/previews/1_iso_front_right_on_robot.png" alt="Grassland aerator Simple"></div>
+<p>2 bridges on the upper beams, side arms on pivots outside the steering sweep, roller with 8 stars of 6 slitting knives (O450) in 2 UCFL208 bearings, cross beam with 4 x 20 kg ballast, 24 V 2000 N actuator from a mast on the rear bridge (lifts 14 degrees, can press).</p>
+<ul class="facts"><li>1.2 m, slits 150 x 236 mm, 70 mm deep</li><li>~0.41 ha/h at 1.2 m/s, pull 325 N</li><li>201 kg incl. 80 kg ballast, 47 % on the front axle</li></ul>
+<p class="meta">Folder: <code>grassland aerator/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Transport &amp; General</p><h2 id="imp23">Three-point hitch</h2>
+<p class="lead">Category 0 three-point linkage at the rear with two electric lift rods, so standard sub-compact implements can hang on the robot. Drawn with a small 5-tine cultivator, which covers the small cultivator idea.</p>
+<div class="thumbs t1"><figure><img src="../three%20point%20hitch/simple/previews/1_iso_rear_right_on_robot.png" alt="Three-point hitch Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>three point hitch/</code></p></section>
+<section class="page variant"><p class="kicker">Three-point hitch · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../three%20point%20hitch/simple/previews/1_iso_rear_right_on_robot.png" alt="Three-point hitch Simple"></div>
+<p>Rear toolbar of the grassland harrow with lugs for 2 lower links (50 x 20, O16 pins, 500 spacing), a top link bracket and 2 x 24 V 3000 N actuators as lift rods with a slotted eye (the implement floats). Demo implement: 1.0 m cultivator, 5 S-tines with duckfoot shares, 2 gauge wheels.</p>
+<ul class="facts"><li>Lower pins 220 .. 425 mm, implement level within 2 degrees</li><li>Carries ~56 kg lifted with the 2 x 20 kg counterweight (front axle &gt;= 20 %)</li><li>Cultivator: 808 N draft at 40 mm, grip margin 1.29, 0.29 ha/h</li></ul>
+<p class="meta">Folder: <code>three point hitch/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Transport &amp; General</p><h2 id="imp24">Crate carrier</h2>
+<p class="lead">Flat deck on the upper beams for 8 harvest crates, carried from the rows to the field edge following a picker (UWB) or on an RTK route. The same deck carries tools and material (covers the tool cart idea).</p>
+<div class="thumbs t1"><figure><img src="../crate%20carrier/simple/previews/1_iso_rear_right_loaded.png" alt="Crate carrier Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>crate carrier/</code></p></section>
+<section class="page variant"><p class="kicker">Crate carrier · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../crate%20carrier/simple/previews/1_iso_rear_right_loaded.png" alt="Crate carrier Simple"></div>
+<p>3 bearers across the upper beams, side rails and 18 mm plywood (1300 x 1000, loading height 757), angle guides, divider, mesh headboard in front of the crates, 2 ratchet straps; 2 UWB anchors, a stop/go/follow box and the GNSS antenna moved to a mast above the stack.</p>
+<ul class="facts"><li>8 crates 600 x 400 x 300 in 2 layers</li><li>Apples: 141 kg, 48 % front axle, side tip angle 28 degrees</li><li>~107 crates per hour on a 150 m shuttle, 51 kg</li></ul>
+<p class="meta">Folder: <code>crate carrier/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Transport &amp; General</p><h2 id="imp25">Counterweights</h2>
+<p class="lead">Stackable 11 kg ballast plates on the lower cross beams, front and rear, to keep enough load on the front axle with rear implements (and on the rear axle with the push blade).</p>
+<div class="thumbs t1"><figure><img src="../counterweights/simple/previews/1_iso_front_right_on_robot.png" alt="Counterweights Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>counterweights/</code></p></section>
+<section class="page variant"><p class="kicker">Counterweights · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../counterweights/simple/previews/1_iso_front_right_on_robot.png" alt="Counterweights Simple"></div>
+<p>Per stack (4 stacks): a 15 mm base plate on the two lower beams with 2 M16 studs, up to 4 plates of 170 x 200 x 50 with open slots that slide on from the side, a clamp bar and 2 knob nuts. Fits together with the push blade and the rear toolbar.</p>
+<ul class="facts"><li>11 kg per plate, 0..99 kg per axle end</li><li>Inter-row hoe: 2 plates per stack front, 5 % -&gt; 21 % front axle</li><li>Harrow, hitch, spreader: 1 plate per stack front</li></ul>
+<p class="meta">Folder: <code>counterweights/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Power &amp; Drive</p><h2 id="imp26">Battery pack</h2>
+<p class="lead">Two exchangeable 48 V LiFePO4 pods (2.56 kWh each) hanging under the upper beams between the wheels: low, centred, and free of all toolbars and decks.</p>
+<div class="thumbs t1"><figure><img src="../battery%20pack/simple/previews/1_iso_front_right_on_robot.png" alt="Battery pack Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>battery pack/</code></p></section>
+<section class="page variant"><p class="kicker">Battery pack · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../battery%20pack/simple/previews/1_iso_front_right_on_robot.png" alt="Battery pack Simple"></div>
+<p>Per side: 2 hangers (flat bar 40 x 8, M10 through the upper beams) and an aluminium pod with 16 LiFePO4 cells 50 Ah, a 16S BMS, hook strips, latches, handles and an Anderson SB50 connector.</p>
+<ul class="facts"><li>51.2 V, 2 x 2.56 kWh, 26 kg per pod</li><li>Inter-row hoe 1.8 -&gt; 6.0 h, harrow 1.4 -&gt; 4.9 h</li><li>~230 N extra grip, 52 mm from the steered tyres</li></ul>
+<p class="meta">Folder: <code>battery pack/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Power &amp; Drive</p><h2 id="imp27">Solar canopy</h2>
+<p class="lead">Roof of solar panels on a tube frame above the robot that charges the battery through an MPPT controller and carries the GNSS antenna.</p>
+<div class="thumbs t1"><figure><img src="../solar/previews/1_iso.png" alt="Solar canopy Canopy"><figcaption><b>Canopy</b></figcaption></figure></div>
+<p class="meta">1 variant: Canopy<br>Folder: <code>solar/</code></p></section>
+<section class="page variant"><p class="kicker">Solar canopy · variant 1 of 1</p><h3>Canopy</h3>
+<div class="hero"><img src="../solar/previews/1_iso.png" alt="Solar canopy Canopy"></div>
+<p>2 panels 1000 x 1650 mm (320 Wp each, 3 possible) on a steel tube frame: base tubes on the upper beams, 4 posts, top rails and cross members, diagonal struts to the overhangs; MPPT box, GNSS antenna on a mast between the panels.</p>
+<ul class="facts"><li>640 Wp, ~480 kWh per year (NL)</li><li>2.3 kWh per day in June, 0.2 in December</li><li>91 kg, tips over at ~29 degrees static</li></ul>
+<p class="meta">Folder: <code>solar/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Spreading &amp; Bedding</p><h2 id="imp28">Compost spreader</h2>
+<p class="lead">Bin on the upper beams with a moving floor belt and a beater behind the robot: top-dresses beds, orchard strips and grassland with compost in an even 1.1 m layer, dose from the belt speed.</p>
+<div class="thumbs t1"><figure><img src="../compost%20spreader/simple/previews/1_iso_rear_right_on_robot.png" alt="Compost spreader Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>compost spreader/</code></p></section>
+<section class="page variant"><p class="kicker">Compost spreader · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../compost%20spreader/simple/previews/1_iso_rear_right_on_robot.png" alt="Compost spreader Simple"></div>
+<p>299 l bin (150 kg payload) on 3 bearers, floor belt 920 wide on a UHMW slide bed round 2 drums O100 driven by a 24 V worm gearmotor, slide gate 30..150 mm, paddle beater O280 at 300 rpm on a 48 V 1 kW BLDC with a poly-V belt and a deflector hood.</p>
+<ul class="facts"><li>1..3 kg/m2, 50..150 m2 per bin, ~1.1 t/h with refilling</li><li>Needs 1 counterweight plate per stack (front axle 33 %)</li><li>190 kg empty, climbs 8 degrees full</li></ul>
+<p class="meta">Folder: <code>compost spreader/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Crop &amp; Soil</p><h2 id="imp29">Stone picker</h2>
+<p class="lead">Mid-mounted under the robot between the axles: a 1 m tine rotor flicks stones over a comb into a sieve basket, on a parallelogram lift; the floor drops open at the heap.</p>
+<div class="thumbs t1"><figure><img src="../stone%20picker/simple/previews/1_iso_front_right_on_robot.png" alt="Stone picker Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>stone picker/</code></p></section>
+<section class="page variant"><p class="kicker">Stone picker · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../stone%20picker/simple/previews/1_iso_front_right_on_robot.png" alt="Stone picker Simple"></div>
+<p>Rotor O114 with 48 double spring tines (tip radius 150, 20 mm deep) on a 48 V 750 W gearmotor at 250 rpm, comb of 12 mm bars, 40 l basket with a sieve floor (25 mm gaps) opened by a 24 V actuator, frame on 4 swing links outside the wheel line lifted 100 mm by one 1500 N actuator.</p>
+<ul class="facts"><li>1 m wide, 1200..1700 m2/h, ~1 ha per day</li><li>44 kg of stones per basket, front axle 41..45 %, no ballast</li><li>92 kg, 525 W rotor</li></ul>
+<p class="meta">Folder: <code>stone picker/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Crop &amp; Soil</p><h2 id="imp30">Mulch layer</h2>
+<p class="lead">Category 0 implement for the three-point hitch that lays 1.2 m mulch foil over the bed behind the robot: press wheels push the edges down, angled discs bury them.</p>
+<div class="thumbs t1"><figure><img src="../mulch%20layer/simple/previews/1_iso_rear_right_on_robot.png" alt="Mulch layer Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>mulch layer/</code></p></section>
+<section class="page variant"><p class="kicker">Mulch layer · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../mulch%20layer/simple/previews/1_iso_rear_right_on_robot.png" alt="Mulch layer Simple"></div>
+<p>Frame with a 60 x 60 toolbar, A-frame mast and 50 x 50 side beams on the hitch of three point hitch/simple (imported), foil roll O200 x 1200 in open V-holders with a band brake, guide bar, 2 semi-pneumatic press wheels O250 on the edges and 2 concave covering discs O350 at 22 degrees, 50 mm deep.</p>
+<ul class="facts"><li>12 beds of 100 m per hour, a 1075 m roll lasts ~50 min</li><li>Pull 730 N, grip margin 1.51</li><li>94 kg with a full roll: needs 3 counterweight plates per front stack</li></ul>
+<p class="meta">Folder: <code>mulch layer/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Measuring &amp; Sensors</p><h2 id="imp31">Grass meter</h2>
+<p class="lead">Maps grass cover while driving: front boom with 2 active NDVI sensors, a lidar and a camera, plus a sledge plate meter between the axles for compressed height and dry matter. Covers the NIR sensor idea.</p>
+<div class="thumbs t1"><figure><img src="../grass%20meter/simple/previews/1_iso_front_right_on_robot.png" alt="Grass meter Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>grass meter/</code></p></section>
+<section class="page variant"><p class="kicker">Grass meter · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../grass%20meter/simple/previews/1_iso_front_right_on_robot.png" alt="Grass meter Simple"></div>
+<p>Boom 1300 on two flat brackets on the front outer lower beam (above the tyres), 2 active NDVI sensors at x +-550, a lidar and an RGB camera; plate 0.1 m2 at 5 kg/m2 on a 350 mm parallelogram from a post under the upper beams, angle sensor on the pivot, 24 V actuator to lift it.</p>
+<ul class="facts"><li>4.4 ha/h on 10 m transects, ~35 ha per battery</li><li>Plate 0..200 mm, 0.3..0.5 mm resolution</li><li>22 kg, stays on with most implements</li></ul>
+<p class="meta">Folder: <code>grass meter/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Measuring &amp; Sensors</p><h2 id="imp32">Soil compaction meter</h2>
+<p class="lead">Automatic cone penetrometer in the middle of the robot: a ball-screw Z axis pushes an ASABE cone at 30 mm/s to 600 mm, a load cell reads the force; compaction maps per depth layer.</p>
+<div class="thumbs t1"><figure><img src="../soil%20compaction%20meter/simple/previews/1_iso_front_right_on_robot.png" alt="Soil compaction meter Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>soil compaction meter/</code></p></section>
+<section class="page variant"><p class="kicker">Soil compaction meter · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../soil%20compaction%20meter/simple/previews/1_iso_front_right_on_robot.png" alt="Soil compaction meter Simple"></div>
+<p>Bridges, mast, SBR20 rails and SFU1605 screw as the soil sampler (mast z 120..1150 with stays), S-type 2 kN load cell, rod O9.5 x 700 with a 30 degree cone O12.83, sprung foot with a PTFE rod bush and a capacitive moisture probe.</p>
+<ul class="facts"><li>Up to 10.2 MPa with 70 % of the robot weight</li><li>35 s per 600 mm profile, ~47 points per hour</li><li>32 kg</li></ul>
+<p class="meta">Folder: <code>soil compaction meter/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Power &amp; Drive</p><h2 id="imp33">Charging dock</h2>
+<p class="lead">Fixed docking station at the field edge or in the shed: the robot drives in and charges through sprung copper contacts (the contact version of the wireless charging dock idea).</p>
+<div class="thumbs t1"><figure><img src="../charging%20dock/simple/previews/1_iso_docked.png" alt="Charging dock Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>charging dock/</code></p></section>
+<section class="page variant"><p class="kicker">Charging dock · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../charging%20dock/simple/previews/1_iso_docked.png" alt="Charging dock Simple"></div>
+<p>Robot side: a 3.9 kg contact bracket on the front outer lower beam with 2 sprung copper pads and a pilot pin. Station: base plate with ground anchors, post with a 48 V 1 kW IP65 charger and a roof, an arm back between the front wheels to a PE contact head with 2 wide copper bars and a V-funnel.</p>
+<ul class="facts"><li>17 A at 54 V, 0.3 W contact loss</li><li>Robot 20 -&gt; 100 % in 2 h</li><li>Catches 75 mm sideways; 80 kg station</li></ul>
+<p class="meta">Folder: <code>charging dock/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Weed &amp; Crop Protection</p><h2 id="imp34">UV-C mildew light</h2>
+<p class="lead">Reflecting hood with 6 UV-C lamps under the robot between the axles: drives over the bed at night and gives a low UV-C dose against powdery mildew, without chemicals.</p>
+<div class="thumbs t1"><figure><img src="../uv%20mildew%20light/simple/previews/1_iso_front_right_on_robot.png" alt="UV-C mildew light Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>uv mildew light/</code></p></section>
+<section class="page variant"><p class="kicker">UV-C mildew light · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../uv%20mildew%20light/simple/previews/1_iso_front_right_on_robot.png" alt="UV-C mildew light Simple"></div>
+<p>Aluminium hood 580 x 440 on 4 slotted hangers from 2 bearers on the upper beams, rubber side skirts and brush curtains, 6 compact UV-C tubes (PL-L 55 W class) behind guard wires, ballasts and interlock in a box on the rear bearer.</p>
+<ul class="facts"><li>200 J/m2 at 0.58 m/s, ~1020 m2/h</li><li>489 W, ~4000 m2 per battery</li><li>21 kg, 25 mm from the steered tyres</li></ul>
+<p class="meta">Folder: <code>uv mildew light/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Spreading &amp; Bedding</p><h2 id="imp35">Sawdust spreader</h2>
+<p class="lead">Bedding spreader for cubicles: a 308 l bin with an auger across the robot feeds a spinner on the right side that throws sawdust, chopped straw or a lime mix into the cubicles from the alley.</p>
+<div class="thumbs t1"><figure><img src="../sawdust%20spreader/simple/previews/1_iso_front_right_on_robot.png" alt="Sawdust spreader Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>sawdust spreader/</code></p></section>
+<section class="page variant"><p class="kicker">Sawdust spreader · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../sawdust%20spreader/simple/previews/1_iso_front_right_on_robot.png" alt="Sawdust spreader Simple"></div>
+<p>Bin 2 mm with 45 degree walls to a trough on 2 bearers on the upper beams, auger O150 across the robot on a 24 V worm gearmotor, spinner housing outside the right outer upper beam with a O320 disc (4 vanes, 350 rpm) open to the right.</p>
+<ul class="facts"><li>61 cubicles per fill of sawdust, ~570 per hour</li><li>Throws ~1.3 m beyond the wheel line</li><li>75 kg empty</li></ul>
+<p class="meta">Folder: <code>sawdust spreader/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Livestock &amp; Farm</p><h2 id="imp36">Bedding rake</h2>
+<p class="lead">Cubicle groomer on a side arm: reaches from the alley over the curb, under the divider loops, with a tine rotor along the bed that loosens and levels the bedding in the rear metre of each cubicle.</p>
+<div class="thumbs t1"><figure><img src="../bedding%20rake/simple/previews/1_iso_rear_right_in_barn.png" alt="Bedding rake Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>bedding rake/</code></p></section>
+<section class="page variant"><p class="kicker">Bedding rake · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../bedding%20rake/simple/previews/1_iso_rear_right_in_barn.png" alt="Bedding rake Simple"></div>
+<p>Plate bracket with pivot lugs on the right outer upper beam, arm 60 x 40 from a pivot above the beams down past the curb and out over the bed, tine rotor O240 x 970 along the bed on a 48 V 400 W gearmotor, 24 V actuator across the robot top to a crank lifts the arm 40 degrees. A row of cubicles is modelled for the checks.</p>
+<ul class="facts"><li>Grooms 100..1070 mm behind the curb, 90 mm under the loops</li><li>~655 cubicles per hour, ~300 W</li><li>37 kg, side tip angle 27 degrees</li></ul>
+<p class="meta">Folder: <code>bedding rake/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Transport &amp; General</p><h2 id="imp37">Dumper barrow</h2>
+<p class="lead">Tipping skip on the upper beams: a 353 l steel bin hinged at the rear end of the robot, tipped backwards to 48 degrees by two actuators so the load slides out behind the rear wheels.</p>
+<div class="thumbs t1"><figure><img src="../dumper%20barrow/simple/previews/1_iso_rear_right_on_robot.png" alt="Dumper barrow Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>dumper barrow/</code></p></section>
+<section class="page variant"><p class="kicker">Dumper barrow · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../dumper%20barrow/simple/previews/1_iso_rear_right_on_robot.png" alt="Dumper barrow Simple"></div>
+<p>3 bearers on the upper beams (rest pads, actuator lugs, hinge lugs), subframe of 2 rails 40 x 40 with hinge bosses and a cross tube, 2 mm bin 900 x 1020 x 350 with a 30 degree rear lip, 2 x 24 V 3000 N actuators (stroke 300).</p>
+<ul class="facts"><li>150 kg of soil (100 l) or 353 l of chips / green waste</li><li>Tips 48 degrees in ~36 s, cg stays in front of the rear axle</li><li>72 kg, ~950 kg of soil per hour on 100 m</li></ul>
+<p class="meta">Folder: <code>dumper barrow/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Weed &amp; Crop Protection</p><h2 id="imp38">Biocontrol spreader</h2>
+<p class="lead">Releases predatory mites and parasitic wasps (in bran, vermiculite or sawdust) over two rows: 2 hoppers with metering wheels and a blower that carries the product through hoses to deflector nozzles.</p>
+<div class="thumbs t1"><figure><img src="../biocontrol%20spreader/simple/previews/1_iso_front_right_on_robot.png" alt="Biocontrol spreader Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>biocontrol spreader/</code></p></section>
+<section class="page variant"><p class="kicker">Biocontrol spreader · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../biocontrol%20spreader/simple/previews/1_iso_front_right_on_robot.png" alt="Biocontrol spreader Simple"></div>
+<p>Bearer across the upper beams with 2 PE hoppers of 7.9 l (agitator, NEMA17 metering wheel) over the rows at x +-187.5, a 24 V 60 W centrifugal fan, venturis, hoses O40 and deflector nozzles 450 mm above the ground.</p>
+<ul class="facts"><li>Predatory mites 2 ml/m2: 0.8 ha per fill</li><li>~1350 m2/h, ~12 h per battery</li><li>18 kg</li></ul>
+<p class="meta">Folder: <code>biocontrol spreader/simple/</code></p></section>
+<section class="page implement"><p class="kicker">Implement · Transport &amp; General</p><h2 id="imp39">Bag trailer</h2>
+<p class="lead">Two-wheeled trailer on the 50 mm tow ball of the cambridge roll (hitch, coupling and drawbar imported): a plywood deck with boards and a drop tailgate for 12 bags of 25 kg.</p>
+<div class="thumbs t1"><figure><img src="../bag%20trailer/simple/previews/1_iso_rear_right_loaded.png" alt="Bag trailer Simple"><figcaption><b>Simple</b></figcaption></figure></div>
+<p class="meta">1 variant: Simple<br>Folder: <code>bag trailer/</code></p></section>
+<section class="page variant"><p class="kicker">Bag trailer · variant 1 of 1</p><h3>Simple</h3>
+<div class="hero"><img src="../bag%20trailer/simple/previews/1_iso_rear_right_loaded.png" alt="Bag trailer Simple"></div>
+<p>Frame of 40 x 40 rails and cross members behind the cbr cross beam and drawbar, plywood deck 1110 x 1410 at 358 mm with side and front boards and a drop tailgate, axle tube on hangers, 2 x 4.00-8 wheels with mudguards.</p>
+<ul class="facts"><li>12 bags of 25 kg, 24 kg on the ball</li><li>Steepest slope loaded: 3.5 deg wet grass, 6.5 dry</li><li>110 kg empty</li></ul>
+<p class="meta">Folder: <code>bag trailer/simple/</code></p></section>
 <section class="page implement"><p class="kicker">Implement ideas</p><h2 id="ideas">Ideas not worked out yet</h2>
-<p class="lead">59 attachments from the website's list that have no model yet. Each has a folder in <code>implement ideas/</code> with a <code>README.md</code> describing what it does, so it can be worked out later.</p>
-<h4>Soil Cultivation &amp; Weed Control</h4><ul class="idx"><li><b>(Rubber) push blade / grader blade</b></li><li><b>Small cultivator</b></li><li><b>Single-axis inter-row hoe</b></li><li><b>Drop-on-demand boom (coarse droplets)</b></li><li><b>Grassland aerator</b></li></ul><h4>Spraying, Fertilizing &amp; Irrigation</h4><ul class="idx"><li><b>Irrigation pump (direct pump)</b></li><li><b>Fertilizer spreader</b></li><li><b>Lime spreader</b></li></ul><h4>Sowing &amp; Planting</h4><ul class="idx"><li><b>Tray setter</b></li><li><b>Patch seeder</b></li></ul><h4>Spreading &amp; Bedding</h4><ul class="idx"><li><b>Sawdust spreader</b></li><li><b>Straw spreader</b></li><li><b>Compost spreader / bin</b></li></ul><h4>Power &amp; Drive</h4><ul class="idx"><li><b>Battery pack</b></li><li><b>Generator / engine</b></li><li><b>Solar panels</b></li><li><b>Heavy-duty electric motors</b></li><li><b>Charging robot (mobile charger)</b></li><li><b>Wireless charging dock</b></li></ul><h4>Transport &amp; General</h4><ul class="idx"><li><b>Broom / sweeper</b></li><li><b>Seat &amp; frame extension</b></li><li><b>Dumper / power barrow</b></li><li><b>Tow hitch</b></li><li><b>Counterweights</b></li><li><b>Hydraulic pump</b></li><li><b>Three-point hitch</b></li><li><b>Small cabin</b></li><li><b>Speech speaker</b></li><li><b>Crate and box carrier</b></li><li><b>Tool and material cart</b></li><li><b>Bag trailer</b></li></ul><h4>Measuring &amp; Sensors</h4><ul class="idx"><li><b>Grass meter / crop scanner</b></li><li><b>Soil compaction meter</b></li><li><b>NIR sensor (NDVI &amp; crop status)</b></li><li><b>Yield estimator</b></li><li><b>Disease and pest scout</b></li><li><b>Soil moisture sensor placer</b></li><li><b>Fence voltage meter</b></li><li><b>Windbreak and tree-row inspector</b></li><li><b>Security camera patrol</b></li></ul><h4>Cooperation &amp; Swarm Operation</h4><ul class="idx"><li><b>Drone combination</b></li><li><b>Swarm operation (multiple robots per field)</b></li></ul><h4>Crop &amp; Soil</h4><ul class="idx"><li><b>Soil sampler</b></li><li><b>Stone picker</b></li><li><b>Molehill spreader</b></li><li><b>Mole and tunnel mapper</b></li><li><b>Cover crop undersower</b></li><li><b>Mulch / foil layer</b></li></ul><h4>Weed &amp; Crop Protection</h4><ul class="idx"><li><b>UV-C light for mildew control</b></li><li><b>Laser or UV weed treatment</b></li><li><b>Electric weed control</b></li><li><b>Hot steam / hot foam weeder</b></li><li><b>Biological-control spreader</b></li><li><b>Pheromone trap service</b></li></ul><h4>Livestock &amp; Farm</h4><ul class="idx"><li><b>Fence inspector</b></li><li><b>Drinking trough check</b></li><li><b>Manure scraper / slurry pusher</b></li><li><b>Bedding rake</b></li><li><b>Chicken house robot</b></li></ul></section>
-<section class="page idea"><p class="kicker">Idea · Soil Cultivation &amp; Weed Control</p><h3>(Rubber) push blade / grader blade</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Front-mounted or mid-mounted between the front and rear wheels. Usable as a grader for levelling terrain, for pushing feed and grass back in the stable, or for cleaning silos.</p>
-<h5>Concept (first thoughts)</h5><p>A wide blade with a replaceable rubber or steel wearing edge on a pivoting frame, lifted by a linear actuator like the lift frames of the other implements. A hinge with a float stop lets the blade follow the floor; an angled (dozer) setting moves material to one side. Front-mounted it pushes, mid-mounted it scrapes under the belly.</p>
-<h5>Reuse from existing implements</h5><p>Lift frame and headstock of the liquid fertilizer applicator or overseeder; the push-back job overlaps with the feed pusher auger.</p>
-<h5>Open questions</h5><ul><li>Blade width: robot width (850 mm) or wider with side wings?</li><li>Push force against wheel grip: how much load can the 4 wheels transmit?</li><li>Rubber edge for concrete versus steel edge for soil</li><li>Is the blade angle adjustable, and by what (actuator or pins)?</li></ul>
-<p class="meta">Folder: <code>implement ideas/push_blade/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Soil Cultivation &amp; Weed Control</p><h3>Small cultivator</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Compact cultivator for soil cultivation in vegetable gardens and light plots.</p>
-<h5>Concept (first thoughts)</h5><p>A toolbar with 3 to 5 spring or rigid tines on a parallel linkage, depth set by gauge wheels. Light soil only, so draft force stays within what the robot can pull. Optionally a rolling basket behind the tines.</p>
-<h5>Reuse from existing implements</h5><p>Toolbar, parallelogram and gauge wheels of the in-row weeder and the liquid fertilizer applicator.</p>
-<h5>Open questions</h5><ul><li>Draft force per tine in light soil (measure)</li><li>Tine spacing versus working width</li><li>Ballast needed to keep the tines in the ground</li></ul>
-<p class="meta">Folder: <code>implement ideas/small_cultivator/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Soil Cultivation &amp; Weed Control</p><h3>Single-axis inter-row hoe</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Hoeing unit with single-axis (left/right) guidance that stays tightly between the rows, for example in maize, so weeds are cut close to the crop without damaging it.</p>
-<h5>Concept (first thoughts)</h5><p>A hoe frame with A-blades or goosefoot shares that is shifted sideways by a linear actuator or stepper. A camera or the RTK row map gives the lateral error; the shift axis corrects it. Gauge wheels in the robot's wheel track keep the depth.</p>
-<h5>Reuse from existing implements</h5><p>Parallelogram unit with gauge wheel and camera of the in-row weeder; the X stage idea of the field marker.</p>
-<h5>Open questions</h5><ul><li>Lateral stroke and speed of the shift axis</li><li>Row crop (maize, beet) and row distance to design for</li><li>Camera-guided versus RTK-guided</li><li>Protection against crop damage when the guidance drops out</li></ul>
-<p class="meta">Folder: <code>implement ideas/inter_row_hoe/</code></p></section>
+<p class="lead">31 attachments from the website's list that have no model yet. Each has a folder in <code>implement ideas/</code> with a <code>README.md</code> describing what it does, so it can be worked out later.</p>
+<h4>Soil Cultivation &amp; Weed Control</h4><ul class="idx"><li><b>Drop-on-demand boom (coarse droplets)</b></li></ul><h4>Spraying, Fertilizing &amp; Irrigation</h4><ul class="idx"><li><b>Irrigation pump (direct pump)</b></li><li><b>Lime spreader</b></li></ul><h4>Sowing &amp; Planting</h4><ul class="idx"><li><b>Tray setter</b></li></ul><h4>Spreading &amp; Bedding</h4><ul class="idx"><li><b>Straw spreader</b></li></ul><h4>Power &amp; Drive</h4><ul class="idx"><li><b>Generator / engine</b></li><li><b>Heavy-duty electric motors</b></li><li><b>Charging robot (mobile charger)</b></li></ul><h4>Transport &amp; General</h4><ul class="idx"><li><b>Broom / sweeper</b></li><li><b>Seat &amp; frame extension</b></li><li><b>Hydraulic pump</b></li><li><b>Small cabin</b></li><li><b>Speech speaker</b></li></ul><h4>Cooperation &amp; Swarm Operation</h4><ul class="idx"><li><b>Drone combination</b></li><li><b>Swarm operation (multiple robots per field)</b></li></ul><h4>Crop &amp; Soil</h4><ul class="idx"><li><b>Mole and tunnel mapper</b></li><li><b>Cover crop undersower</b></li></ul><h4>Weed &amp; Crop Protection</h4><ul class="idx"><li><b>Laser or UV weed treatment</b></li><li><b>Electric weed control</b></li><li><b>Hot steam / hot foam weeder</b></li><li><b>Pheromone trap service</b></li></ul><h4>Livestock &amp; Farm</h4><ul class="idx"><li><b>Fence inspector</b></li><li><b>Drinking trough check</b></li><li><b>Manure scraper / slurry pusher</b></li><li><b>Chicken house robot</b></li></ul><h4>Measuring &amp; Sensors</h4><ul class="idx"><li><b>Yield estimator</b></li><li><b>Disease and pest scout</b></li><li><b>Soil moisture sensor placer</b></li><li><b>Fence voltage meter</b></li><li><b>Windbreak and tree-row inspector</b></li><li><b>Security camera patrol</b></li></ul></section>
 <section class="page idea"><p class="kicker">Idea · Soil Cultivation &amp; Weed Control</p><h3>Drop-on-demand boom (coarse droplets)</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>Boom with individually controlled injectors that fire single coarse droplets on demand at low pressure. Every droplet is placed straight onto the weed, which practically eliminates drift and cuts chemical usage to a fraction of a conventional spray pass.</p>
@@ -263,13 +449,6 @@ a{color:#2f6b1e}
 <h5>Reuse from existing implements</h5><p>Camera mast, tank, pump, folding boom and control box of the spot sprayer (spotspray unit/boom).</p>
 <h5>Open questions</h5><ul><li>Injector type, droplet size and firing rate</li><li>Injector pitch along the boom</li><li>Aiming accuracy at 0.5 m/s: time from camera to droplet</li><li>Product types and viscosity the injectors can handle</li></ul>
 <p class="meta">Folder: <code>implement ideas/drop_on_demand_boom/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Soil Cultivation &amp; Weed Control</p><h3>Grassland aerator</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Improving soil structure and air supply in grassland.</p>
-<h5>Concept (first thoughts)</h5><p>Spiked or hollow-tine rollers, or a row of spring-loaded slitting knives, behind or in front of the robot. The element presses down with robot weight and ballast; a rolling drum carries the tines so no extra drive is needed.</p>
-<h5>Reuse from existing implements</h5><p>Floating lift frame with gas springs of the overseeder (the aerator can be combined with it as a slot cutter); lifted by the same actuator.</p>
-<h5>Open questions</h5><ul><li>Tine type: solid spike, hollow tine or slitting knife</li><li>Down force needed for penetration depth</li><li>Passive roller versus driven roller</li><li>Combining with the overseeder in one pass</li></ul>
-<p class="meta">Folder: <code>implement ideas/grassland_aerator/</code></p></section>
 <section class="page idea"><p class="kicker">Idea · Spraying, Fertilizing &amp; Irrigation</p><h3>Irrigation pump (direct pump)</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>Pumping water from ditches for local irrigation or crop spraying (website: Irrigation Pump). In the repo this is the not-yet-worked-out variant "direct pump" of the irrigation implement: pump on the robot, water from a tank, a ditch or a hydrant.</p>
@@ -277,13 +456,6 @@ a{color:#2f6b1e}
 <h5>Reuse from existing implements</h5><p>Reel, pinch rollers and outlets of irrigation/stationary + roller; the mobile refiller for tank supply.</p>
 <h5>Open questions</h5><ul><li>Pump mass on the robot versus pump at the ditch</li><li>Hose or boom as distributor</li><li>Water supply: tank, hydrant or ditch</li><li>Comparison of energy and capacity with the stationary-pump variant</li></ul>
 <p class="meta">Folder: <code>implement ideas/irrigation_direct_pump/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Spraying, Fertilizing &amp; Irrigation</p><h3>Fertilizer spreader</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Precise application and spreading of granular fertilizers.</p>
-<h5>Concept (first thoughts)</h5><p>A hopper with a metering roller and a spreading disc or a drop tube per row. Dose follows the driving speed (as with the overseeder's cam rollers) and can follow a task map from the crop scanner for variable-rate application.</p>
-<h5>Reuse from existing implements</h5><p>Metering rollers and speed-following motors of the overseeder; granular loading from the mobile refiller concept.</p>
-<h5>Open questions</h5><ul><li>Spreading disc versus row drop tubes</li><li>Working width and edge spreading accuracy</li><li>Hopper size versus robot axle load</li><li>Variable-rate from a task map: update rate</li></ul>
-<p class="meta">Folder: <code>implement ideas/fertilizer_spreader/</code></p></section>
 <section class="page idea"><p class="kicker">Idea · Spraying, Fertilizing &amp; Irrigation</p><h3>Lime spreader</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>Spreading lime to improve soil pH levels and structure.</p>
@@ -298,20 +470,6 @@ a{color:#2f6b1e}
 <h5>Reuse from existing implements</h5><p>XYZ stage idea of the field marker for positioning; camera and odometry of the in-row weeder.</p>
 <h5>Open questions</h5><ul><li>Tray type and plug size</li><li>Pick-and-place mechanism and cycle time</li><li>Planting depth and soil closing</li><li>Tray reloading, again from a refiller?</li></ul>
 <p class="meta">Folder: <code>implement ideas/tray_setter/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Sowing &amp; Planting</p><h3>Patch seeder</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Compact seeder that spreads grass seed onto bare patches in the sward, so damaged spots close up again quickly.</p>
-<h5>Concept (first thoughts)</h5><p>A small hopper with a short spreader over a scratching or raking element, switched on only above bare patches that a camera finds (as the spot sprayer finds docks). Seed is dosed per patch, not per hectare.</p>
-<h5>Reuse from existing implements</h5><p>Camera detection of the spot sprayer; seed hopper and metering of the overseeder; rake tines of the belt rake.</p>
-<h5>Open questions</h5><ul><li>Patch detection: bare soil in grass</li><li>Seed dose per patch and spreading width</li><li>Seed-to-soil contact: rake, roll or press</li><li>Combined with the overseeder or separate?</li></ul>
-<p class="meta">Folder: <code>implement ideas/patch_seeder/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Spreading &amp; Bedding</p><h3>Sawdust spreader</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Even distribution of sawdust or bedding material in stables.</p>
-<h5>Concept (first thoughts)</h5><p>A bin on the robot with a bottom belt or screw and a throwing wheel or distributor, so a stable can be bedded without a tractor. Hopper height must clear the stable doors; weight is balanced over the axles.</p>
-<h5>Reuse from existing implements</h5><p>Auger and hood design of the feed pusher auger; mobile refiller for reloading.</p>
-<h5>Open questions</h5><ul><li>Bin size versus door height and axle load</li><li>Throwing width and evenness</li><li>Dust and moisture of the material</li><li>Stable floor and slope</li></ul>
-<p class="meta">Folder: <code>implement ideas/sawdust_spreader/</code></p></section>
 <section class="page idea"><p class="kicker">Idea · Spreading &amp; Bedding</p><h3>Straw spreader</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>Evenly spreading straw, specially designed for use between vegetable rows.</p>
@@ -319,20 +477,6 @@ a{color:#2f6b1e}
 <h5>Reuse from existing implements</h5><p>Row geometry of the in-row weeder; metering from the sawdust spreader.</p>
 <h5>Open questions</h5><ul><li>Bale handling or loose straw bin</li><li>Strip width and thickness between rows</li><li>Blocking of the metering unit by long straw</li></ul>
 <p class="meta">Folder: <code>implement ideas/straw_spreader/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Spreading &amp; Bedding</p><h3>Compost spreader / bin</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Transporting compost within the frame structure and spreading it between the crop rows.</p>
-<h5>Concept (first thoughts)</h5><p>A bin between the beams with a bottom belt or screw that meters compost to drop tubes between the rows. Heavy payload, so axle load and the low centre of gravity matter more than for the other spreaders.</p>
-<h5>Reuse from existing implements</h5><p>Metering of the straw and sawdust spreaders; axle-load calculation of the *_calc.py files.</p>
-<h5>Open questions</h5><ul><li>Payload versus wheel and motor ratings</li><li>Bin shape for flow of damp compost</li><li>Metering accuracy and bridging of the material</li></ul>
-<p class="meta">Folder: <code>implement ideas/compost_spreader/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Power &amp; Drive</p><h3>Battery pack</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Additional power supply modules to be installed between the frames.</p>
-<h5>Concept (first thoughts)</h5><p>A removable battery module in a protective case, bolted between the beams on the 50 mm grid, connected to the 48 V bus through a fuse and contactor. Fits as ballast too, so it can double as a counterweight.</p>
-<h5>Reuse from existing implements</h5><p>Control-box mounting of the mobile refiller and the weeds burner.</p>
-<h5>Open questions</h5><ul><li>Cell format, capacity and mass</li><li>Connector and fuse rating</li><li>Battery management and charging</li><li>Quick-swap mechanism</li></ul>
-<p class="meta">Folder: <code>implement ideas/battery_pack/</code></p></section>
 <section class="page idea"><p class="kicker">Idea · Power &amp; Drive</p><h3>Generator / engine</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>Generator or combustion engine mounted between the frame as an auxiliary power source for extra electricity or mechanical power.</p>
@@ -340,13 +484,6 @@ a{color:#2f6b1e}
 <h5>Reuse from existing implements</h5><p>Frame mounting like the battery pack; the irrigation petrol pump is another engine use.</p>
 <h5>Open questions</h5><ul><li>Generator power class and mass</li><li>Vibration isolation and noise</li><li>Fuel tank and exhaust placement</li><li>Charging strategy with the battery</li></ul>
 <p class="meta">Folder: <code>implement ideas/generator_engine/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Power &amp; Drive</p><h3>Solar panels</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Integrated panels to extend battery life and provide sustainable power during operation.</p>
-<h5>Concept (first thoughts)</h5><p>Panels on a flat or slightly tilted roof frame above the top plate, wired through a solar charge controller to the 48 V bus. The roof is also a mounting plane for antennas and cameras, so the GNSS antenna position must stay clear.</p>
-<h5>Reuse from existing implements</h5><p>Top-plate pattern of the robot; antenna positions of the other implements.</p>
-<h5>Open questions</h5><ul><li>Panel area that fits the robot's width</li><li>Energy yield per day versus consumption</li><li>Shadow of implements, mast and antenna</li><li>Wind load and mounting</li></ul>
-<p class="meta">Folder: <code>implement ideas/solar_panels/</code></p></section>
 <section class="page idea"><p class="kicker">Idea · Power &amp; Drive</p><h3>Heavy-duty electric motors</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>Electric motors such as the Ego Power+ or Greenworks units to drive implements that need real power, replacing small petrol engines.</p>
@@ -368,27 +505,6 @@ a{color:#2f6b1e}
 <h5>Reuse from existing implements</h5><p>Toolbar and hanger design of the disc brushes; tube sizes from the robot.</p>
 <h5>Open questions</h5><ul><li>Operator weight and the axle loads</li><li>Controls and an emergency stop within reach</li><li>Side-extension width versus stability</li><li>Safety rules for a ridden robot</li></ul>
 <p class="meta">Folder: <code>implement ideas/seat_frame_extension/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Transport &amp; General</p><h3>Dumper / power barrow</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Motorized wheelbarrow-style bin for transporting and dumping loose materials, also usable as a carrying aid or mini dumper.</p>
-<h5>Concept (first thoughts)</h5><p>A tipping bin on the robot with an actuator, taking loads of loose material to a place and tipping them out. Tip over the front or the rear; gate for controlled discharge.</p>
-<h5>Reuse from existing implements</h5><p>Actuator, hanger and frame of the push blade; payload logic like the compost spreader.</p>
-<h5>Open questions</h5><ul><li>Bin volume and payload</li><li>Tip direction and stability while tipping</li><li>Ground pressure on soft soil</li></ul>
-<p class="meta">Folder: <code>implement ideas/dumper_barrow/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Transport &amp; General</p><h3>Tow hitch</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Rear-mounted hitch for pulling trailers and other rolling equipment.</p>
-<h5>Concept (first thoughts)</h5><p>A drawbar plate bolted to the rear flange holes of the wheel brackets or to the lower beams, with a ball coupling or pin. The powered trailer of the mobile refiller already needs one.</p>
-<h5>Reuse from existing implements</h5><p>Trailer coupling of the mobile refiller (liquid) and the flange mounting of the feed pusher auger.</p>
-<h5>Open questions</h5><ul><li>Maximum drawbar pull and vertical load</li><li>Coupling type</li><li>Reverse driving with a trailer</li></ul>
-<p class="meta">Folder: <code>implement ideas/tow_hitch/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Transport &amp; General</p><h3>Counterweights</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Ballast weights to improve traction and vehicle balance for heavy tasks.</p>
-<h5>Concept (first thoughts)</h5><p>Plates or blocks that clip onto the beams on the 50 mm grid, front and rear, so the centre of gravity can be tuned. Several implements already call for ballast (weed picker, overseeder, liquid applicator v2).</p>
-<h5>Reuse from existing implements</h5><p>Ballast notes in the RATIONALE.md of the weed picker, overseeder and applicator.</p>
-<h5>Open questions</h5><ul><li>Block mass and handling by one person</li><li>Position range front/rear</li><li>Quick-release mounting</li></ul>
-<p class="meta">Folder: <code>implement ideas/counterweights/</code></p></section>
 <section class="page idea"><p class="kicker">Idea · Transport &amp; General</p><h3>Hydraulic pump</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>External hydraulic power source for applications where hydraulics are a better option than electricity.</p>
@@ -396,13 +512,6 @@ a{color:#2f6b1e}
 <h5>Reuse from existing implements</h5><p>Motor and mounting from the heavy-duty motors idea; hydraulics from the irrigation reel (which has its own).</p>
 <h5>Open questions</h5><ul><li>Flow and pressure class</li><li>Tank size and cooling</li><li>Coupling standard for implements</li></ul>
 <p class="meta">Folder: <code>implement ideas/hydraulic_pump/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Transport &amp; General</p><h3>Three-point hitch</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Standard lifting system for attaching various agricultural implements.</p>
-<h5>Concept (first thoughts)</h5><p>A scaled-down (category 0 or 1) three-point linkage with lift arms, driven by a linear actuator or hydraulic cylinder. It would let standard compact-tractor implements hang on the robot instead of making each lift frame by hand.</p>
-<h5>Reuse from existing implements</h5><p>Lift frame with actuator and slotted hole of the liquid fertilizer applicator and overseeder.</p>
-<h5>Open questions</h5><ul><li>Category 0 or 1, lifting force and stroke</li><li>Rear versus front mounting</li><li>Weight limit imposed by the robot's axle loads</li><li>Electric versus hydraulic lift</li></ul>
-<p class="meta">Folder: <code>implement ideas/three_point_hitch/</code></p></section>
 <section class="page idea"><p class="kicker">Idea · Transport &amp; General</p><h3>Small cabin</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>Protective enclosure or housing for the operator.</p>
@@ -410,27 +519,6 @@ a{color:#2f6b1e}
 <h5>Reuse from existing implements</h5><p>Seat &amp; frame extension; top-plate pattern.</p>
 <h5>Open questions</h5><ul><li>Weight and centre of gravity</li><li>Entry and exit, visibility</li><li>Rollover protection</li></ul>
 <p class="meta">Folder: <code>implement ideas/small_cabin/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Measuring &amp; Sensors</p><h3>Grass meter / crop scanner</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Measuring grass and crop height and health to create task maps for nitrogen or phosphate.</p>
-<h5>Concept (first thoughts)</h5><p>A mast or boom with ultrasonic, lidar or a rising-plate meter that records height at each GNSS position, stored as a map. The map becomes a task map for the fertilizer spreader or liquid applicator.</p>
-<h5>Reuse from existing implements</h5><p>Camera mast of the spot sprayer; RTK antenna mast of the field marker; logging of the other implements.</p>
-<h5>Open questions</h5><ul><li>Sensor type: ultrasonic, lidar or plate meter</li><li>Number of sensors across the working width</li><li>Calibration to dry-matter yield</li><li>Map format for the task maps</li></ul>
-<p class="meta">Folder: <code>implement ideas/grass_meter/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Measuring &amp; Sensors</p><h3>Soil compaction meter</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Measuring and mapping soil density at specific data points.</p>
-<h5>Concept (first thoughts)</h5><p>A penetrometer rod pushed into the soil by an actuator at a point, force and depth logged against the GNSS position. The robot stops at each data point (like the field marker).</p>
-<h5>Reuse from existing implements</h5><p>Z axis and ground-sensing shroud of the field marker; point list from the marker's coordinate handling.</p>
-<h5>Open questions</h5><ul><li>Cone size and push force</li><li>Depth range and speed</li><li>Data points per hectare</li><li>Calibration against a manual penetrometer</li></ul>
-<p class="meta">Folder: <code>implement ideas/soil_compaction_meter/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Measuring &amp; Sensors</p><h3>NIR sensor (NDVI &amp; crop status)</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Near-infrared sensor that measures the NDVI of the crop while driving. From the difference between reflected red and near-infrared light the robot reads biomass, ground cover and crop vitality, and builds live task maps for variable-rate fertilisation. Because the sensor moves close over the crop instead of looking down from a satellite, the readings stay reliable under cloud cover and also register small spots and gaps.</p>
-<h5>Concept (first thoughts)</h5><p>Two-band (red and near-infrared) sensor or a multispectral camera on a mast above the crop, with active illumination or a reference panel against sun angle. NDVI is logged per GNSS position and turned into a task map.</p>
-<h5>Reuse from existing implements</h5><p>Mast and mounting of the spot sprayer camera; task-map output feeds the fertilizer spreader and liquid applicator.</p>
-<h5>Open questions</h5><ul><li>Active versus passive sensor, sensor height</li><li>Sun-angle and shadow correction</li><li>Calibration of NDVI to nitrogen need</li><li>Task-map format and update rate</li></ul>
-<p class="meta">Folder: <code>implement ideas/nir_sensor/</code></p></section>
 <section class="page idea"><p class="kicker">Idea · Cooperation &amp; Swarm Operation</p><h3>Drone combination</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>The robot works together with a drone as a mobile base station. The drone flies out from the platform, maps the plot from above and passes its imagery straight to the robot, which converts it into a driving and treatment plan. The drone charges and swaps batteries on the robot, so the pair can keep scouting and working alternately for a full day without anyone coming out to the field.</p>
@@ -445,27 +533,6 @@ a{color:#2f6b1e}
 <h5>Reuse from existing implements</h5><p>The pass pattern of the mobile refiller (simple) and the headland-turn animations of the agbot slim.</p>
 <h5>Open questions</h5><ul><li>Communication link and message set</li><li>Pass allocation and re-allocation</li><li>Collision and crossing rules</li><li>Charging and refilling logistics for many units</li></ul>
 <p class="meta">Folder: <code>implement ideas/swarm_operation/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Crop &amp; Soil</p><h3>Soil sampler</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Pushes a sampling probe into the soil at GPS points and keeps each sample in a numbered tube, so a field can be sampled on a grid without a person walking it.</p>
-<h5>Concept (first thoughts)</h5><p>A probe on a Z axis with a carousel of sample tubes behind the robot. The robot stops roughly on the point, the stage positions the probe exactly (as in the field marker), pushes it in, takes the core and drops it into a tube with the GPS position logged.</p>
-<h5>Reuse from existing implements</h5><p>XYZ stage, Z axis with ground-sensing shroud and RTK antenna mast of the field marker; point list handling; soil compaction meter idea.</p>
-<h5>Open questions</h5><ul><li>Probe type and depth (topsoil only or a deeper profile)</li><li>Push force versus robot weight (anchoring)</li><li>Carousel size and cleaning of the probe between samples</li><li>Sample label and hand-over to the lab</li></ul>
-<p class="meta">Folder: <code>implement ideas/soil_sampler/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Crop &amp; Soil</p><h3>Stone picker</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Picks stones out of grassland or a seedbed and carries them to a bin, which is then emptied at the field edge.</p>
-<h5>Concept (first thoughts)</h5><p>A shallow comb or tine belt that lifts stones onto a short conveyor into a bin. Works in a pass like the belt rake and is lifted at the headland.</p>
-<h5>Reuse from existing implements</h5><p>Belt, tine bars and castor-actuator lift of the belt rake (bandrake/electric); bin and tipping idea of the dumper.</p>
-<h5>Open questions</h5><ul><li>Stone size range and tine spacing</li><li>Bin size versus robot axle load</li><li>Soil loss over the belt (sieving)</li><li>Emptying: tip at the headland or hand over to the refiller platform</li></ul>
-<p class="meta">Folder: <code>implement ideas/stone_picker/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Crop &amp; Soil</p><h3>Molehill spreader</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Spreads molehills flat in grassland before mowing or overseeding, so the mower stays clean and the sward closes again.</p>
-<h5>Concept (first thoughts)</h5><p>A drag chain or a light roller bar behind the robot (or a low rotating brush), floating on a parallelogram. A camera or the mole mapper tells where hills are, so the unit can be raised elsewhere.</p>
-<h5>Reuse from existing implements</h5><p>Disc-brush drive and toolbar of the disc brushes; floating lift frame of the overseeder.</p>
-<h5>Open questions</h5><ul><li>Drag chain, harrow or brush</li><li>Soil and stones in the hills: damage to the mower after all?</li><li>Switch on only above hills (camera) or always</li></ul>
-<p class="meta">Folder: <code>implement ideas/molehill_spreader/</code></p></section>
 <section class="page idea"><p class="kicker">Idea · Crop &amp; Soil</p><h3>Mole and tunnel mapper</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>Finds and maps molehills (and with a probe, mole tunnels) so they can be treated or spread flat later.</p>
@@ -480,20 +547,6 @@ a{color:#2f6b1e}
 <h5>Reuse from existing implements</h5><p>Seed hopper, metering rollers and slit elements of the overseeder; row geometry of the in-row weeder.</p>
 <h5>Open questions</h5><ul><li>Slit versus broadcast between rows</li><li>Species and seed rate</li><li>Timing relative to crop height (clearance under the belly)</li></ul>
 <p class="meta">Folder: <code>implement ideas/cover_crop_undersower/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Crop &amp; Soil</p><h3>Mulch / foil layer</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Lays mulch foil or paper along the rows, pressing the edges into the soil, to suppress weeds and keep moisture.</p>
-<h5>Concept (first thoughts)</h5><p>A reel on a frame behind the robot, two shaped discs that bury the edges and a press roller. Tensioning via a brake on the reel; the robot pulls straight along the RTK line.</p>
-<h5>Reuse from existing implements</h5><p>Reel and winding mechanics of the irrigation hose reel; discs and press wheels of the overseeder.</p>
-<h5>Open questions</h5><ul><li>Reel width and foil roll mass</li><li>Edge covering: discs or soil throw</li><li>Cutting and ending the foil at the headland</li><li>Biodegradable foil: strength at the robot's pull</li></ul>
-<p class="meta">Folder: <code>implement ideas/mulch_layer/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Weed &amp; Crop Protection</p><h3>UV-C light for mildew control</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Drives UV-C lamps along the rows, shining between and over the plants at night, to suppress powdery mildew and other fungal diseases without chemicals.</p>
-<h5>Concept (first thoughts)</h5><p>A lamp bar with UV-C tubes or LED modules in a hood close to the crop, with reflectors that shine into the canopy from the sides and from below. The hood shields people and animals; the lamps switch off the moment the robot stops, and interlocks stop them when the hood is lifted or a person is detected. Dose is set by driving speed, so speed and lamp power give a fixed dose per square metre.</p>
-<h5>Reuse from existing implements</h5><p>Hood and heat-shield thinking of the weeds burner; 48 V supply and control box; row units with gauge wheels of the in-row weeder for height above the crop.</p>
-<h5>Open questions</h5><ul><li>UV-C dose per pass against mildew species and crop (strawberry, cucumber, grape ...)</li><li>Lamp type: UV-C tubes versus LED, and lifetime</li><li>Hood height over the canopy and side reflectors</li><li>Safety: eye and skin protection, interlocks, night-only operation</li><li>Effects on beneficial insects and on the crop (leaf burn)</li></ul>
-<p class="meta">Folder: <code>implement ideas/uv_mildew_light/</code></p></section>
 <section class="page idea"><p class="kicker">Idea · Transport &amp; General</p><h3>Speech speaker</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>A speaker on the robot that can speak: warnings when the robot approaches, status messages for the operator, instructions in the field, and a way to speak to people near the robot.</p>
@@ -522,13 +575,6 @@ a{color:#2f6b1e}
 <h5>Reuse from existing implements</h5><p>Hood, heat shield and castors of the weeds burner; water tank from the mobile refiller concept.</p>
 <h5>Open questions</h5><ul><li>Power and water use per hectare</li><li>Boiler type: propane, electric or both</li><li>Effect on perennial weeds with deep roots</li><li>Weight and heat shielding</li></ul>
 <p class="meta">Folder: <code>implement ideas/steam_foam_weeder/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Weed &amp; Crop Protection</p><h3>Biological-control spreader</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Releases beneficial organisms (parasitic wasps, predatory mites, nematodes) at set points or lines in the crop.</p>
-<h5>Concept (first thoughts)</h5><p>A small cooled container with a dosing unit that drops carriers at GPS points or along rows. For nematodes a small tank with a pump and spray nozzle; for insects a dispenser with a drop tube.</p>
-<h5>Reuse from existing implements</h5><p>Dosing pump and tank of the liquid fertilizer applicator and spot sprayer; GPS point handling of the field marker.</p>
-<h5>Open questions</h5><ul><li>Organism type, carrier and storage temperature</li><li>Dosing per point or per metre</li><li>Survival during dispensing</li><li>Timing and weather limits</li></ul>
-<p class="meta">Folder: <code>implement ideas/biocontrol_spreader/</code></p></section>
 <section class="page idea"><p class="kicker">Idea · Weed &amp; Crop Protection</p><h3>Pheromone trap service</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>Visits insect traps and pheromone dispensers at the field edge: checks them with a camera, counts catches and swaps dispensers on schedule.</p>
@@ -557,13 +603,6 @@ a{color:#2f6b1e}
 <h5>Reuse from existing implements</h5><p>Push blade idea, feed pusher auger mounting on the rear wheel brackets.</p>
 <h5>Open questions</h5><ul><li>Stainless or coated parts against manure corrosion</li><li>Blade shape and floor type (slats, solid)</li><li>Washing and cleaning of the robot</li></ul>
 <p class="meta">Folder: <code>implement ideas/manure_scraper/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Livestock &amp; Farm</p><h3>Bedding rake</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Rakes and levels bedding (straw, sawdust, wood chips) in loose housing, stables and paddocks.</p>
-<h5>Concept (first thoughts)</h5><p>A comb or spring-tine harrow behind the robot to loosen and level, with a small hopper to top up. Works with the bedding spreaders.</p>
-<h5>Reuse from existing implements</h5><p>Tine bars and belt of the belt rake; hopper of the sawdust spreader.</p>
-<h5>Open questions</h5><ul><li>Tine type for straw versus sawdust</li><li>Depth setting on soft bedding</li><li>Animal interaction: noise and speed near animals</li></ul>
-<p class="meta">Folder: <code>implement ideas/bedding_rake/</code></p></section>
 <section class="page idea"><p class="kicker">Idea · Livestock &amp; Farm</p><h3>Chicken house robot</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>Drives through a poultry house to turn the litter, collect floor eggs, and check birds and climate with sensors.</p>
@@ -606,27 +645,6 @@ a{color:#2f6b1e}
 <h5>Reuse from existing implements</h5><p>Camera masts of the spot sprayer and yield estimator.</p>
 <h5>Open questions</h5><ul><li>Image quality in shade and at row ends</li><li>Per-tree identification</li><li>Status classes and reports</li></ul>
 <p class="meta">Folder: <code>implement ideas/windbreak_inspector/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Transport &amp; General</p><h3>Crate and box carrier</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Follows a picker or runs a set route and carries full crates from the plant rows to the field edge, so pickers do not have to walk with loads.</p>
-<h5>Concept (first thoughts)</h5><p>A flat platform on the top plate with crate guides and tie-downs, taking 4 to 8 standard crates. Follow-me mode via a tag or RTK on the picker, or fixed shuttle routes. Weight is kept low and centred over the axles.</p>
-<h5>Reuse from existing implements</h5><p>Top-plate pattern and the mobile refiller's driving between two positions; speaker idea for warnings and messages.</p>
-<h5>Open questions</h5><ul><li>Crate type and number, payload</li><li>Follow-me method: RTK tag, camera or radio</li><li>Loading height for the picker</li><li>Fruit bruising on bumpy ground</li></ul>
-<p class="meta">Folder: <code>implement ideas/crate_carrier/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Transport &amp; General</p><h3>Tool and material cart</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Carries tools, stakes, nets, and water along to where the work is, in the field or in a greenhouse.</p>
-<h5>Concept (first thoughts)</h5><p>A rack or open box on the top plate or a small trailer, with tool holders. Follows the worker or drives to a stored point.</p>
-<h5>Reuse from existing implements</h5><p>Crate carrier platform, tow hitch idea.</p>
-<h5>Open questions</h5><ul><li>Rack layout and capacity</li><li>Following or fixed route</li><li>Greenhouse use: width and floor</li></ul>
-<p class="meta">Folder: <code>implement ideas/tool_cart/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Transport &amp; General</p><h3>Bag trailer</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>Pulls a small trailer with bags of seed, fertilizer or feed to a fixed point in the field or yard.</p>
-<h5>Concept (first thoughts)</h5><p>A light single-axle trailer or a pallet on a platform, hitched to the tow hitch. Supplies refill stations or spreaders.</p>
-<h5>Reuse from existing implements</h5><p>Trailer of the mobile refiller; tow hitch idea.</p>
-<h5>Open questions</h5><ul><li>Load per trip and slope</li><li>Hitch type and reverse driving</li><li>Unloading: by hand or tipped</li></ul>
-<p class="meta">Folder: <code>implement ideas/bag_trailer/</code></p></section>
 <section class="page idea"><p class="kicker">Idea · Power &amp; Drive</p><h3>Charging robot (mobile charger)</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>A robot on wheels that carries a large battery and charges working robots in the field, so they do not have to return to the shed.</p>
@@ -634,13 +652,6 @@ a{color:#2f6b1e}
 <h5>Reuse from existing implements</h5><p>Docking approach, RTK antenna above the connection and procedure of the mobile refiller; battery pack idea.</p>
 <h5>Open questions</h5><ul><li>Charging connector and automatic plug-in</li><li>Charging power and time</li><li>Battery capacity on the charger robot</li><li>Wireless versus conductive contact</li></ul>
 <p class="meta">Folder: <code>implement ideas/charging_robot/</code></p></section>
-<section class="page idea"><p class="kicker">Idea · Power &amp; Drive</p><h3>Wireless charging dock</h3>
-<p class="status">Not worked out yet</p>
-<h5>What it does</h5><p>A fixed docking station at the field edge or in the shed where the robot drives up and charges, either with contacts or wirelessly.</p>
-<h5>Concept (first thoughts)</h5><p>A drive-on plate with an inductive coil or contact bars, a guide for alignment, and an RTK-assisted approach. The robot parks over the coil.</p>
-<h5>Reuse from existing implements</h5><p>Docking alignment of the mobile refiller; solar panel idea as the power source.</p>
-<h5>Open questions</h5><ul><li>Wireless versus contact charging</li><li>Power and efficiency</li><li>Weatherproofing</li><li>Alignment tolerance</li></ul>
-<p class="meta">Folder: <code>implement ideas/wireless_charging_dock/</code></p></section>
 <section class="page idea"><p class="kicker">Idea · Measuring &amp; Sensors</p><h3>Security camera patrol</h3>
 <p class="status">Not worked out yet</p>
 <h5>What it does</h5><p>A mast with camera and thermal imaging that patrols the farm or field at night, reports intruders and keeps an eye on animals and equipment.</p>
