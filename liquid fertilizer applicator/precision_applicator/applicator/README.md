@@ -13,6 +13,17 @@ on the front cross tube. The parallelogram keeps the applicator level. The actua
 bridge plate on the robot beam to a cross tube between the masts: extended (389.5 mm) is the working position at
 50 mm depth, retracted (304 mm) lifts the applicator 150 mm for headlands and transport.
 
+## Two rows
+
+The same applicator with **2 discs and knives in the middle** (x ±100, 200 apart); frame, shaft, suspension and
+actuator stay as they are (`frame_rows = 5`). Set `N_DISCS = 2` in `run_in_freecad.py`, or
+`build_pa.build(n_discs=2)`: it is saved as `Precision_Applicator_2rows.FCStd/.step`, images in `previews/2rows/`.
+45.5 kg (lifted 30.4 kg); no interference, also over the lift range. With press wheels: [../applicator_v2/](../applicator_v2/README.md).
+
+| 5 rows | 2 rows |
+| --- | --- |
+| ![5 rows](previews/2_iso_rear.png) | ![2 rows](previews/2rows/2_iso_rear.png) |
+
 All dimensions with their source (given / measured on a photo / estimated): [maten_applicator.md](maten_applicator.md).
 Why it is laid out this way: [RATIONALE.md](RATIONALE.md).
 
@@ -27,12 +38,13 @@ Why it is laid out this way: [RATIONALE.md](RATIONALE.md).
 | File | Contents |
 | --- | --- |
 | `Precision_Applicator.FCStd/.step` | the model (generated, do not edit by hand) |
-| `pa_params.py` | all dimensions: working depth, discs, shaft and bearings, side shields, tubes, knife position and holder, robot interface, linkage and actuator; `implement_offset(lift)`, `actuator_length(lift)`, `lift_for_length(L)` |
+| `Precision_Applicator_2rows.FCStd/.step` | the 2-row variant (generated) |
+| `pa_params.py` | all dimensions: number of rows (`configure(n)`), working depth, discs, shaft and bearings, side shields, tubes, knife position and holder, robot interface, linkage and actuator; `implement_offset(lift)`, `actuator_length(lift)`, `lift_for_length(L)` |
 | `pa_parts.py` | one function per part (side shield, cross tubes, shaft, FL205, disc, collars, sleeve, holder, bolts, headstock, clamp plate, links, mast, actuator bracket, actuator, robot beam reference, ground); `knife_placement(x)` puts the knife |
 | `build_pa.py` | model tree, colors, `set_lift(lift)`, interference check, `check_poses()` over the lift range, clearances, mass, images, STEP export; `build_into(doc, parent, placement, prefix)` puts it into another document (`../combined/`) |
 | `run_in_freecad.py` | macro: run in FreeCAD (F6) to rebuild and print the key figures |
 | `parts/injector_knife/` | the knife as its own part (params, parts, build, README) |
-| `previews/` | images |
+| `previews/`, `previews/2rows/` | images |
 | `specs.txt`, `inspiration/` | the original notes and photos |
 
 The knife shapes come from `parts/injector_knife/ik_parts.py`; `run_in_freecad.py` puts that folder on `sys.path`.
