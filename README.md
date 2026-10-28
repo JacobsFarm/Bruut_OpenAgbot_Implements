@@ -26,12 +26,22 @@ Every design is parametric: change a number, rebuild, and the whole model follow
   </tr>
   <tr>
     <td align="center">
-      <a href="liquid%20fertilizer%20applicator/advanced/"><img src="liquid%20fertilizer%20applicator/advanced/previews/11_work_iso_with_robot.png" alt="Liquid fertilizer applicator"></a><br>
+      <a href="liquid%20fertilizer%20applicator/concept%20versions/advanced/"><img src="liquid%20fertilizer%20applicator/concept%20versions/advanced/previews/11_work_iso_with_robot.png" alt="Liquid fertilizer applicator"></a><br>
       <b><a href="liquid%20fertilizer%20applicator/">Liquid fertilizer applicator</a></b><br>Disc and knife units on spring arms
     </td>
     <td align="center">
       <a href="dockweed%20drill/"><img src="dockweed%20drill/render_front_left.png" alt="Dockweed drill"></a><br>
       <b><a href="dockweed%20drill/">Dockweed drill</a></b><br>Finds a dock plant and mills out its root
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="liquid%20fertilizer%20applicator/precision_applicator/combined_v2/"><img src="liquid%20fertilizer%20applicator/precision_applicator/combined_v2/previews/1_iso_rear_right.png" alt="Precision liquid applicator V2 on the robot"></a><br>
+      <b><a href="liquid%20fertilizer%20applicator/precision_applicator/">Precision liquid applicator</a></b><br>Roller pump on the robot, discs, knives and press wheels on an actuator linkage
+    </td>
+    <td align="center">
+      <a href="liquid%20fertilizer%20applicator/precision_applicator/roller_pump/"><img src="liquid%20fertilizer%20applicator/precision_applicator/roller_pump/previews/5ch/1_iso_outlet_side.png" alt="Roller pump"></a><br>
+      <b><a href="liquid%20fertilizer%20applicator/precision_applicator/roller_pump/">Roller pump</a></b><br>Modular peristaltic pump, 10 ml per revolution per tube
     </td>
   </tr>
   <tr>
@@ -181,8 +191,13 @@ Every design is parametric: change a number, rebuild, and the whole model follow
 The advanced designs are animated on the real robot model, with the loads and forces calculated per frame.
 
 <p align="center">
-  <img src="liquid%20fertilizer%20applicator/advanced/previews/animation_strip_ground_following.gif" alt="Ground-following animation of the liquid fertilizer applicator" width="720"><br>
-  <i><a href="liquid%20fertilizer%20applicator/advanced/">Liquid fertilizer applicator</a>: every element follows the bumpy ground on its own arm</i>
+  <img src="liquid%20fertilizer%20applicator/concept%20versions/advanced/previews/animation_strip_ground_following.gif" alt="Ground-following animation of the liquid fertilizer applicator" width="720"><br>
+  <i><a href="liquid%20fertilizer%20applicator/concept%20versions/advanced/">Liquid fertilizer applicator</a>: every element follows the bumpy ground on its own arm</i>
+</p>
+
+<p align="center">
+  <img src="liquid%20fertilizer%20applicator/precision_applicator/combined_v2/previews/animation_inject_press_strip.gif" alt="Precision liquid applicator V2 injecting a strip" width="720"><br>
+  <i><a href="liquid%20fertilizer%20applicator/precision_applicator/">Precision liquid applicator</a>: the actuator lowers the discs and knives, the roller pump follows the speed and the press wheels close the slot</i>
 </p>
 
 <p align="center">
@@ -261,7 +276,7 @@ The advanced designs are animated on the real robot model, with the loads and fo
 |---|---|---|
 | [**Overseeder**](overseeder/) | [simple](overseeder/simple/) · [advanced](overseeder/advanced/) | Grassland slit seeder. 1 m modules with 8 rows at 125 mm and coupling flanges. Cuts a 15 mm slot, places seed about 12 mm deep and closes the slot with a sprung press wheel. Simple: angled single disc, gravity hopper, about €1,675 in parts. Advanced: parallel linkage, depth bands, curved seed coulter and an air seeder, about €2,280 |
 | [**Cambridge roll and overseeder**](cambridge%20roll/) | [Cambridge roll](cambridge%20roll/cambridge%20roll/) · [overseeder (drop seeder)](cambridge%20roll/overrseeder/) · [combination](cambridge%20roll/overseeder%20with%20cambridge%20roll/) | Simple trailed lawn-repair implements on a 50 mm tow ball under the rear beams. Cambridge roll: 20 cast-iron rings Ø280 on a Ø40 shaft, 1 m, 178 kg, 100 … 250 N draft, about €850 with the hitch. Overseeder: 1 m drop seeder, 49 l hopper, fluted roller on a 24 V worm gearmotor that a camera switches on only over bare soil, two small wheels, about €500. Combination: the seeder unit hangs between the arms of the roll, seed falls 300 mm in front of the rings and is rolled in; 216 kg, about €1,200. Includes the turn kinematics of the trailer and an animation with bare patches |
-| [**Liquid fertilizer applicator**](liquid%20fertilizer%20applicator/) | [simple](liquid%20fertilizer%20applicator/simple/) · [simple v2](liquid%20fertilizer%20applicator/simple_v2/) · [advanced](liquid%20fertilizer%20applicator/advanced/) | Injects liquid fertilizer into the soil. Simple: fixed knives, two gauge wheels and a 12 V pump, about €600 in parts. Simple v2: adds a cutting disc in front of each knife, about €900. Advanced: disc and knife units on spring arms, a ground-wheel-driven 5-channel peristaltic pump and a parallel linkage |
+| [**Liquid fertilizer applicator**](liquid%20fertilizer%20applicator/) | [simple](liquid%20fertilizer%20applicator/concept%20versions/simple/) · [simple v2](liquid%20fertilizer%20applicator/concept%20versions/simple_v2/) · [advanced](liquid%20fertilizer%20applicator/concept%20versions/advanced/) · **precision (production):** [roller pump](liquid%20fertilizer%20applicator/precision_applicator/roller_pump/) · [applicator](liquid%20fertilizer%20applicator/precision_applicator/applicator/) · [applicator V2](liquid%20fertilizer%20applicator/precision_applicator/applicator_v2/) · [on the robot](liquid%20fertilizer%20applicator/precision_applicator/combined/) · [V2 on the robot](liquid%20fertilizer%20applicator/precision_applicator/combined_v2/) | Injects liquid fertilizer into the soil. Simple: fixed knives, two gauge wheels and a 12 V pump, about €600 in parts. Simple v2: adds a cutting disc in front of each knife, about €900. Advanced: disc and knife units on spring arms, a ground-wheel-driven 5-channel peristaltic pump and a parallel linkage. Precision (the first production version, built with Herre Bartlema, from measured parts): a modular roller pump on the robot (10 ml per revolution per tube, stepper-driven, follows the speed), Ø 325 discs with injector knives behind them on a parallel linkage with an electric actuator, 5 rows or 2 rows in the middle; V2 adds a press wheel behind every knife that closes the slot. Includes the hoses and an animation on the robot |
 | [**Feed pusher auger**](feed%20pusher%20auger/) | [simple](feed%20pusher%20auger/simple/) · [advanced](feed%20pusher%20auger/advanced/) | Pushes feed back to the feed fence. Simple: cheap version from flat plate and sectional flights. Advanced: Ø320 auger under a folded 2 mm hood, 24 V gearmotor with chain drive, open discharge end. Includes a feed-transport model and a force animation |
 | [**Disc brushes**](brushes/) | [simple](brushes/simple/) (2 × Ø650, 2 × Ø750, 1 × Ø850) | Sweeper disc brushes for loose material on concrete. Each brush on its own 48 V worm gearmotor; reverse the motors and the pair makes a windrow in the middle or spreads material wide. Units slide on U-bolts along an 80 × 80 toolbar under the rear beams. Includes an animation with a particle model of the material |
 | [**Dockweed drill**](dockweed%20drill/) | one design | Dock (broad-leaved dock) removal mill on a CNC gantry. Renders, animations, DXF and STEP files |

@@ -11,6 +11,8 @@ The two parts of the precision liquid applicator put together on the standard ro
 
 No tank yet: the 1" manifold of the pump is still open at the front.
 
+Version 2 with 2 rows in the middle and press wheels behind the knives: [../combined_v2/](../combined_v2/README.md).
+
 ![overview](previews/1_iso_rear_right.png)
 
 ![animation](previews/animation_inject_strip.gif)
