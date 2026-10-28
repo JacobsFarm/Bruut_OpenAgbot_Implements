@@ -163,4 +163,188 @@ export const implementsList = [
         text: "Insulated 1.5 × 0.8 m hood behind the robot with 6 flat-flame burners (13 kg/h, 167 kW). Two 18 kg forklift cylinders with liquid withdrawal on the robot, a vaporiser coil in the hood, two main solenoid valves in series, a motorised regulator, pilots with igniters and flame sensors; the valves close at once when the robot stops.",
         facts: ["34 kg/ha at 0.7 m/s, 0.84 ha per filling", "Gas ≈ €55/ha", "131 kg empty, about €3,400 in parts"] },
     ] },
+  {
+    name: "Push blade", folder: "push blade", category: "Soil Cultivation & Weed Control",
+    summary: "Front-mounted dozer / grader blade: pushes feed back to the feed fence, scrapes slurry and snow, grades soil and paths. Covers the manure scraper idea as well.",
+    variants: [
+      { name: "Simple", folder: "push blade/simple", hero: "push blade/simple/previews/1_iso_front_on_robot.png",
+        text: "1100 x 450 moldboard on R700 with a bolted rubber edge (steel edge for soil), angle +-25 degrees on an M30 king pin with a lock pin, two lift arms on a front toolbar under the front lower beams, 24 V 1500 N actuator with a float slot.",
+        facts: ["Net push 801 N on dry concrete, 348 N with manure", "Lift 159 mm, clears the steered front tyres by 148 mm", "81 kg"] },
+    ] },
+  {
+    name: "Fertilizer spreader", folder: "fertilizer spreader", category: "Spraying, Fertilizing & Irrigation",
+    summary: "Spinning-disc spreader for granular fertilizer (and granular lime with a coarser roller). Dose follows the driving speed and a task map.",
+    variants: [
+      { name: "Simple", folder: "fertilizer spreader/simple", hero: "fertilizer spreader/simple/previews/1_iso_rear_right_on_robot.png",
+        text: "88 l PE hopper over and behind the rear axle on rails on the upper beams, fluted metering roller O80 on a 12 V gearmotor, vaned disc O400 on a 48 V BLDC motor behind the robot with a guard towards the robot. Optional 2 x 20 kg front counterweight.",
+        facts: ["Driving width 4.1..6.7 m (500..900 rpm)", "100..541 kg/ha at 1 m/s", "~1.6 ha/h, 130 kg full"] },
+    ] },
+  {
+    name: "Grassland harrow", folder: "grassland harrow", category: "Crop & Soil",
+    summary: "Pasture harrow behind the robot: a levelling board spreads molehills and dung pats, two rows of spring tines rake out moss and work in seed. Covers the molehill spreader idea.",
+    variants: [
+      { name: "Simple", folder: "grassland harrow/simple", hero: "grassland harrow/simple/previews/1_iso_rear_right_on_robot.png",
+        text: "1300 mm harrow on two lift arms from a rear toolbar (the push blade geometry, mirrored): angle-iron levelling board, 32 double spring tines O8 (a track every 37.5 mm), floats on the sward, lifted by a 24 V actuator.",
+        facts: ["Pull 629 N on grass, grip margin 1.44", "0.56 ha/h at 1.5 m/s", "85 kg"] },
+    ] },
+  {
+    name: "Soil sampler", folder: "soil sampler", category: "Crop & Soil",
+    summary: "Takes soil cores at GPS points with a gouge on a ball-screw Z axis in the middle of the robot and collects 40 cores per plot in a cup of a 10-cup carousel.",
+    variants: [
+      { name: "Simple", folder: "soil sampler/simple", hero: "soil sampler/simple/previews/1_iso_on_robot_park.png",
+        text: "SBR20 rails and an SFU1605 ball screw with a NEMA23 on a mast plate between two bridges on the upper beams, O25 gouge with ejector, sprung foot, swing chute and funnel, carousel of 10 cups of 1.3 l.",
+        facts: ["0-10 cm grass needs 0.5..0.8 kN, 1.3 kN available", "38 s per core, 25 min per plot", "33 kg"] },
+    ] },
+  {
+    name: "Inter-row hoe", folder: "inter row hoe", category: "Soil Cultivation & Weed Control",
+    summary: "Single-axis guided hoe behind the robot for row crops such as maize: two hoe units in the inter-rows behind the wheels, kept on the rows by a camera-steered ball-screw side shift.",
+    variants: [
+      { name: "Simple", folder: "inter row hoe/simple", hero: "inter row hoe/simple/previews/1_iso_rear_right_on_robot.png",
+        text: "Rear toolbar and lift arms of the grassland harrow (3000 N actuator), carrier with 2 HGR15 rails, 8 mm shift plate moved +-75 mm by an SFU1610 ball screw and a closed-loop NEMA23. Two parallelogram units with a gauge wheel O250, a goosefoot 250 and two L-blades (550 mm per inter-row, 100 mm band each side of the row). Camera on a mast above the middle row.",
+        facts: ["1.5 m per pass (2 x 750), ~0.43 ha/h at 1 m/s","Pull 764 N at 20 mm, grip margin 1.23","Side shift 80 mm/s, ~119 kg, needs the 2 x 20 kg front counterweight"] },
+    ] },
+  {
+    name: "Grassland aerator", folder: "grassland aerator", category: "Soil Cultivation & Weed Control",
+    summary: "Slitter aerator in the middle of the robot, between the axles: a passive roller with star discs cuts slits into grassland, pressed in by frame weight and ballast, both axles sharing the reaction.",
+    variants: [
+      { name: "Simple", folder: "grassland aerator/simple", hero: "grassland aerator/simple/previews/1_iso_front_right_on_robot.png",
+        text: "2 bridges on the upper beams, side arms on pivots outside the steering sweep, roller with 8 stars of 6 slitting knives (O450) in 2 UCFL208 bearings, cross beam with 4 x 20 kg ballast, 24 V 2000 N actuator from a mast on the rear bridge (lifts 14 degrees, can press).",
+        facts: ["1.2 m, slits 150 x 236 mm, 70 mm deep","~0.41 ha/h at 1.2 m/s, pull 325 N","201 kg incl. 80 kg ballast, 47 % on the front axle"] },
+    ] },
+  {
+    name: "Three-point hitch", folder: "three point hitch", category: "Transport & General",
+    summary: "Category 0 three-point linkage at the rear with two electric lift rods, so standard sub-compact implements can hang on the robot. Drawn with a small 5-tine cultivator, which covers the small cultivator idea.",
+    variants: [
+      { name: "Simple", folder: "three point hitch/simple", hero: "three point hitch/simple/previews/1_iso_rear_right_on_robot.png",
+        text: "Rear toolbar of the grassland harrow with lugs for 2 lower links (50 x 20, O16 pins, 500 spacing), a top link bracket and 2 x 24 V 3000 N actuators as lift rods with a slotted eye (the implement floats). Demo implement: 1.0 m cultivator, 5 S-tines with duckfoot shares, 2 gauge wheels.",
+        facts: ["Lower pins 220 .. 425 mm, implement level within 2 degrees","Carries ~56 kg lifted with the 2 x 20 kg counterweight (front axle >= 20 %)","Cultivator: 808 N draft at 40 mm, grip margin 1.29, 0.29 ha/h"] },
+    ] },
+  {
+    name: "Crate carrier", folder: "crate carrier", category: "Transport & General",
+    summary: "Flat deck on the upper beams for 8 harvest crates, carried from the rows to the field edge following a picker (UWB) or on an RTK route. The same deck carries tools and material (covers the tool cart idea).",
+    variants: [
+      { name: "Simple", folder: "crate carrier/simple", hero: "crate carrier/simple/previews/1_iso_rear_right_loaded.png",
+        text: "3 bearers across the upper beams, side rails and 18 mm plywood (1300 x 1000, loading height 757), angle guides, divider, mesh headboard in front of the crates, 2 ratchet straps; 2 UWB anchors, a stop/go/follow box and the GNSS antenna moved to a mast above the stack.",
+        facts: ["8 crates 600 x 400 x 300 in 2 layers","Apples: 141 kg, 48 % front axle, side tip angle 28 degrees","~107 crates per hour on a 150 m shuttle, 51 kg"] },
+    ] },
+  {
+    name: "Counterweights", folder: "counterweights", category: "Transport & General",
+    summary: "Stackable 11 kg ballast plates on the lower cross beams, front and rear, to keep enough load on the front axle with rear implements (and on the rear axle with the push blade).",
+    variants: [
+      { name: "Simple", folder: "counterweights/simple", hero: "counterweights/simple/previews/1_iso_front_right_on_robot.png",
+        text: "Per stack (4 stacks): a 15 mm base plate on the two lower beams with 2 M16 studs, up to 4 plates of 170 x 200 x 50 with open slots that slide on from the side, a clamp bar and 2 knob nuts. Fits together with the push blade and the rear toolbar.",
+        facts: ["11 kg per plate, 0..99 kg per axle end","Inter-row hoe: 2 plates per stack front, 5 % -> 21 % front axle","Harrow, hitch, spreader: 1 plate per stack front"] },
+    ] },
+  {
+    name: "Battery pack", folder: "battery pack", category: "Power & Drive",
+    summary: "Two exchangeable 48 V LiFePO4 pods (2.56 kWh each) hanging under the upper beams between the wheels: low, centred, and free of all toolbars and decks.",
+    variants: [
+      { name: "Simple", folder: "battery pack/simple", hero: "battery pack/simple/previews/1_iso_front_right_on_robot.png",
+        text: "Per side: 2 hangers (flat bar 40 x 8, M10 through the upper beams) and an aluminium pod with 16 LiFePO4 cells 50 Ah, a 16S BMS, hook strips, latches, handles and an Anderson SB50 connector.",
+        facts: ["51.2 V, 2 x 2.56 kWh, 26 kg per pod","Inter-row hoe 1.8 -> 6.0 h, harrow 1.4 -> 4.9 h","~230 N extra grip, 52 mm from the steered tyres"] },
+    ] },
+  {
+    name: "Solar canopy", folder: "solar", category: "Power & Drive",
+    summary: "Roof of solar panels on a tube frame above the robot that charges the battery through an MPPT controller and carries the GNSS antenna.",
+    variants: [
+      { name: "Canopy", folder: "solar", hero: "solar/previews/1_iso.png",
+        text: "2 panels 1000 x 1650 mm (320 Wp each, 3 possible) on a steel tube frame: base tubes on the upper beams, 4 posts, top rails and cross members, diagonal struts to the overhangs; MPPT box, GNSS antenna on a mast between the panels.",
+        facts: ["640 Wp, ~480 kWh per year (NL)", "2.3 kWh per day in June, 0.2 in December", "91 kg, tips over at ~29 degrees static"] },
+    ] },
+  {
+    name: "Compost spreader", folder: "compost spreader", category: "Spreading & Bedding",
+    summary: "Bin on the upper beams with a moving floor belt and a beater behind the robot: top-dresses beds, orchard strips and grassland with compost in an even 1.1 m layer, dose from the belt speed.",
+    variants: [
+      { name: "Simple", folder: "compost spreader/simple", hero: "compost spreader/simple/previews/1_iso_rear_right_on_robot.png",
+        text: "299 l bin (150 kg payload) on 3 bearers, floor belt 920 wide on a UHMW slide bed round 2 drums O100 driven by a 24 V worm gearmotor, slide gate 30..150 mm, paddle beater O280 at 300 rpm on a 48 V 1 kW BLDC with a poly-V belt and a deflector hood.",
+        facts: ["1..3 kg/m2, 50..150 m2 per bin, ~1.1 t/h with refilling", "Needs 1 counterweight plate per stack (front axle 33 %)", "190 kg empty, climbs 8 degrees full"] },
+    ] },
+  {
+    name: "Stone picker", folder: "stone picker", category: "Crop & Soil",
+    summary: "Mid-mounted under the robot between the axles: a 1 m tine rotor flicks stones over a comb into a sieve basket, on a parallelogram lift; the floor drops open at the heap.",
+    variants: [
+      { name: "Simple", folder: "stone picker/simple", hero: "stone picker/simple/previews/1_iso_front_right_on_robot.png",
+        text: "Rotor O114 with 48 double spring tines (tip radius 150, 20 mm deep) on a 48 V 750 W gearmotor at 250 rpm, comb of 12 mm bars, 40 l basket with a sieve floor (25 mm gaps) opened by a 24 V actuator, frame on 4 swing links outside the wheel line lifted 100 mm by one 1500 N actuator.",
+        facts: ["1 m wide, 1200..1700 m2/h, ~1 ha per day","44 kg of stones per basket, front axle 41..45 %, no ballast","92 kg, 525 W rotor"] },
+    ] },
+  {
+    name: "Mulch layer", folder: "mulch layer", category: "Crop & Soil",
+    summary: "Category 0 implement for the three-point hitch that lays 1.2 m mulch foil over the bed behind the robot: press wheels push the edges down, angled discs bury them.",
+    variants: [
+      { name: "Simple", folder: "mulch layer/simple", hero: "mulch layer/simple/previews/1_iso_rear_right_on_robot.png",
+        text: "Frame with a 60 x 60 toolbar, A-frame mast and 50 x 50 side beams on the hitch of three point hitch/simple (imported), foil roll O200 x 1200 in open V-holders with a band brake, guide bar, 2 semi-pneumatic press wheels O250 on the edges and 2 concave covering discs O350 at 22 degrees, 50 mm deep.",
+        facts: ["12 beds of 100 m per hour, a 1075 m roll lasts ~50 min","Pull 730 N, grip margin 1.51","94 kg with a full roll: needs 3 counterweight plates per front stack"] },
+    ] },
+  {
+    name: "Grass meter", folder: "grass meter", category: "Measuring & Sensors",
+    summary: "Maps grass cover while driving: front boom with 2 active NDVI sensors, a lidar and a camera, plus a sledge plate meter between the axles for compressed height and dry matter. Covers the NIR sensor idea.",
+    variants: [
+      { name: "Simple", folder: "grass meter/simple", hero: "grass meter/simple/previews/1_iso_front_right_on_robot.png",
+        text: "Boom 1300 on two flat brackets on the front outer lower beam (above the tyres), 2 active NDVI sensors at x +-550, a lidar and an RGB camera; plate 0.1 m2 at 5 kg/m2 on a 350 mm parallelogram from a post under the upper beams, angle sensor on the pivot, 24 V actuator to lift it.",
+        facts: ["4.4 ha/h on 10 m transects, ~35 ha per battery","Plate 0..200 mm, 0.3..0.5 mm resolution","22 kg, stays on with most implements"] },
+    ] },
+  {
+    name: "Soil compaction meter", folder: "soil compaction meter", category: "Measuring & Sensors",
+    summary: "Automatic cone penetrometer in the middle of the robot: a ball-screw Z axis pushes an ASABE cone at 30 mm/s to 600 mm, a load cell reads the force; compaction maps per depth layer.",
+    variants: [
+      { name: "Simple", folder: "soil compaction meter/simple", hero: "soil compaction meter/simple/previews/1_iso_front_right_on_robot.png",
+        text: "Bridges, mast, SBR20 rails and SFU1605 screw as the soil sampler (mast z 120..1150 with stays), S-type 2 kN load cell, rod O9.5 x 700 with a 30 degree cone O12.83, sprung foot with a PTFE rod bush and a capacitive moisture probe.",
+        facts: ["Up to 10.2 MPa with 70 % of the robot weight","35 s per 600 mm profile, ~47 points per hour","32 kg"] },
+    ] },
+  {
+    name: "Charging dock", folder: "charging dock", category: "Power & Drive",
+    summary: "Fixed docking station at the field edge or in the shed: the robot drives in and charges through sprung copper contacts (the contact version of the wireless charging dock idea).",
+    variants: [
+      { name: "Simple", folder: "charging dock/simple", hero: "charging dock/simple/previews/1_iso_docked.png",
+        text: "Robot side: a 3.9 kg contact bracket on the front outer lower beam with 2 sprung copper pads and a pilot pin. Station: base plate with ground anchors, post with a 48 V 1 kW IP65 charger and a roof, an arm back between the front wheels to a PE contact head with 2 wide copper bars and a V-funnel.",
+        facts: ["17 A at 54 V, 0.3 W contact loss","Robot 20 -> 100 % in 2 h","Catches 75 mm sideways; 80 kg station"] },
+    ] },
+  {
+    name: "UV-C mildew light", folder: "uv mildew light", category: "Weed & Crop Protection",
+    summary: "Reflecting hood with 6 UV-C lamps under the robot between the axles: drives over the bed at night and gives a low UV-C dose against powdery mildew, without chemicals.",
+    variants: [
+      { name: "Simple", folder: "uv mildew light/simple", hero: "uv mildew light/simple/previews/1_iso_front_right_on_robot.png",
+        text: "Aluminium hood 580 x 440 on 4 slotted hangers from 2 bearers on the upper beams, rubber side skirts and brush curtains, 6 compact UV-C tubes (PL-L 55 W class) behind guard wires, ballasts and interlock in a box on the rear bearer.",
+        facts: ["200 J/m2 at 0.58 m/s, ~1020 m2/h","489 W, ~4000 m2 per battery","21 kg, 25 mm from the steered tyres"] },
+    ] },
+  {
+    name: "Sawdust spreader", folder: "sawdust spreader", category: "Spreading & Bedding",
+    summary: "Bedding spreader for cubicles: a 308 l bin with an auger across the robot feeds a spinner on the right side that throws sawdust, chopped straw or a lime mix into the cubicles from the alley.",
+    variants: [
+      { name: "Simple", folder: "sawdust spreader/simple", hero: "sawdust spreader/simple/previews/1_iso_front_right_on_robot.png",
+        text: "Bin 2 mm with 45 degree walls to a trough on 2 bearers on the upper beams, auger O150 across the robot on a 24 V worm gearmotor, spinner housing outside the right outer upper beam with a O320 disc (4 vanes, 350 rpm) open to the right.",
+        facts: ["61 cubicles per fill of sawdust, ~570 per hour","Throws ~1.3 m beyond the wheel line","75 kg empty"] },
+    ] },
+  {
+    name: "Bedding rake", folder: "bedding rake", category: "Livestock & Farm",
+    summary: "Cubicle groomer on a side arm: reaches from the alley over the curb, under the divider loops, with a tine rotor along the bed that loosens and levels the bedding in the rear metre of each cubicle.",
+    variants: [
+      { name: "Simple", folder: "bedding rake/simple", hero: "bedding rake/simple/previews/1_iso_rear_right_in_barn.png",
+        text: "Plate bracket with pivot lugs on the right outer upper beam, arm 60 x 40 from a pivot above the beams down past the curb and out over the bed, tine rotor O240 x 970 along the bed on a 48 V 400 W gearmotor, 24 V actuator across the robot top to a crank lifts the arm 40 degrees. A row of cubicles is modelled for the checks.",
+        facts: ["Grooms 100..1070 mm behind the curb, 90 mm under the loops","~655 cubicles per hour, ~300 W","37 kg, side tip angle 27 degrees"] },
+    ] },
+  {
+    name: "Dumper barrow", folder: "dumper barrow", category: "Transport & General",
+    summary: "Tipping skip on the upper beams: a 353 l steel bin hinged at the rear end of the robot, tipped backwards to 48 degrees by two actuators so the load slides out behind the rear wheels.",
+    variants: [
+      { name: "Simple", folder: "dumper barrow/simple", hero: "dumper barrow/simple/previews/1_iso_rear_right_on_robot.png",
+        text: "3 bearers on the upper beams (rest pads, actuator lugs, hinge lugs), subframe of 2 rails 40 x 40 with hinge bosses and a cross tube, 2 mm bin 900 x 1020 x 350 with a 30 degree rear lip, 2 x 24 V 3000 N actuators (stroke 300).",
+        facts: ["150 kg of soil (100 l) or 353 l of chips / green waste","Tips 48 degrees in ~36 s, cg stays in front of the rear axle","72 kg, ~950 kg of soil per hour on 100 m"] },
+    ] },
+  {
+    name: "Biocontrol spreader", folder: "biocontrol spreader", category: "Weed & Crop Protection",
+    summary: "Releases predatory mites and parasitic wasps (in bran, vermiculite or sawdust) over two rows: 2 hoppers with metering wheels and a blower that carries the product through hoses to deflector nozzles.",
+    variants: [
+      { name: "Simple", folder: "biocontrol spreader/simple", hero: "biocontrol spreader/simple/previews/1_iso_front_right_on_robot.png",
+        text: "Bearer across the upper beams with 2 PE hoppers of 7.9 l (agitator, NEMA17 metering wheel) over the rows at x +-187.5, a 24 V 60 W centrifugal fan, venturis, hoses O40 and deflector nozzles 450 mm above the ground.",
+        facts: ["Predatory mites 2 ml/m2: 0.8 ha per fill","~1350 m2/h, ~12 h per battery","18 kg"] },
+    ] },
+  {
+    name: "Bag trailer", folder: "bag trailer", category: "Transport & General",
+    summary: "Two-wheeled trailer on the 50 mm tow ball of the cambridge roll (hitch, coupling and drawbar imported): a plywood deck with boards and a drop tailgate for 12 bags of 25 kg.",
+    variants: [
+      { name: "Simple", folder: "bag trailer/simple", hero: "bag trailer/simple/previews/1_iso_rear_right_loaded.png",
+        text: "Frame of 40 x 40 rails and cross members behind the cbr cross beam and drawbar, plywood deck 1110 x 1410 at 358 mm with side and front boards and a drop tailgate, axle tube on hangers, 2 x 4.00-8 wheels with mudguards.",
+        facts: ["12 bags of 25 kg, 24 kg on the ball","Steepest slope loaded: 3.5 deg wet grass, 6.5 dry","110 kg empty"] },
+    ] },
 ];

@@ -1,0 +1,388 @@
+"""Model of the crate carrier on the Bruut OpenAgbot (standard robot).
+
+Use in FreeCAD (folder on sys.path, or via run_in_freecad.py):
+    import build_ccr
+    build_ccr.build()                      # saves FCStd and STEP (deck loaded with 8 crates)
+    build_ccr.set_load(False)              # hide crates and straps
+    build_ccr.check_interference()         # overlap (must be empty)
+    build_ccr.clearance()                  # smallest distance to the front steering stacks and the rear unit bolts
+    build_ccr.mass_properties()
+    build_ccr.render_all()                 # all images in previews/
+"""
+import os
+import sys
+
+import FreeCAD as App
+import Part
+from FreeCAD import Vector as V
+
+import ccr_params as P
+import ccr_parts as G
+
+FOLDER = os.path.dirname(os.path.abspath(__file__))
+PREVIEW_DIR = os.path.join(FOLDER, "previews")
+AGBOT_FOLDER = os.path.join(os.path.dirname(os.path.dirname(FOLDER)), "agbots", "agbot design")
+DOC_NAME = "Crate_Carrier"
+SAVE_BASE = os.path.join(FOLDER, "Crate_Carrier")
+ROOT = "Crate_carrier"
+
+COLOR = {
+    "frame": (0.93, 0.42, 0.08),
+    "zinc": (0.82, 0.84, 0.87),
+    "wood": (0.55, 0.38, 0.22),
+    "mesh": (0.60, 0.62, 0.65),
+    "crate": (0.15, 0.55, 0.25),
+    "strap": (0.95, 0.75, 0.10),
+    "plastic": (0.10, 0.10, 0.10),
+    "red": (0.80, 0.10, 0.10),
+    "white": (0.95, 0.95, 0.95),
+}
+
+
+# ---------------------------------------------------------------------
+# Tree helpers
+# ---------------------------------------------------------------------
+def new_part(doc, parent, name, label, placement=None):
+    part = doc.addObject("App::Part", name)
+    part.Label = label
+    if placement is not None:
+        part.Placement = placement
+    if parent is not None:
+        parent.addObject(part)
+    return part
+
+
+def add_shape(doc, parent, name, label, shape, color, visible=True):
+    if isinstance(shape, (list, tuple)):
+        shape = Part.makeCompound(list(shape))
+    obj = doc.addObject("Part::Feature", name)
+    obj.Label = label
+    obj.Shape = shape
+    parent.addObject(obj)
+    view = obj.ViewObject
+    if view is not None:
+        view.ShapeColor = COLOR[color]
+        view.Visibility = visible
+    return obj
+
+
+
+
+
+def build_deck(doc, parent):
+    grp = new_part(doc, parent, "Deck", "deck_on_upper_beams")
+    add_shape(doc, grp, "bearers", "bearers_40x40x3_3x", G.bearers(), "frame")
+    add_shape(doc, grp, "bearer_bolts", "bearer_bolts_M10_12x", G.bearer_bolts(), "zinc")
+    add_shape(doc, grp, "side_rails", "side_rails_40x40x3_2x", G.side_rails(), "frame")
+    add_shape(doc, grp, "plywood", "deck_plywood_18mm_%dx%d" % (2 * P.deck_x, P.deck_y[1] - P.deck_y[0]),
+              G.plywood(), "wood")
+    add_shape(doc, grp, "guides", "crate_guides_angle_30x30_divider", G.guides(), "zinc")
+    frame, mesh = G.headboard()
+    add_shape(doc, grp, "headboard", "headboard_frame_25x25_H%d" % P.head_h, frame, "frame")
+    add_shape(doc, grp, "head_mesh", "headboard_mesh_50x50x3", mesh, "mesh")
+    return grp
+
+
+def build_controls(doc, parent):
+    grp = new_part(doc, parent, "Controls", "follow_me_and_gnss")
+    add_shape(doc, grp, "gnss_mast", "gnss_mast_D30", G.gnss_mast(), "zinc")
+    add_shape(doc, grp, "gnss_antenna", "gnss_antenna_relocated", G.gnss_antenna(), "white")
+    add_shape(doc, grp, "uwb_anchors", "uwb_anchors_2x", G.uwb_anchors(), "plastic")
+    box, knobs = G.button_box()
+    add_shape(doc, grp, "button_box", "stop_go_follow_box", box, "plastic")
+    add_shape(doc, grp, "buttons", "buttons_3x", knobs, "red")
+    return grp
+
+
+def build_load(doc, parent):
+    grp = new_part(doc, parent, "Load", "crates_and_straps")
+    for i, s in enumerate(G.crates()):
+        add_shape(doc, grp, "crate_%d" % i, "harvest_crate_600x400x300_%d" % i, s, "crate")
+    add_shape(doc, grp, "straps", "ratchet_straps_25mm_2x", G.straps(), "strap")
+    return grp
+
+
+def build_into(doc, parent=None):
+    """Put the crate carrier in a document, in robot coordinates."""
+    root = new_part(doc, parent, ROOT, "crate_carrier_simple")
+    build_deck(doc, root)
+    build_controls(doc, root)
+    build_load(doc, root)
+    return root
+
+
+def set_load(visible=True, doc=None):
+    doc = active_doc(doc)
+    for o in objects_of(doc, "Load"):
+        o.ViewObject.Visibility = visible
+
+
+def build_robot(doc):
+    """Real robot model from 'agbot design' (read only)."""
+    if AGBOT_FOLDER not in sys.path:
+        sys.path.insert(0, AGBOT_FOLDER)
+    import build_agbot as BA
+    robot = BA.new_part(doc, None, "Robot", "Bruut_OpenAgbot_robot")
+    BA.build_chassis(doc, robot)
+    shapes = BA.make_shapes()
+    for tag in ("RL", "RR", "FL", "FR"):
+        BA.build_wheel_unit(doc, robot, tag, shapes, 0.0)
+    return robot
+
+
+def build(save=True, show_robot=False, step=True):
+    if DOC_NAME in App.listDocuments():
+        App.closeDocument(DOC_NAME)
+    doc = App.newDocument(DOC_NAME)
+    doc.Label = "Crate carrier simple"
+    doc.Comment = ("Generated by build_ccr.py from ccr_params.py. Robot coordinates: x = right, y = driving direction "
+                   "(front = +y), z = up, ground = z 0. Loaded with 8 crates; build_ccr.set_load(False) hides them.")
+    robot = None
+    try:
+        robot = build_robot(doc)
+    except Exception as exc:
+        print("robot model not loaded:", exc)
+    build_into(doc, robot)
+    if robot is not None and not show_robot:
+        set_robot_visible(False, doc)
+    doc.recompute()
+    if save:
+        doc.saveAs(SAVE_BASE + ".FCStd")
+    if step:
+        export_step(doc, SAVE_BASE + ".step")
+    return doc
+
+
+# ---------------------------------------------------------------------
+# Object lists and checks
+# ---------------------------------------------------------------------
+def active_doc(doc=None):
+    if doc is not None:
+        return doc
+    d = App.ActiveDocument
+    if d is not None and d.getObject(ROOT) is not None:
+        return d
+    for n in App.listDocuments():
+        d = App.getDocument(n)
+        if d.getObject(ROOT) is not None:
+            return d
+    raise RuntimeError("no document with %s open" % ROOT)
+
+
+def objects_of(doc, name):
+    g = doc.getObject(name)
+    if g is None:
+        return []
+    return [o for o in g.OutListRecursive if o.TypeId == "Part::Feature"]
+
+
+def robot_objects(doc):
+    robot = doc.getObject("Robot")
+    if robot is None:
+        return []
+    mine = {o.Name for o in objects_of(doc, ROOT)}
+    return [o for o in robot.OutListRecursive if o.TypeId == "Part::Feature" and o.Name not in mine]
+
+
+def set_robot_visible(visible, doc=None):
+    doc = active_doc(doc)
+    for o in robot_objects(doc):
+        o.ViewObject.Visibility = visible
+
+
+def global_shape(obj):
+    s = obj.Shape.copy()
+    s.Placement = obj.getGlobalPlacement()
+    return s
+
+
+def export_step(doc, path):
+    import Import
+    objs = []
+    for o in objects_of(doc, ROOT):
+        f = doc.addObject("Part::Feature", "step_" + o.Name)
+        f.Label = o.Label
+        f.Shape = global_shape(o)
+        objs.append(f)
+    try:
+        Import.export(objs, path)
+    finally:
+        for f in objs:
+            doc.removeObject(f.Name)
+
+
+def _overlaps(pairs, tol):
+    hits = []
+    for (oa, sa), (ob, sb) in pairs:
+        if not sa.BoundBox.intersect(sb.BoundBox):
+            continue
+        try:
+            vol = sa.common(sb).Volume
+        except Exception as exc:
+            hits.append((oa.Label, ob.Label, "error %s" % exc))
+            continue
+        if vol > tol:
+            hits.append((oa.Label, ob.Label, round(vol, 1)))
+    return hits
+
+
+JOINTS = {("bearer_bolts", "bearers"), ("straps", "side_rails"), ("head_mesh", "headboard")}
+
+
+def _joint(a, b):
+    return (a, b) in JOINTS or (b, a) in JOINTS or (a == "bearer_bolts" and b.startswith("upper_beam")) \
+        or (b == "bearer_bolts" and a.startswith("upper_beam"))
+
+
+def check_interference(doc=None, tol=1.0):
+    """Volume overlap (mm3): carrier parts and load among themselves and against the robot (bolts in their holes are
+    skipped, JOINTS)."""
+    doc = active_doc(doc)
+    mine = [(o, global_shape(o)) for o in objects_of(doc, ROOT)]
+    robot = [(o, global_shape(o)) for o in robot_objects(doc)]
+    pairs = [(mine[i], mine[j]) for i in range(len(mine)) for j in range(i + 1, len(mine))
+             if not _joint(mine[i][0].Name, mine[j][0].Name)]
+    pairs += [(a, b) for a in mine for b in robot if not _joint(a[0].Name, b[0].Name)]
+    return _overlaps(pairs, tol)
+
+
+def clearance(doc=None):
+    """Smallest distance (mm) of deck, headboard and load to the front steering stacks (FL/FR parts above the beams)
+    and to the rear unit frame bolts, and to the steered front tyres."""
+    doc = active_doc(doc)
+    stacks = [global_shape(o) for o in robot_objects(doc)
+              if o.Name.startswith(("FL_", "FR_", "RL_frame_bolts", "RR_frame_bolts"))
+              and global_shape(o).BoundBox.ZMax > P.robot_upper_beam_z[1]]
+    best = (1e9, None, None)
+    for o in objects_of(doc, "Deck") + objects_of(doc, "Load") + objects_of(doc, "Controls"):
+        s = global_shape(o)
+        for i, t in enumerate(stacks):
+            if s.BoundBox.isValid() and t.BoundBox.isValid():
+                d = s.distToShape(t)[0]
+                if d < best[0]:
+                    best = (d, o.Name, i)
+    return round(best[0], 1), best[1]
+
+
+MASS_FIXED = {"gnss_antenna": 0.4, "uwb_anchors": 0.3, "button_box": 0.6, "buttons": 0.05, "gnss_mast": 1.2}
+MASS_FIXED.update({"crate_%d" % i: P.crate_empty_kg for i in range(4 * P.crate_layers)})
+DENSITY = (("plywood", P.ply), ("crate_", P.pp), ("straps", 1.2e-6), ("head_mesh", P.steel * 2.2 / 15.7))
+
+
+def _mass_cg(obj):
+    shape = global_shape(obj)
+    solids = shape.Solids or [shape]
+    vol = sum(s.Volume for s in solids)
+    cg = V(0, 0, 0)
+    for s in solids:
+        cg += s.CenterOfMass * s.Volume
+    cg = cg * (1.0 / vol) if vol > 0 else shape.BoundBox.Center
+    for key, m in MASS_FIXED.items():
+        if obj.Name == key:
+            return m, cg
+    dens = P.steel
+    for key, d in DENSITY:
+        if obj.Name.startswith(key):
+            dens = d
+            break
+    return vol * dens, cg
+
+
+def sum_mass(objs):
+    m, c = 0.0, V(0, 0, 0)
+    for o in objs:
+        mo, co = _mass_cg(o)
+        m += mo
+        c += co * mo
+    return m, (c * (1.0 / m) if m > 0 else c)
+
+
+def mass_properties(doc=None):
+    """Mass (kg) and centre of gravity (robot coordinates) of the whole carrier with load, the deck, the controls and the load."""
+    doc = active_doc(doc)
+    out = {}
+    for name in (ROOT, "Deck", "Controls", "Load"):
+        m, c = sum_mass(objects_of(doc, name))
+        out[name.lower() + "_kg"] = round(m, 1)
+        out[name.lower() + "_cg"] = (round(c.x), round(c.y), round(c.z))
+    return out
+
+
+def size(doc=None):
+    doc = active_doc(doc)
+    bb = None
+    for o in objects_of(doc, ROOT):
+        b = global_shape(o).BoundBox
+        bb = b if bb is None else bb.united(b)
+    return (round(bb.XLength), round(bb.YLength), round(bb.ZLength)), (round(bb.XMin), round(bb.YMin), round(bb.ZMin))
+
+
+# ---------------------------------------------------------------------
+# Images
+# ---------------------------------------------------------------------
+def set_camera(direction, target=None, height=None, up=(0.0, 0.0, 1.0)):
+    import FreeCADGui as Gui
+    from pivy import coin
+    view = Gui.ActiveDocument.ActiveView
+    view.setCameraType("Orthographic")
+    d = V(*direction)
+    d.normalize()
+    cam = view.getCameraNode()
+    tgt = V(*target) if target is not None else V(0, 600, 300)
+    eye = tgt - d * 9000.0
+    cam.position.setValue(coin.SbVec3f(eye.x, eye.y, eye.z))
+    cam.pointAt(coin.SbVec3f(tgt.x, tgt.y, tgt.z), coin.SbVec3f(*up))
+    cam.nearDistance.setValue(10.0)
+    cam.farDistance.setValue(30000.0)
+    if height is None:
+        view.fitAll()
+    else:
+        cam.height.setValue(height)
+    return view
+
+
+def save_view(name, direction, target=None, height=None, up=(0.0, 0.0, 1.0), size_px=(1600, 1100)):
+    import FreeCADGui as Gui
+    Gui.updateGui()
+    set_camera(direction, target, height, up)
+    Gui.updateGui()
+    view = set_camera(direction, target, height, up)
+    os.makedirs(PREVIEW_DIR, exist_ok=True)
+    path = os.path.join(PREVIEW_DIR, name)
+    view.saveImage(path, size_px[0], size_px[1], "White")
+    return path
+
+
+GROUND = "render_floor"
+
+
+def add_floor(doc, y=(-900.0, 1800.0), x=(-1000.0, 1000.0)):
+    obj = doc.addObject("Part::Feature", GROUND)
+    obj.Shape = G.box_span(x, y, (-40.0, 0.0))
+    obj.ViewObject.ShapeColor = (0.72, 0.72, 0.70)
+    obj.ViewObject.Transparency = 30
+    return obj
+
+
+def remove(doc, names):
+    for n in names:
+        if doc.getObject(n):
+            doc.removeObject(n)
+
+
+
+def render_all():
+    """Standard images in previews/, then build and save (FCStd + STEP, robot hidden)."""
+    out = []
+    doc = build(save=False, show_robot=True, step=False)
+    add_floor(doc, y=(-900.0, 900.0), x=(-1000.0, 1000.0))
+    out.append(save_view("1_iso_rear_right_loaded.png", (-1.0, 1.2, -0.8), target=(0, 0, 700)))
+    out.append(save_view("2_side_loaded.png", (-1.0, 0.0, 0.0), target=(0, 0, 800), height=1800))
+    out.append(save_view("3_front_loaded.png", (0.0, -1.0, 0.0), target=(0, 0, 800), height=1800))
+    set_load(False, doc)
+    out.append(save_view("4_iso_empty_deck.png", (-1.0, 1.2, -0.9), target=(0, 0, 700)))
+    remove(doc, [GROUND])
+    out.append(save_view("5_top_empty.png", (0.0, 0.0, -1.0), target=(0, 0, 0), up=(0.0, 1.0, 0.0), height=1900))
+    App.closeDocument(doc.Name)
+    build()
+    return out
