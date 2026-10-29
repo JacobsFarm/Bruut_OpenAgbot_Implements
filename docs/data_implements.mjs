@@ -347,4 +347,60 @@ export const implementsList = [
         text: "Frame of 40 x 40 rails and cross members behind the cbr cross beam and drawbar, plywood deck 1110 x 1410 at 358 mm with side and front boards and a drop tailgate, axle tube on hangers, 2 x 4.00-8 wheels with mudguards.",
         facts: ["12 bags of 25 kg, 24 kg on the ball","Steepest slope loaded: 3.5 deg wet grass, 6.5 dry","110 kg empty"] },
     ] },
+  {
+    name: "Broom / sweeper", folder: "broom sweeper", category: "Transport & General",
+    summary: "Front angle broom on the push blade's toolbar, lift arms and king pin (imported): a roller brush O400 x 1000 under a hood, 48 V belt drive, on 2 castors, angled +-25 degrees to throw the material aside.",
+    variants: [
+      { name: "Simple", folder: "broom sweeper/simple", hero: "broom sweeper/simple/previews/1_iso_front_on_robot.png",
+        text: "Head frame with the swivel plate, cross beam 80 x 60 and 5 mm end plates, PP brush O400 x 1000 in UCFL 208 bearings at 400 rpm, 48 V 1000 W gearmotor with an HTD belt, aluminium hood and rubber flap, 2 swivel castors O125; 3000 N version of the blade actuator.",
+        facts: ["~2900 m2/h angled, ~4900 m2 per charge","~910 W brush, rear axle 54 % working","Lifting needs 4..9 counterweight plates; 124 kg"] },
+    ] },
+  {
+    name: "Lime spreader", folder: "lime spreader", category: "Spraying, Fertilizing & Irrigation",
+    summary: "Drop spreader for granulated or ground lime: a 178 l V-hopper centred over the robot, a trough auger to a 1.3 m cross auger behind the rear wheels that lets the lime fall through a row of holes inside a rubber dust skirt.",
+    variants: [
+      { name: "Simple", folder: "lime spreader/simple", hero: "lime spreader/simple/previews/1_iso_rear_right_on_robot.png",
+        text: "Rails on the inner upper beams, steel V-hopper down between the beams to a U-trough, trough auger O100 in a tube under the rear lower beams, cross auger O100 x 1300 with 25 outlet holes O20 and flights from the middle outward, 2 x 24 V worm gearmotors, rubber skirt 20 mm above the ground.",
+        facts: ["205 kg granulated lime per fill: 0.21 ha at 1000 kg/ha", "Up to 3.5 t/ha, 0.30 ha/h, no dust cloud", "97 kg empty, rear axle 60 % full"] },
+    ] },
+  {
+    name: "Cover crop undersower", folder: "cover crop undersower", category: "Crop & Soil",
+    summary: "Sows a cover crop into a standing 2-row crop: a 28 l hopper with 3 fluted metering cells feeds hoses to fishtail deflectors in the free middle inter-row and behind both rear tyres; spring tines on a bar high over the crop cover the seed.",
+    variants: [
+      { name: "Simple", folder: "cover crop undersower/simple", hero: "cover crop undersower/simple/previews/1_iso_rear_right_in_crop.png",
+        text: "Bearer across the upper beams with a PE V-hopper, aluminium metering housing with 3 fluted rollers on one 12 V speed-following shaft, hoses O32 routed over the crop rows, fishtail deflectors 40 mm above the ground, tine bar at 430 mm on 2 hangers under the rear lower beams with 7 spring tines O8.",
+        facts: ["Ryegrass 0.43 ha, clover 3.6 ha per fill", "0.22 ha/h, ~1.1 ha per charge", "26 kg; crop rows untouched (checked)"] },
+    ] },
+  {
+    name: "Straw spreader", folder: "straw spreader", category: "Spreading & Bedding",
+    summary: "Lays a straw mulch strip in the free middle inter-row: 2 small bales on a slatted floor chain are fed against a spiked shredder drum, the loose straw falls through a chute to a 160 mm outlet between the crop rows.",
+    variants: [
+      { name: "Simple", folder: "straw spreader/simple", hero: "straw spreader/simple/previews/1_iso_rear_right_in_crop.png",
+        text: "2 bearers and 2 rails on the upper beams, slatted floor of 2 chains 08B in UCP 204 shafts with a 24 V gearmotor, aluminium bale chamber, spiked drum O320 at 250 rpm on a 48 V 750 W motor in a 3 mm housing, aluminium chute to z 300.",
+        facts: ["260 m of strip per fill at 0.5 kg/m2", "~440 W drum, ~3.5 km of strip per charge", "102 kg empty; crop rows untouched (checked)"] },
+    ] },
+  {
+    name: "Electric weeder", folder: "electric weeder", category: "Weed & Crop Protection",
+    summary: "Spot electric weed control in the free middle inter-row: a camera finds weeds, a 5 kV generator switches on a comb of spring-steel fingers only while a weed is under it, the current returns through a coulter disc.",
+    variants: [
+      { name: "Simple", folder: "electric weeder/simple", hero: "electric weeder/simple/previews/1_iso_front_right_in_crop.png",
+        text: "Bearer on the upper beams with the HV box and beacon, post with a parallel-arm lift (24 V actuator), PE holder with 9 spring-steel fingers and rubber curtains, coulter disc O250 as earth return, camera under the inner front lower beam.",
+        facts: ["4-leaf weeds at 0.2 m/s: 1.8 kJ per weed", "~3000-3800 weeds per charge", "27 kg; crop rows untouched (checked)"] },
+    ] },
+  {
+    name: "Hydraulic power pack", folder: "hydraulic pump", category: "Transport & General",
+    summary: "48 V hydraulic power unit on the rear half: BLDC motor with a 4 cc gear pump (11 l/min, 150 bar), 16 l tank, 2-section solenoid valve block and 2 pairs of ISO-A quick couplers for hydraulic implements.",
+    variants: [
+      { name: "Simple", folder: "hydraulic pump/simple", hero: "hydraulic pump/simple/previews/1_iso_rear_left_on_robot.png",
+        text: "2 bearers and a 5 mm base plate on the upper beams, 16 l steel tank with return filter, BLDC 48 V 3.5 kW with bell housing and group-1 gear pump, motor controller, valve block with relief valve, gauge and 2 double-acting 24 V sections, couplers screwed into its rear face.",
+        facts: ["11 l/min, 150 bar: 19-30 kN cylinders", "44 min of full flow at 100 bar per charge", "49 kg + 12 kg oil, rear axle 62 %"] },
+    ] },
+  {
+    name: "Irrigation pump", folder: "irrigation pump", category: "Spraying, Fertilizing & Irrigation",
+    summary: "Direct pump from ditches and ponds: a self-priming 1.5\" pump on a 48 V 1.5 kW motor with an 8 m suction hose on a reel, delivering to a Camlock coupling at the rear; mount of the hydraulic power pack.",
+    variants: [
+      { name: "Simple", folder: "irrigation pump/simple", hero: "irrigation pump/simple/previews/1_iso_rear_left_on_robot.png",
+        text: "Bearers and base plate from the hydraulic pack, self-priming centrifugal pump with priming chamber and BLDC 1.5 kW, reel O520 with 8 m of spiral suction hose, rotary union and strainer with foot valve, discharge to a 1.5\" Camlock at the rear edge.",
+        facts: ["8.5 m3/h at 3 m lift into a drip line", "10-17 m3 per charge", "62 kg"] },
+    ] },
 ];
