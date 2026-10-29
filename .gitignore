@@ -25,6 +25,14 @@ parts/
 /liquid fertilizer applicator/precision_applicator/combined_v2/*
 !/liquid fertilizer applicator/precision_applicator/combined_v2/README.md
 !/liquid fertilizer applicator/precision_applicator/combined_v2/previews/
+/liquid fertilizer applicator/precision_applicator/applicator_v3/*
+!/liquid fertilizer applicator/precision_applicator/applicator_v3/README.md
+!/liquid fertilizer applicator/precision_applicator/applicator_v3/RATIONALE.md
+!/liquid fertilizer applicator/precision_applicator/applicator_v3/previews/
+/liquid fertilizer applicator/precision_applicator/combined_v3/*
+!/liquid fertilizer applicator/precision_applicator/combined_v3/README.md
+!/liquid fertilizer applicator/precision_applicator/combined_v3/RATIONALE.md
+!/liquid fertilizer applicator/precision_applicator/combined_v3/previews/
 
 # veldanimaties: MP4 en GIF zijn gegenereerd en groot (make_video_fld.py)
 /liquid fertilizer applicator/precision_applicator/animations/previews/*.mp4
