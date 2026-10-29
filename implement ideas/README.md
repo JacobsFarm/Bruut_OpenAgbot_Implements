@@ -10,24 +10,11 @@ implements and the open questions, so it can be worked out later in the layout d
 |---|---|
 | [Drop-on-demand boom (coarse droplets)](drop_on_demand_boom/README.md) | Boom with individually controlled injectors that fire single coarse droplets on demand at low pressure. |
 
-## Spraying, Fertilizing & Irrigation
-
-| Idea | What it does |
-|---|---|
-| [Irrigation pump (direct pump)](irrigation_direct_pump/README.md) | Pumping water from ditches for local irrigation or crop spraying (website: Irrigation Pump). |
-| [Lime spreader](lime_spreader/README.md) | Spreading lime to improve soil pH levels and structure. |
-
 ## Sowing & Planting
 
 | Idea | What it does |
 |---|---|
 | [Tray setter](tray_setter/README.md) | Front-mounted unit that takes seedlings out of the tray and sets them out at the right spacing. |
-
-## Spreading & Bedding
-
-| Idea | What it does |
-|---|---|
-| [Straw spreader](straw_spreader/README.md) | Evenly spreading straw, specially designed for use between vegetable rows. |
 
 ## Power & Drive
 
@@ -41,9 +28,7 @@ implements and the open questions, so it can be worked out later in the layout d
 
 | Idea | What it does |
 |---|---|
-| [Broom / sweeper](broom_sweeper/README.md) | Large front-mounted brush or electrically driven radial brush for surface cleaning, as an alternative to the front push blade. |
 | [Seat & frame extension](seat_frame_extension/README.md) | Front or rear-mounted seat, with the option to widen the frame tubes at the sides. |
-| [Hydraulic pump](hydraulic_pump/README.md) | External hydraulic power source for applications where hydraulics are a better option than electricity. |
 | [Small cabin](small_cabin/README.md) | Protective enclosure or housing for the operator. |
 | [Speech speaker](speaker/README.md) | A speaker on the robot that can speak: warnings when the robot approaches, status messages for the operator, instructions in the field, and a way to speak to people near the robot. |
 
@@ -59,14 +44,12 @@ implements and the open questions, so it can be worked out later in the layout d
 | Idea | What it does |
 |---|---|
 | [Mole and tunnel mapper](mole_mapper/README.md) | Finds and maps molehills (and with a probe, mole tunnels) so they can be treated or spread flat later. |
-| [Cover crop undersower](cover_crop_undersower/README.md) | Sows a cover crop (green manure) in a crop that is already standing, between the rows. |
 
 ## Weed & Crop Protection
 
 | Idea | What it does |
 |---|---|
 | [Laser or UV weed treatment](laser_weeder/README.md) | Kills individual weeds with a laser or a focused UV beam, without chemicals and without moving the soil. |
-| [Electric weed control](electric_weeder/README.md) | Applies a high-voltage current through weeds with an electrode, between rows or in the row, to kill the plant including its root. |
 | [Hot steam / hot foam weeder](steam_foam_weeder/README.md) | Kills weeds with hot steam or hot foam under a light hood, as an alternative to the flame weeder. |
 | [Pheromone trap service](pheromone_trap_service/README.md) | Visits insect traps and pheromone dispensers at the field edge: checks them with a camera, counts catches and swaps dispensers on schedule. |
 
@@ -93,7 +76,7 @@ implements and the open questions, so it can be worked out later in the layout d
 Already worked out (in the folders next to this one): overseeder, liquid fertilizer applicator, feed pusher auger, disc brushes
 (broom), dockweed drill (CNC weed driller), trencher, spot sprayer (atomising boom), in-row weeder (finger weeders), around-pole
 mower (mowing arm), weed picker, irrigation (hose reel), field marker, mobile refiller, belt rake, weeds burner,
-push blade (also the manure scraper job), fertilizer spreader, grassland harrow (molehill spreader), soil sampler, inter-row hoe, grassland aerator, three-point hitch (with the small cultivator), crate carrier (also the tool cart), counterweights, battery pack, solar canopy, compost spreader, stone picker, mulch layer, grass meter (NIR sensor), soil compaction meter, charging dock, UV-C mildew light, sawdust spreader, bedding rake, dumper barrow, biocontrol spreader and bag trailer.
+push blade (also the manure scraper job), fertilizer spreader, grassland harrow (molehill spreader), soil sampler, inter-row hoe, grassland aerator, three-point hitch (with the small cultivator), crate carrier (also the tool cart), counterweights, battery pack, solar canopy, compost spreader, stone picker, mulch layer, grass meter (NIR sensor), soil compaction meter, charging dock, UV-C mildew light, sawdust spreader, bedding rake, dumper barrow, biocontrol spreader, bag trailer, broom sweeper (angle broom on the push-blade lift), lime spreader (drop auger), cover crop undersower, straw spreader (bale shredder), electric weeder (spot HV comb), hydraulic power pack and irrigation pump (direct pump).
 
 Covered elsewhere: the tow hitch (50 mm tow ball) and the patch seeder (drop seeder that a camera switches on over
 bare soil) are in [overseeding/](../overseeding/) (cambridge roll and overseeder).

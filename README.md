@@ -299,6 +299,40 @@ Every design is parametric: change a number, rebuild, and the whole model follow
       <a href="bag%20trailer/simple/"><img src="bag%20trailer/simple/previews/1_iso_rear_right_loaded.png" alt="Bag trailer behind the robot"></a><br>
       <b><a href="bag%20trailer/simple/">Bag trailer</a></b><br>12 bags of 25 kg on the tow ball
     </td>
+    <td align="center">
+      <a href="broom%20sweeper/simple/"><img src="broom%20sweeper/simple/previews/1_iso_front_on_robot.png" alt="Broom sweeper on the robot"></a><br>
+      <b><a href="broom%20sweeper/simple/">Broom / sweeper</a></b><br>Angle broom O400 x 1000 on the push-blade lift
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="lime%20spreader/simple/"><img src="lime%20spreader/simple/previews/1_iso_rear_right_on_robot.png" alt="Lime spreader on the robot"></a><br>
+      <b><a href="lime%20spreader/simple/">Lime spreader</a></b><br>178 l centre hopper, 1.3 m drop auger
+    </td>
+    <td align="center">
+      <a href="cover%20crop%20undersower/simple/"><img src="cover%20crop%20undersower/simple/previews/1_iso_rear_right_in_crop.png" alt="Cover crop undersower on the robot"></a><br>
+      <b><a href="cover%20crop%20undersower/simple/">Cover crop undersower</a></b><br>3 seed bands between the crop rows
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="straw%20spreader/simple/"><img src="straw%20spreader/simple/previews/1_iso_rear_right_in_crop.png" alt="Straw spreader on the robot"></a><br>
+      <b><a href="straw%20spreader/simple/">Straw spreader</a></b><br>2 small bales to a mulch strip
+    </td>
+    <td align="center">
+      <a href="electric%20weeder/simple/"><img src="electric%20weeder/simple/previews/1_iso_front_right_in_crop.png" alt="Electric weeder on the robot"></a><br>
+      <b><a href="electric%20weeder/simple/">Electric weeder</a></b><br>5 kV comb, HV only on a weed
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="hydraulic%20pump/simple/"><img src="hydraulic%20pump/simple/previews/1_iso_rear_left_on_robot.png" alt="Hydraulic power pack on the robot"></a><br>
+      <b><a href="hydraulic%20pump/simple/">Hydraulic power pack</a></b><br>11 l/min at 150 bar, 2 valve sections
+    </td>
+    <td align="center">
+      <a href="irrigation%20pump/simple/"><img src="irrigation%20pump/simple/previews/1_iso_rear_left_on_robot.png" alt="Irrigation pump on the robot"></a><br>
+      <b><a href="irrigation%20pump/simple/">Irrigation pump</a></b><br>Self-priming pump with suction reel
+    </td>
   </tr>
 </table>
 
@@ -430,6 +464,13 @@ The advanced designs are animated on the real robot model, with the loads and fo
 | [**Dumper barrow**](dumper%20barrow/) | [simple](dumper%20barrow/simple/) | Tipping skip on the upper beams: a 2 mm steel bin (900 x 1020 x 350, 353 l, rear lip sloping out 30 degrees so the load slides off behind the rear wheels) on a subframe of 2 rails 40 x 40 that hinges on a bearer at the rear end of the robot and rests on rubber pads on the front bearer; 2 x 24 V 3000 N actuators (stroke 300) from lugs in front of the middle bearer tip it to 48 degrees in ~36 s (2.1 kN each with 150 kg in). 150 kg payload: ~100 l of soil or gravel, 250 l of compost, the full bin of wood chips or green waste; 39 % on the front axle loaded, the cg stays ~220 mm in front of the rear axle at full tip. ~950 kg of soil per hour on 100 m trips. 72 kg, 45 mm from the steering stacks |
 | [**Biocontrol spreader**](biocontrol%20spreader/) | [simple](biocontrol%20spreader/simple/) | Releases beneficials over the two rows of the bed between the wheels: 2 PE hoppers (7.9 l each, agitator in the lid) on a bearer across the upper beams, a NEMA17 metering wheel under each cone that drops the carrier (bran, vermiculite, sawdust) into a venturi, a 24 V 60 W centrifugal fan that carries it at ~8 m/s through hoses O40 to deflector nozzles 450 mm above the ground (no impeller in the product path). The dose follows the driving speed or a pest-count map: predatory mites at 2 ml/m2 need 5.6 rpm of the wheel at 0.5 m/s; a fill covers 0.8 ha of cucumeris, 1.6 ha of swirskii or 6 ha of wasp mummies. ~1350 m2 per hour, ~160 W. 18 kg |
 | [**Bag trailer**](bag%20trailer/) | [simple](bag%20trailer/simple/) | Two-wheeled trailer behind the robot on the 50 mm tow ball of the [cambridge roll](overseeding/cambridge%20roll/): hitch, coupling head, drawbar, braces and parking leg are imported from build_cbr. Frame of 40 x 40 side rails and cross members (the roll frame section), plywood deck 1110 x 1410 at 358 mm with side and front boards and a drop tailgate, axle tube 50 x 50 on hanger plates, 2 x 4.00-8 wheels with mudguards. Carries 12 bags of 25 kg (300 kg) low, with 24 kg on the ball; yawed +-75 and pitched +-8 degrees it stays clear of the robot. Pull 421 N on dry grass (margin 2.6); the robot's grip and motors limit loaded slopes to 3.5 degrees on wet grass, 6.5 dry, 9.5 on concrete. 110 kg empty |
+| [**Broom / sweeper**](broom%20sweeper/) | [simple](broom%20sweeper/simple/) | Front angle broom on the toolbar, lift arms, carrier and king pin of the [push blade](push%20blade/simple/) (imported from build_pbl): the blade comes off the king pin, the broom head goes on (angle +-25 degrees, same lock pin). PP roller brush O400 x 1000 at 400 rpm in UCFL 208 bearings, 48 V 1000 W gearmotor with an HTD 8M belt, aluminium hood with a rubber flap, 2 swivel castors O125 that set the bristle contact while the actuator floats (3000 N version). ~910 W brush, ~2900 m2/h angled, ~4900 m2 per charge. Working, the castors carry 130 kg and the rear axle has 54 %; lifted, the robot would tip forward: 4 counterweight plates for a hop over a kerb, 9 for lifted transport. 124 kg |
+| [**Lime spreader**](lime%20spreader/) | [simple](lime%20spreader/simple/) | Drop spreader for lime with the load centred over the robot: 2 rails on the inner upper beams (beam holes at y -625..-325 and 275), steel V-hopper 178 l (x +-450 at the top) down between the inner upper beams to a U-trough, trough auger O100 pitch 100 in a tube O114.3 under the rear lower beams to a drop chute, cross auger O100 x 1300 behind the rear tyres (y -840) with flights from the middle outward and 25 outlet holes O20, 2 x 24 V worm gearmotors, rubber dust skirt 20 mm above the ground. 205 kg granulated lime per fill (0.21 ha at 1000 kg/ha, max ~3.5 t/ha at 0.8 m/s), 0.30 ha/h, ~4.5 h per charge. Full 183 / 280 kg front / rear, tips sideways at 32 degrees. 97 kg empty |
+| [**Cover crop undersower**](cover%20crop%20undersower/) | [simple](cover%20crop%20undersower/simple/) | Sows a cover crop into a standing crop of 2 rows (375 apart) between the wheels: bearer 40 x 40 across the upper beams at y -325 with a 28 l PE V-hopper, aluminium metering housing with 3 fluted rollers O40 x 30 on one shaft (12 V gearmotor, speed follows the driving speed), hoses O32 to fishtail deflectors in 3 bands: the free middle inter-row (150 mm) and behind both rear tyres (100 mm); the side hoses cross the crop rows above 544 mm. Tine bar at 430 mm on 2 hangers under the rear lower beams, 7 spring tines O8. `check_rows()` keeps the row space (x +-187.5 +-80, up to 400 mm) free. Ryegrass 25 kg/ha: 17 rpm, 0.43 ha per fill; rye 100 kg/ha: 36 rpm, 0.20 ha. 0.22 ha/h, ~370 W, ~1.1 ha per charge. 26 kg |
+| [**Straw spreader**](straw%20spreader/) | [simple](straw%20spreader/simple/) | Straw mulch strip in the free middle inter-row of a 2-row bed: 2 bearers across the upper beams at y +-325, 2 rails 40 x 40 at x +-250 to y -900; slatted floor of 2 roller chains 08B on sprockets O80 (shafts in 4 UCP 204, 24 V gearmotor) moves 2 small bales (460 x 360 x 880, 13 kg) in an aluminium chamber back against a spiked drum O160 (tips O320, 250 rpm, 48 V 750 W) in a 3 mm housing; an aluminium chute takes the loose straw to a 160 x 60 outlet at z 300, x 0, out of the crop rows (`check_rows()`). 0.5 kg/m2 on a 0.2 m strip: floor 1.7 mm/s, 260 m per fill (9 min), drum ~440 W; ~3.5 km of strip per charge. Loaded 104 / 184 kg front / rear, side tipping at 28 degrees. 102 kg empty |
+| [**Electric weeder**](electric%20weeder/) | [simple](electric%20weeder/simple/) | Spot electric weed control in the free middle inter-row: bearer across the upper beams at y -325 with the HV box (48 V -> 5 kV, 3 kW, insulation monitor) and a beacon; post at x 0 with a parallel-arm lift (arms 400 long, 24 V actuator, 137 mm lift) carrying a PE holder with 9 spring-steel fingers O4 over a 180 mm band and rubber curtains; coulter disc O250 behind as earth return; camera under the inner front lower beam. HV only while a detected weed is under the comb: 0.6 s at 0.2 m/s gives 1.8 kJ (4-leaf weeds; cotyledons allow 0.72 m/s). ~3000-3800 weeds per charge; at 5 weeds/m2 590 m2 of band (0.25 ha of field), broadcast would do 0.13 ha. Out of the crop rows (`check_rows()`). 27 kg |
+| [**Hydraulic power pack**](hydraulic%20pump/) | [simple](hydraulic%20pump/simple/) | 48 V hydraulic power unit on the rear half: 2 bearers across the upper beams at y -325 / -475 with a 5 mm base plate, 16 l steel tank (return filter, filler, sight glass), BLDC 48 V 3.5 kW with bell housing and a 4 cc group-1 gear pump (11 l/min), motor controller, valve block at the rear edge with relief valve (150 bar), gauge and 2 double-acting 24 V sections, 2 pairs of ISO-A 1/2" quick couplers screwed into its rear face. 0.9 / 1.8 / 2.8 kW hydraulic at 50 / 100 / 150 bar (1.3 / 2.6 / 3.9 kW from the battery, 87 / 44 / 29 min of full flow per charge); cylinder 50/25 pushes 29.5 kN at 94 mm/s. Without a cooler 60 C after ~35 min at 50 % duty and 100 bar. 49 kg + 12 kg oil, rear axle 62 % |
+| [**Irrigation pump**](irrigation%20pump/) | [simple](irrigation%20pump/simple/) | Direct pump from ditches and ponds on the bearers and base plate of the [hydraulic power pack](hydraulic%20pump/simple/) (imported): self-priming centrifugal pump 1.5" with priming chamber on a BLDC 48 V 1.5 kW, reel O520 with 8 m of 1.5" spiral suction hose (rotary union, strainer with foot valve), discharge to a Camlock coupling at the rear edge. Operating points from the pump curve against suction lift, end head and 50 m of lay-flat hose: 10.8 m3/h open hose at 1.5 m lift, 8.5 m3/h into a drip line at 3 m, 5.9 m3/h to a sprinkler; ~1.0-1.2 kW, 10-17 m3 (1000-1700 m2 at 10 mm) per charge. NPSH limits the lift to ~4 m. 62 kg |
 | [Mower unit](mower%20unit/) | notes only | General mower unit |
 
 **Not worked out yet:** [implement ideas/](implement%20ideas/) holds one folder with a `README.md` per attachment from the website's list that has no model yet. **Overview document** with every implement and variant on its own page: [docs/bruut_implements.pdf](docs/bruut_implements.pdf) ([HTML](docs/bruut_implements.html)), generated with `node docs/build_docs.mjs --pdf`.

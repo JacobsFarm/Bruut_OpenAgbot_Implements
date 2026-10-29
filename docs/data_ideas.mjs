@@ -17,24 +17,6 @@ const websiteIdeas = [
     open: ["Injector type, droplet size and firing rate", "Injector pitch along the boom", "Aiming accuracy at 0.5 m/s: time from camera to droplet", "Product types and viscosity the injectors can handle"],
   },
   // ---------- Spraying, fertilizing & irrigation ----------
-  {
-    slug: "irrigation_direct_pump",
-    name: "Irrigation pump (direct pump)",
-    category: "Spraying, Fertilizing & Irrigation",
-    does: "Pumping water from ditches for local irrigation or crop spraying (website: Irrigation Pump). In the repo this is the not-yet-worked-out variant \"direct pump\" of the irrigation implement: pump on the robot, water from a tank, a ditch or a hydrant.",
-    concept: "Instead of a petrol pump staying at the ditch, a pump on the robot feeds a hose or a short boom directly. Water comes from a tank on a trailer or a hydrant at the field edge.",
-    reuse: "Reel, pinch rollers and outlets of irrigation/stationary + roller; the mobile refiller for tank supply.",
-    open: ["Pump mass on the robot versus pump at the ditch", "Hose or boom as distributor", "Water supply: tank, hydrant or ditch", "Comparison of energy and capacity with the stationary-pump variant"],
-  },
-  {
-    slug: "lime_spreader",
-    name: "Lime spreader",
-    category: "Spraying, Fertilizing & Irrigation",
-    does: "Spreading lime to improve soil pH levels and structure.",
-    concept: "Like the fertilizer spreader, but with a coarser metering roller or belt for powdery or granular lime and a covered outlet against dust. Large dose per hectare means large hopper volume, so reloading logistics matter.",
-    reuse: "Fertilizer spreader hopper and metering; mobile refiller for reloading.",
-    open: ["Dose per hectare and hopper volume", "Dust control and flow behaviour of damp lime", "Reloading: how often per hectare?"],
-  },
   // ---------- Sowing & planting ----------
   {
     slug: "tray_setter",
@@ -46,15 +28,6 @@ const websiteIdeas = [
     open: ["Tray type and plug size", "Pick-and-place mechanism and cycle time", "Planting depth and soil closing", "Tray reloading, again from a refiller?"],
   },
   // ---------- Spreading & bedding ----------
-  {
-    slug: "straw_spreader",
-    name: "Straw spreader",
-    category: "Spreading & Bedding",
-    does: "Evenly spreading straw, specially designed for use between vegetable rows.",
-    concept: "A bale rack or bin with a shredding and metering unit that drops straw as a narrow strip between rows, for weed suppression and moisture. Width limited to the inter-row space of 375 mm rows (the wheels run in the inter-rows).",
-    reuse: "Row geometry of the in-row weeder; metering from the sawdust spreader.",
-    open: ["Bale handling or loose straw bin", "Strip width and thickness between rows", "Blocking of the metering unit by long straw"],
-  },
   // ---------- Power & drive ----------
   {
     slug: "generator_engine",
@@ -76,15 +49,6 @@ const websiteIdeas = [
   },
   // ---------- Transport & general ----------
   {
-    slug: "broom_sweeper",
-    name: "Broom / sweeper",
-    category: "Transport & General",
-    does: "Large front-mounted brush or electrically driven radial brush for surface cleaning, as an alternative to the front push blade.",
-    concept: "A cylindrical (radial) brush across the front with a 48 V motor and height adjustment. The disc brushes already exist for the rear; a roller brush at the front sweeps material sideways or into a collector.",
-    reuse: "Disc brushes (brushes/simple): motors, toolbar and mounting; push blade as the alternative.",
-    open: ["Radial brush diameter, length and bristle type", "Sweep direction and collector", "Height and pressure control", "Dust control"],
-  },
-  {
     slug: "seat_frame_extension",
     name: "Seat & frame extension",
     category: "Transport & General",
@@ -92,15 +56,6 @@ const websiteIdeas = [
     concept: "A seat on a tube frame so a person can ride on the robot, and side extensions that widen the frame for wider implements. Needs a manual-drive mode and clear operator-safety rules.",
     reuse: "Toolbar and hanger design of the disc brushes; tube sizes from the robot.",
     open: ["Operator weight and the axle loads", "Controls and an emergency stop within reach", "Side-extension width versus stability", "Safety rules for a ridden robot"],
-  },
-  {
-    slug: "hydraulic_pump",
-    name: "Hydraulic pump",
-    category: "Transport & General",
-    does: "External hydraulic power source for applications where hydraulics are a better option than electricity.",
-    concept: "A 48 V motor-pump set with a small tank and valve block, with quick couplings at the front and rear for hydraulic implements. Useful for high force at slow speed where linear actuators are too weak.",
-    reuse: "Motor and mounting from the heavy-duty motors idea; hydraulics from the irrigation reel (which has its own).",
-    open: ["Flow and pressure class", "Tank size and cooling", "Coupling standard for implements"],
   },
   {
     slug: "small_cabin",

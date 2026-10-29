@@ -12,15 +12,6 @@ export const moreIdeas = [
     reuse: "Camera and detection pipeline of the spot sprayer; GPS logging of the field marker.",
     open: ["Detection of fresh versus old hills", "Tunnel detection: is a probe or a ground-radar feasible?", "Map format and who uses it"],
   },
-  {
-    slug: "cover_crop_undersower",
-    name: "Cover crop undersower",
-    category: "Crop & Soil",
-    does: "Sows a cover crop (green manure) in a crop that is already standing, between the rows.",
-    concept: "Narrow slit or broadcast seeding between rows of 375 mm spacing, light enough that the robot's wheels run in the inter-rows. Seed from a small hopper with a speed-following roller.",
-    reuse: "Seed hopper, metering rollers and slit elements of the overseeder; row geometry of the in-row weeder.",
-    open: ["Slit versus broadcast between rows", "Species and seed rate", "Timing relative to crop height (clearance under the belly)"],
-  },
   // ---------- Weed & crop protection ----------
   {
     slug: "speaker",
@@ -39,15 +30,6 @@ export const moreIdeas = [
     concept: "Camera finds the weeds (as in the spot sprayer), a galvo mirror aims the beam at the growing point. Needs a shroud against stray light and an interlock, and mostly works on small seedlings.",
     reuse: "Camera mast and detection of the spot sprayer; shroud and safety interlock ideas of the weeds burner.",
     open: ["Laser class and the safety rules that follow", "Power needed per weed and dwell time", "Working width versus galvo scan area", "Cost compared with a spot sprayer"],
-  },
-  {
-    slug: "electric_weeder",
-    name: "Electric weed control",
-    category: "Weed & Crop Protection",
-    does: "Applies a high-voltage current through weeds with an electrode, between rows or in the row, to kill the plant including its root.",
-    concept: "A copper or steel electrode bar just above the weeds with an earth return through a wheel, fed by a high-voltage converter from the 48 V bus. Mounted behind or in front, lifted by an actuator.",
-    reuse: "Lift frame of the applicator; control box of the weeds burner.",
-    open: ["Voltage, power and speed for a given weed size", "Operator and animal safety near the electrode", "Earth return through the wheels or a skid", "Crop contact: only between rows or also in the row"],
   },
   {
     slug: "steam_foam_weeder",

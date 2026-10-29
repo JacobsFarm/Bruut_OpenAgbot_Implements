@@ -3,7 +3,7 @@
 Spinning-disc spreader for granular fertilizer on the Bruut OpenAgbot (standard robot). An 88 l hopper over and behind
 the rear axle, a fluted metering roller whose speed follows the driving speed (and a task map for variable rate), and a
 vaned disc O400 behind the robot. Driving width 4.1 to 6.7 m, set by the disc speed. With a coarser roller the same
-machine spreads granular lime (see the lime spreader idea).
+machine spreads granular lime (see also the [lime spreader](../../lime%20spreader/simple/README.md), a drop spreader for large lime doses).
 
 <p align="center">
   <img src="previews/1_iso_rear_right_on_robot.png" alt="Fertilizer spreader on the robot" width="720">
