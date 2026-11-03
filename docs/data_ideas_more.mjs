@@ -42,15 +42,6 @@ export const moreIdeas = [
     open: ["Robot height and width for a poultry house", "Egg pick-up mechanism that does not break eggs", "Speed and noise near birds", "Cleaning and disinfection"],
   },
   // ---------- Measuring & sensors ----------
-  {
-    slug: "yield_estimator",
-    name: "Yield estimator",
-    category: "Measuring & Sensors",
-    does: "Counts fruits, heads or plants with a camera and logs them per GPS position, so the harvest can be estimated and planned.",
-    concept: "Cameras on a mast or in the row, an image model that counts and sizes the crop, and a yield map per row.",
-    reuse: "Global-shutter camera and detection pipeline of the in-row weeder and the spot sprayer.",
-    open: ["Crop to count (strawberry, broccoli, apple ...)", "Lighting at night versus day", "Count accuracy and counting error", "Output: map, report or plucking plan"],
-  },
   // ---------- Transport & general ----------
   // ---------- Power & infrastructure ----------
   {

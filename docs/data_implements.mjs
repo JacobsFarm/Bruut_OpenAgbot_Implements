@@ -567,4 +567,12 @@ export const implementsList = [
         text: "Tray table on the upper beams with 2 plug trays of 128 cells; Y rails on the table edges, an X beam and a picker with a 4-needle gripper (GT2 belts, NEMA17). Each plug falls through a funnel and a O50 tube into the boot of a runner shoe that opens a 60 mm slot; 2 press wheels tilted 15 degrees close it. The shoes hang from the belly rails of the drop-on-demand boom.",
         facts: ["1.6-3.0 s per plant, 0.048 m/s", "~780 plants/h, 256 per set of trays", "68 kg with full trays"] },
     ] },
+  {
+    name: "Yield estimator", folder: "yield estimator", category: "Measuring & Sensors",
+    summary: "Counts and sizes heads and plants in 4 rows with RGB cameras, depth cameras and LED flashes on the mole mapper's camera bridge, and logs each plant with GNSS, size and ripeness for a harvest forecast.",
+    variants: [
+      { name: "Simple", folder: "yield estimator/simple", hero: "yield estimator/simple/previews/1_iso_over_4_rows.png",
+        text: "Mole-mapper camera bridge (imported) with 4 RGB 4K cameras (one per row at 450 mm), 2 ToF depth cameras and 3 LED flash bars. Head diameter to 0.25 mm/px, mass +-12 % per head, +-0.4 % on 1000 heads after calibration.",
+        facts: ["0.65 ha/h, ~29 000 plants/h", "~4.9 ha per charge", "10 kg"] },
+    ] },
 ];
