@@ -19,7 +19,7 @@ is a parametric FreeCAD model generated from Python, measured from the real part
 | [`parts/injector_knife_double/`](parts/injector_knife_double/README.md) | Double injector knife: the same blade with two Ø 10 tubes in line behind it, for two liquids at once | ![double knife](parts/injector_knife_double/previews/3_tip_detail.png) |
 | [`combined/`](combined/README.md) | V1 on the Bruut OpenAgbot: 5-section pump on the robot, applicator behind the rear wheels, 5 hoses, animation | ![combined](combined/previews/1_iso_rear_right.png) |
 | [`combined_v2/`](combined_v2/README.md) | V2 on the robot: pump, applicator V2 with press wheels and hoses, with 2 rows (2-section pump) or 5 rows (5-section pump), each with an animation | ![combined V2](combined_v2/previews/1_iso_rear_right.png) |
-| [`combined_v3/`](combined_v3/README.md) | V3 with 5 rows of double knives on the robot: **10-section pump**, right half liquid A, left half liquid B (split manifold), 10 hoses in three layers, animation | ![combined V3](combined_v3/previews/1_iso_rear_right.png) |
+| [`combined_v3/`](combined_v3/README.md) | V3 with 5 rows of double knives on the robot: **10-section pump**, right half liquid A, left half liquid B (split manifold), a **jerrycan per liquid** in the frame, 10 hoses in three layers, animation | ![combined V3](combined_v3/previews/1_iso_rear_right.png) |
 | [`animations/`](animations/README.md) | V2 with 5 rows and a work tank works a whole field (12 passes, lifting at the edges, skipping passes or three-point turns) and is refilled by the IBC refiller, the boom refiller with trailer or a stationary IBC trailer; MP4s and GIFs | ![field run](animations/previews/field_run_simple_refill.png) |
 
 ## Animations

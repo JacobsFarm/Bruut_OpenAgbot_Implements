@@ -34,7 +34,5 @@ parts/
 !/liquid fertilizer applicator/precision_applicator/combined_v3/RATIONALE.md
 !/liquid fertilizer applicator/precision_applicator/combined_v3/previews/
 
-# veldanimaties: MP4 en GIF zijn gegenereerd en groot (make_video_fld.py)
-/liquid fertilizer applicator/precision_applicator/animations/previews/*.mp4
-/liquid fertilizer applicator/precision_applicator/animations/previews/*.gif
-/liquid fertilizer applicator/precision_applicator/animations/__pycache__/
+# veldanimaties: hele folder genegeerd (gegenereerd/groot)
+/liquid fertilizer applicator/precision_applicator/animations/

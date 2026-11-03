@@ -7,17 +7,25 @@ Version 3 of the combination ([`../combined_v2/`](../combined_v2/README.md) is V
   outlets of each knife lie 50 mm deep;
 - the **roller pump** ([`../roller_pump/`](../roller_pump/README.md)) with **10 sections**: the **right 5 pump
   liquid A** (blue hoses) to tube A of rows 0 … 4, the **left 5 pump liquid B** (orange hoses) to tube B;
-- the **manifold split in two**: a plug between section 4 and 5 (red) and a ½" inlet on each half, one per tank;
+- the **manifold split in two**: a plug between section 4 and 5 (red) and a ½" inlet on the front of each half;
+- **two 20 l jerrycans** in the robot frame, right in front of the pump: **left B (orange)**, **right A (blue)**,
+  each straight in front of the inlet of its own half, in an aluminium tray on two cross tubes over the upper beams;
+  a tap low on the back of each can and a short ¾" supply hose (S-bend R 50) to the inlet;
 - **10 hoses** (8 × 12) in three layers so that they cross without touching.
 
 | Rear | Hoses at the pump |
 | --- | --- |
 | ![iso](previews/1_iso_rear_right.png) | ![pump](previews/7_pump_hoses.png) |
 | ![knives](previews/8_knife_hoses.png) | ![top](previews/5_top.png) |
+| ![jerrycans](previews/9_jerrycans.png) | ![side](previews/3_side.png) |
 
 ## Animation
 
 ![two liquids](previews/animation_two_liquids.gif)
+
+Also as a sharp video (1440 × 960, 11 s): [`previews/animation_two_liquids.mp4`](previews/animation_two_liquids.mp4),
+and without caption and graph: [`previews/animation_two_liquids_clean.mp4`](previews/animation_two_liquids_clean.mp4)
+(`main_mp4(..., overlay=False)`).
 
 Same drive plan as V1/V2: lifted at the start, the actuator lowers the applicator while the robot drives off, the
 pump runs in step with the speed, the press wheels close the slot, the actuator lifts at the end. In the slot the
@@ -29,6 +37,18 @@ two liquids are drawn side by side (blue A, orange B); in reality they lie in th
 | Pump | 45 rpm = 500 l/ha **per liquid** at 200 mm rows (10.25 ml per metre per row per liquid) |
 | Applied | 131 ml of A and 131 ml of B in 2.56 m (5 rows) |
 | Slot | 3.31 m open per row; 93 % of both liquid strips closed by the press wheels |
+
+## Jerrycans
+
+| | |
+| --- | --- |
+| Cans | 2 × 20 l, 170 × 365 × 400 (+ handle and cap), y −42 … 323, x −283 … −113 (B) and 28 … 198 (A) |
+| Tray | 3 mm aluminium, 50 mm rim, x ±300 (inside the upper beams, inner face ±305), on 2 × 40 × 40 cross tubes at y −15 and 275 |
+| Supply | tap 25 mm above the bottom of each can, ¾" hose 110 mm in an S (R 50) up to the ½" inlet (z 819) |
+| Clearance | cans 140 apart, 156 from the manifold, supply hose 61 from the pump nipples |
+| Mass | 9 kg empty, 59 kg full (liquid 1.25 kg/l, estimated), centre of gravity robot y 140 |
+
+The roller pump is self-priming, so it also empties the last 7 cm of the cans below the inlet height.
 
 ## Hose layout
 
@@ -55,11 +75,11 @@ Crossing x 0 low was tried first: lifted, the actuator stands too high up to y �
 | File | Contents |
 | --- | --- |
 | `Precision_Applicator_V3_on_robot.FCStd/.step` | the combination in working position (generated) |
-| `cmb3_params.py` | pump (10 sections, x −42.5), which channel feeds which row, manifold split, hose lanes and layers |
-| `cmb3_parts.py` | manifold plug and inlets, hose route (arcs out of the pump, sideways bends, Catmull-Rom), hose solid |
-| `build_cmb3.py` | builds robot, pump, applicator V3 and hoses from their folders; `set_lift()`, `check_fit()`, `check_hoses()`, `hose_gaps()`, clearances, axle loads, images, STEP |
+| `cmb3_params.py` | pump (10 sections, x −42.5), which channel feeds which row, manifold split, jerrycans and tray, hose lanes and layers |
+| `cmb3_parts.py` | manifold plug and inlets, jerrycans, tray, cross tubes, taps, supply hoses, hose route (arcs out of the pump, sideways bends, Catmull-Rom), hose solid |
+| `build_cmb3.py` | builds robot, pump, jerrycans, applicator V3 and hoses from their folders; `set_lift()`, `check_fit()`, `check_hoses()`, `hose_gaps()`, clearances, `tanks_mass()`, axle loads, images, STEP |
 | `animate_cmb3.py` | animation: drive plan of `../combined/animate_cmb.py`, press wheels of `../combined_v2/animate_cmb2.py`, two liquid strips per row |
-| `make_gif_cmb3.py` | frames to GIF (uses `../combined/make_gif_cmb.py`, own caption) |
+| `make_gif_cmb3.py` | frames to GIF (uses `../combined/make_gif_cmb.py`, own caption), or to MP4 with `main_mp4` (ffmpeg from `FFMPEG`, the PATH, imageio-ffmpeg or Kdenlive) |
 | `run_in_freecad.py` | macro: rebuild (F6) and print the key figures |
 | `previews/` | images and the GIF |
 
@@ -67,13 +87,13 @@ Crossing x 0 low was tried first: lifted, the actuator stands too high up to y �
 
 | | |
 | --- | --- |
-| Interference | none: robot, pump, mount, applicator (`check_fit`); hoses against everything at lift 0, 75 and 150 (`check_hoses`) |
+| Interference | none: robot, pump, mount and jerrycans, applicator (`check_fit`); hoses against everything at lift 0, 75 and 150 (`check_hoses`) |
 | Hoses | A 1075 … 1362 mm, B 1174 … 1619 mm; 96 mm slack when lifted; at least 10 mm apart |
 | Hose bends | smallest radius about 20 mm (A0, round the actuator lugs), others 22 … 35 |
 | Clearance | hose–press wheel 90, hose–press arm 16, hose–actuator 63; front tube–tyres 96, side shields–tyres 95 |
 | Pump | 10 sections, 680 over the side plates, 945 over all, about 33 kg |
-| Added mass | applicator 83.7 kg (cg robot y −1083), pump about 33 kg |
-| Axle loads, lifted | rear axle +162 kg, front axle −45 kg |
+| Added mass | applicator 83.7 kg (cg robot y −1083), pump about 33 kg, jerrycans 59 kg full (cg y 140) |
+| Axle loads, lifted, cans full | rear axle +183 kg, front axle −7 kg (without the cans: +162 / −45) |
 
 ## Usage
 
@@ -89,6 +109,8 @@ animate_cmb3.build(); animate_cmb3.play()              # animate_cmb3.stop()
 animate_cmb3.summary()
 animate_cmb3.render_all(r"C:\temp\cmb3_frames")       # ~15 min: start with QtCore.QTimer.singleShot
 import make_gif_cmb3; make_gif_cmb3.main(r"C:\temp\cmb3_frames", r"previews\animation_two_liquids.gif")
+animate_cmb3.render_all(r"C:\temp\cmb3_hd", size=(1440, 960))   # sharp frames for the video, ~7 min
+make_gif_cmb3.main_mp4(r"C:\temp\cmb3_hd", r"previews\animation_two_liquids.mp4", scale=1, ui=2)
 ```
 
 Long runs take longer than the MCP time-out: start them with `QtCore.QTimer.singleShot` and write the result to a
@@ -106,6 +128,8 @@ against hose. `check_fit` does the other groups with booleans, tyres by bounding
 
 - Hose 8 × 12 and its smallest bend radius (about 20 mm here); with a stiffer hose, raise `lateral_r`, `climb_r`.
 - Pump mass 33 kg (roller pump README), manifold plug and inlets.
+- Jerrycan size (170 × 365 × 400, 20 l), wall 2 mm HDPE, liquid 1.25 kg/l; tap and ¾" supply hose; no strap
+  modelled (the tray rim is 50 mm high).
 - One shaft for both liquids: both get the same dose per row (500 l/ha each here). A different ratio needs a
   different tube bore per half.
 - Everything listed in `../applicator_v3/README.md` and `../combined_v2/README.md`.

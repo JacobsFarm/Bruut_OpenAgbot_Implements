@@ -11,6 +11,19 @@ is enough (the output per revolution scales with the bore).
 The 10-section pump is 945 mm over all; it stands 10 mm left of the centre (pump x −42.5 instead of −32.5) so the
 centre section (A0) comes out 12 mm closer to its way past the actuator lugs.
 
+## Jerrycans in front of the pump
+
+Each liquid has its own can, and each can stands straight in front of the inlet of its own pump half: B (orange) on
+the left, A (blue) on the right. The supply hoses are then 110 mm long and straight in the top view, and nothing
+crosses. The cans stand inside the frame, between the upper beams, in a tray on two cross tubes like the pump mount;
+the open space between the pump and the front wheels is free (the steering stack above the front wheels stays clear).
+Full cans (59 kg) at robot y 140, just in front of the middle, also balance the robot: the lifted applicator
+unloads the front axle by 45 kg, with full cans that is only 7 kg (the rear axle carries 183 kg extra instead of 162).
+
+The inlets were turned from the top of the manifold to its front, towards the cans, and the tap sits low on the back
+of each can: the hose rises in an S (R 50) from the tap to the inlet. The roller pump is self-priming, so the part
+of the can below the inlet is also used.
+
 ## Right half A, left half B
 
 Rows 0 … 4 run from left to right. Whatever channel feeds whatever row, some hoses of each liquid have to cross
