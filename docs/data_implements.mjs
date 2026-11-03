@@ -559,4 +559,12 @@ export const implementsList = [
         text: "Fence-inspector mast and base plate (imported) with an extension tube to 2.1 m and a sensor head: a 270 degree 2D lidar in a vertical plane across the row, a vertical stereo camera pair and a crown camera tilted up 35 degrees.",
         facts: ["Profile every 150 mm, up to 6 m trees", "~40 km of row per charge", "26 kg"] },
     ] },
+  {
+    name: "Tray setter", folder: "tray setter", category: "Sowing & Planting",
+    summary: "Transplanter: an XYZ gantry with a needle gripper takes plug seedlings out of 2 trays on top of the robot and drops them through tubes to 2 runner shoes with press wheels under the belly (2 rows, 300 mm in the row).",
+    variants: [
+      { name: "Simple", folder: "tray setter/simple", hero: "tray setter/simple/previews/1_iso_on_robot.png",
+        text: "Tray table on the upper beams with 2 plug trays of 128 cells; Y rails on the table edges, an X beam and a picker with a 4-needle gripper (GT2 belts, NEMA17). Each plug falls through a funnel and a O50 tube into the boot of a runner shoe that opens a 60 mm slot; 2 press wheels tilted 15 degrees close it. The shoes hang from the belly rails of the drop-on-demand boom.",
+        facts: ["1.6-3.0 s per plant, 0.048 m/s", "~780 plants/h, 256 per set of trays", "68 kg with full trays"] },
+    ] },
 ];

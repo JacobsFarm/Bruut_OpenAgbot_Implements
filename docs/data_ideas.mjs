@@ -9,15 +9,6 @@ const websiteIdeas = [
   // ---------- Soil cultivation & weed control ----------
   // ---------- Spraying, fertilizing & irrigation ----------
   // ---------- Sowing & planting ----------
-  {
-    slug: "tray_setter",
-    name: "Tray setter",
-    category: "Sowing & Planting",
-    does: "Front-mounted unit that takes seedlings out of the tray and sets them out at the right spacing.",
-    concept: "A magazine of trays above the front beams, a gripper or pin-picker takes one seedling per cycle and plants it in a dibbled hole. Spacing by the robot's odometry; the robot stops or crawls per plant.",
-    reuse: "XYZ stage idea of the field marker for positioning; camera and odometry of the in-row weeder.",
-    open: ["Tray type and plug size", "Pick-and-place mechanism and cycle time", "Planting depth and soil closing", "Tray reloading, again from a refiller?"],
-  },
   // ---------- Spreading & bedding ----------
   // ---------- Power & drive ----------
   {
