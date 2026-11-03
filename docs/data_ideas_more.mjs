@@ -117,13 +117,4 @@ export const moreIdeas = [
     open: ["Camera and thermal sensor choice", "Alert route to the farmer", "Privacy and rules for filming", "Night-time driving and obstacles"],
   },
   // ---------- Cleaning up (own ideas, moved from docs/implement ideas/) ----------
-  {
-    slug: "biostimulant_sprayer",
-    name: "Biostimulant sprayer (full field)",
-    category: "Spraying, Fertilizing & Irrigation",
-    does: "Sprays biostimulants over the whole field at the right moment: compost tea, seaweed extract, or nitrogen-fixing products such as Corteva's Utrisha N (Blue N). It needs no plant-by-plant precision, but every pass is logged, so it is clear what was applied where and when.",
-    concept: "100 to 200 l/ha is little to carry: a tank on the robot with the boom of the spot sprayer with all nozzles open. The main part is the record keeping: a log per pass with product, rate, time, weather and GPS track, to compare treated and untreated strips afterwards.",
-    reuse: "Folding boom, tank and pump of the spot sprayer; tank and pump of the liquid fertilizer applicator.",
-    open: ["Nozzles and filtering for compost tea (particles, living organisms)", "Tank size versus field size", "Log format and registration", "Timing: weather and crop stage"],
-  },
 ];

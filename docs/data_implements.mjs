@@ -511,4 +511,12 @@ export const implementsList = [
         text: "Steel nozzle 1030 x 300 with rubber flaps and a PP brush roller O200 (48 V 250 W worm gearmotor), PU hose O125, aluminium bin 900 x 750 x 400 with a liner bag and a rear door on 2 cross bars bolted to the upper beams, centrifugal fan O420 with a 48 V 1.2 kW motor behind a screen in the lid.",
         facts: ["0.27 m3/s at 22 m/s: carries PV glass shards", "0.26 ha/h, ~1.4 kW: 0.34 ha per charge", "156 kg; range extender for big sites"] },
     ] },
+  {
+    name: "Biostimulant sprayer", folder: "biostimulant sprayer", category: "Spraying, Fertilizing & Irrigation",
+    summary: "Sprays compost tea, seaweed extract or nitrogen-fixing bacteria over the whole field at the right moment, and logs every pass with weather and GNSS track. The spot sprayer (tank, pump, 3.75 m folding boom) imported as it is, with coarse tips, an aerator and a weather mast.",
+    variants: [
+      { name: "Simple", folder: "biostimulant sprayer/simple", hero: "biostimulant sprayer/simple/previews/1_work_iso_on_robot.png",
+        text: "All 15 nozzles open with size 02 twin flat-fan turbulence tips at 1.5 bar (coarse drops, gentle for living organisms, no blocking behind the 50-mesh filter); a 30 l/min air pump and a diffuser ring keep compost tea aerobic; an all-in-one weather sensor on a mast on the rear beams lets the controller spray only inside the weather window.",
+        facts: ["186 l/ha at 2 m/s, 0.64 ha per tank", "~1.5 ha/h with refills, ~3.4 ha per charge", "83 kg empty"] },
+    ] },
 ];
