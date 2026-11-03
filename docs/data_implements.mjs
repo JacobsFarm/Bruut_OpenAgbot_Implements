@@ -495,4 +495,12 @@ export const implementsList = [
         text: "2 steel root brackets on the front outer lower beam with a stainless pivot pin, a boom of 2 GFRP tubes 50 x 50 with GFRP cross tubes and carrier, a mono loop 600 x 400 in an ABS housing on 2 PE skids, a PI board in an IP67 box and a 500 N actuator with a float slot that lifts the boom 14 degrees at the headland. No metal in front of the pivot.",
         facts: ["Can ~0.49 m, horseshoe ~0.42 m, bolt ~0.15 m deep", "0.18 ha/h, ~1.8 ha per charge", "Hit position ~0.1 m; 18 kg"] },
     ] },
+  {
+    name: "Hot foam weeder", folder: "hot foam weeder", category: "Weed & Crop Protection",
+    summary: "Kills weeds on paths, yards, fence lines and tree rows with hot water (96 C) and 0.5 % foam under the flame weeder's insulated hood: no flame on the ground, so also where flaming is a fire risk. Hood, castors, parallelogram and propane of the flame weeder (imported).",
+    variants: [
+      { name: "Simple", folder: "hot foam weeder/simple", hero: "hot foam weeder/simple/previews/1_work_iso_on_robot.png",
+        text: "A 40 kW propane coil boiler, the water pump and a foam can with a dosing pump on a rear rack; a ~95 l water tank under the belly on the drop-on-demand rails; a foam bar with 12 nozzles in the 1.5 m hood instead of the burners. 6.8 l/min at 96 C gives 0.4 l/m2 at 0.19 m/s; the foam keeps the leaves hot for ~20 s.",
+        facts: ["~1000 m2/h, 240 m2 per tank of water", "Propane ~36 kg/ha (as flaming)", "224 kg empty, hood on its castors"] },
+    ] },
 ];

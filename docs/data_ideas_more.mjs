@@ -32,15 +32,6 @@ export const moreIdeas = [
     open: ["Laser class and the safety rules that follow", "Power needed per weed and dwell time", "Working width versus galvo scan area", "Cost compared with a spot sprayer"],
   },
   {
-    slug: "steam_foam_weeder",
-    name: "Hot steam / hot foam weeder",
-    category: "Weed & Crop Protection",
-    does: "Kills weeds with hot steam or hot foam under a light hood, as an alternative to the flame weeder.",
-    concept: "A small boiler or heat exchanger with a hood. Hot foam holds the heat on the leaf longer than steam alone. Electric heating is possible but needs a lot of power, so it may stay a small-area tool.",
-    reuse: "Hood, heat shield and castors of the weeds burner; water tank from the mobile refiller concept.",
-    open: ["Power and water use per hectare", "Boiler type: propane, electric or both", "Effect on perennial weeds with deep roots", "Weight and heat shielding"],
-  },
-  {
     slug: "pheromone_trap_service",
     name: "Pheromone trap service",
     category: "Weed & Crop Protection",

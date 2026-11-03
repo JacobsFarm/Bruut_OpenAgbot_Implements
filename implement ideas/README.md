@@ -43,7 +43,6 @@ implements and the open questions, so it can be worked out later in the layout d
 | Idea | What it does |
 |---|---|
 | [Laser or UV weed treatment](laser_weeder/README.md) | Kills individual weeds with a laser or a focused UV beam, without chemicals and without moving the soil. |
-| [Hot steam / hot foam weeder](steam_foam_weeder/README.md) | Kills weeds with hot steam or hot foam under a light hood, as an alternative to the flame weeder. |
 | [Pheromone trap service](pheromone_trap_service/README.md) | Visits insect traps and pheromone dispensers at the field edge: checks them with a camera, counts catches and swaps dispensers on schedule. |
 
 ## Livestock & Farm
@@ -73,7 +72,7 @@ Already worked out (in the folders next to this one): overseeder, liquid fertili
 (broom), dockweed drill (CNC weed driller), trencher, spot sprayer (atomising boom), in-row weeder (finger weeders), around-pole
 mower (mowing arm), weed picker, irrigation (hose reel), field marker, mobile refiller, belt rake, weeds burner,
 push blade (also the manure scraper job), fertilizer spreader, grassland harrow (molehill spreader), soil sampler, inter-row hoe, grassland aerator, three-point hitch (with the small cultivator), crate carrier (also the tool cart), counterweights, battery pack, solar canopy, compost spreader, stone picker, mulch layer, grass meter (NIR sensor), soil compaction meter, charging dock, UV-C mildew light, sawdust spreader, bedding rake, dumper barrow, biocontrol spreader, bag trailer, broom sweeper (angle broom on the push-blade lift), lime spreader (drop auger), cover crop undersower, straw spreader (bale shredder), electric weeder (spot HV comb), hydraulic power pack, irrigation pump (direct pump), cauliflower root-crown applicator,
-potato disease scout, hybrid range extender (the generator / engine idea), magnet sweeper, drop-on-demand boom and metal detector.
+potato disease scout, hybrid range extender (the generator / engine idea), magnet sweeper, drop-on-demand boom, metal detector and hot foam weeder.
 
 Covered elsewhere: the tow hitch (50 mm tow ball) and the patch seeder (drop seeder that a camera switches on over
 bare soil) are in [overseeding/](../overseeding/) (cambridge roll and overseeder). Merged: the small cabin into the

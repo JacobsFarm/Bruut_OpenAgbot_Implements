@@ -386,6 +386,16 @@ Every design is parametric: change a number, rebuild, and the whole model follow
   </tr>
   <tr>
     <td align="center">
+      <a href="hot%20foam%20weeder/simple/"><img src="hot%20foam%20weeder/simple/previews/1_work_iso_on_robot.png" alt="Hot foam weeder on the robot"></a><br>
+      <b><a href="hot%20foam%20weeder/simple/">Hot foam weeder</a></b><br>96 C water with foam under the flame-weeder hood
+    </td>
+    <td align="center">
+      <a href="hot%20foam%20weeder/simple/"><img src="hot%20foam%20weeder/simple/previews/4_rear_rack_boiler.png" alt="Rear rack with the 40 kW boiler, pump and foam can"></a><br>
+      <b><a href="hot%20foam%20weeder/simple/">Hot foam, rear rack</a></b><br>40 kW propane coil boiler, pump and foam doser
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
       <a href="metal%20detector/simple/"><img src="metal%20detector/simple/previews/1_iso_front_on_robot.png" alt="Metal detector: search coil on a glass-fibre boom in front of the robot"></a><br>
       <b><a href="metal%20detector/simple/">Metal detector</a></b><br>600 x 400 PI coil on a floating GFRP boom, a GNSS point per hit
     </td>
@@ -429,6 +439,7 @@ any GIF that is still missing.
 | [Overseeder with Cambridge roll](overseeding/overseeder%20with%20cambridge%20roll/) | the camera switches the seeder on over bare patches, the roll presses the seed in | `overseeding overseeder with cambridge roll - animation_spot_seeding.gif` |
 | [Potato disease scout](disease%20scout/potato/) | the hood photographs 4 potato rows, suspect plants appear in the map; at the headland both wings swing forward to 1.20 m | `disease scout potato - animation_potato_scouting.gif` |
 | [Drop-on-demand boom](drop%20on%20demand%20boom/simple/) | the hood camera finds the weeds in a lettuce bed, only the injectors above them fire single drops; weeds too close to the crop are left | `drop on demand boom simple - animation_drop_on_demand.gif` |
+| [Hot foam weeder](hot%20foam%20weeder/simple/) | the foam bar lays hot foam over a paved path; weeds under it heat up and die after 2 s | `hot foam weeder simple - animation_hot_foam.gif` |
 
 ## Implements
 
@@ -487,6 +498,7 @@ any GIF that is still missing.
 | [**Magnet sweeper**](magnet%20sweeper/) | [simple](magnet%20sweeper/simple/) | Flat permanent magnet on the toolbar, lift arms and king pin of the [push blade](push%20blade/simple/) and the castors of the [broom](broom%20sweeper/simple/) (imported). Aluminium box 1100 x 240 with a 3 mm stainless skin 20 mm over the floor; inside a 15 mm steel back plate with 2 rows of 10 NdFeB N35 blocks 100 x 100 x 10, opposite poles for a strong field gradient. Nails are picked up 35-56 mm from the magnet face (factor 2 on the weight): everything on a hard floor, under the poles in mown grass. Emptying: the robot drives the box over a 10 mm PE tray, a 3000 N actuator lifts the core 100 mm inside the box and the field at the skin drops from 140 to 20 mT, so the iron falls off; no lift and no ballast needed. ~0.41 ha/h, ~2.2 ha per charge, empty every ~0.75 ha. 125 kg |
 | [**Drop-on-demand boom**](drop%20on%20demand%20boom/) | [simple](drop%20on%20demand%20boom/simple/) | Light-tight aluminium hood (600 x 524 mm) under the belly of the robot, between the wheels over one bed, on 2 rails under the lower beams and 4 posts with 3 height steps. Inside: a 5 MP camera straight down (0.29 mm/px, LED light day and night) and, 465 mm behind its image edge, a rail of 24 solenoid micro-injectors at 25 mm pitch that fire single 5 ul drops from 80 mm onto each weed (impact 1.6 m/s, no splash, no drift); drops within 40 mm of a crop plant are not fired. Tank, pump, regulator and control box of the [spot sprayer](spotspray%20unit/boom/) (imported) plus a 0.5 bar regulator and accumulator. ~3 l/ha against 200 l/ha broadcast, 0.08 ha/h (1350 m of bed) at 0.5 m/s, ~4.4 h per charge; 74 kg empty |
 | [**Metal detector**](metal%20detector/) | [simple](metal%20detector/simple/) | Pulse-induction detector that maps buried metal and logs a GNSS point with the signal at every hit (for the field marker or the [magnet sweeper](magnet%20sweeper/simple/)). Mono loop 600 x 400 (24 turns litz) in an ABS housing on 2 PE skids, 1.2 m in front of the robot on a floating boom of 2 GFRP tubes 50 x 50 that pivots on 2 steel brackets on the front outer lower beam; no metal in front of the pivot. A 500 N actuator with a 40 mm float slot lifts the boom 14 degrees at the headland. Finds a drink can to ~0.49 m, a horseshoe ~0.42 m, a plough point ~0.71 m, bolts and tent pegs ~0.15 m; single nails are too small for this coil. Robot disturbance 5 % of the threshold at 1.31 m. Hit position ~0.1 m. 0.18 ha/h, ~1.8 ha per charge. 18 kg |
+| [**Hot foam weeder**](hot%20foam%20weeder/) | [simple](hot%20foam%20weeder/simple/) | Hot water (96 C) with 0.5 % foam concentrate under the insulated 1.5 m hood of the [flame weeder](weeds%20burner/propane_hood/) (hood, castors, parallelogram and the 2 x 18 kg propane cylinders imported): a foam bar with 12 nozzles replaces the burners. A 40 kW propane coil boiler, the 24 V pump and a foam can with doser on a rear rack; a ~95 l water tank under the belly on the rails of the [drop-on-demand boom](drop%20on%20demand%20boom/simple/). 6.8 l/min gives 0.4 l/m2 at 0.19 m/s (~1000 m2/h); the foam keeps the leaves above ~60 C for ~20 s. No flame on the ground: paths, yards, fence lines and tree rows where flaming is a fire risk. 240 m2 per tank of water, propane ~36 kg/ha, ~1.9 EUR per 100 m2; 224 kg empty |
 | [Mower unit](mower%20unit/) | notes only | General mower unit |
 
 **Overview document** with every implement and variant on its own page, followed by the ideas:
@@ -497,8 +509,8 @@ any GIF that is still missing.
 
 <!-- ideas:start -->
 <!-- generated by docs/build_docs.mjs from docs/data_ideas*.mjs: edit those, not this list -->
-**53 implements are worked out** (76 variants, see [Implements](#implements)) and
-**20 ideas are not worked out yet**. Each idea has a folder in [implement ideas/](implement%20ideas/) with a
+**54 implements are worked out** (77 variants, see [Implements](#implements)) and
+**19 ideas are not worked out yet**. Each idea has a folder in [implement ideas/](implement%20ideas/) with a
 `README.md`: what it does, a first concept, what can be reused and the open questions. Ideas marked * come from own
 brainstorming, the others from the website's list.
 
@@ -541,7 +553,6 @@ brainstorming, the others from the website's list.
 | Idea | What it does |
 |---|---|
 | [Laser or UV weed treatment](implement%20ideas/laser_weeder/README.md) * | Kills individual weeds with a laser or a focused UV beam, without chemicals and without moving the soil. |
-| [Hot steam / hot foam weeder](implement%20ideas/steam_foam_weeder/README.md) * | Kills weeds with hot steam or hot foam under a light hood, as an alternative to the flame weeder. |
 | [Pheromone trap service](implement%20ideas/pheromone_trap_service/README.md) * | Visits insect traps and pheromone dispensers at the field edge: checks them with a camera, counts catches and swaps dispensers on schedule. |
 
 **Livestock & Farm**
