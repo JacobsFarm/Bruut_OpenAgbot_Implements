@@ -2,6 +2,10 @@ inspiration/
 agbots/
 parts/
 
+# animations: generated GIFs, too large for git. All of them are copied to animations/ (collect_animations.py)
+/animations/
+*.gif
+
 /liquid fertilizer applicator/precision_applicator/roller_pump/*
 !/liquid fertilizer applicator/precision_applicator/roller_pump/README.md
 !/liquid fertilizer applicator/precision_applicator/roller_pump/readme.txt

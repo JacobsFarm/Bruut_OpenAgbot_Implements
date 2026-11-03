@@ -1,24 +1,25 @@
-# Fence voltage meter
+# Metal detector
 
 **Status: idea, not worked out yet.** Category: Measuring & Sensors.
 
 ## What it does
 
-Measures the voltage and current of the electric fence while driving along it and maps where the voltage drops.
+Scans a field for buried or hidden metal and stores a GPS point at every hit, so the spots can be checked or cleaned later.
 
 ## Concept (first thoughts)
 
-A contactless sensor (capacitive or inductive) on the arm near the wire, with a GPS log per metre. Can ride on the fence mower arm.
+A pulse-induction search coil on a non-metallic boom away from the robot's steel frame and hub motors, low above the ground. Every pulse above a threshold gives a GPS point with its signal strength; the map can feed the field marker to stake out the spots, or the magnet sweeper.
 
 ## Reuse from existing implements
 
-Arm and post-following geometry of the around-pole fence mower.
+Front boom of the grass meter; GPS point list and staking out of the field marker.
 
 ## Open questions
 
-- Contactless versus contact sensing
-- Calibration to a known voltage
-- Reporting threshold and alarms
+- Interference from the robot's steel and motors: boom length
+- Coil size and detection depth
+- Threshold and false hits
+- Map format
 
 ## To do when this is worked out
 

@@ -10,6 +10,17 @@ import sys
 
 from PIL import Image, ImageDraw, ImageFont
 
+
+def _to_animations(gif):
+    """Also copy the GIF to <repo>/animations/ (all animations together; see collect_animations.py)."""
+    d = os.path.dirname(os.path.abspath(__file__))
+    while not os.path.isfile(os.path.join(d, "collect_animations.py")) and os.path.dirname(d) != d:
+        d = os.path.dirname(d)
+    if d not in sys.path:
+        sys.path.insert(0, d)
+    import collect_animations
+    collect_animations.collect(gif)
+
 FONT_PATHS = (r"C:\Windows\Fonts\segoeui.ttf", r"C:\Windows\Fonts\arial.ttf")
 TEXT = (30, 30, 30, 255)
 GREY = (90, 92, 96, 255)
@@ -104,6 +115,7 @@ def main(folder, out_path, fps=10, last_hold_ms=2200, overlay=True):
         previous = current
     durations[-1] = last_hold_ms
     frames[0].save(out_path, save_all=True, append_images=frames[1:], duration=durations, loop=0, optimize=False)
+    _to_animations(out_path)
     print("%d frames -> %s (%.2f MB)" % (len(frames), out_path, os.path.getsize(out_path) / 1e6))
     return out_path
 

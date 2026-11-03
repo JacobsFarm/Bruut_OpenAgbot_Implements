@@ -6,7 +6,7 @@ OpenAgbot straddles two rows, and the plants pass under the frame between the wh
 unit on skids. Leaf lifters move the lower leaves away from the stem, and two solenoid valves fire one drop nozzle on
 each side of the stem. The dose lands about 40 mm from the stem, inside a splash shroud.
 
-Worked out from the idea in `docs/implement ideas/cauliflower insecticide application/`.
+Worked out from the original brief in [cfa_requirements.md](cfa_requirements.md).
 
 ![On the robot in the crop](previews/1_iso_on_robot_in_crop.png)
 

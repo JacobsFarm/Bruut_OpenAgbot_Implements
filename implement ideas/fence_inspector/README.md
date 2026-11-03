@@ -4,21 +4,22 @@
 
 ## What it does
 
-Drives along the fence, checks the electric fence, reports breaks and shorts and straightens leaning posts.
+Drives along the fence, measures the voltage of the electric fence per metre, reports breaks, shorts and where the voltage drops, and straightens leaning posts.
 
 ## Concept (first thoughts)
 
-A sensor arm along the wire to measure voltage and current, a camera for posts and a simple push or pull tool for leaning posts. Reports position of every fault.
+A contactless (capacitive or inductive) or contact sensor on an arm along the wire to measure voltage and current with a GPS log per metre, a camera for posts and a simple push or pull tool for leaning posts. Reports the position of every fault. The sensor can also ride on the fence mower arm.
 
 ## Reuse from existing implements
 
-Around-pole fence mower arm and post-following geometry; fence voltage meter idea.
+Around-pole fence mower arm and post-following geometry.
 
 ## Open questions
 
+- Contactless versus contact sensing, calibration to a known voltage
 - How to straighten a post without damage
 - Fault classification: break, short, vegetation
-- Reporting to the farmer: map, push message
+- Reporting to the farmer: map, push message, alarm threshold
 
 ## To do when this is worked out
 

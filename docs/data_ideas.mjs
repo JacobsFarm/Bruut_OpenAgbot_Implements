@@ -13,7 +13,7 @@ const websiteIdeas = [
     category: "Soil Cultivation & Weed Control",
     does: "Boom with individually controlled injectors that fire single coarse droplets on demand at low pressure. Every droplet is placed straight onto the weed, which practically eliminates drift and cuts chemical usage to a fraction of a conventional spray pass.",
     concept: "Same carrier as the spot sprayer (camera mast in front, boom behind), but with drop-on-demand valves instead of PWM flat-fan nozzles. Droplets are fired at the detected plant position, so the boom needs a finer position resolution along the boom than 250 mm.",
-    reuse: "Camera mast, tank, pump, folding boom and control box of the spot sprayer (spotspray unit/boom).",
+    reuse: "Camera mast, tank, pump, folding boom and control box of the spot sprayer (spotspray unit/boom); pulsed solenoid drop nozzles and timing by odometry of the cauliflower applicator.",
     open: ["Injector type, droplet size and firing rate", "Injector pitch along the boom", "Aiming accuracy at 0.5 m/s: time from camera to droplet", "Product types and viscosity the injectors can handle"],
   },
   // ---------- Spraying, fertilizing & irrigation ----------
@@ -30,15 +30,6 @@ const websiteIdeas = [
   // ---------- Spreading & bedding ----------
   // ---------- Power & drive ----------
   {
-    slug: "generator_engine",
-    name: "Generator / engine",
-    category: "Power & Drive",
-    does: "Generator or combustion engine mounted between the frame as an auxiliary power source for extra electricity or mechanical power.",
-    concept: "A small generator (range extender) on a vibration-damped frame between the beams, charging the 48 V bus. Exhaust and fuel placement are the main design problems.",
-    reuse: "Frame mounting like the battery pack; the irrigation petrol pump is another engine use.",
-    open: ["Generator power class and mass", "Vibration isolation and noise", "Fuel tank and exhaust placement", "Charging strategy with the battery"],
-  },
-  {
     slug: "heavy_duty_motors",
     name: "Heavy-duty electric motors",
     category: "Power & Drive",
@@ -50,21 +41,12 @@ const websiteIdeas = [
   // ---------- Transport & general ----------
   {
     slug: "seat_frame_extension",
-    name: "Seat & frame extension",
+    name: "Seat, cabin & frame extension",
     category: "Transport & General",
-    does: "Front or rear-mounted seat, with the option to widen the frame tubes at the sides.",
-    concept: "A seat on a tube frame so a person can ride on the robot, and side extensions that widen the frame for wider implements. Needs a manual-drive mode and clear operator-safety rules.",
+    does: "Front or rear-mounted seat, with the option to widen the frame tubes at the sides and a small cabin as a protective enclosure for the operator.",
+    concept: "A seat on a tube frame so a person can ride on the robot, and side extensions that widen the frame for wider implements. Needs a manual-drive mode and clear operator-safety rules. A light cabin or canopy over the seat is the next step and only makes sense together with the seat.",
     reuse: "Toolbar and hanger design of the disc brushes; tube sizes from the robot.",
-    open: ["Operator weight and the axle loads", "Controls and an emergency stop within reach", "Side-extension width versus stability", "Safety rules for a ridden robot"],
-  },
-  {
-    slug: "small_cabin",
-    name: "Small cabin",
-    category: "Transport & General",
-    does: "Protective enclosure or housing for the operator.",
-    concept: "A light cabin or canopy on the frame with a seat. Only meaningful together with the seat and frame extension.",
-    reuse: "Seat & frame extension; top-plate pattern.",
-    open: ["Weight and centre of gravity", "Entry and exit, visibility", "Rollover protection"],
+    open: ["Operator weight and the axle loads", "Controls and an emergency stop within reach", "Side-extension width versus stability", "Safety rules for a ridden robot", "Cabin weight, entry and exit, visibility and rollover protection"],
   },
   // ---------- Measuring & sensors ----------
   // ---------- Cooperation & swarm ----------

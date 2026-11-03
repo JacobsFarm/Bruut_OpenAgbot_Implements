@@ -1,7 +1,7 @@
 # Implement ideas
 
-Attachments that are **not worked out
-yet**: those from the website's list ([openagbot.com](https://openagbot.com), functionality's.json) and extra ideas from brainstorming (marked in their README). Each folder holds a `README.md` with what the implement does, a first concept, what can be reused from the finished
+Attachments that are **not worked out yet**: those from the website's list ([openagbot.com](https://openagbot.com),
+functionality's.json) and extra ideas from brainstorming (marked in their README). Each folder holds a `README.md` with what the implement does, a first concept, what can be reused from the finished
 implements and the open questions, so it can be worked out later in the layout described in [AGENTS.md](../AGENTS.md).
 
 ## Soil Cultivation & Weed Control
@@ -20,7 +20,6 @@ implements and the open questions, so it can be worked out later in the layout d
 
 | Idea | What it does |
 |---|---|
-| [Generator / engine](generator_engine/README.md) | Generator or combustion engine mounted between the frame as an auxiliary power source for extra electricity or mechanical power. |
 | [Heavy-duty electric motors](heavy_duty_motors/README.md) | Electric motors such as the Ego Power+ or Greenworks units to drive implements that need real power, replacing small petrol engines. |
 | [Charging robot (mobile charger)](charging_robot/README.md) | A robot on wheels that carries a large battery and charges working robots in the field, so they do not have to return to the shed. |
 
@@ -28,9 +27,10 @@ implements and the open questions, so it can be worked out later in the layout d
 
 | Idea | What it does |
 |---|---|
-| [Seat & frame extension](seat_frame_extension/README.md) | Front or rear-mounted seat, with the option to widen the frame tubes at the sides. |
-| [Small cabin](small_cabin/README.md) | Protective enclosure or housing for the operator. |
+| [Seat, cabin & frame extension](seat_frame_extension/README.md) | Front or rear-mounted seat, with the option to widen the frame tubes at the sides and a small cabin as a protective enclosure for the operator. |
 | [Speech speaker](speaker/README.md) | A speaker on the robot that can speak: warnings when the robot approaches, status messages for the operator, instructions in the field, and a way to speak to people near the robot. |
+| [Magnet sweeper](magnet_sweeper/README.md) | Picks up nails, screws, wire and other loose iron from fields, paths and yards after building work or a festival, before it ends up in the feed or in tyres. |
+| [Debris vacuum](debris_vacuum/README.md) | Sucks up litter and debris from grassland: trash after a festival, or shards of solar panels that a fire on a nearby roof spread over the fields. |
 
 ## Cooperation & Swarm Operation
 
@@ -57,9 +57,8 @@ implements and the open questions, so it can be worked out later in the layout d
 
 | Idea | What it does |
 |---|---|
-| [Fence inspector](fence_inspector/README.md) | Drives along the fence, checks the electric fence, reports breaks and shorts and straightens leaning posts. |
+| [Fence inspector](fence_inspector/README.md) | Drives along the fence, measures the voltage of the electric fence per metre, reports breaks, shorts and where the voltage drops, and straightens leaning posts. |
 | [Drinking trough check](drinker_check/README.md) | Visits drinking troughs, measures the water level, tops it up and reports dirt or damage with a camera. |
-| [Manure scraper / slurry pusher](manure_scraper/README.md) | Scrapes or pushes manure and slurry on stable floors and walkways toward a drain or gutter. |
 | [Chicken house robot](chicken_house_robot/README.md) | Drives through a poultry house to turn the litter, collect floor eggs, and check birds and climate with sensors. |
 
 ## Measuring & Sensors
@@ -69,14 +68,22 @@ implements and the open questions, so it can be worked out later in the layout d
 | [Yield estimator](yield_estimator/README.md) | Counts fruits, heads or plants with a camera and logs them per GPS position, so the harvest can be estimated and planned. |
 | [Disease and pest scout](disease_scout/README.md) | Looks at the leaves close up, finds disease and pest damage early and stores a photo per plant with its position. |
 | [Soil moisture sensor placer](soil_moisture_placer/README.md) | Places wireless soil moisture sensors at set GPS points, reads them out and picks them up again. |
-| [Fence voltage meter](fence_voltage_meter/README.md) | Measures the voltage and current of the electric fence while driving along it and maps where the voltage drops. |
 | [Windbreak and tree-row inspector](windbreak_inspector/README.md) | Drives along hedgerows, windbreaks and orchard rows and logs gaps, damage, dead trees and growth with a camera. |
 | [Security camera patrol](security_patrol/README.md) | A mast with camera and thermal imaging that patrols the farm or field at night, reports intruders and keeps an eye on animals and equipment. |
+| [Metal detector](metal_detector/README.md) | Scans a field for buried or hidden metal and stores a GPS point at every hit, so the spots can be checked or cleaned later. |
+
+## Spraying, Fertilizing & Irrigation
+
+| Idea | What it does |
+|---|---|
+| [Biostimulant sprayer (full field)](biostimulant_sprayer/README.md) | Sprays biostimulants over the whole field at the right moment: compost tea, seaweed extract, or nitrogen-fixing products such as Corteva's Utrisha N (Blue N). |
 
 Already worked out (in the folders next to this one): overseeder, liquid fertilizer applicator, feed pusher auger, disc brushes
 (broom), dockweed drill (CNC weed driller), trencher, spot sprayer (atomising boom), in-row weeder (finger weeders), around-pole
 mower (mowing arm), weed picker, irrigation (hose reel), field marker, mobile refiller, belt rake, weeds burner,
-push blade (also the manure scraper job), fertilizer spreader, grassland harrow (molehill spreader), soil sampler, inter-row hoe, grassland aerator, three-point hitch (with the small cultivator), crate carrier (also the tool cart), counterweights, battery pack, solar canopy, compost spreader, stone picker, mulch layer, grass meter (NIR sensor), soil compaction meter, charging dock, UV-C mildew light, sawdust spreader, bedding rake, dumper barrow, biocontrol spreader, bag trailer, broom sweeper (angle broom on the push-blade lift), lime spreader (drop auger), cover crop undersower, straw spreader (bale shredder), electric weeder (spot HV comb), hydraulic power pack and irrigation pump (direct pump).
+push blade (also the manure scraper job), fertilizer spreader, grassland harrow (molehill spreader), soil sampler, inter-row hoe, grassland aerator, three-point hitch (with the small cultivator), crate carrier (also the tool cart), counterweights, battery pack, solar canopy, compost spreader, stone picker, mulch layer, grass meter (NIR sensor), soil compaction meter, charging dock, UV-C mildew light, sawdust spreader, bedding rake, dumper barrow, biocontrol spreader, bag trailer, broom sweeper (angle broom on the push-blade lift), lime spreader (drop auger), cover crop undersower, straw spreader (bale shredder), electric weeder (spot HV comb), hydraulic power pack, irrigation pump (direct pump), cauliflower root-crown applicator
+and hybrid range extender (the generator / engine idea).
 
 Covered elsewhere: the tow hitch (50 mm tow ball) and the patch seeder (drop seeder that a camera switches on over
-bare soil) are in [overseeding/](../overseeding/) (cambridge roll and overseeder).
+bare soil) are in [overseeding/](../overseeding/) (cambridge roll and overseeder). Merged: the small cabin into the
+seat & frame extension, the fence voltage meter into the fence inspector.

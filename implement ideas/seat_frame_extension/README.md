@@ -1,14 +1,14 @@
-# Seat & frame extension
+# Seat, cabin & frame extension
 
 **Status: idea, not worked out yet.** Category: Transport & General.
 
 ## What it does
 
-Front or rear-mounted seat, with the option to widen the frame tubes at the sides.
+Front or rear-mounted seat, with the option to widen the frame tubes at the sides and a small cabin as a protective enclosure for the operator.
 
 ## Concept (first thoughts)
 
-A seat on a tube frame so a person can ride on the robot, and side extensions that widen the frame for wider implements. Needs a manual-drive mode and clear operator-safety rules.
+A seat on a tube frame so a person can ride on the robot, and side extensions that widen the frame for wider implements. Needs a manual-drive mode and clear operator-safety rules. A light cabin or canopy over the seat is the next step and only makes sense together with the seat.
 
 ## Reuse from existing implements
 
@@ -20,6 +20,7 @@ Toolbar and hanger design of the disc brushes; tube sizes from the robot.
 - Controls and an emergency stop within reach
 - Side-extension width versus stability
 - Safety rules for a ridden robot
+- Cabin weight, entry and exit, visibility and rollover protection
 
 ## To do when this is worked out
 

@@ -5,11 +5,11 @@ Open-source implements (attachments) for the **[Bruut OpenAgbot](https://github.
 Every design is parametric: change a number, rebuild, and the whole model follows. They are built in FreeCAD from Python scripts, come with the calculations behind them and, for the advanced variants, an animation on the robot. Everything bolts onto the 50 mm hole grid of the robot's chassis beams.
 
 <p align="center">
-  <img src="dockweed%20drill/animation_dockweed_drill.gif" alt="Dockweed drill removing a dock plant" width="720"><br>
+  <img src="dockweed%20drill/v2/previews/1_work_iso_rear_right.png" alt="Dockweed drill milling out a dock plant behind the robot" width="720"><br>
   <i>Dockweed drill: finds a dock plant and mills out its root</i>
 </p>
 
-**Jump to:** [Gallery](#gallery) · [Animations](#animations) · [Implements](#implements) · [Build it yourself](#build-it-yourself) · [Related](#related)
+**Jump to:** [Gallery](#gallery) · [Animations](#animations) · [Implements](#implements) · [Ideas](#ideas-not-worked-out-yet) · [Build it yourself](#build-it-yourself) · [Related](#related)
 
 ## Gallery
 
@@ -30,7 +30,7 @@ Every design is parametric: change a number, rebuild, and the whole model follow
       <b><a href="liquid%20fertilizer%20applicator/">Liquid fertilizer applicator</a></b><br>Disc and knife units on spring arms
     </td>
     <td align="center">
-      <a href="dockweed%20drill/"><img src="dockweed%20drill/render_front_left.png" alt="Dockweed drill"></a><br>
+      <a href="dockweed%20drill/v6/"><img src="dockweed%20drill/v6/previews/1_work_iso_rear_right.png" alt="Dockweed drill v6"></a><br>
       <b><a href="dockweed%20drill/">Dockweed drill</a></b><br>Finds a dock plant and mills out its root
     </td>
   </tr>
@@ -50,8 +50,8 @@ Every design is parametric: change a number, rebuild, and the whole model follow
       <b><a href="trencher/">Trencher</a></b><br>Wheel trencher for cutting narrow trenches
     </td>
     <td align="center">
-      <a href="feed%20pusher%20auger/advanced/"><img src="feed%20pusher%20auger/advanced/previews/9_on_robot_iso.png" alt="Feed pusher auger"></a><br>
-      <b><a href="feed%20pusher%20auger/advanced/">Feed pusher auger</a></b><br>Pushes feed back to the feed fence
+      <a href="feed%20pusher%20auger/V3/"><img src="feed%20pusher%20auger/V3/previews/9_on_robot_iso.png" alt="Feed pusher auger"></a><br>
+      <b><a href="feed%20pusher%20auger/">Feed pusher auger</a></b><br>Pushes feed back to the feed fence
     </td>
   </tr>
   <tr>
@@ -344,91 +344,49 @@ Every design is parametric: change a number, rebuild, and the whole model follow
       <b><a href="irrigation%20pump/simple/">Irrigation pump</a></b><br>Self-priming pump with suction reel
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="overseeding/overseeder%20with%20cambridge%20roll/"><img src="overseeding/overseeder%20with%20cambridge%20roll/previews/1_iso_on_robot.png" alt="Overseeder with Cambridge roll behind the robot"></a><br>
+      <b><a href="overseeding/">Cambridge roll and overseeder</a></b><br>Trailed on a 50 mm tow ball, seed only over bare patches
+    </td>
+    <td align="center">
+      <a href="Hybrid/"><img src="Hybrid/previews/1_iso.png" alt="Hybrid range extender on the robot"></a><br>
+      <b><a href="Hybrid/">Hybrid range extender</a></b><br>212 cc petrol engine and 3 kW generator charge the battery
+    </td>
+  </tr>
 </table>
 
 ## Animations
 
-The advanced designs are animated on the real robot model, with the loads and forces calculated per frame.
+The advanced designs are animated on the real robot model, with the loads and forces calculated per frame. The GIFs
+are generated and are **not in git** (too large): build them with `animate_<p>.render_all(folder)` and
+`make_gif_<p>.main(folder, "previews/....gif")` in the variant folder. Every `make_gif_<p>.py` also copies its GIF to
+`animations/` in the repository root, so all animations end up together there; `python collect_animations.py` copies
+any GIF that is still missing.
 
-<p align="center">
-  <img src="liquid%20fertilizer%20applicator/concept%20versions/advanced/previews/animation_strip_ground_following.gif" alt="Ground-following animation of the liquid fertilizer applicator" width="720"><br>
-  <i><a href="liquid%20fertilizer%20applicator/concept%20versions/advanced/">Liquid fertilizer applicator</a>: every element follows the bumpy ground on its own arm</i>
-</p>
-
-<p align="center">
-  <img src="liquid%20fertilizer%20applicator/precision_applicator/combined_v2/previews/animation_inject_press_strip.gif" alt="Precision liquid applicator V2 injecting a strip" width="720"><br>
-  <i><a href="liquid%20fertilizer%20applicator/precision_applicator/">Precision liquid applicator</a>: the actuator lowers the discs and knives, the roller pump follows the speed and the press wheels close the slot</i>
-</p>
-
-<p align="center">
-  <img src="feed%20pusher%20auger/advanced/previews/animation_feed_pushing.gif" alt="Feed pushing animation with forces on the robot" width="720"><br>
-  <i><a href="feed%20pusher%20auger/advanced/">Feed pusher auger</a>: pushing feed back to the fence, with the forces on the auger and the robot's reaction</i>
-</p>
-
-<p align="center">
-  <img src="brushes/simple/previews/animation_windrow_double_750.gif" alt="Disc brushes making a windrow" width="720"><br>
-  <i><a href="brushes/simple/">Disc brushes</a>: two Ø750 brushes turn inwards and sweep a layer of loose material into a windrow</i>
-</p>
-
-<p align="center">
-  <img src="marker/simple/previews/animation_staking_out.gif" alt="Field marker staking out three points" width="720"><br>
-  <i><a href="marker/simple/">Field marker</a>: the robot stops a few centimetres off, the stage puts the nozzle exactly on each point</i>
-</p>
-
-<p align="center">
-  <img src="mobile%20refiller/liquid/previews/animation_refill_in_turn.gif" alt="Mobile refiller topping up the working robot in its headland turn" width="720"><br>
-  <i><a href="mobile%20refiller/">Mobile refiller</a>: tops up the working robot in the straight part of its turn, while both drive</i>
-</p>
-
-<p align="center">
-  <img src="mobile%20refiller/simple/previews/animation_refill_in_u_turn.gif" alt="Simple mobile refiller topping up the working robot in the middle of its U-turn" width="720"><br>
-  <i><a href="mobile%20refiller/simple/">Mobile refiller (simple)</a>: the working robot skips passes and turns in one go; it stops under the hanging nozzle in the middle of the U-turn, and the refiller moves 1 m per refill</i>
-</p>
-
-<p align="center">
-  <img src="around_pole_mower/simple/previews/animation_around_posts.gif" alt="Fence mower going around two posts" width="720"><br>
-  <i><a href="around_pole_mower/simple/">Around-pole fence mower</a>: the post pushes the head back and in, it slides around and the spring swings it back behind the post</i>
-</p>
-
-<p align="center">
-  <img src="weed%20picker/mowing_deck/previews/animation_topping_windrow.gif" alt="Weed picker topping a weed patch into one windrow" width="720"><br>
-  <i><a href="weed%20picker/mowing_deck/">Weed picker</a>: two rotors turn inwards and throw the chopped weed into one windrow; the robot slows down in thick weed and raises the cut height while driving</i>
-</p>
-
-<p align="center">
-  <img src="irrigation/stationary%20+%20roller/previews/animation_one_strip.gif" alt="Irrigation hose reel: one strip laid out, irrigated, drained and wound" width="720"><br>
-  <i><a href="irrigation/stationary%20+%20roller/">Irrigation hose reel</a>: the robot lays the empty hose, the pump at the ditch floods a 4 m strip, the hose runs empty and the robot winds it up again</i>
-</p>
-
-<p align="center">
-  <img src="spotspray%20unit/boom/previews/animation_spot_spraying.gif" alt="Spot sprayer spraying dock and folding a wing for a post" width="720"><br>
-  <i><a href="spotspray%20unit/boom/">Spot sprayer</a>: the camera finds the docks, only the nozzles above a plant open; the right wing folds up for a fence post</i>
-</p>
-
-<p align="center">
-  <img src="in%20row%20weeder/finger/previews/animation_in_row_weeding.gif" alt="In-row weeder: the fingers swing out around every broccoli plant" width="720"><br>
-  <i><a href="in%20row%20weeder/finger/">In-row finger weeder</a>: the camera finds the broccoli, each stepper swings its knife out around every plant and back into the row line</i>
-</p>
-
-<p align="center">
-  <img src="in%20row%20weeder/double_arm/previews/animation_double_arm_weeding.gif" alt="In-row weeder with double arms opening around every plant" width="720"><br>
-  <i><a href="in%20row%20weeder/double_arm/">In-row weeder, double arms</a>: two knives per row open to both sides of every plant and close behind it, each on its own stepper</i>
-</p>
-
-<p align="center">
-  <img src="bandrake/electric/previews/animation_raking_windrow.gif" alt="Belt rake raking moss and thatch into one windrow" width="720"><br>
-  <i><a href="bandrake/electric/">Electric belt rake</a>: the tines carry the litter and the previous pass's windrow to the left into one windrow; at the headland the castor actuators lift the rake</i>
-</p>
-
-<p align="center">
-  <img src="weeds%20burner/propane_hood/previews/animation_flaming_bed.gif" alt="Flame weeder flaming a sown bed" width="720"><br>
-  <i><a href="weeds%20burner/propane_hood/">Flame weeder</a>: six burners under the hood kill the seedlings on a sown bed; when the robot stops only the pilot flames stay on</i>
-</p>
-
-<p align="center">
-  <img src="sickle%20bar%20mower/triple/previews/animation_mow_fold.gif" alt="Triple sickle bar mower mowing a 3.25 m strip and folding for transport" width="720"><br>
-  <i><a href="sickle%20bar%20mower/triple/">Triple sickle bar mower</a>: three double-knife bars mow a 3.25 m strip; at the headland the front bar lifts and the wings fold up</i>
-</p>
+| Implement | What the animation shows | File in `animations/` |
+|---|---|---|
+| [Liquid fertilizer applicator](liquid%20fertilizer%20applicator/concept%20versions/advanced/) | every element follows the bumpy ground on its own arm (also for simple and simple v2) | `liquid fertilizer applicator concept versions advanced - animation_strip_ground_following.gif` |
+| [Precision liquid applicator V2](liquid%20fertilizer%20applicator/precision_applicator/combined_v2/) | the actuator lowers the discs and knives, the roller pump follows the speed and the press wheels close the slot | `liquid fertilizer applicator precision_applicator combined_v2 - animation_inject_press_strip.gif` |
+| [Precision liquid applicator V3](liquid%20fertilizer%20applicator/precision_applicator/combined_v3/) | double knives inject two liquids at once from the 10-section roller pump | `liquid fertilizer applicator precision_applicator combined_v3 - animation_two_liquids.gif` |
+| [Roller pump](liquid%20fertilizer%20applicator/precision_applicator/roller_pump/) | the rollers squeeze the tubes, 5 and 10 sections | `liquid fertilizer applicator precision_applicator roller_pump 5ch - animation_pump_running.gif` |
+| [Feed pusher auger](feed%20pusher%20auger/V1/) | pushing feed back to the fence, with the forces on the auger and the robot's reaction | `feed pusher auger V1 - animation_feed_pushing.gif` |
+| [Dockweed drill](dockweed%20drill/v4/) | finds three dock plants and mills out the roots (v1 to v4; v2 also mows nettles) | `dockweed drill v4 - animation_three_plants.gif` |
+| [Disc brushes](brushes/simple/) | two Ø750 brushes turn inwards and sweep loose material into a windrow (also spreading and the single Ø850) | `brushes simple - animation_windrow_double_750.gif` |
+| [Field marker](marker/simple/) | the robot stops a few centimetres off, the stage puts the nozzle exactly on each point | `marker simple - animation_staking_out.gif` |
+| [Mobile refiller](mobile%20refiller/liquid/) | tops up the working robot in the straight part of its turn, while both drive | `mobile refiller liquid - animation_refill_in_turn.gif` |
+| [Mobile refiller (simple)](mobile%20refiller/simple/) | the working robot stops under the hanging nozzle in the middle of its U-turn | `mobile refiller simple - animation_refill_in_u_turn.gif` |
+| [Stationary refill station](mobile%20refiller/stationary/ibc_trailer/) | the working robot drives to the IBC trailer to refill (also flat wagon and three-point frame) | `mobile refiller stationary ibc_trailer - animation_refill_visit.gif` |
+| [Around-pole fence mower](around_pole_mower/simple/) | the post pushes the head back and in, it slides around and the spring swings it back behind the post | `around_pole_mower simple - animation_around_posts.gif` |
+| [Weed picker](weed%20picker/mowing_deck/) | two rotors throw the chopped weed into one windrow; slows down in thick weed and raises the cut height | `weed picker mowing_deck - animation_topping_windrow.gif` |
+| [Irrigation hose reel](irrigation/stationary%20+%20roller/) | lays the empty hose, the pump floods a 4 m strip, the hose runs empty and is wound up again | `irrigation stationary + roller - animation_one_strip.gif` |
+| [Spot sprayer](spotspray%20unit/boom/) | only the nozzles above a dock open; the right wing folds up for a fence post | `spotspray unit boom - animation_spot_spraying.gif` |
+| [In-row finger weeder](in%20row%20weeder/finger/) | each stepper swings its knife out around every broccoli plant and back into the row line | `in row weeder finger - animation_in_row_weeding.gif` |
+| [In-row weeder, double arms](in%20row%20weeder/double_arm/) | two knives per row open to both sides of every plant and close behind it | `in row weeder double_arm - animation_double_arm_weeding.gif` |
+| [Electric belt rake](bandrake/electric/) | the tines carry the litter into one windrow; at the headland the castor actuators lift the rake | `bandrake electric - animation_raking_windrow.gif` |
+| [Flame weeder](weeds%20burner/propane_hood/) | six burners under the hood kill the seedlings on a sown bed; pilot flames only when stopped | `weeds burner propane_hood - animation_flaming_bed.gif` |
+| [Triple sickle bar mower](sickle%20bar%20mower/triple/) | three double-knife bars mow a 3.25 m strip; at the headland the front bar lifts and the wings fold up | `sickle bar mower triple - animation_mow_fold.gif` |
+| [Overseeder with Cambridge roll](overseeding/overseeder%20with%20cambridge%20roll/) | the camera switches the seeder on over bare patches, the roll presses the seed in | `overseeding overseeder with cambridge roll - animation_spot_seeding.gif` |
 
 ## Implements
 
@@ -436,10 +394,10 @@ The advanced designs are animated on the real robot model, with the loads and fo
 |---|---|---|
 | [**Overseeder**](overseeder/) | [simple](overseeder/simple/) · [advanced](overseeder/advanced/) | Grassland slit seeder. 1 m modules with 8 rows at 125 mm and coupling flanges. Cuts a 15 mm slot, places seed about 12 mm deep and closes the slot with a sprung press wheel. Simple: angled single disc, gravity hopper, about €1,675 in parts. Advanced: parallel linkage, depth bands, curved seed coulter and an air seeder, about €2,280 |
 | [**Cambridge roll and overseeder**](overseeding/) | [Cambridge roll](overseeding/cambridge%20roll/) · [overseeder (drop seeder)](overseeding/overrseeder/) · [combination](overseeding/overseeder%20with%20cambridge%20roll/) | Simple trailed lawn-repair implements on a 50 mm tow ball under the rear beams. Cambridge roll: 20 cast-iron rings Ø280 on a Ø40 shaft, 1 m, 178 kg, 100 … 250 N draft, about €850 with the hitch. Overseeder: 1 m drop seeder, 49 l hopper, fluted roller on a 24 V worm gearmotor that a camera switches on only over bare soil, two small wheels, about €500. Combination: the seeder unit hangs between the arms of the roll, seed falls 300 mm in front of the rings and is rolled in; 216 kg, about €1,200. Includes the turn kinematics of the trailer and an animation with bare patches |
-| [**Liquid fertilizer applicator**](liquid%20fertilizer%20applicator/) | [simple](liquid%20fertilizer%20applicator/concept%20versions/simple/) · [simple v2](liquid%20fertilizer%20applicator/concept%20versions/simple_v2/) · [advanced](liquid%20fertilizer%20applicator/concept%20versions/advanced/) · **precision (production):** [roller pump](liquid%20fertilizer%20applicator/precision_applicator/roller_pump/) · [applicator](liquid%20fertilizer%20applicator/precision_applicator/applicator/) · [applicator V2](liquid%20fertilizer%20applicator/precision_applicator/applicator_v2/) · [on the robot](liquid%20fertilizer%20applicator/precision_applicator/combined/) · [V2 on the robot](liquid%20fertilizer%20applicator/precision_applicator/combined_v2/) | Injects liquid fertilizer into the soil. Simple: fixed knives, two gauge wheels and a 12 V pump, about €600 in parts. Simple v2: adds a cutting disc in front of each knife, about €900. Advanced: disc and knife units on spring arms, a ground-wheel-driven 5-channel peristaltic pump and a parallel linkage. Precision (the first production version, built with Herre Bartlema, from measured parts): a modular roller pump on the robot (10 ml per revolution per tube, stepper-driven, follows the speed), Ø 325 discs with injector knives behind them on a parallel linkage with an electric actuator, 5 rows or 2 rows in the middle; V2 adds a press wheel behind every knife that closes the slot. Includes the hoses and an animation on the robot |
-| [**Feed pusher auger**](feed%20pusher%20auger/) | [simple](feed%20pusher%20auger/simple/) · [advanced](feed%20pusher%20auger/advanced/) | Pushes feed back to the feed fence. Simple: cheap version from flat plate and sectional flights. Advanced: Ø320 auger under a folded 2 mm hood, 24 V gearmotor with chain drive, open discharge end. Includes a feed-transport model and a force animation |
+| [**Liquid fertilizer applicator**](liquid%20fertilizer%20applicator/) | [simple](liquid%20fertilizer%20applicator/concept%20versions/simple/) · [simple v2](liquid%20fertilizer%20applicator/concept%20versions/simple_v2/) · [advanced](liquid%20fertilizer%20applicator/concept%20versions/advanced/) · **precision (production):** [roller pump](liquid%20fertilizer%20applicator/precision_applicator/roller_pump/) · [applicator](liquid%20fertilizer%20applicator/precision_applicator/applicator/) · [applicator V2](liquid%20fertilizer%20applicator/precision_applicator/applicator_v2/) · [on the robot](liquid%20fertilizer%20applicator/precision_applicator/combined/) · [V2 on the robot](liquid%20fertilizer%20applicator/precision_applicator/combined_v2/) · [applicator V3](liquid%20fertilizer%20applicator/precision_applicator/applicator_v3/) · [V3 on the robot](liquid%20fertilizer%20applicator/precision_applicator/combined_v3/) | Injects liquid fertilizer into the soil. Simple: fixed knives, two gauge wheels and a 12 V pump, about €600 in parts. Simple v2: adds a cutting disc in front of each knife, about €900. Advanced: disc and knife units on spring arms, a ground-wheel-driven 5-channel peristaltic pump and a parallel linkage. Precision (the first production version, built with Herre Bartlema, from measured parts): a modular roller pump on the robot (10 ml per revolution per tube, stepper-driven, follows the speed), Ø 325 discs with injector knives behind them on a parallel linkage with an electric actuator, 5 rows or 2 rows in the middle; V2 adds a press wheel behind every knife that closes the slot; V3 has 5 rows of trailing double knives and a 10-section pump for two liquids at once. Includes the hoses and an animation on the robot |
+| [**Feed pusher auger**](feed%20pusher%20auger/) | [V1](feed%20pusher%20auger/V1/) · [V2](feed%20pusher%20auger/V2/) · [V3](feed%20pusher%20auger/V3/) | Pushes feed back to the feed fence. Ø320 auger under a folded 2 mm hood, 24 V gearmotor with chain drive, open discharge end, on the rear flange holes of the rear wheel modules; feed-transport model and force animation. V2: no through shaft, the auger hangs on a pin strap with bearings inside and slides out through the end plate, M6 shear bolt in the drive bush. V3: V2 with the existing, measured auger (Ø300 on a Ø60 core tube), M12 shear bolt and a plastic wear ring on a fixed pin instead of bearings |
 | [**Disc brushes**](brushes/) | [simple](brushes/simple/) (2 × Ø650, 2 × Ø750, 1 × Ø850) | Sweeper disc brushes for loose material on concrete. Each brush on its own 48 V worm gearmotor; reverse the motors and the pair makes a windrow in the middle or spreads material wide. Units slide on U-bolts along an 80 × 80 toolbar under the rear beams. Includes an animation with a particle model of the material |
-| [**Dockweed drill**](dockweed%20drill/) | one design | Dock (broad-leaved dock) removal mill on a CNC gantry. Renders, animations, DXF and STEP files |
+| [**Dockweed drill**](dockweed%20drill/) | [v1](dockweed%20drill/v1/) · [v2](dockweed%20drill/v2/) · [v3](dockweed%20drill/v3/) · [v4](dockweed%20drill/v4/) · [v5](dockweed%20drill/v5/) · [v6](dockweed%20drill/v6/) | Dock (broad-leaved dock) removal mill on a CNC gantry behind the robot: the robot is the Y axis, an X slide (stroke 1000 mm) and a Z axis bring a cutter Ø180 at 1500 rpm 150 mm deep into the root crown, inside a pot that lands on the sward. v1: X on HGR15 rails; v2: X on PTO tubes; v3: Z mast on corner rollers and a Ruud-style can; v4: drop-leg trailer jack as Z, gearmotor with chain; v5: motor directly on the spindle; v6: 40 x 40 frame, bolted PTO tubes, Z on HGR15 rails with a 24 V actuator, Ø30 spindle. Animations, DXF and STEP files |
 | [**Trencher**](trencher/) | one design | Wheel trencher for narrow trenches. Renders and STEP export |
 | [**Field marker**](marker/) | [simple](marker/simple/) | Stakes out points from a coordinate list (piles, posts, planting positions, plot corners). The robot stops roughly behind the point; an XYZ stage from bought linear modules puts a spray-paint head exactly on it, with a GNSS antenna on a mast straight above the nozzle. Sprung spray shroud senses the ground. About €1,450 in parts. The concept README lists flag, peg, punch and soil-probe heads and 20 more functions |
 | [**Mobile refiller**](mobile%20refiller/) | [liquid](mobile%20refiller/liquid/) · [simple](mobile%20refiller/simple/) · [stationary](mobile%20refiller/stationary/) | Support robot that brings liquid (and in concept seed, granular fertilizer, water, batteries) to the working robots, so they never leave the field. Liquid: 268 l T-shaped tank with a pump below the liquid level, slewing boom with a trolley and a spout, RTK antenna on the spout and a camera for confirmation, powered trailer of 246 l (6 driven wheels). Tops up the working robot in the straight reverse of its headland turn while both drive: about 25 l per turn, ≈ 3 s standstill. About €6,000 in parts. Simple: a standard 1000 l IBC set on with pallet forks, pump under the IBC, fixed mast with a hanging hose and the RTK antenna above the nozzle. The working robot skips passes so that every turn is a U-turn; the refiller stands inside the turn and the working robot stops ≈ 13 s under the nozzle; 1 m further per refill. About €1,650 in parts. Stationary: refill stations that stand on the headland (IBC trailer for 1 or 2 IBCs, three-point frame, 6 IBCs on a standard flat wagon), each with its own control box (pump, motor, battery, RTK receiver) and the RTK antenna above the nozzle; the working robot drives to them for 120 l per visit. The concept README lists all uses and variants (gravity buffer, on a tractor, docking station) |
@@ -482,9 +440,96 @@ The advanced designs are animated on the real robot model, with the loads and fo
 | [**Hydraulic power pack**](hydraulic%20pump/) | [simple](hydraulic%20pump/simple/) | 48 V hydraulic power unit on the rear half: 2 bearers across the upper beams at y -325 / -475 with a 5 mm base plate, 16 l steel tank (return filter, filler, sight glass), BLDC 48 V 3.5 kW with bell housing and a 4 cc group-1 gear pump (11 l/min), motor controller, valve block at the rear edge with relief valve (150 bar), gauge and 2 double-acting 24 V sections, 2 pairs of ISO-A 1/2" quick couplers screwed into its rear face. 0.9 / 1.8 / 2.8 kW hydraulic at 50 / 100 / 150 bar (1.3 / 2.6 / 3.9 kW from the battery, 87 / 44 / 29 min of full flow per charge); cylinder 50/25 pushes 29.5 kN at 94 mm/s. Without a cooler 60 C after ~35 min at 50 % duty and 100 bar. 49 kg + 12 kg oil, rear axle 62 % |
 | [**Irrigation pump**](irrigation%20pump/) | [simple](irrigation%20pump/simple/) | Direct pump from ditches and ponds on the bearers and base plate of the [hydraulic power pack](hydraulic%20pump/simple/) (imported): self-priming centrifugal pump 1.5" with priming chamber on a BLDC 48 V 1.5 kW, reel O520 with 8 m of 1.5" spiral suction hose (rotary union, strainer with foot valve), discharge to a Camlock coupling at the rear edge. Operating points from the pump curve against suction lift, end head and 50 m of lay-flat hose: 10.8 m3/h open hose at 1.5 m lift, 8.5 m3/h into a drip line at 3 m, 5.9 m3/h to a sprinkler; ~1.0-1.2 kW, 10-17 m3 (1000-1700 m2 at 10 mm) per charge. NPSH limits the lift to ~4 m. 62 kg |
 | [**Cauliflower root-crown applicator**](cauliflower%20applicator/simple/) | [simple](cauliflower%20applicator/simple/) | Doses insecticide in pulses onto the soil 40 mm beside the stem of every cauliflower (mid-season, 40 x 40 cm), not over the crop. Two rows pass under the robot; per row a parallelogram unit on UHMW skids follows the soil, leaf lifter rods clear the stem base, and two 24 V solenoid valves fire 30° drop nozzles (1.6 mm, 2 bar, 77 ms) inside splash shrouds. A downward distance sensor finds the crown, wheel odometry times the pulse. 60 l tank on the robot, diaphragm pump, regulator and accumulator on the rear beams. 4 ml/plant = 250 l/ha, 0.11 ha/h, 0.24 ha per tank; 56.5 kg |
+| [**Hybrid range extender**](Hybrid/) | [one design](Hybrid/) | Petrol generator set on a steel tube base on top of the robot (the generator / engine idea): battery, controller, 3 kW permanent-magnet generator, jaw coupling and a 212 cc petrol engine in line on 50 x 50 tubes bolted to the upper beams. The engine charges the battery while driving; the battery delivers the peak power for heavy pulling. 76 kg, light task +2.1 kW into the battery, about 1.5 l/h at full output |
 | [Mower unit](mower%20unit/) | notes only | General mower unit |
 
-**Not worked out yet:** [implement ideas/](implement%20ideas/) holds one folder with a `README.md` per attachment from the website's list that has no model yet. **Overview document** with every implement and variant on its own page: [docs/bruut_implements.pdf](docs/bruut_implements.pdf) ([HTML](docs/bruut_implements.html)), generated with `node docs/build_docs.mjs --pdf`.
+**Overview document** with every implement and variant on its own page, followed by the ideas:
+[docs/bruut_implements.pdf](docs/bruut_implements.pdf) ([HTML](docs/bruut_implements.html)), generated with
+`node docs/build_docs.mjs --pdf`.
+
+## Ideas (not worked out yet)
+
+<!-- ideas:start -->
+<!-- generated by docs/build_docs.mjs from docs/data_ideas*.mjs: edit those, not this list -->
+**49 implements are worked out** (72 variants, see [Implements](#implements)) and
+**24 ideas are not worked out yet**. Each idea has a folder in [implement ideas/](implement%20ideas/) with a
+`README.md`: what it does, a first concept, what can be reused and the open questions. Ideas marked * come from own
+brainstorming, the others from the website's list.
+
+**Soil Cultivation & Weed Control**
+
+| Idea | What it does |
+|---|---|
+| [Drop-on-demand boom (coarse droplets)](implement%20ideas/drop_on_demand_boom/README.md) | Boom with individually controlled injectors that fire single coarse droplets on demand at low pressure. |
+
+**Sowing & Planting**
+
+| Idea | What it does |
+|---|---|
+| [Tray setter](implement%20ideas/tray_setter/README.md) | Front-mounted unit that takes seedlings out of the tray and sets them out at the right spacing. |
+
+**Power & Drive**
+
+| Idea | What it does |
+|---|---|
+| [Heavy-duty electric motors](implement%20ideas/heavy_duty_motors/README.md) | Electric motors such as the Ego Power+ or Greenworks units to drive implements that need real power, replacing small petrol engines. |
+| [Charging robot (mobile charger)](implement%20ideas/charging_robot/README.md) * | A robot on wheels that carries a large battery and charges working robots in the field, so they do not have to return to the shed. |
+
+**Transport & General**
+
+| Idea | What it does |
+|---|---|
+| [Seat, cabin & frame extension](implement%20ideas/seat_frame_extension/README.md) | Front or rear-mounted seat, with the option to widen the frame tubes at the sides and a small cabin as a protective enclosure for the operator. |
+| [Speech speaker](implement%20ideas/speaker/README.md) * | A speaker on the robot that can speak: warnings when the robot approaches, status messages for the operator, instructions in the field, and a way to speak to people near the robot. |
+| [Magnet sweeper](implement%20ideas/magnet_sweeper/README.md) * | Picks up nails, screws, wire and other loose iron from fields, paths and yards after building work or a festival, before it ends up in the feed or in tyres. |
+| [Debris vacuum](implement%20ideas/debris_vacuum/README.md) * | Sucks up litter and debris from grassland: trash after a festival, or shards of solar panels that a fire on a nearby roof spread over the fields. |
+
+**Cooperation & Swarm Operation**
+
+| Idea | What it does |
+|---|---|
+| [Drone combination](implement%20ideas/drone_combination/README.md) | The robot works together with a drone as a mobile base station. |
+| [Swarm operation (multiple robots per field)](implement%20ideas/swarm_operation/README.md) | Several Bruut units work the same field as one swarm. |
+
+**Crop & Soil**
+
+| Idea | What it does |
+|---|---|
+| [Mole and tunnel mapper](implement%20ideas/mole_mapper/README.md) * | Finds and maps molehills (and with a probe, mole tunnels) so they can be treated or spread flat later. |
+
+**Weed & Crop Protection**
+
+| Idea | What it does |
+|---|---|
+| [Laser or UV weed treatment](implement%20ideas/laser_weeder/README.md) * | Kills individual weeds with a laser or a focused UV beam, without chemicals and without moving the soil. |
+| [Hot steam / hot foam weeder](implement%20ideas/steam_foam_weeder/README.md) * | Kills weeds with hot steam or hot foam under a light hood, as an alternative to the flame weeder. |
+| [Pheromone trap service](implement%20ideas/pheromone_trap_service/README.md) * | Visits insect traps and pheromone dispensers at the field edge: checks them with a camera, counts catches and swaps dispensers on schedule. |
+
+**Livestock & Farm**
+
+| Idea | What it does |
+|---|---|
+| [Fence inspector](implement%20ideas/fence_inspector/README.md) * | Drives along the fence, measures the voltage of the electric fence per metre, reports breaks, shorts and where the voltage drops, and straightens leaning posts. |
+| [Drinking trough check](implement%20ideas/drinker_check/README.md) * | Visits drinking troughs, measures the water level, tops it up and reports dirt or damage with a camera. |
+| [Chicken house robot](implement%20ideas/chicken_house_robot/README.md) * | Drives through a poultry house to turn the litter, collect floor eggs, and check birds and climate with sensors. |
+
+**Measuring & Sensors**
+
+| Idea | What it does |
+|---|---|
+| [Yield estimator](implement%20ideas/yield_estimator/README.md) * | Counts fruits, heads or plants with a camera and logs them per GPS position, so the harvest can be estimated and planned. |
+| [Disease and pest scout](implement%20ideas/disease_scout/README.md) * | Looks at the leaves close up, finds disease and pest damage early and stores a photo per plant with its position. |
+| [Soil moisture sensor placer](implement%20ideas/soil_moisture_placer/README.md) * | Places wireless soil moisture sensors at set GPS points, reads them out and picks them up again. |
+| [Windbreak and tree-row inspector](implement%20ideas/windbreak_inspector/README.md) * | Drives along hedgerows, windbreaks and orchard rows and logs gaps, damage, dead trees and growth with a camera. |
+| [Security camera patrol](implement%20ideas/security_patrol/README.md) * | A mast with camera and thermal imaging that patrols the farm or field at night, reports intruders and keeps an eye on animals and equipment. |
+| [Metal detector](implement%20ideas/metal_detector/README.md) * | Scans a field for buried or hidden metal and stores a GPS point at every hit, so the spots can be checked or cleaned later. |
+
+**Spraying, Fertilizing & Irrigation**
+
+| Idea | What it does |
+|---|---|
+| [Biostimulant sprayer (full field)](implement%20ideas/biostimulant_sprayer/README.md) * | Sprays biostimulants over the whole field at the right moment: compost tea, seaweed extract, or nitrogen-fixing products such as Corteva's Utrisha N (Blue N). |
+<!-- ideas:end -->
 
 Each folder holds its own requirements and notes (`*_requirements.md`, `README.md`, `RATIONALE.md` or `info.txt`). `RATIONALE.md` explains why the dimensions and choices are what they are.
 
@@ -503,7 +548,7 @@ What is in a variant folder:
 | `build_*.py` | model tree, colors, interference check, mass, renders, STEP export |
 | `*_calc.py` | the calculations (capacity, forces, torque, springs, axle loads) |
 | `animate_*.py`, `make_gif_*.py` | animation on the robot and the GIF |
-| `previews/` | renders and animations |
+| `previews/` | renders (PNG, in git) and animation GIFs (generated, not in git, also copied to `animations/`) |
 
 The robot model itself lives in the [Bruut_OpenAgbot](https://github.com/JacobsFarm/Bruut_OpenAgbot) project. AI agents: see [AGENTS.md](AGENTS.md) for the workflow.
 
@@ -515,6 +560,7 @@ The robot model itself lives in the [Bruut_OpenAgbot](https://github.com/JacobsF
 ## Notes
 
 - Models are stored as `.FCStd` (FreeCAD) with `.step` exports where available.
+- Animation GIFs (`*.gif`) and the `animations/` folder are excluded via `.gitignore` to keep the repository small; see [Animations](#animations) for how to generate them.
 - `inspiration/` folders and `agbots/` (the base robot models and their comparison) are excluded from the repository via `.gitignore`.
 - Code comments, docstrings and the older dockweed drill and trencher scripts are still partly in Dutch.
 - Licensed under the terms in [LICENSE](LICENSE).

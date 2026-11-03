@@ -12,7 +12,7 @@ Same carrier as the spot sprayer (camera mast in front, boom behind), but with d
 
 ## Reuse from existing implements
 
-Camera mast, tank, pump, folding boom and control box of the spot sprayer (spotspray unit/boom).
+Camera mast, tank, pump, folding boom and control box of the spot sprayer (spotspray unit/boom); pulsed solenoid drop nozzles and timing by odometry of the cauliflower applicator.
 
 ## Open questions
 
