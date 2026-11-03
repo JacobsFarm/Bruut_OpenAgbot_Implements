@@ -543,4 +543,12 @@ export const implementsList = [
         text: "A 24 V gripper on the soil sampler's carriage holds a sensor by its knob; a star of 6 fork arms on a shaft from the rear bridge carries the sensors. The gripper lifts a sensor out of the index fork, the star turns half a step and the ball screw pushes the O20 x 300 stem into the soil with the weight of robot and placer. Sensor: cap with LoRa radio and 2 AA lithium cells, rings at 100 and 250 mm.",
         facts: ["~850-1320 N push, 1350 N available", "~64 s per sensor, 6 per trip (3 ha)", "36 kg incl. 6 sensors"] },
     ] },
+  {
+    name: "Mole and tunnel mapper", folder: "mole mapper", category: "Crop & Soil",
+    summary: "Maps fresh molehills with 3 RGB cameras and a thermal camera on a 1.4 m camera bridge, and finds the tunnels around a hill with the soil compaction meter's cone penetrometer: a resistance drop 50-250 mm deep is a tunnel.",
+    variants: [
+      { name: "Simple", folder: "mole mapper/simple", hero: "mole mapper/simple/previews/1_iso_front_on_robot.png",
+        text: "Aluminium camera bridge on the front outer lower beam with 3 RGB 4K cameras and a thermal camera covering 2.5 m, plus the soil compaction meter (imported) that probes a ring of 16 points around a fresh hill.",
+        facts: ["1.26 ha/h mapping, ~9 ha per charge", "Tunnel found ~85 % with 16 probe points", "40 kg"] },
+    ] },
 ];

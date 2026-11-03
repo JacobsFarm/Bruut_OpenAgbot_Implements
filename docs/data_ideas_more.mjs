@@ -3,15 +3,6 @@
 
 export const moreIdeas = [
   // ---------- Crop & soil ----------
-  {
-    slug: "mole_mapper",
-    name: "Mole and tunnel mapper",
-    category: "Crop & Soil",
-    does: "Finds and maps molehills (and with a probe, mole tunnels) so they can be treated or spread flat later.",
-    concept: "A camera looking down finds fresh hills; each gets a GPS point. A probe or an acoustic sensor could later detect tunnels. The map feeds the molehill spreader or a trap placing action.",
-    reuse: "Camera and detection pipeline of the spot sprayer; GPS logging of the field marker.",
-    open: ["Detection of fresh versus old hills", "Tunnel detection: is a probe or a ground-radar feasible?", "Map format and who uses it"],
-  },
   // ---------- Weed & crop protection ----------
   {
     slug: "speaker",
