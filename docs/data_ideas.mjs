@@ -7,15 +7,6 @@ import { moreIdeas } from "./data_ideas_more.mjs";
 
 const websiteIdeas = [
   // ---------- Soil cultivation & weed control ----------
-  {
-    slug: "drop_on_demand_boom",
-    name: "Drop-on-demand boom (coarse droplets)",
-    category: "Soil Cultivation & Weed Control",
-    does: "Boom with individually controlled injectors that fire single coarse droplets on demand at low pressure. Every droplet is placed straight onto the weed, which practically eliminates drift and cuts chemical usage to a fraction of a conventional spray pass.",
-    concept: "Same carrier as the spot sprayer (camera mast in front, boom behind), but with drop-on-demand valves instead of PWM flat-fan nozzles. Droplets are fired at the detected plant position, so the boom needs a finer position resolution along the boom than 250 mm.",
-    reuse: "Camera mast, tank, pump, folding boom and control box of the spot sprayer (spotspray unit/boom); pulsed solenoid drop nozzles and timing by odometry of the cauliflower applicator.",
-    open: ["Injector type, droplet size and firing rate", "Injector pitch along the boom", "Aiming accuracy at 0.5 m/s: time from camera to droplet", "Product types and viscosity the injectors can handle"],
-  },
   // ---------- Spraying, fertilizing & irrigation ----------
   // ---------- Sowing & planting ----------
   {

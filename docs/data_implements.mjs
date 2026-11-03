@@ -479,4 +479,12 @@ export const implementsList = [
         text: "Aluminium box 1100 x 240 with a 3 mm stainless skin; inside a steel back plate with 2 rows of 10 NdFeB N35 blocks 100 x 100 x 10 (opposite poles for a strong field gradient) on 4 guide rods. A 3000 N actuator on the lid lifts the core 100 mm: the field at the skin drops from 140 to 20 mT and the iron falls into a 10 mm high tray, without lifting the arms.",
         facts: ["Nails picked up 35-56 mm from the magnet", "~0.41 ha/h, ~2.2 ha per charge", "No ballast needed to empty; 125 kg"] },
     ] },
+  {
+    name: "Drop-on-demand boom", folder: "drop on demand boom", category: "Soil Cultivation & Weed Control",
+    summary: "A light-tight hood under the belly of the robot, over one bed of 0.6 m: a camera finds the weeds and a rail of 24 micro-injectors fires single 5 ul drops onto them, inside the hood (no drift). ~3 l/ha against 200 l/ha broadcast; tank, pump and control box of the spot sprayer (imported).",
+    variants: [
+      { name: "Simple", folder: "drop on demand boom/simple", hero: "drop on demand boom/simple/previews/1_iso_on_robot_in_bed.png",
+        text: "Aluminium hood 600 x 524 x 360 with a brush strip, on 2 rails under the lower beams and 4 posts (3 height steps of 25 mm). 5 MP camera straight down with 2 LED bars, 0.29 mm/px; 465 mm behind the image edge a manifold with 24 solenoid micro-injectors at 25 mm pitch, tips 80 mm above the soil, 0.5 bar from a second regulator and accumulator. Drops fall in 62 ms and hit at 1.6 m/s (no splash); none within 40 mm of a crop plant.",
+        facts: ["~3 l/ha (98.5 % less), 30 l = ~10 ha", "0.08 ha/h at 0.5 m/s, ~4.4 h per charge", "74 kg empty"] },
+    ] },
 ];

@@ -374,6 +374,16 @@ Every design is parametric: change a number, rebuild, and the whole model follow
       <b><a href="magnet%20sweeper/simple/">Magnet sweeper, release</a></b><br>Core lifted 100 mm: the iron drops into a flat tray
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="drop%20on%20demand%20boom/simple/"><img src="drop%20on%20demand%20boom/simple/previews/1_iso_on_robot_in_bed.png" alt="Drop-on-demand boom under the robot over a lettuce bed"></a><br>
+      <b><a href="drop%20on%20demand%20boom/simple/">Drop-on-demand boom</a></b><br>Hood under the belly: camera, LEDs and 24 drop injectors
+    </td>
+    <td align="center">
+      <a href="drop%20on%20demand%20boom/simple/"><img src="drop%20on%20demand%20boom/simple/previews/4_hood_see_through_iso.png" alt="Drop-on-demand hood see-through with the injector rail"></a><br>
+      <b><a href="drop%20on%20demand%20boom/simple/">Drop-on-demand, inside</a></b><br>5 ul drops at 25 mm pitch, ~3 l/ha instead of 200
+    </td>
+  </tr>
 </table>
 
 ## Animations
@@ -408,6 +418,7 @@ any GIF that is still missing.
 | [Triple sickle bar mower](sickle%20bar%20mower/triple/) | three double-knife bars mow a 3.25 m strip; at the headland the front bar lifts and the wings fold up | `sickle bar mower triple - animation_mow_fold.gif` |
 | [Overseeder with Cambridge roll](overseeding/overseeder%20with%20cambridge%20roll/) | the camera switches the seeder on over bare patches, the roll presses the seed in | `overseeding overseeder with cambridge roll - animation_spot_seeding.gif` |
 | [Potato disease scout](disease%20scout/potato/) | the hood photographs 4 potato rows, suspect plants appear in the map; at the headland both wings swing forward to 1.20 m | `disease scout potato - animation_potato_scouting.gif` |
+| [Drop-on-demand boom](drop%20on%20demand%20boom/simple/) | the hood camera finds the weeds in a lettuce bed, only the injectors above them fire single drops; weeds too close to the crop are left | `drop on demand boom simple - animation_drop_on_demand.gif` |
 
 ## Implements
 
@@ -464,6 +475,7 @@ any GIF that is still missing.
 | [**Hybrid range extender**](Hybrid/) | [one design](Hybrid/) | Petrol generator set on a steel tube base on top of the robot (the generator / engine idea): battery, controller, 3 kW permanent-magnet generator, jaw coupling and a 212 cc petrol engine in line on 50 x 50 tubes bolted to the upper beams. The engine charges the battery while driving; the battery delivers the peak power for heavy pulling. 76 kg, light task +2.1 kW into the battery, about 1.5 l/h at full output |
 | [**Potato disease scout**](disease%20scout/potato/) | [potato](disease%20scout/potato/) | A light-tight camera hood in front of the robot, 3.0 m over 4 potato rows at 750 mm (cf. Doorgrond Croptiscan). The haulm passes through strip curtains; 10 downward 5 MP cameras (12 mm, one per 300 mm) and 20 LED strobe bars (200 µs flash, ~98 klx) photograph every plant day and night, 0.16-0.24 mm/px, for virus (PVY, leaf roll), blackleg and late blight; suspect plants are stored with their GNSS position. Centre 1.2 m, two 0.9 m wings that swing forward round a kingpin on the roof (24 V actuator, 7.4 s): 1.20 m in transport. The hood rides on 4 castors in the furrows and is pushed by a parallelogram, so the robot carries almost nothing. 0.86 ha/h at 1 m/s, 3.9 ha per charge; 135 kg |
 | [**Magnet sweeper**](magnet%20sweeper/) | [simple](magnet%20sweeper/simple/) | Flat permanent magnet on the toolbar, lift arms and king pin of the [push blade](push%20blade/simple/) and the castors of the [broom](broom%20sweeper/simple/) (imported). Aluminium box 1100 x 240 with a 3 mm stainless skin 20 mm over the floor; inside a 15 mm steel back plate with 2 rows of 10 NdFeB N35 blocks 100 x 100 x 10, opposite poles for a strong field gradient. Nails are picked up 35-56 mm from the magnet face (factor 2 on the weight): everything on a hard floor, under the poles in mown grass. Emptying: the robot drives the box over a 10 mm PE tray, a 3000 N actuator lifts the core 100 mm inside the box and the field at the skin drops from 140 to 20 mT, so the iron falls off; no lift and no ballast needed. ~0.41 ha/h, ~2.2 ha per charge, empty every ~0.75 ha. 125 kg |
+| [**Drop-on-demand boom**](drop%20on%20demand%20boom/) | [simple](drop%20on%20demand%20boom/simple/) | Light-tight aluminium hood (600 x 524 mm) under the belly of the robot, between the wheels over one bed, on 2 rails under the lower beams and 4 posts with 3 height steps. Inside: a 5 MP camera straight down (0.29 mm/px, LED light day and night) and, 465 mm behind its image edge, a rail of 24 solenoid micro-injectors at 25 mm pitch that fire single 5 ul drops from 80 mm onto each weed (impact 1.6 m/s, no splash, no drift); drops within 40 mm of a crop plant are not fired. Tank, pump, regulator and control box of the [spot sprayer](spotspray%20unit/boom/) (imported) plus a 0.5 bar regulator and accumulator. ~3 l/ha against 200 l/ha broadcast, 0.08 ha/h (1350 m of bed) at 0.5 m/s, ~4.4 h per charge; 74 kg empty |
 | [Mower unit](mower%20unit/) | notes only | General mower unit |
 
 **Overview document** with every implement and variant on its own page, followed by the ideas:
@@ -474,16 +486,10 @@ any GIF that is still missing.
 
 <!-- ideas:start -->
 <!-- generated by docs/build_docs.mjs from docs/data_ideas*.mjs: edit those, not this list -->
-**51 implements are worked out** (74 variants, see [Implements](#implements)) and
-**22 ideas are not worked out yet**. Each idea has a folder in [implement ideas/](implement%20ideas/) with a
+**52 implements are worked out** (75 variants, see [Implements](#implements)) and
+**21 ideas are not worked out yet**. Each idea has a folder in [implement ideas/](implement%20ideas/) with a
 `README.md`: what it does, a first concept, what can be reused and the open questions. Ideas marked * come from own
 brainstorming, the others from the website's list.
-
-**Soil Cultivation & Weed Control**
-
-| Idea | What it does |
-|---|---|
-| [Drop-on-demand boom (coarse droplets)](implement%20ideas/drop_on_demand_boom/README.md) | Boom with individually controlled injectors that fire single coarse droplets on demand at low pressure. |
 
 **Sowing & Planting**
 
