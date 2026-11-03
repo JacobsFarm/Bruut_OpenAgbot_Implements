@@ -487,4 +487,12 @@ export const implementsList = [
         text: "Aluminium hood 600 x 524 x 360 with a brush strip, on 2 rails under the lower beams and 4 posts (3 height steps of 25 mm). 5 MP camera straight down with 2 LED bars, 0.29 mm/px; 465 mm behind the image edge a manifold with 24 solenoid micro-injectors at 25 mm pitch, tips 80 mm above the soil, 0.5 bar from a second regulator and accumulator. Drops fall in 62 ms and hit at 1.6 m/s (no splash); none within 40 mm of a crop plant.",
         facts: ["~3 l/ha (98.5 % less), 30 l = ~10 ha", "0.08 ha/h at 0.5 m/s, ~4.4 h per charge", "74 kg empty"] },
     ] },
+  {
+    name: "Metal detector", folder: "metal detector", category: "Measuring & Sensors",
+    summary: "Pulse-induction metal detector that maps buried metal (cans, wire, horseshoes, bolts, plough points) and logs a GNSS point per hit. A 600 x 400 search coil slides on PE skids 1.2 m in front of the robot on a floating glass-fibre boom, away from the robot's steel.",
+    variants: [
+      { name: "Simple", folder: "metal detector/simple", hero: "metal detector/simple/previews/1_iso_front_on_robot.png",
+        text: "2 steel root brackets on the front outer lower beam with a stainless pivot pin, a boom of 2 GFRP tubes 50 x 50 with GFRP cross tubes and carrier, a mono loop 600 x 400 in an ABS housing on 2 PE skids, a PI board in an IP67 box and a 500 N actuator with a float slot that lifts the boom 14 degrees at the headland. No metal in front of the pivot.",
+        facts: ["Can ~0.49 m, horseshoe ~0.42 m, bolt ~0.15 m deep", "0.18 ha/h, ~1.8 ha per charge", "Hit position ~0.1 m; 18 kg"] },
+    ] },
 ];

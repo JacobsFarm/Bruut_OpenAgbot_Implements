@@ -127,15 +127,6 @@ export const moreIdeas = [
   },
   // ---------- Cleaning up (own ideas, moved from docs/implement ideas/) ----------
   {
-    slug: "metal_detector",
-    name: "Metal detector",
-    category: "Measuring & Sensors",
-    does: "Scans a field for buried or hidden metal and stores a GPS point at every hit, so the spots can be checked or cleaned later.",
-    concept: "A pulse-induction search coil on a non-metallic boom away from the robot's steel frame and hub motors, low above the ground. Every pulse above a threshold gives a GPS point with its signal strength; the map can feed the field marker to stake out the spots, or the magnet sweeper.",
-    reuse: "Front boom of the grass meter; GPS point list and staking out of the field marker.",
-    open: ["Interference from the robot's steel and motors: boom length", "Coil size and detection depth", "Threshold and false hits", "Map format"],
-  },
-  {
     slug: "debris_vacuum",
     name: "Debris vacuum",
     category: "Transport & General",
