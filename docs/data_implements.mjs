@@ -519,4 +519,12 @@ export const implementsList = [
         text: "All 15 nozzles open with size 02 twin flat-fan turbulence tips at 1.5 bar (coarse drops, gentle for living organisms, no blocking behind the 50-mesh filter); a 30 l/min air pump and a diffuser ring keep compost tea aerobic; an all-in-one weather sensor on a mast on the rear beams lets the controller spray only inside the weather window.",
         facts: ["186 l/ha at 2 m/s, 0.64 ha per tank", "~1.5 ha/h with refills, ~3.4 ha per charge", "83 kg empty"] },
     ] },
+  {
+    name: "Fence inspector", folder: "fence inspector", category: "Livestock & Farm",
+    summary: "Drives along an electric fence and reads the voltage and current of every pulse without touching the wire (E-field plate and pickup coil 80 mm away), one reading per metre with GNSS: breaks, leaks and shorts on a map, and a photo of every post.",
+    variants: [
+      { name: "Simple", folder: "fence inspector/simple", hero: "fence inspector/simple/previews/1_iso_along_fence.png",
+        text: "Base plate on the right upper beams with a mast 60 x 60, a carriage on a Tr16 lead screw with a stepper (wires 300-1100 mm), a side arm on a spring hinge that swings back on obstacles, and a sensor head with an E-field plate, a pickup coil and a ToF distance sensor; a camera on the mast top for the posts.",
+        facts: ["Voltage +-9 % at 80 mm, contactless", "1 reading per metre, ~42 km per charge", "23 kg"] },
+    ] },
 ];

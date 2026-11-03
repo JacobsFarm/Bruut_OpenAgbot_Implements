@@ -42,15 +42,6 @@ export const moreIdeas = [
   },
   // ---------- Livestock & farm ----------
   {
-    slug: "fence_inspector",
-    name: "Fence inspector",
-    category: "Livestock & Farm",
-    does: "Drives along the fence, measures the voltage of the electric fence per metre, reports breaks, shorts and where the voltage drops, and straightens leaning posts.",
-    concept: "A contactless (capacitive or inductive) or contact sensor on an arm along the wire to measure voltage and current with a GPS log per metre, a camera for posts and a simple push or pull tool for leaning posts. Reports the position of every fault. The sensor can also ride on the fence mower arm.",
-    reuse: "Around-pole fence mower arm and post-following geometry.",
-    open: ["Contactless versus contact sensing, calibration to a known voltage", "How to straighten a post without damage", "Fault classification: break, short, vegetation", "Reporting to the farmer: map, push message, alarm threshold"],
-  },
-  {
     slug: "drinker_check",
     name: "Drinking trough check",
     category: "Livestock & Farm",
