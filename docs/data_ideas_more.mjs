@@ -118,15 +118,6 @@ export const moreIdeas = [
   },
   // ---------- Cleaning up (own ideas, moved from docs/implement ideas/) ----------
   {
-    slug: "debris_vacuum",
-    name: "Debris vacuum",
-    category: "Transport & General",
-    does: "Sucks up litter and debris from grassland: trash after a festival, or shards of solar panels that a fire on a nearby roof spread over the fields. Several passes clean up the mess.",
-    concept: "A wide suction nozzle close to the grass with a fan, a cyclone or bag and a collecting bin on the robot. Glass and panel shards are heavy and sharp, so the nozzle and bin need wear protection; a rotating brush in the nozzle lifts pieces out of the sward.",
-    reuse: "Bin on the upper beams of the dumper barrow or compost spreader; brush and lift of the broom sweeper.",
-    open: ["Fan power and air flow on 48 V", "Nozzle width and height above the grass", "Separation of debris and grass, dust filtering", "Wear protection against glass shards"],
-  },
-  {
     slug: "biostimulant_sprayer",
     name: "Biostimulant sprayer (full field)",
     category: "Spraying, Fertilizing & Irrigation",

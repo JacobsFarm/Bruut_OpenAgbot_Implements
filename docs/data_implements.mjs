@@ -503,4 +503,12 @@ export const implementsList = [
         text: "A 40 kW propane coil boiler, the water pump and a foam can with a dosing pump on a rear rack; a ~95 l water tank under the belly on the drop-on-demand rails; a foam bar with 12 nozzles in the 1.5 m hood instead of the burners. 6.8 l/min at 96 C gives 0.4 l/m2 at 0.19 m/s; the foam keeps the leaves hot for ~20 s.",
         facts: ["~1000 m2/h, 240 m2 per tank of water", "Propane ~36 kg/ha (as flaming)", "224 kg empty, hood on its castors"] },
     ] },
+  {
+    name: "Debris vacuum", folder: "debris vacuum", category: "Transport & General",
+    summary: "Vacuums litter after a festival (cups, cans, bottles, caps, butts) and solar-panel glass shards from grassland. A 1 m nozzle with a brush roller on the magnet sweeper's head and castors, a O125 hose to a 270 l bin on the upper beams, and a clean-air fan on the lid so glass never passes the impeller.",
+    variants: [
+      { name: "Simple", folder: "debris vacuum/simple", hero: "debris vacuum/simple/previews/1_iso_front_on_robot.png",
+        text: "Steel nozzle 1030 x 300 with rubber flaps and a PP brush roller O200 (48 V 250 W worm gearmotor), PU hose O125, aluminium bin 900 x 750 x 400 with a liner bag and a rear door on 2 cross bars bolted to the upper beams, centrifugal fan O420 with a 48 V 1.2 kW motor behind a screen in the lid.",
+        facts: ["0.27 m3/s at 22 m/s: carries PV glass shards", "0.26 ha/h, ~1.4 kW: 0.34 ha per charge", "156 kg; range extender for big sites"] },
+    ] },
 ];
