@@ -551,4 +551,12 @@ export const implementsList = [
         text: "Aluminium camera bridge on the front outer lower beam with 3 RGB 4K cameras and a thermal camera covering 2.5 m, plus the soil compaction meter (imported) that probes a ring of 16 points around a fresh hill.",
         facts: ["1.26 ha/h mapping, ~9 ha per charge", "Tunnel found ~85 % with 16 probe points", "40 kg"] },
     ] },
+  {
+    name: "Windbreak and tree-row inspector", folder: "windbreak inspector", category: "Measuring & Sensors",
+    summary: "Drives along hedgerows, windbreaks and orchard rows: a 2D lidar scans the row profile (height, width, density, gaps) every 150 mm and a stereo pair plus a crown camera photograph it; each trunk gets its own GNSS point and status line.",
+    variants: [
+      { name: "Simple", folder: "windbreak inspector/simple", hero: "windbreak inspector/simple/previews/1_iso_along_row.png",
+        text: "Fence-inspector mast and base plate (imported) with an extension tube to 2.1 m and a sensor head: a 270 degree 2D lidar in a vertical plane across the row, a vertical stereo camera pair and a crown camera tilted up 35 degrees.",
+        facts: ["Profile every 150 mm, up to 6 m trees", "~40 km of row per charge", "26 kg"] },
+    ] },
 ];

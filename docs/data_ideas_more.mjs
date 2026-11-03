@@ -51,15 +51,6 @@ export const moreIdeas = [
     reuse: "Global-shutter camera and detection pipeline of the in-row weeder and the spot sprayer.",
     open: ["Crop to count (strawberry, broccoli, apple ...)", "Lighting at night versus day", "Count accuracy and counting error", "Output: map, report or plucking plan"],
   },
-  {
-    slug: "windbreak_inspector",
-    name: "Windbreak and tree-row inspector",
-    category: "Measuring & Sensors",
-    does: "Drives along hedgerows, windbreaks and orchard rows and logs gaps, damage, dead trees and growth with a camera.",
-    concept: "A sideways-looking camera pair and a logging unit, producing a tree-by-tree status list with photos.",
-    reuse: "Camera masts of the spot sprayer and yield estimator.",
-    open: ["Image quality in shade and at row ends", "Per-tree identification", "Status classes and reports"],
-  },
   // ---------- Transport & general ----------
   // ---------- Power & infrastructure ----------
   {
