@@ -535,4 +535,12 @@ export const implementsList = [
         text: "Fence-inspector mast with lead screw and spring hinge (imported), a 635 mm arm with a head holding an ultrasonic level sensor, a camera and a 3/4 inch fill nozzle, and a 160 l PE tank with a 24 V 20 l/min pump on cross bars on the left upper beams.",
         facts: ["Level +-5 mm (+-4 l)", "85 l top-up in ~4 min", "~11 rounds of 6 troughs per charge"] },
     ] },
+  {
+    name: "Soil moisture sensor placer", folder: "soil moisture placer", category: "Measuring & Sensors",
+    summary: "Places wireless soil moisture sensors at set GNSS points, reads them by radio and picks them up again at the end of the season. The soil sampler's Z axis (imported) with a gripper, and a magazine star of 6 sensors.",
+    variants: [
+      { name: "Simple", folder: "soil moisture placer/simple", hero: "soil moisture placer/simple/previews/1_iso_on_robot_park.png",
+        text: "A 24 V gripper on the soil sampler's carriage holds a sensor by its knob; a star of 6 fork arms on a shaft from the rear bridge carries the sensors. The gripper lifts a sensor out of the index fork, the star turns half a step and the ball screw pushes the O20 x 300 stem into the soil with the weight of robot and placer. Sensor: cap with LoRa radio and 2 AA lithium cells, rings at 100 and 250 mm.",
+        facts: ["~850-1320 N push, 1350 N available", "~64 s per sensor, 6 per trip (3 ha)", "36 kg incl. 6 sensors"] },
+    ] },
 ];

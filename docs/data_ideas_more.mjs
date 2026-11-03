@@ -61,15 +61,6 @@ export const moreIdeas = [
     open: ["Crop to count (strawberry, broccoli, apple ...)", "Lighting at night versus day", "Count accuracy and counting error", "Output: map, report or plucking plan"],
   },
   {
-    slug: "soil_moisture_placer",
-    name: "Soil moisture sensor placer",
-    category: "Measuring & Sensors",
-    does: "Places wireless soil moisture sensors at set GPS points, reads them out and picks them up again.",
-    concept: "A drop tube or probe that pushes a sensor into the soil, with a small magazine of sensors. A reader on the robot collects values by radio on each visit.",
-    reuse: "XYZ stage and ground sensing of the field marker; irrigation hose reel for timing of the water.",
-    open: ["Sensor type, battery life and radio protocol", "Pick-up of sensors: magnet or tether", "Number of points per field"],
-  },
-  {
     slug: "windbreak_inspector",
     name: "Windbreak and tree-row inspector",
     category: "Measuring & Sensors",
