@@ -5,15 +5,6 @@ export const moreIdeas = [
   // ---------- Crop & soil ----------
   // ---------- Weed & crop protection ----------
   {
-    slug: "speaker",
-    name: "Speech speaker",
-    category: "Transport & General",
-    does: "A speaker on the robot that can speak: warnings when the robot approaches, status messages for the operator, instructions in the field, and a way to speak to people near the robot.",
-    concept: "A weatherproof loudspeaker (or a pair, front and rear) on the top plate or mast with a small amplifier, fed by the robot computer. Text-to-speech for messages such as 'robot is turning', 'tank empty' or 'battery low'; optionally a microphone and a radio link so an operator can speak through the robot. Volume follows the distance to detected people.",
-    reuse: "Top-plate pattern and mast mounting of the spot sprayer and the field marker; computer and radio link of the mobile refiller.",
-    open: ["Speaker type, power and IP rating", "Languages and voice (text-to-speech engine, offline)", "Which events trigger which messages", "Noise limits near animals (cows, horses) and neighbours", "Microphone and two-way speech"],
-  },
-  {
     slug: "laser_weeder",
     name: "Laser or UV weed treatment",
     category: "Weed & Crop Protection",

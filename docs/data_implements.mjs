@@ -575,4 +575,12 @@ export const implementsList = [
         text: "Mole-mapper camera bridge (imported) with 4 RGB 4K cameras (one per row at 450 mm), 2 ToF depth cameras and 3 LED flash bars. Head diameter to 0.25 mm/px, mass +-12 % per head, +-0.4 % on 1000 heads after calibration.",
         facts: ["0.65 ha/h, ~29 000 plants/h", "~4.9 ha per charge", "10 kg"] },
     ] },
+  {
+    name: "Speech speaker", folder: "speaker", category: "Transport & General",
+    summary: "Two 30 W horn speakers (front and rear), an amplifier and a microphone: the robot warns people, reports status and lets an operator talk through it; the volume follows the distance to the nearest person.",
+    variants: [
+      { name: "Simple", folder: "speaker/simple", hero: "speaker/simple/previews/1_iso_front_on_robot.png",
+        text: "2 flat bars across the inner upper beams, each with a horn speaker on an upright plate (the front one over the GNSS dome), an IP65 amplifier box and a microphone.",
+        facts: ["120 dB at 1 m", "~300 m reach on a farmyard", "Max 0.25 W near animals"] },
+    ] },
 ];
