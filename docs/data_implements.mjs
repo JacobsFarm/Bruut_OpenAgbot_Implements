@@ -463,4 +463,12 @@ export const implementsList = [
         text: "In-line train on 50 x 50 tubes bolted to the upper beams: 212 cc petrol engine (4.8 kW), jaw coupling, 3 kW permanent-magnet generator, controller box and a 16S 59 V 40 Ah battery (2.4 kWh). Clear of the steering stacks.",
         facts: ["About 76 kg, cg z 868 mm", "Light task: battery +2.1 kW", "About 1.5 l/h at full output"] },
     ] },
+  {
+    name: "Potato disease scout", folder: "disease scout", category: "Measuring & Sensors",
+    summary: "A light-tight camera hood in front of the robot, 3.0 m over 4 potato rows: 10 downward cameras and 20 LED strobe bars photograph every plant, day and night, for virus (PVY, leaf roll), blackleg and late blight; suspect plants are stored with their GNSS position (cf. Doorgrond Croptiscan).",
+    variants: [
+      { name: "Potato", folder: "disease scout/potato", hero: "disease scout/potato/previews/1_work_iso_on_robot.png",
+        text: "Centre section of 1.2 m and two 0.9 m wings that swing forward round a kingpin on the roof (24 V actuator each): 1.20 m wide in transport. The hood rides on 4 castors in the furrows and is pushed by a parallelogram from two posts on the front beams, so the robot carries almost nothing. Strip curtains let the haulm through; 12 mm lenses give 0.16-0.24 mm/px, a 200 µs flash freezes the motion.",
+        facts: ["3.0 m, 0.86 ha/h at 1 m/s, 3.9 ha per charge", "Folded 1.20 m wide", "135 kg (hood 120 kg on castors)"] },
+    ] },
 ];

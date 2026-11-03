@@ -88,15 +88,6 @@ export const moreIdeas = [
     open: ["Crop to count (strawberry, broccoli, apple ...)", "Lighting at night versus day", "Count accuracy and counting error", "Output: map, report or plucking plan"],
   },
   {
-    slug: "disease_scout",
-    name: "Disease and pest scout",
-    category: "Measuring & Sensors",
-    does: "Looks at the leaves close up, finds disease and pest damage early and stores a photo per plant with its position.",
-    concept: "A camera (RGB or multispectral) on a low mast or sideways arm, with its own light so it works at night. The images feed a classification model; alerts go to the farmer. Combines well with the UV light and the biocontrol spreader.",
-    reuse: "Camera and lighting of the in-row weeder; NIR sensor idea.",
-    open: ["Which diseases and crops to detect", "Training data and model", "Lighting and shading of the camera", "Spot treatment links (UV, spray)"],
-  },
-  {
     slug: "soil_moisture_placer",
     name: "Soil moisture sensor placer",
     category: "Measuring & Sensors",
