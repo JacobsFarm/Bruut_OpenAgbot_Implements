@@ -527,4 +527,12 @@ export const implementsList = [
         text: "Base plate on the right upper beams with a mast 60 x 60, a carriage on a Tr16 lead screw with a stepper (wires 300-1100 mm), a side arm on a spring hinge that swings back on obstacles, and a sensor head with an E-field plate, a pickup coil and a ToF distance sensor; a camera on the mast top for the posts.",
         facts: ["Voltage +-9 % at 80 mm, contactless", "1 reading per metre, ~42 km per charge", "23 kg"] },
     ] },
+  {
+    name: "Drinking trough check", folder: "drinker check", category: "Livestock & Farm",
+    summary: "Visits drinking troughs at stored GNSS positions, measures the water level with an ultrasonic sensor, photographs the water and tops the trough up from its own 160 l tank when the float valve or supply has failed. Uses the fence inspector's mast and carriage with a longer arm.",
+    variants: [
+      { name: "Simple", folder: "drinker check/simple", hero: "drinker check/simple/previews/1_iso_at_trough.png",
+        text: "Fence-inspector mast with lead screw and spring hinge (imported), a 635 mm arm with a head holding an ultrasonic level sensor, a camera and a 3/4 inch fill nozzle, and a 160 l PE tank with a 24 V 20 l/min pump on cross bars on the left upper beams.",
+        facts: ["Level +-5 mm (+-4 l)", "85 l top-up in ~4 min", "~11 rounds of 6 troughs per charge"] },
+    ] },
 ];

@@ -42,15 +42,6 @@ export const moreIdeas = [
   },
   // ---------- Livestock & farm ----------
   {
-    slug: "drinker_check",
-    name: "Drinking trough check",
-    category: "Livestock & Farm",
-    does: "Visits drinking troughs, measures the water level, tops it up and reports dirt or damage with a camera.",
-    concept: "A mast with a level sensor, a camera and a small refill nozzle on a hose; the robot parks at stored trough positions. Water from a tank on the robot or a nearby tap.",
-    reuse: "Nozzle and docking approach of the mobile refiller (simple); camera mast.",
-    open: ["Level sensing: ultrasonic or float", "Water supply and tank size", "Frost and winter use", "Cleaning: only reporting or also scrubbing"],
-  },
-  {
     slug: "chicken_house_robot",
     name: "Chicken house robot",
     category: "Livestock & Farm",
