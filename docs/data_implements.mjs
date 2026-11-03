@@ -471,4 +471,12 @@ export const implementsList = [
         text: "Centre section of 1.2 m and two 0.9 m wings that swing forward round a kingpin on the roof (24 V actuator each): 1.20 m wide in transport. The hood rides on 4 castors in the furrows and is pushed by a parallelogram from two posts on the front beams, so the robot carries almost nothing. Strip curtains let the haulm through; 12 mm lenses give 0.16-0.24 mm/px, a 200 µs flash freezes the motion.",
         facts: ["3.0 m, 0.86 ha/h at 1 m/s, 3.9 ha per charge", "Folded 1.20 m wide", "135 kg (hood 120 kg on castors)"] },
     ] },
+  {
+    name: "Magnet sweeper", folder: "magnet sweeper", category: "Transport & General",
+    summary: "Flat permanent magnet 20 mm over grass, festival fields and yards that picks up nails, screws, tent pegs, wire and bottle caps. Emptied over a flat tray at the field edge by lifting the magnet core inside its box; on the push blade's arms and the broom's castors (imported).",
+    variants: [
+      { name: "Simple", folder: "magnet sweeper/simple", hero: "magnet sweeper/simple/previews/1_iso_front_on_robot.png",
+        text: "Aluminium box 1100 x 240 with a 3 mm stainless skin; inside a steel back plate with 2 rows of 10 NdFeB N35 blocks 100 x 100 x 10 (opposite poles for a strong field gradient) on 4 guide rods. A 3000 N actuator on the lid lifts the core 100 mm: the field at the skin drops from 140 to 20 mT and the iron falls into a 10 mm high tray, without lifting the arms.",
+        facts: ["Nails picked up 35-56 mm from the magnet", "~0.41 ha/h, ~2.2 ha per charge", "No ballast needed to empty; 125 kg"] },
+    ] },
 ];

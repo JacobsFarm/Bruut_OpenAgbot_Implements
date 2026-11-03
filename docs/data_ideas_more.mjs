@@ -127,15 +127,6 @@ export const moreIdeas = [
   },
   // ---------- Cleaning up (own ideas, moved from docs/implement ideas/) ----------
   {
-    slug: "magnet_sweeper",
-    name: "Magnet sweeper",
-    category: "Transport & General",
-    does: "Picks up nails, screws, wire and other loose iron from fields, paths and yards after building work or a festival, before it ends up in the feed or in tyres.",
-    concept: "A wide permanent or electro magnet a few cm above the ground across the robot width, on a height-adjustable bar. With an electromagnet the load is dropped in a bin at the field edge; with permanent magnets a release plate strips it off. The robot drives the field in overlapping passes and logs the covered area.",
-    reuse: "Toolbar and lift of the push blade or the three-point hitch; pass pattern and logging of the field marker.",
-    open: ["Permanent magnet or electromagnet (48 V power)", "Working height versus pick-up of small parts in grass", "Release and collecting of the load", "Mass of the magnet bar and the axle loads"],
-  },
-  {
     slug: "metal_detector",
     name: "Metal detector",
     category: "Measuring & Sensors",

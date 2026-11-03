@@ -29,7 +29,6 @@ implements and the open questions, so it can be worked out later in the layout d
 |---|---|
 | [Seat, cabin & frame extension](seat_frame_extension/README.md) | Front or rear-mounted seat, with the option to widen the frame tubes at the sides and a small cabin as a protective enclosure for the operator. |
 | [Speech speaker](speaker/README.md) | A speaker on the robot that can speak: warnings when the robot approaches, status messages for the operator, instructions in the field, and a way to speak to people near the robot. |
-| [Magnet sweeper](magnet_sweeper/README.md) | Picks up nails, screws, wire and other loose iron from fields, paths and yards after building work or a festival, before it ends up in the feed or in tyres. |
 | [Debris vacuum](debris_vacuum/README.md) | Sucks up litter and debris from grassland: trash after a festival, or shards of solar panels that a fire on a nearby roof spread over the fields. |
 
 ## Cooperation & Swarm Operation
@@ -81,7 +80,7 @@ Already worked out (in the folders next to this one): overseeder, liquid fertili
 (broom), dockweed drill (CNC weed driller), trencher, spot sprayer (atomising boom), in-row weeder (finger weeders), around-pole
 mower (mowing arm), weed picker, irrigation (hose reel), field marker, mobile refiller, belt rake, weeds burner,
 push blade (also the manure scraper job), fertilizer spreader, grassland harrow (molehill spreader), soil sampler, inter-row hoe, grassland aerator, three-point hitch (with the small cultivator), crate carrier (also the tool cart), counterweights, battery pack, solar canopy, compost spreader, stone picker, mulch layer, grass meter (NIR sensor), soil compaction meter, charging dock, UV-C mildew light, sawdust spreader, bedding rake, dumper barrow, biocontrol spreader, bag trailer, broom sweeper (angle broom on the push-blade lift), lime spreader (drop auger), cover crop undersower, straw spreader (bale shredder), electric weeder (spot HV comb), hydraulic power pack, irrigation pump (direct pump), cauliflower root-crown applicator,
-potato disease scout and hybrid range extender (the generator / engine idea).
+potato disease scout, hybrid range extender (the generator / engine idea) and magnet sweeper.
 
 Covered elsewhere: the tow hitch (50 mm tow ball) and the patch seeder (drop seeder that a camera switches on over
 bare soil) are in [overseeding/](../overseeding/) (cambridge roll and overseeder). Merged: the small cabin into the
