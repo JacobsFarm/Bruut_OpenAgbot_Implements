@@ -16,7 +16,7 @@ ceiling near animals.
 
 ## Build
 
-- 2 flat bars 8 mm x 60 across the inner upper beams (M10 into the grid holes x +-325, y +-300), each with a 140 mm
+- 2 flat bars 8 mm x 60 across the inner upper beams (M10 into the grid holes x +-325, y +-325), each with a 140 mm
   upright plate in the middle.
 - Horn 220 x 140 x 200 with an O100 driver on each upright, axis at z 830: the front horn passes over the GNSS dome
   and stays clear of the steering stacks.

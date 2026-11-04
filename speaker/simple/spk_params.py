@@ -8,7 +8,7 @@ import sys
 # warnings when people come near ('robot is turning', 'please step aside'), status ('tank empty', 'battery low') and
 # instructions; an operator can talk through the robot over the radio link and listen with the microphone.
 # The volume follows the distance to the nearest detected person, with a ceiling near animals.
-# Each horn sits on the middle of a flat bar bolted to the 2 inner upper beams (grid holes x +-325, y +-300); the
+# Each horn sits on the middle of a flat bar bolted to the 2 inner upper beams (grid holes x +-325, y +-325); the
 # front horn is high enough to pass over the GNSS dome, both stay clear of the steering stacks.
 #
 # Axes = robot model: x = right, y = driving direction (front = +y), z = up, ground = z 0, mm.
@@ -23,7 +23,7 @@ if PBL_FOLDER not in sys.path:
 robot_steer_deg = 30.0
 upper_beam_top = 699.0
 bolt_x = (-325.0, 325.0)                # bolt lines of the inner upper beams
-hole_y = 300.0
+hole_y = 325.0                  # vertical M10 grid holes in the upper beams at |y| 275, 325 .. 625
 
 # Bracket: flat bar 8 mm 700 x 60 across the inner upper beams + an upright plate 8 mm 140 wide for the horn
 plate_x = (-345.0, 345.0)

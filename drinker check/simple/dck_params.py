@@ -51,7 +51,7 @@ head_park_z = 1100.0            # carriage up while driving
 swing_park = 80.0               # arm swung back along the robot while driving (deg)
 
 # ---------------------------------------------------------------------
-# Tank: PE 700 x 700 x 330 (160 l) on 2 cross bars 60 x 40 x 3 at y +-300 on the left upper beams (and PE pads)
+# Tank: PE 700 x 700 x 330 (160 l) on 2 cross bars 60 x 40 x 3 at y +-325 on the left upper beams (and PE pads)
 # The right upper beams carry the fence-inspector base plate, so the bars end at x 290.
 # ---------------------------------------------------------------------
 bar_x = (-470.0, 290.0)

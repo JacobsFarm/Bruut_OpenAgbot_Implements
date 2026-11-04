@@ -21,7 +21,7 @@ the standard robot (363 kg with this one full). For real water transport the mob
 
 ## Tank on the left, mast on the right
 
-The right upper beams carry the mast plate, so the tank bars bolt to the left upper beams at y +-300 and end at x 290.
+The right upper beams carry the mast plate, so the tank bars bolt to the left upper beams at y +-325 and end at x 290.
 The water sits left of the centre (x -95), the mast and arm right: full, the right wheels carry 48 %, empty 56 %.
 
 ## Head clear of the trough walls

@@ -37,7 +37,7 @@ frame and castors are shared.
 ## Bin on the upper beams
 
 The bin sits between the axles (y -380..370), clear of the front steering stacks (y 405) and the rear frame bolts
-(y -416), on cross bars bolted into the grid holes of the upper beams at y +-300. A full bin (60 kg) shifts the load
+(y -416), on cross bars bolted into the grid holes of the upper beams at y +-325. A full bin (60 kg) shifts the load
 to the rear a little (rear 55 %). The fan and motor make it 1.46 m high.
 
 ## Estimated, not measured

@@ -38,7 +38,7 @@ robot_mass = B.robot_mass
 robot_cg_y = B.robot_cg_y
 upper_beam_x = ((305.0, 345.0), (405.0, 445.0))   # inner and outer upper beam (both sides), z 659..699
 upper_beam_top = 699.0
-upper_hole_y = 300.0            # vertical M10 grid holes in the upper beams at |y| 275..625: cross bars at y +-300
+upper_hole_y = 325.0            # vertical M10 grid holes in the upper beams at |y| 275, 325 .. 625: cross bars at y +-325
 pivot = B.pivot
 king_y = B.king_y
 lift_work = 0.0
@@ -76,7 +76,7 @@ gm_d = 90.0                     # gearmotor body O90 x 200 + gearbox O100 x 70
 gm_len = 270.0
 
 # ---------------------------------------------------------------------
-# Bin on the upper beams: 2 cross bars (rect tube 60 x 40 x 3) at y +-300, aluminium 3 mm, rear door hinged at the top
+# Bin on the upper beams: 2 cross bars (rect tube 60 x 40 x 3) at y +-325, aluminium 3 mm, rear door hinged at the top
 # ---------------------------------------------------------------------
 bar_x = 470.0
 bar_wh = (60.0, 40.0)

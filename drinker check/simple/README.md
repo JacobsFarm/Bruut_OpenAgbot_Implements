@@ -28,7 +28,7 @@ arm swings back along the robot. Scrubbing the trough is not in the simple varia
 - **Arm**: tube 40 x 40 x 3, 635 mm from the hinge; **head** (ABS 140 x 160 x 90) under the arm end with an ultrasonic
   level sensor, a camera and a 3/4" fill nozzle pointing down.
 - **Tank**: PE 700 x 700 x 330 (160 l) on 6 PE pads on 2 cross bars 60 x 40 x 3 bolted to the left upper beams at
-  y +-300 (the right beams carry the mast plate); **pump** 24 V diaphragm 20 l/min on the lid.
+  y +-325 (the right beams carry the mast plate); **pump** 24 V diaphragm 20 l/min on the lid.
 
 Mass ~43 kg empty (mast, tank and bars 37 kg, carriage and arm 5 kg), 203 kg robot + check empty, 363 kg full.
 Size 1730 x 700 x 1266 mm (x, y, z) with the arm out.

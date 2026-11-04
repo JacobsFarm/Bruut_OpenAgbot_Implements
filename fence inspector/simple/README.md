@@ -22,7 +22,7 @@ obstacle. Straightening posts is not in the simple variant.
 
 ## Build
 
-- **Base plate** 8 mm on the 2 right upper beams, 4 x M10 into the grid holes at y +-300; 2 gussets 8 mm.
+- **Base plate** 8 mm on the 2 right upper beams, 4 x M10 into the grid holes at y +-325; 2 gussets 8 mm.
 - **Mast** 60 x 60 x 3 at x 485, y 0 (between the axles, outside the steering sweep), z 200..1400.
 - **Lift**: lead screw Tr16 x 4 behind the mast in 2 bearing blocks, NEMA 23 stepper on top (40 mm/s, 20 s over the
   full range). **Carriage**: C-shaped sleeve 80 x 80 x 4 with PE glides (open on the plate side, so it passes the

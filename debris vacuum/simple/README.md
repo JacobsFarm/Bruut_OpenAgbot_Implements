@@ -31,7 +31,7 @@ the toolbar, lift arms and king pin of the [push blade](../../push%20blade/simpl
   stream.
 - **Hose**: PU O125 (wear-resistant for glass), ~1.4 m, from the outlet to the inlet stub in the bin front wall.
 - **Bin**: aluminium 3 mm, 900 x 750 x 400 (270 l), on 6 PE pads on 2 cross bars 60 x 40 x 3 that are bolted to the
-  4 upper beams at y +-300 (grid holes). Rear door hinged at the top; liner bag inside.
+  4 upper beams at y +-325 (grid holes). Rear door hinged at the top; liner bag inside.
 - **Fan**: centrifugal O420 x 160 on the lid with a 48 V 1.2 kW BLDC motor, perforated screen (3 mm) in the lid, outlet
   duct to the rear.
 

@@ -23,7 +23,7 @@ The head stands on the mast and base plate of the [fence inspector](../../fence%
 
 ## Build
 
-- **From the fence inspector**: base plate 8 mm on the right upper beams (4 x M10 at y +-300), mast 60 x 60 x 3 at
+- **From the fence inspector**: base plate 8 mm on the right upper beams (4 x M10 at y +-325), mast 60 x 60 x 3 at
   x 485, gussets. The lead screw, carriage and arm are not fitted.
 - **Extension**: tube 50 x 50 x 3 inside the mast top (300 mm overlap, 2 x M10), up to 2.1 m.
 - **Head**: aluminium box 120 x 260 x 420 clamped round the extension; 2D lidar on top (scan plane across the row),

@@ -22,7 +22,7 @@ One reading per metre at 1 m/s is enough to point at a post span (4 m); the came
 
 ## Mast between the axles on the right upper beams
 
-The upper beams have vertical grid holes at |y| 275..625; the base plate uses y +-300 on both right upper beams. The
+The upper beams have vertical grid holes at |y| 275, 325 .. 625; the base plate uses y +-325 on both right upper beams. The
 mast stands at y 0 and x 485: 511 mm from the front wheel steering axis, so the steering sweep (radius ~221 mm) never
 reaches it, and outside the right tyres. A C-shaped carriage (open on the plate side) can slide over the full height
 past the base plate.

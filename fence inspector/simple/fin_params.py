@@ -36,13 +36,13 @@ robot_cg_y = 0.0
 robot_gnss = (0.0, 575.0)
 upper_beam_x = ((305.0, 345.0), (405.0, 445.0))   # right inner and outer upper beams, z 659..699
 upper_beam_top = 699.0
-hole_y = 300.0                  # vertical M10 grid holes at |y| 275..625
+hole_y = 325.0                  # vertical M10 grid holes at |y| 275, 325 .. 625 (step 50)
 
 # ---------------------------------------------------------------------
-# Base plate 8 mm on the 2 right upper beams (4 x M10 at y +-300) and the mast 60 x 60 x 3 at its outer edge
+# Base plate 8 mm on the 2 right upper beams (4 x M10 at y +-325) and the mast 60 x 60 x 3 at its outer edge
 # ---------------------------------------------------------------------
 plate_x = (300.0, 525.0)
-plate_y = (-330.0, 330.0)
+plate_y = (-355.0, 355.0)
 plate_t = 8.0
 mast_xy = (485.0, 0.0)          # mast centre
 mast_w = 60.0
