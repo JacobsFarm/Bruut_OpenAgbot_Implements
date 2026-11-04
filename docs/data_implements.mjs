@@ -663,4 +663,12 @@ export const implementsList = [
         text: "Belt module (stroke 340) hung from the belly rails at the rear axle line, a paint head with a 12 V valve, an even flat-fan tip and a brush-skirted shroud, a drag chain for the hose; tank, pump, regulator (agitation) and control box of the spot sprayer.",
         facts: ["Football field (717 m) in ~19 min, ~10 l paint", "~18 mm (95 %) at the nozzle, estimated", "62 kg empty"] },
     ] },
+  {
+    name: "Concentrate dispenser", folder: "concentrate dispenser", category: "Livestock & Farm",
+    summary: "Doses concentrate pellets or minerals on the freshly pushed windrow while the robot pushes feed with the feed pusher auger, to draw the cows to the fence.",
+    variants: [
+      { name: "Simple", folder: "concentrate dispenser/simple", hero: "concentrate dispenser/simple/previews/1_iso_on_robot_at_fence.png",
+        text: "47 l stainless hopper in the middle of the robot on 4 load cells (loss-in-weight dosing), a metering auger O54 in a tube out past the feed pusher's discharge end and a rubber spout over the windrow; NEMA 23 with a 10:1 planetary.",
+        facts: ["100 g per feeding place at 0.35 m/s (5-150 g)", "+-2 % by loss-in-weight (estimated)", "37 kg empty, 69 kg full"] },
+    ] },
 ];

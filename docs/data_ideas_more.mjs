@@ -98,16 +98,6 @@ export const moreIdeas = [
     open: ["Bin volume versus mass and stability", "Mixing power of a vertical auger on a battery", "Loading: feed kitchen, hopper or by hand", "Feeding small groups (calves, young stock) versus the whole herd"],
   },
   {
-    slug: "concentrate_dispenser",
-    source: CATALOGUE,
-    name: "Concentrate dispenser on the feed table",
-    category: "Livestock & Farm",
-    does: "Doses concentrates or minerals on the feed along the fence while pushing feed, to draw cows to the fence. Seen on the Euromilk EM Lizard and Schauer Faro.",
-    concept: "One or two small hoppers on the feed pusher with a metering auger driven by a stepper, dropping a thin line on the pushed feed. Dose per metre or per feeding place is set in the route.",
-    reuse: "Feed pusher auger (carrier and route); metering auger and hopper of the overseeder or fertilizer spreader.",
-    open: ["Hopper size and filling", "Dose accuracy per metre at the driving speed", "Moisture and caking of the concentrate", "Link with the herd management system"],
-  },
-  {
     slug: "calf_milk_taxi",
     source: CATALOGUE,
     name: "Calf milk taxi",
