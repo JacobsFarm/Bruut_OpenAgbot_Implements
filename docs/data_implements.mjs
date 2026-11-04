@@ -767,4 +767,12 @@ export const implementsList = [
         text: "A 0.33 m3 cone bin on 4 load cells and a sub-frame on 2 cross tubes, a vertical conical auger with 2 knives (30 rpm, planetary gearbox, 48 V 2 kW motor under the floor), a door that slides up along the cone wall and a chute to the right.",
         facts: ["~92 kg per batch, ~250 Wh", "~6 batches per charge: ~74 calves a day", "136 kg; full 390 kg, front share 51 %"] },
     ] },
+  {
+    name: "Fresh grass harvester (zero grazing)", folder: "fresh grass harvester", category: "Livestock & Farm",
+    summary: "Mows fresh grass, lifts it into a tipping container and brings it to the feed fence, many small loads a day.",
+    variants: [
+      { name: "Simple", folder: "fresh grass harvester/simple", hero: "fresh grass harvester/simple/previews/1_iso_mowing.png",
+        text: "Front arms under the lower beams with a 1.2 m sickle bar and a cross auger, a slatted elevator outside the right front wheel up to 1.42 m, a 0.41 m3 container that tips 55 degrees to the left, and 60 kg rear ballast.",
+        facts: ["~73 kg per load, ~11 min per trip", "~1.3 t per charge: ~21 cows", "286 kg; front share 57 % empty, 51 % full"] },
+    ] },
 ];

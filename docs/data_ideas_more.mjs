@@ -17,16 +17,6 @@ export const moreIdeas = [
   // Sowing & planting
   // Weed & crop protection
   // Livestock & farm
-  {
-    slug: "fresh_grass_harvester",
-    source: CATALOGUE,
-    name: "Fresh grass harvester (zero grazing)",
-    category: "Livestock & Farm",
-    does: "Mows fresh grass in the field, loads it and brings it to the feed fence, several times a day. Seen on the Lely Exos.",
-    concept: "A front sickle bar or disc mower, a short pick-up belt or auger that lifts the swath into a container on the robot, and an unloading floor or tipping container at the feed fence. Small loads, many trips.",
-    reuse: "Sickle bar mower; belt rake for the pick-up; dumper barrow or bag trailer for the container; feed pusher route at the barn.",
-    open: ["Load per trip versus mass and the field's bearing capacity", "Pick-up of fresh, heavy grass", "Unloading at the feed fence", "Trips per day for a given number of cows"],
-  },
   // Transport & general
   // Harvesting
   {
