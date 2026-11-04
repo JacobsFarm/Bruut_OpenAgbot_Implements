@@ -687,4 +687,12 @@ export const implementsList = [
         text: "83 l insulated stainless tank with stirrer and 300 W heating mat on the upper beams, a 6 l/min peristaltic pump, and a swing arm on a hollow-shaft gearmotor that puts the nozzle over the bucket at x 920; RFID and camera at the tip.",
         facts: ["28 calves at 3 l per fill, ~18 min per round", "-0.4 K/h without heating", "76 kg empty, +86 kg milk"] },
     ] },
+  {
+    name: "Riding arena leveller", folder: "arena leveller", category: "Crop & Soil",
+    summary: "Loosens and levels the footing of a horse riding arena at night: rigid tines, a levelling board and a rod roller on the grassland harrow's frame, with a lidar for indoor arenas.",
+    variants: [
+      { name: "Simple", folder: "arena leveller/simple", hero: "arena leveller/simple/previews/1_iso_rear_on_robot_in_arena.png",
+        text: "Grassland harrow mount, lift and frame (imported) with 11 rigid tines (35 mm deep, transport holes), a 1300 mm levelling board and a rod roller O220 that carries the frame and sets the depth; a 360 degree lidar on a post navigates on the arena walls.",
+        facts: ["20 x 40 arena in ~17 min", "~660 N draft, 44 kg front ballast for grip", "158 kg, stays on its roller"] },
+    ] },
 ];

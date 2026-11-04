@@ -34,16 +34,6 @@ export const moreIdeas = [
     reuse: "Housing, belt drive and height setting of the mower unit (mowing deck); motor options of the heavy-duty electric motors; swing-out arm of the around-pole fence mower.",
     open: ["Power needed for prunings versus grass", "Rotor speed, knife type and stone throw protection", "Width that fits the row spacing", "Mass on the rear and balance with counterweights"],
   },
-  {
-    slug: "arena_leveller",
-    source: CATALOGUE,
-    name: "Riding arena leveller",
-    category: "Crop & Soil",
-    does: "Levels and loosens the footing of a horse riding arena at night, so it is ready every morning. Seen on Fraunhofer ARA (tracked arena robot).",
-    concept: "A rear tool frame with a row of loosening tines, a levelling board and a small roller or mesh, driven over the arena in a fixed RTK or lidar pattern (indoor arenas have no RTK). The depth and board height are set by a linear actuator.",
-    reuse: "Levelling board, tines and lift of the grassland harrow; push blade for moving sand back from the edges; lidar ideas of the chicken house robot for indoor navigation.",
-    open: ["Navigation in an indoor arena without RTK", "Footing types (sand, sand with fibres, wood chips) and the depth to work", "Edges and corners along the arena wall", "Watering the footing at the same time"],
-  },
   // Sowing & planting
   {
     slug: "precision_seeder",
