@@ -4,15 +4,6 @@
 export const moreIdeas = [
   // ---------- Crop & soil ----------
   // ---------- Weed & crop protection ----------
-  {
-    slug: "pheromone_trap_service",
-    name: "Pheromone trap service",
-    category: "Weed & Crop Protection",
-    does: "Visits insect traps and pheromone dispensers at the field edge: checks them with a camera, counts catches and swaps dispensers on schedule.",
-    concept: "A small arm or an XYZ stage that opens a trap, photographs the catch and replaces the lure. The robot stops at stored trap positions.",
-    reuse: "XYZ stage and camera ideas of the field marker; trap positions kept like the marker's point list.",
-    open: ["Trap types and how they open", "Catch counting by image", "Lure storage and replacement by the robot", "Frequency of visits"],
-  },
   // ---------- Livestock & farm ----------
   {
     slug: "chicken_house_robot",

@@ -1,0 +1,315 @@
+"""Model of the pheromone trap service on the Bruut OpenAgbot (standard robot).
+
+Use in FreeCAD (folder on sys.path, or via run_in_freecad.py):
+    import build_phs
+    build_phs.build()                 # saves FCStd and STEP
+    build_phs.check_interference()    # overlap (must be empty)
+    build_phs.check_holes()           # bolts in the grid holes of the upper beams (must be empty)
+    build_phs.check_poses()           # carriage height x head slide x steering (must be empty)
+    build_phs.mass_properties()
+    build_phs.render_all()            # all images in previews/
+"""
+import os
+
+import FreeCAD as App
+from FreeCAD import Vector as V
+
+import phs_params as P
+import phs_parts as G
+import build_pbl as BP
+
+FOLDER = os.path.dirname(os.path.abspath(__file__))
+PREVIEW_DIR = os.path.join(FOLDER, "previews")
+DOC_NAME = "Pheromone_Trap_Service"
+SAVE_BASE = os.path.join(FOLDER, "Pheromone_Trap_Service")
+ROOT = "Pheromone_trap_service"
+
+COLOR = dict(BP.COLOR)
+COLOR.update({"mast": (0.30, 0.32, 0.35), "carriage": (0.93, 0.42, 0.08), "alu": (0.80, 0.82, 0.85),
+              "motor": (0.15, 0.15, 0.17), "head": (0.20, 0.45, 0.75), "lure": (0.85, 0.20, 0.55),
+              "trap": (0.95, 0.85, 0.10), "card": (0.98, 0.98, 0.70), "post": (0.55, 0.40, 0.25),
+              "cam": (0.95, 0.95, 0.95)})
+
+WORK_ZC = P.zc_ref
+
+
+def new_part(doc, parent, name, label, placement=None):
+    return BP.new_part(doc, parent, name, label, placement)
+
+
+def add_shape(doc, parent, name, label, shape, color, visible=True):
+    obj = BP.add_shape(doc, parent, name, label, shape, "frame", visible)
+    if obj.ViewObject is not None:
+        obj.ViewObject.ShapeColor = COLOR[color]
+    return obj
+
+
+def carriage_placement(zc):
+    return App.Placement(V(0, 0, zc - P.zc_ref), App.Rotation())
+
+
+def slide_placement(slide):
+    return App.Placement(V(slide, 0, 0), App.Rotation())
+
+
+def build_into(doc, parent=None, zc=WORK_ZC, slide=0.0):
+    root = new_part(doc, parent, ROOT, "pheromone_trap_service_simple")
+    mount = new_part(doc, root, "Mount", "mast_on_right_upper_beams")
+    add_shape(doc, mount, "phs_plate", "base_plate_8mm_8xM10", G.base_plate(), "mast")
+    add_shape(doc, mount, "phs_bolts", "base_plate_bolts_M10_8x", G.plate_bolts(), "zinc")
+    add_shape(doc, mount, "phs_mast", "mast_60x60x3_fin", G.mast(), "mast")
+    add_shape(doc, mount, "phs_gussets", "gussets_8mm_2x", G.gussets(), "mast")
+    add_shape(doc, mount, "phs_screw", "lead_screw_Tr16x4", G.screw(), "steel")
+    add_shape(doc, mount, "phs_screw_blocks", "screw_bearing_blocks", G.screw_blocks(), "mast")
+    add_shape(doc, mount, "phs_stepper", "stepper_NEMA23", G.stepper(), "motor")
+    car = new_part(doc, root, "Carriage", "carriage_moves_up_down", carriage_placement(zc))
+    add_shape(doc, car, "phs_carriage", "carriage_C_sleeve_fin", G.carriage(), "carriage")
+    add_shape(doc, car, "phs_hinge_pin", "hinge_pin_D16_keyed", G.hinge_pin(), "steel")
+    add_shape(doc, car, "phs_arm", "arm_tube_40x40x3_fixed", G.arm(), "carriage")
+    add_shape(doc, car, "phs_rail", "linear_guide_MGN12", G.rail(), "steel")
+    add_shape(doc, car, "phs_act_body", "actuator_24V_stroke_220", G.actuator_body(), "motor")
+    sl = new_part(doc, car, "Slide", "service_head_moves_out", slide_placement(slide))
+    add_shape(doc, sl, "phs_block", "guide_block_MGN12H", G.block(), "steel")
+    add_shape(doc, sl, "phs_head_plate", "head_plate_alu_8mm", G.head_plate(), "alu")
+    add_shape(doc, sl, "phs_act_rod", "actuator_rod_and_tab", G.act_rod(), "steel")
+    add_shape(doc, sl, "phs_hook", "drawer_hook", G.hook(), "steel")
+    add_shape(doc, sl, "phs_hook_servo", "hook_servo", G.hook_servo(), "motor")
+    drum, plunger = G.revolver()
+    add_shape(doc, sl, "phs_revolver", "lure_revolver_12x", drum, "head")
+    add_shape(doc, sl, "phs_plunger", "plunger_linear_servo", plunger, "motor")
+    add_shape(doc, sl, "phs_capsules", "lure_capsules_11x", G.capsules(), "lure")
+    add_shape(doc, sl, "phs_guide", "capsule_guide_tube", G.guide_tube(), "head")
+    add_shape(doc, sl, "phs_bin", "used_capsule_bin", G.bin_box(), "head")
+    add_shape(doc, sl, "phs_cam_post", "camera_post", G.cam_post(), "alu")
+    add_shape(doc, sl, "phs_camera", "camera_12MP_LED_ring", G.camera(), "cam")
+    return root
+
+
+def set_pose(zc=WORK_ZC, slide=0.0, doc=None):
+    doc = active_doc(doc)
+    doc.getObject("Carriage").Placement = carriage_placement(zc)
+    doc.getObject("Slide").Placement = slide_placement(slide)
+    doc.recompute()
+
+
+build_robot = BP.build_robot
+set_steering = BP.set_steering
+global_shape = BP.global_shape
+_overlaps = BP._overlaps
+objects_of = BP.objects_of
+
+
+def build(save=True, show_robot=False, step=True):
+    if DOC_NAME in App.listDocuments():
+        App.closeDocument(DOC_NAME)
+    doc = App.newDocument(DOC_NAME)
+    doc.Label = "Pheromone trap service simple"
+    doc.Comment = ("Generated by build_phs.py from phs_params.py. Robot coordinates: x = right, y = driving direction "
+                   "(front = +y), z = up, ground = z 0.")
+    robot = None
+    try:
+        robot = build_robot(doc)
+    except Exception as exc:
+        print("robot model not loaded:", exc)
+    build_into(doc, robot)
+    if robot is not None and not show_robot:
+        set_robot_visible(False, doc)
+    doc.recompute()
+    if save:
+        doc.saveAs(SAVE_BASE + ".FCStd")
+    if step:
+        export_step(doc, SAVE_BASE + ".step")
+    return doc
+
+
+def active_doc(doc=None):
+    if doc is not None:
+        return doc
+    for n in App.listDocuments():
+        d = App.getDocument(n)
+        if d.getObject(ROOT) is not None:
+            return d
+    raise RuntimeError("no document with %s open" % ROOT)
+
+
+def robot_objects(doc):
+    robot = doc.getObject("Robot")
+    if robot is None:
+        return []
+    mine = {o.Name for o in objects_of(doc, ROOT)}
+    return [o for o in robot.OutListRecursive if o.TypeId == "Part::Feature" and o.Name not in mine]
+
+
+def set_robot_visible(visible, doc=None):
+    doc = active_doc(doc)
+    for o in robot_objects(doc):
+        o.ViewObject.Visibility = visible
+
+
+def export_step(doc, path):
+    import Import
+    objs = []
+    for o in objects_of(doc, ROOT):
+        f = doc.addObject("Part::Feature", "step_" + o.Name)
+        f.Label = o.Label
+        f.Shape = global_shape(o)
+        objs.append(f)
+    try:
+        Import.export(objs, path)
+    finally:
+        for f in objs:
+            doc.removeObject(f.Name)
+
+
+JOINTS = {("phs_bolts", "phs_plate"), ("phs_screw", "phs_screw_blocks"), ("phs_screw", "phs_carriage"),
+          ("phs_hinge_pin", "phs_carriage"), ("phs_hinge_pin", "phs_arm"), ("phs_rail", "phs_block"),
+          ("phs_act_rod", "phs_act_body"), ("phs_capsules", "phs_revolver")}
+
+
+def _joint(a, b):
+    if (a, b) in JOINTS or (b, a) in JOINTS:
+        return True
+    return "phs_bolts" in (a, b) and (a.startswith("upper_beam") or b.startswith("upper_beam"))
+
+
+def check_interference(doc=None, tol=1.0):
+    doc = active_doc(doc)
+    mine = [(o, global_shape(o)) for o in objects_of(doc, ROOT)]
+    robot = [(o, global_shape(o)) for o in robot_objects(doc)]
+    pairs = [(mine[i], mine[j]) for i in range(len(mine)) for j in range(i + 1, len(mine))
+             if not _joint(mine[i][0].Name, mine[j][0].Name)]
+    pairs += [(a, b) for a in mine for b in robot if not _joint(a[0].Name, b[0].Name)]
+    return _overlaps(pairs, tol)
+
+
+def check_holes(doc=None, tol=1.0):
+    doc = active_doc(doc)
+    beams = [global_shape(o) for o in robot_objects(doc) if o.Name.startswith("upper_beam")]
+    out = {}
+    for x, y in G._bolts_xy():
+        rod = G.cyl(9.0, (x, y, 600.0), (x, y, 720.0))
+        v = sum(rod.common(b).Volume for b in beams if b.BoundBox.intersect(rod.BoundBox))
+        if v > tol:
+            out[str((x, y))] = round(v, 1)
+    return out
+
+
+def check_poses(doc=None, tol=1.0, steer=(-P.robot_steer_deg, P.robot_steer_deg)):
+    """Carriage and head against the mount and the robot over height x slide x steering; the trap is checked too
+    (drawer engaged at full stroke, pulled out at stroke - pull) at the work height."""
+    doc = active_doc(doc)
+    moving = objects_of(doc, "Carriage")
+    names = {o.Name for o in moving}
+    out = {}
+    for st in steer:
+        set_steering(st, doc)
+        others = [(o, global_shape(o)) for o in objects_of(doc, ROOT) + robot_objects(doc) if o.Name not in names]
+        for zc in (P.ZC_RANGE[0], P.zc_ref, P.ZC_RANGE[1]):
+            for s in P.SLIDE_POSES:
+                set_pose(zc, s, doc)
+                mov = [(o, global_shape(o)) for o in moving]
+                hits = _overlaps([(a, b) for a in mov for b in others if not _joint(a[0].Name, b[0].Name)], tol)
+                if hits:
+                    out[str((st, zc, s))] = hits
+    set_steering(0.0, doc)
+    for s in (P.stroke, P.stroke - P.drawer_pull):
+        set_pose(P.zc_ref, s, doc)
+        mov = [(o, global_shape(o)) for o in objects_of(doc, ROOT)]
+        housing, post, drawer, card = G.trap(s)
+        trap = [(type("T", (), {"Label": n})(), sh) for n, sh in (("trap_housing", housing), ("trap_post", post),
+                                                                  ("trap_drawer", drawer), ("trap_card", card))]
+        hits = _overlaps([(a, b) for a in mov for b in trap], tol)
+        if hits:
+            out["trap_%d" % s] = hits
+    set_pose(P.zc_ref, 0.0, doc)
+    return out
+
+
+MASS_FIXED = {"phs_stepper": 1.1, "phs_act_body": 1.6, "phs_hook_servo": 0.15, "phs_plunger": 0.2,
+              "phs_capsules": 0.05, "phs_camera": 0.25, "phs_rail": 0.4, "phs_block": 0.15}
+DENSITY = {"phs_head_plate": P.alu, "phs_cam_post": P.alu, "phs_revolver": 1.2e-6, "phs_guide": 1.2e-6,
+           "phs_bin": 1.2e-6}
+
+
+def mass_properties(doc=None):
+    doc = active_doc(doc)
+    out = {}
+    for name in (ROOT, "Carriage"):
+        m, c = 0.0, V(0, 0, 0)
+        for o in objects_of(doc, name):
+            s = global_shape(o)
+            mo = MASS_FIXED.get(o.Name, s.Volume * DENSITY.get(o.Name, P.steel))
+            m += mo
+            c += s.BoundBox.Center * mo
+        c = c * (1.0 / m)
+        out[name.lower() + "_kg"] = round(m, 1)
+        out[name.lower() + "_cg"] = (round(c.x), round(c.y), round(c.z))
+    return out
+
+
+def size(doc=None):
+    doc = active_doc(doc)
+    bb = None
+    for o in objects_of(doc, ROOT):
+        b = global_shape(o).BoundBox
+        bb = b if bb is None else bb.united(b)
+    return (round(bb.XLength), round(bb.YLength), round(bb.ZLength)), (round(bb.XMin), round(bb.YMin), round(bb.ZMin))
+
+
+def save_view(name, direction, target=None, height=None, up=(0.0, 0.0, 1.0), size_px=(1600, 1100)):
+    import FreeCADGui as Gui
+    Gui.updateGui()
+    BP.set_camera(direction, target, height, up)
+    Gui.updateGui()
+    view = BP.set_camera(direction, target, height, up)
+    os.makedirs(PREVIEW_DIR, exist_ok=True)
+    path = os.path.join(PREVIEW_DIR, name)
+    view.saveImage(path, size_px[0], size_px[1], "White")
+    return path
+
+
+SCENE = ("render_floor", "trap_housing", "trap_post", "trap_drawer", "trap_card")
+
+
+def add_scene(doc, slide, floor=True):
+    remove(doc, SCENE)
+    if floor:
+        obj = doc.addObject("Part::Feature", "render_floor")
+        obj.Shape = G.box_span((-900.0, 1900.0), (-1200.0, 1200.0), (-30.0, 0.0))
+        obj.ViewObject.ShapeColor = (0.45, 0.62, 0.30)
+        obj.ViewObject.Transparency = 30
+    for n, sh, c in zip(SCENE[1:], G.trap(slide), ("trap", "post", "trap", "card")):
+        o = doc.addObject("Part::Feature", n)
+        o.Shape = sh
+        o.ViewObject.ShapeColor = COLOR[c]
+
+
+def remove(doc, names):
+    for n in names:
+        if doc.getObject(n):
+            doc.removeObject(n)
+
+
+def render_all():
+    import FreeCADGui as Gui
+    out = []
+    doc = build(save=False, show_robot=True, step=False)
+    Gui.setActiveDocument(doc.Name)
+    s_pull = P.stroke - P.drawer_pull
+    set_pose(P.zc_ref, s_pull, doc)
+    add_scene(doc, s_pull)
+    out.append(save_view("1_iso_drawer_out_on_robot.png", (-1.0, 1.2, -0.6), target=(500, 0, 650), height=2600))
+    out.append(save_view("2_rear_view.png", (0.0, 1.0, 0.0), target=(600, 0, 700), height=1900))
+    set_pose(P.zc_ref, P.stroke, doc)
+    add_scene(doc, P.stroke, floor=False)
+    set_robot_visible(False, doc)
+    out.append(save_view("3_head_hooks_drawer.png", (-0.7, 1.0, -0.5), target=(1150, 0, 950), height=750))
+    set_pose(P.zc_ref, s_pull, doc)
+    add_scene(doc, s_pull, floor=False)
+    out.append(save_view("4_drawer_out_lure_swap.png", (-0.6, -1.0, -0.6), target=(1100, 0, 950), height=750))
+    remove(doc, SCENE)
+    set_pose(P.zc_ref, 0.0, doc)
+    out.append(save_view("5_head_retracted.png", (-0.8, 1.0, -0.5), target=(850, 0, 1000), height=650))
+    App.closeDocument(doc.Name)
+    build()
+    return out

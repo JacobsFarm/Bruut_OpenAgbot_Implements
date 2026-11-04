@@ -607,4 +607,12 @@ export const implementsList = [
         text: "Cross tubes on the upper beams; the 2 rear ones are 1600 mm long side extensions with a 50 mm hole grid. Tractor seat with a seat switch over the rear axle, a console with joystick and emergency stop on the right armrest, a checker-plate footplate, a roll bar O42 at x +-600 with a polycarbonate canopy. Manual mode only, at most 1.5 m/s.",
         facts: ["94 kg; 114 / 231 kg front / rear with a 90 kg operator", "Tip 23 degrees sideways, turn margin 5.5", "Extensions to x +-800"] },
     ] },
+  {
+    name: "Pheromone trap service", folder: "pheromone trap service", category: "Weed & Crop Protection",
+    summary: "Weekly round of the pheromone and sticky traps on the field edges: the head on the fence-inspector mast pulls out the drawer of each trap, photographs the sticky card to count the catch and pushes a fresh lure capsule into the clip when it is due.",
+    variants: [
+      { name: "Simple", folder: "pheromone trap service/simple", hero: "pheromone trap service/simple/previews/1_iso_drawer_out_on_robot.png",
+        text: "Fence-inspector mast and carriage (imported) with a fixed arm, MGN12 guide and 24 V actuator; the head has a hook, a 12 MP camera with LED ring and a revolver of 12 lure capsules with a plunger. Robot-friendly delta trap with a pull-out drawer.",
+        facts: ["~50 s per trap", "40 traps: 2.4 h, 22 % of a charge", "~27 kg"] },
+    ] },
 ];
