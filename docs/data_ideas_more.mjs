@@ -36,16 +36,6 @@ export const moreIdeas = [
   },
   // Sowing & planting
   // Weed & crop protection
-  {
-    slug: "orchard_air_sprayer",
-    source: CATALOGUE,
-    name: "Air-assisted orchard sprayer",
-    category: "Spraying, Fertilizing & Irrigation",
-    does: "Sprays the canopy of fruit trees, vines or hedges with an air stream that carries the droplets into the leaves, and switches nozzles off where there is no canopy. Seen on GUSS, LJ-Tech S500Pro, MQ Agritech M200 and Smart Apply.",
-    concept: "A tank on the upper beams, an axial fan at the rear with a ring of nozzles, or two vertical towers with cross-flow fans. A lidar or camera measures the canopy per height section and switches each nozzle section on and off.",
-    reuse: "Tank, pump and control box of the spot sprayer; nozzle switching of the drop-on-demand boom; canopy sensing of the windbreak and tree-row inspector.",
-    open: ["Fan power and air volume versus battery", "Tank size versus mass and the robot's payload", "Drift: tower or tunnel version, canopy sensing", "Height of the trees to reach"],
-  },
   // Livestock & farm
   {
     slug: "feed_mixer_wagon",

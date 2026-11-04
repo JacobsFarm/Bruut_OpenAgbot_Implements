@@ -735,4 +735,12 @@ export const implementsList = [
         text: "4 cross tubes on the upper beams (stubs at the GNSS dome) ending in C-frames that carry a bed per side outside the steering sweep: leg board, chest wedge and face rest on plywood and foam, a hold-to-run pendant and an e-stop per worker, drop-leg parking stands for getting on, and a sun canopy per side.",
         facts: ["2 workers, 100-400 m2/h at 100-400 m/h", "~160 W, ~10 h per charge", "178 kg; stands down for getting on (factor 1.44)"] },
     ] },
+  {
+    name: "Air-assisted orchard sprayer", folder: "orchard air sprayer", category: "Spraying, Fertilizing & Irrigation",
+    summary: "Sprays low fruit trees, vines and hedges on both sides of the alley: 3 fans per side carry the droplets into the canopy, and a lidar per side switches each height section on and off.",
+    variants: [
+      { name: "Simple", folder: "orchard air sprayer/simple", hero: "orchard air sprayer/simple/previews/1_iso_spraying_alley.png",
+        text: "The spot sprayer's 120 l tank, pump and control box (imported) with a tower behind the robot: arms under the rear lower beams, a mast with 6 axial fan pods O300 (48 V) at 0.8, 1.35 and 1.9 m blowing sideways, a nozzle ring with 2 hollow-cone nozzles and a section valve per pod, and a 2D lidar per side 225 mm ahead of the nozzles.",
+        facts: ["5100 m3/h per side, up to 0.63 m/s", "317 l/ha, 0.68 ha/h, 48 min per tank", "~1.7 kW: ~0.9 h per charge; 105 kg empty"] },
+    ] },
 ];
