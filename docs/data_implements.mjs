@@ -719,4 +719,12 @@ export const implementsList = [
         text: "Fence inspector mast, carriage and spring-hinged arm (imported) with a tilt gearmotor and a 1000 mm double-sided trimmer bar (0 = side cut, 90 = top cut, 45 = chamfer), a ToF sensor for the 60 mm gap, and a 48 V axial blower under the front beam.",
         facts: ["Side cut 0.39-2.37 m, top cut up to 1.26 m", "~180 m of hedge per hour", "36 kg"] },
     ] },
+  {
+    name: "Barn pressure washer", folder: "barn pressure washer", category: "Livestock & Farm",
+    summary: "Cleans pens, walls and floors with a high-pressure turbo nozzle when the barn is empty. The HP water comes from the barn's stationary washer through 30 m of hose on a reel on the robot; the robot only aims.",
+    variants: [
+      { name: "Simple", folder: "barn pressure washer/simple", hero: "barn pressure washer/simple/previews/1_iso_washing_wall.png",
+        text: "Fence inspector mast and arm with the hedge trimmer's tilt head (imported) and a 400 mm lance with a rotating turbo nozzle; a powered HP hose reel (30 m, slip clutch, rotary joint) at the rear of the upper beams.",
+        facts: ["150 bar, 15 l/min from the barn's washer", "~41 min per 3 x 4 m pen", "69 kg, ~18 h per charge"] },
+    ] },
 ];

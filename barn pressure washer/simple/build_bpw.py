@@ -1,0 +1,330 @@
+"""Model of the barn pressure washer on the Bruut OpenAgbot (standard robot).
+
+Mast, carriage and arm of the fence inspector and the tilt head of the hedge trimmer are imported (build_fin / fin_parts,
+hdg_parts); this file adds the lance with the turbo nozzle, the HP hose reel and the hoses.
+
+Use in FreeCAD (folder on sys.path, or via run_in_freecad.py):
+    import build_bpw
+    build_bpw.build()
+    build_bpw.set_pose(arm_z=400, tilt=-60, swing=0)   # floor
+    build_bpw.check_interference()
+    build_bpw.check_poses()
+    build_bpw.mass_properties()
+    build_bpw.render_all()
+"""
+import os
+
+import FreeCAD as App
+import Part
+from FreeCAD import Vector as V
+
+import bpw_params as P
+import bpw_parts as G
+import hdg_parts as HG
+import fin_parts as FG
+import build_fin as BF
+import build_hdg as BH
+
+FOLDER = os.path.dirname(os.path.abspath(__file__))
+PREVIEW_DIR = os.path.join(FOLDER, "previews")
+DOC_NAME = "Barn_Pressure_Washer"
+SAVE_BASE = os.path.join(FOLDER, "Barn_Pressure_Washer")
+ROOT = "Barn_pressure_washer"
+
+COLOR = dict(BH.COLOR)
+COLOR.update({"lance": (0.80, 0.81, 0.83), "nozzle": (0.95, 0.75, 0.10), "reel": (0.85, 0.15, 0.10),
+              "hp_hose": (0.10, 0.10, 0.10), "jet": (0.70, 0.85, 1.00), "pen": (0.70, 0.70, 0.66)})
+
+
+def add_shape(doc, parent, name, label, shape, color, visible=True):
+    obj = BF.add_shape(doc, parent, name, label, shape, "frame", visible)
+    if obj.ViewObject is not None:
+        obj.ViewObject.ShapeColor = COLOR[color]
+    return obj
+
+
+tilt_placement = BH.tilt_placement
+
+
+def build_into(doc, parent=None, arm_z=P.ZC0, tilt=0.0, swing=0.0):
+    root = BF.new_part(doc, parent, ROOT, "barn_pressure_washer_simple")
+    mount = BF.new_part(doc, root, "Mount", "mast_on_right_upper_beams_from_fence_inspector")
+    add_shape(doc, mount, "base_plate", "base_plate_8mm", FG.base_plate(), "mast")
+    add_shape(doc, mount, "plate_bolts", "base_plate_bolts_M10_4x", FG.plate_bolts(), "zinc")
+    add_shape(doc, mount, "mast", "mast_60x60x3", FG.mast(), "mast")
+    add_shape(doc, mount, "gussets", "gussets_8mm_2x", FG.gussets(), "mast")
+    add_shape(doc, mount, "screw", "lead_screw_Tr16x4", FG.screw(), "steel")
+    add_shape(doc, mount, "screw_blocks", "screw_bearing_blocks", FG.screw_blocks(), "mast")
+    add_shape(doc, mount, "stepper", "stepper_NEMA23", FG.stepper(), "motor")
+    add_shape(doc, mount, "camera", "pen_camera", FG.camera(), "motor")
+    add_shape(doc, mount, "bpw_guide", "hose_guide_roller", G.guide_roller(), "zinc")
+    car = BF.new_part(doc, root, "Carriage", "carriage_moves_up_down", BF.carriage_placement(arm_z))
+    add_shape(doc, car, "carriage", "carriage_C_sleeve_nut_hinge_lug", FG.carriage(), "carriage")
+    add_shape(doc, car, "hinge_pin", "hinge_pin_D16", FG.hinge_pin(), "steel")
+    arm = BF.new_part(doc, car, "Arm", "arm_swings_about_hinge", BF.arm_placement(swing))
+    add_shape(doc, arm, "arm", "arm_tube_40x40x3", FG.arm(), "carriage")
+    add_shape(doc, arm, "hdg_tilt_motor", "tilt_worm_gearmotor_24V", HG.tilt_motor(), "motor")
+    add_shape(doc, arm, "hdg_tilt_flange", "tilt_output_flange", HG.tilt_flange(), "zinc")
+    add_shape(doc, arm, "bpw_arm_hose", "HP_hose_along_the_arm", G.arm_hose(), "hp_hose")
+    tg = BF.new_part(doc, arm, "Tilt", "lance_turns_about_y", tilt_placement(tilt))
+    add_shape(doc, tg, "bpw_clamp", "lance_clamp_block", G.clamp(), "frame")
+    add_shape(doc, tg, "bpw_lance", "lance_O14x400_turbo_nozzle", G.lance(), "lance")
+    add_shape(doc, tg, "bpw_swivel", "HP_swivel", G.swivel(), "nozzle")
+    reel = BF.new_part(doc, root, "Reel", "HP_hose_reel_30m")
+    add_shape(doc, reel, "bpw_bars", "reel_cross_tubes_40x40_y475_625", G.bars(), "frame")
+    add_shape(doc, reel, "bpw_bar_bolts", "reel_tube_bolts_M10_8x", G.bar_bolts(), "zinc")
+    add_shape(doc, reel, "bpw_side_plates", "reel_side_plates_8mm", G.side_plates(), "frame")
+    add_shape(doc, reel, "bpw_drum", "reel_drum_O360_flanges_O520", G.drum_body(), "reel")
+    add_shape(doc, reel, "bpw_wound", "HP_hose_30m_wound", G.wound_hose(), "hp_hose")
+    add_shape(doc, reel, "bpw_reel_motor", "reel_gearmotor_24V_slip_clutch", G.reel_motor(), "motor")
+    add_shape(doc, reel, "bpw_joint", "HP_rotary_joint", G.rotary_joint(), "zinc")
+    add_shape(doc, reel, "bpw_supply", "HP_hose_to_mast_guide", G.supply_hose(), "hp_hose")
+    return root
+
+
+def set_pose(arm_z=P.ZC0, tilt=0.0, swing=0.0, doc=None):
+    doc = active_doc(doc)
+    doc.getObject("Carriage").Placement = BF.carriage_placement(arm_z)
+    doc.getObject("Arm").Placement = BF.arm_placement(swing)
+    doc.getObject("Tilt").Placement = tilt_placement(tilt)
+    doc.recompute()
+
+
+set_steering = BF.set_steering
+global_shape = BF.global_shape
+_overlaps = BF._overlaps
+
+
+def build(save=True, show_robot=False, step=True, arm_z=P.ZC0, tilt=0.0):
+    if DOC_NAME in App.listDocuments():
+        App.closeDocument(DOC_NAME)
+    doc = App.newDocument(DOC_NAME)
+    doc.Label = "Barn pressure washer simple"
+    doc.Comment = ("Generated by build_bpw.py from bpw_params.py (mast, arm, tilt head from fence inspector and hedge "
+                   "trimmer). Robot coordinates: x = right, y = driving direction (front = +y), z = up, ground = z 0.")
+    robot = None
+    try:
+        robot = BF.build_robot(doc)
+    except Exception as exc:
+        print("robot model not loaded:", exc)
+    build_into(doc, robot, arm_z, tilt)
+    if robot is not None:
+        set_robot_visible(bool(show_robot), doc)
+    doc.recompute()
+    if save:
+        doc.saveAs(SAVE_BASE + ".FCStd")
+    if step:
+        export_step(doc, SAVE_BASE + ".step")
+    return doc
+
+
+def active_doc(doc=None):
+    if doc is not None:
+        return doc
+    if DOC_NAME in App.listDocuments():
+        return App.getDocument(DOC_NAME)
+    raise RuntimeError("no document %s open" % DOC_NAME)
+
+
+def objects_of(doc, name):
+    g = doc.getObject(name)
+    return [o for o in g.OutListRecursive if o.TypeId == "Part::Feature"] if g else []
+
+
+def robot_objects(doc):
+    robot = doc.getObject("Robot")
+    if robot is None:
+        return []
+    mine = {o.Name for o in objects_of(doc, ROOT)}
+    return [o for o in robot.OutListRecursive if o.TypeId == "Part::Feature" and o.Name not in mine]
+
+
+def set_robot_visible(visible, doc=None):
+    doc = active_doc(doc)
+    for o in robot_objects(doc):
+        o.ViewObject.Visibility = visible
+
+
+def export_step(doc, path):
+    import Import
+    objs = []
+    for o in objects_of(doc, ROOT):
+        f = doc.addObject("Part::Feature", "step_" + o.Name)
+        f.Label = o.Label
+        f.Shape = global_shape(o)
+        objs.append(f)
+    try:
+        Import.export(objs, path)
+    finally:
+        for f in objs:
+            doc.removeObject(f.Name)
+
+
+JOINTS = {("hdg_tilt_motor", "arm"), ("hdg_tilt_flange", "hdg_tilt_motor"), ("bpw_clamp", "hdg_tilt_flange"),
+          ("bpw_lance", "bpw_clamp"), ("bpw_swivel", "bpw_clamp"), ("bpw_arm_hose", "bpw_swivel"),
+          ("bpw_arm_hose", "arm"), ("bpw_arm_hose", "hdg_tilt_motor"), ("bpw_bar_bolts", "bpw_bars"),
+          ("bpw_side_plates", "bpw_bars"), ("bpw_drum", "bpw_side_plates"), ("bpw_wound", "bpw_drum"),
+          ("bpw_reel_motor", "bpw_side_plates"), ("bpw_reel_motor", "bpw_drum"), ("bpw_joint", "bpw_side_plates"),
+          ("bpw_joint", "bpw_drum"), ("bpw_supply", "bpw_joint"), ("bpw_supply", "bpw_guide"), ("bpw_guide", "mast"),
+          ("bpw_guide", "stepper")}
+
+
+def _joint(a, b):
+    if (a, b) in JOINTS or (b, a) in JOINTS or BF._joint(a, b):
+        return True
+    for x, y in ((a, b), (b, a)):
+        if x == "bpw_bar_bolts" and y.startswith("upper_beam"):
+            return True
+    return False
+
+
+def check_interference(doc=None, tol=1.0):
+    doc = active_doc(doc)
+    mine = [(o, global_shape(o)) for o in objects_of(doc, ROOT)]
+    robot = [(o, global_shape(o)) for o in robot_objects(doc)]
+    pairs = [(mine[i], mine[j]) for i in range(len(mine)) for j in range(i + 1, len(mine))
+             if not _joint(mine[i][0].Name, mine[j][0].Name)]
+    pairs += [(a, b) for a in mine for b in robot if not _joint(a[0].Name, b[0].Name)]
+    return _overlaps(pairs, tol)
+
+
+def check_holes(doc=None, tol=1.0):
+    doc = active_doc(doc)
+    sb = global_shape(doc.getObject("bpw_bar_bolts"))
+    out = {}
+    for o in robot_objects(doc):
+        if o.Name.startswith("upper_beam"):
+            so = global_shape(o)
+            v = sb.common(so).Volume
+            if v > tol:
+                out[o.Name] = round(v, 1)
+    return out
+
+
+def check_poses(doc=None, tol=1.0):
+    doc = active_doc(doc)
+    moving = objects_of(doc, "Carriage")
+    names = {o.Name for o in moving}
+    fixed = [(o, global_shape(o)) for o in objects_of(doc, ROOT) + robot_objects(doc) if o.Name not in names]
+    out = {}
+    for z in P.z_range:
+        for tilt in P.TILT_POSES:
+            if tilt > 30.0 and z < P.floor_min_z:
+                continue                            # floor pose only from floor_min_z (the controller limits it)
+            for swing in (0.0, P.swing_max):
+                set_pose(z, tilt, swing, doc)
+                mv = [(o, global_shape(o)) for o in moving]
+                hits = _overlaps([(a, b) for a in mv for b in fixed if not _joint(a[0].Name, b[0].Name)], tol)
+                if hits:
+                    out[str((z, tilt, swing))] = hits
+    set_pose(P.ZC0, 0.0, 0.0, doc)
+    return out
+
+
+def nozzle_reach(doc=None):
+    doc = active_doc(doc)
+    out = {}
+    for z in (P.z_range[0], P.floor_min_z, P.z_range[1]):
+        for tilt in P.TILT_POSES:
+            set_pose(z, tilt, 0.0, doc)
+            b = global_shape(doc.getObject("bpw_lance")).BoundBox
+            out[str((z, tilt))] = (round(b.XMax), round(b.ZMin), round(b.ZMax))
+    set_pose(P.ZC0, 0.0, 0.0, doc)
+    return out
+
+
+MASS_FIXED = {"bpw_reel_motor": 3.0, "bpw_joint": 0.8, "hdg_tilt_motor": 2.2, "stepper": 1.4, "camera": 0.5,
+              "bpw_swivel": 0.4, "bpw_wound": 30 * 0.25}
+DENSITY = (("bpw_supply", 1.4e-6), ("bpw_arm_hose", 1.4e-6), ("bpw_drum", 0.06 * P.steel))   # drum: 3 mm shell + flanges
+
+
+def _mass_cg(obj):
+    shape = global_shape(obj)
+    solids = shape.Solids or [shape]
+    vol = sum(s.Volume for s in solids)
+    cg = V(0, 0, 0)
+    for s in solids:
+        cg += s.CenterOfMass * s.Volume
+    cg = cg * (1.0 / vol) if vol > 0 else shape.BoundBox.Center
+    if obj.Name in MASS_FIXED:
+        return MASS_FIXED[obj.Name], cg
+    dens = P.steel
+    for key, d in DENSITY:
+        if obj.Name.startswith(key):
+            dens = d
+    return vol * dens, cg
+
+
+def mass_properties(doc=None):
+    doc = active_doc(doc)
+    out = {}
+    for name in (ROOT, "Mount", "Carriage", "Reel"):
+        m, c = 0.0, V(0, 0, 0)
+        for o in objects_of(doc, name):
+            mo, co = _mass_cg(o)
+            m += mo
+            c += co * mo
+        c = c * (1.0 / m) if m > 0 else c
+        out[name.lower() + "_kg"] = round(m, 1)
+        out[name.lower() + "_cg"] = (round(c.x), round(c.y), round(c.z))
+    return out
+
+
+set_camera = BF.BP.set_camera
+
+
+def save_view(name, direction, target=None, height=None, up=(0.0, 0.0, 1.0), size_px=(1600, 1100)):
+    import FreeCADGui as Gui
+    Gui.updateGui()
+    set_camera(direction, target, height, up)
+    Gui.updateGui()
+    view = set_camera(direction, target, height, up)
+    os.makedirs(PREVIEW_DIR, exist_ok=True)
+    path = os.path.join(PREVIEW_DIR, name)
+    view.saveImage(path, size_px[0], size_px[1], "White")
+    return path
+
+
+SCENE = ("render_pen", "render_dirt", "render_jet")
+
+
+def add_scene(doc, tilt=0.0):
+    y0, y1 = -2500.0, 2500.0
+    for name, shape, color, tr in ((SCENE[0], G.pen(y0, y1), COLOR["pen"], 0), (SCENE[1], G.dirt(y0, y1), (0.45, 0.35, 0.20), 0)):
+        o = doc.addObject("Part::Feature", name)
+        o.Shape = shape
+        o.ViewObject.ShapeColor = color
+        o.ViewObject.Transparency = tr
+
+
+def add_jet(doc):
+    j = doc.addObject("Part::Feature", SCENE[2])
+    s = G.jet(600.0)
+    s.Placement = doc.getObject("Tilt").getGlobalPlacement().multiply(s.Placement)
+    j.Shape = s
+    j.ViewObject.ShapeColor = COLOR["jet"]
+    j.ViewObject.Transparency = 50
+
+
+def render_all():
+    out = []
+    doc = build(save=False, show_robot=True, step=False, arm_z=700.0)
+    add_scene(doc)
+    add_jet(doc)
+    out.append(save_view("1_iso_washing_wall.png", (1.0, -1.1, -0.55), target=(500, 0, 650), height=2900))
+    out.append(save_view("2_rear_wall.png", (0.0, 1.0, -0.1), target=(600, 0, 700), height=2300))
+    doc.removeObject(SCENE[2])
+    set_pose(800.0, 60.0, 0.0, doc)
+    add_jet(doc)
+    out.append(save_view("3_rear_floor.png", (0.0, 1.0, -0.1), target=(600, 0, 600), height=2300))
+    for n in SCENE:
+        if doc.getObject(n):
+            doc.removeObject(n)
+    set_robot_visible(False, doc)
+    set_pose(900.0, 0.0, 0.0, doc)
+    out.append(save_view("4_reel_and_mast.png", (-1.0, -1.0, -0.6), target=(200, -300, 1050), height=1500))
+    set_robot_visible(True, doc)
+    out.append(save_view("5_top.png", (0.0, 0.0, -1.0), target=(300, -100, 0), up=(0.0, 1.0, 0.0), height=2400))
+    App.closeDocument(doc.Name)
+    build()
+    return out

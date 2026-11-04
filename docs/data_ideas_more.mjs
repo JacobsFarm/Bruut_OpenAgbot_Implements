@@ -67,16 +67,6 @@ export const moreIdeas = [
     reuse: "Sickle bar mower; belt rake for the pick-up; dumper barrow or bag trailer for the container; feed pusher route at the barn.",
     open: ["Load per trip versus mass and the field's bearing capacity", "Pick-up of fresh, heavy grass", "Unloading at the feed fence", "Trips per day for a given number of cows"],
   },
-  {
-    slug: "barn_pressure_washer",
-    source: CATALOGUE,
-    name: "Barn pressure washer",
-    category: "Livestock & Farm",
-    does: "Cleans pens, walls and floors with a high-pressure water jet when the barn is empty, around the clock. Seen on the Envirologic Evo Cleaner (pig barns).",
-    concept: "A pressure washer pump on board (water by hose or from a tank) and a nozzle on a small arm with two axes that follows a taught pattern per pen. The robot moves from pen to pen on a stored route.",
-    reuse: "Arm and axes of the weed picker or field marker; tank and pump of the mobile refiller; motor options of the heavy-duty electric motors.",
-    open: ["Water supply: hose reel or tank", "Waterproofing of the robot and its electronics", "Arm reach for walls and partitions", "Navigation in a wet, empty barn"],
-  },
   // Transport & general
   {
     slug: "weeding_bed",
