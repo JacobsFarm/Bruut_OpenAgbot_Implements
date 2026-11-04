@@ -695,4 +695,12 @@ export const implementsList = [
         text: "Grassland harrow mount, lift and frame (imported) with 11 rigid tines (35 mm deep, transport holes), a 1300 mm levelling board and a rod roller O220 that carries the frame and sets the depth; a 360 degree lidar on a post navigates on the arena walls.",
         facts: ["20 x 40 arena in ~17 min", "~660 N draft, 44 kg front ballast for grip", "158 kg, stays on its roller"] },
     ] },
+  {
+    name: "Precision seeder", folder: "precision seeder", category: "Sowing & Planting",
+    summary: "Sows row crops seed by seed and logs the RTK position of every seed, so the weeders can work up to the plant before it is visible. Two vacuum seeding units in the three-point hitch.",
+    variants: [
+      { name: "Simple", folder: "precision seeder/simple", hero: "precision seeder/simple/previews/1_iso_rear_sowing.png",
+        text: "The three-point hitch and its toolbar frame (imported) with 2 units on parallelograms for rows at 500 mm: 4 l hopper, vacuum disc on its own stepper, seed tube with an optical seed sensor, double-disc opener between depth wheels, press wheel; a 24 V vacuum blower.",
+        facts: ["~13 mm (1 sigma) logged seed position, estimated", "0.23 ha/h, ~0.9 ha per charge", "107 kg with the hitch"] },
+    ] },
 ];

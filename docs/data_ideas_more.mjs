@@ -35,16 +35,6 @@ export const moreIdeas = [
     open: ["Power needed for prunings versus grass", "Rotor speed, knife type and stone throw protection", "Width that fits the row spacing", "Mass on the rear and balance with counterweights"],
   },
   // Sowing & planting
-  {
-    slug: "precision_seeder",
-    source: CATALOGUE,
-    name: "Precision seeder (single seed)",
-    category: "Sowing & Planting",
-    does: "Sows row crops (beet, maize, vegetables) seed by seed and records the RTK position of every seed, so a later weeding pass can hoe around each plant before it is even visible. Seen on FarmDroid FD20 and Fendt Xaver.",
-    concept: "Two to four seeding units on a toolbar behind the robot, each with a small hopper, a vacuum or finger metering disc driven by its own stepper, a coulter and a press wheel. The controller logs each seed drop with the RTK position and time.",
-    reuse: "Toolbar and parallelogram units of the inter-row hoe; metering motor and hopper of the overseeder; position logging and odometry timing of the cauliflower applicator; in-row weeder for the follow-up pass.",
-    open: ["Metering principle (vacuum, finger, cell wheel) per crop", "Accuracy of the logged seed position at the working speed", "Depth control and soil closing", "Row spacing and number of units per pass"],
-  },
   // Weed & crop protection
   {
     slug: "orchard_air_sprayer",
