@@ -35,14 +35,5 @@ export const moreIdeas = [
     reuse: "Docking approach, RTK antenna above the connection and procedure of the mobile refiller; battery pack idea.",
     open: ["Charging connector and automatic plug-in", "Charging power and time", "Battery capacity on the charger robot", "Wireless versus conductive contact"],
   },
-  {
-    slug: "security_patrol",
-    name: "Security camera patrol",
-    category: "Measuring & Sensors",
-    does: "A mast with camera and thermal imaging that patrols the farm or field at night, reports intruders and keeps an eye on animals and equipment.",
-    concept: "Mast with pan/tilt camera, thermal sensor and microphone; the robot drives a set route and alerts on movement. Combines with the speaker for warnings.",
-    reuse: "Camera mast of the spot sprayer; speaker idea; solar roof for power.",
-    open: ["Camera and thermal sensor choice", "Alert route to the farmer", "Privacy and rules for filming", "Night-time driving and obstacles"],
-  },
   // ---------- Cleaning up (own ideas, moved from docs/implement ideas/) ----------
 ];

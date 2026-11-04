@@ -591,4 +591,12 @@ export const implementsList = [
         text: "Hood, belly rails and camera of the drop-on-demand boom (imported); 2 galvo scan heads (one per 300 mm of the 0.6 m bed) and 2 x 60 W diode lasers in an air-cooled box on top, linked by armoured fibres. Class 4: fires only with the hood down and the robot level.",
         facts: ["~19 J, 0.33 s per weed", "0.2 m/s, ~990 m2 per charge", "~48 kg"] },
     ] },
+  {
+    name: "Security patrol", folder: "security patrol", category: "Measuring & Sensors",
+    summary: "A 2 m camera mast with a pan/tilt head (30x zoom day/night camera, thermal camera, IR light), 4 fixed all-round cameras, horns and a beacon: the robot patrols the farm at night, sweeps every viewpoint with the thermal camera and alerts the farmer.",
+    variants: [
+      { name: "Simple", folder: "security patrol/simple", hero: "security patrol/simple/previews/1_iso_front_on_robot.png",
+        text: "Mast 60 x 60 x 3 on an 8 mm plate across the 4 upper beams behind the centre (8 x M10); pan/tilt head at 2.23 m with a 4 MP 30x zoom camera, a 640 x 512 thermal camera and an 850 nm illuminator; 4 fixed 2 MP cameras, 2 horn speakers, beacon, microphone and an IP65 box with recorder and LTE router.",
+        facts: ["Thermal: person detected at ~780 m", "~12 rounds of 2 km per charge", "~38 kg"] },
+    ] },
 ];
