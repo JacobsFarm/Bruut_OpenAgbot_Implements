@@ -45,7 +45,7 @@ Follow [AGENTS.md](../../AGENTS.md): make a folder per variant (\`simple/\`, \`a
 estimated and not measured. Then move the folder out of \`implement ideas/\` and add it to the table in the main
 [README](../../README.md) and to [docs](../../docs/).
 
-${i.extra ? "Source: own brainstorm, not on the website list." : "Source: the attachments list of the website (functionality's.json)."}
+${i.source ? i.source : i.extra ? "Source: own brainstorm, not on the website list." : "Source: the attachments list of the website (functionality's.json)."}
 `;
 }
 
@@ -90,7 +90,7 @@ const ideasMd = `<!-- ideas:start -->
 **${implementsList.length} implements are worked out** (${nVariants} variants, see [Implements](#implements)) and
 **${ideas.length} ideas are not worked out yet**. Each idea has a folder in [implement ideas/](implement%20ideas/) with a
 \`README.md\`: what it does, a first concept, what can be reused and the open questions. Ideas marked * come from own
-brainstorming, the others from the website's list.
+brainstorming or the robot catalogue, the others from the website's list.
 
 ${categories
   .map(
@@ -145,7 +145,7 @@ for (const imp of implementsList) {
 toc.push({ id: "ideas", label: "Implement ideas (not worked out yet)", level: 1, cat: "" });
 page(
   `<p class="kicker">Implement ideas</p><h2 id="ideas">Ideas not worked out yet</h2>
-<p class="lead">${ideas.length} ideas (from the website's list and own brainstorming) that have no model yet. Each has a folder in <code>implement ideas/</code> with a <code>README.md</code> describing what it does, so it can be worked out later.</p>
+<p class="lead">${ideas.length} ideas (from the website's list, own brainstorming and the robot catalogue) that have no model yet. Each has a folder in <code>implement ideas/</code> with a <code>README.md</code> describing what it does, so it can be worked out later.</p>
 ${categories
   .map(
     (c) =>

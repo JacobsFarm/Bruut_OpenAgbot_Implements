@@ -4,6 +4,51 @@ Attachments that are **not worked out yet**: those from the website's list ([ope
 functionality's.json) and extra ideas from brainstorming (marked in their README). Each folder holds a `README.md` with what the implement does, a first concept, what can be reused from the finished
 implements and the open questions, so it can be worked out later in the layout described in [AGENTS.md](../AGENTS.md).
 
+## Crop & Soil
+
+| Idea | What it does |
+|---|---|
+| [Power harrow / rotary tiller](power_harrow/README.md) | Driven tines or blades work the top soil into a seedbed, or loosen the soil between vines and trees. |
+| [Flail mulcher](flail_mulcher/README.md) | Shreds prunings, tough grass, stubble and crop residues between rows instead of only cutting them. |
+| [Riding arena leveller](arena_leveller/README.md) | Levels and loosens the footing of a horse riding arena at night, so it is ready every morning. |
+
+## Sowing & Planting
+
+| Idea | What it does |
+|---|---|
+| [Precision seeder (single seed)](precision_seeder/README.md) | Sows row crops (beet, maize, vegetables) seed by seed and records the RTK position of every seed, so a later weeding pass can hoe around each plant before it is even visible. |
+
+## Weed & Crop Protection
+
+| Idea | What it does |
+|---|---|
+| [Insect vacuum / beetle catcher](insect_vacuum/README.md) | Sucks or knocks pest insects off the crop instead of spraying: lygus bugs in strawberries, Colorado beetles and larvae in potatoes. |
+
+## Spraying, Fertilizing & Irrigation
+
+| Idea | What it does |
+|---|---|
+| [Air-assisted orchard sprayer](orchard_air_sprayer/README.md) | Sprays the canopy of fruit trees, vines or hedges with an air stream that carries the droplets into the leaves, and switches nozzles off where there is no canopy. |
+
+## Livestock & Farm
+
+| Idea | What it does |
+|---|---|
+| [Manure vacuum collector](manure_vacuum/README.md) | Sucks fresh manure from a solid barn floor into a tank and empties it at a drain or pit, instead of pushing it. |
+| [Feed mixing and distribution wagon](feed_mixer_wagon/README.md) | Loads, weighs and mixes a ration and lays it along the feed fence several times a day. |
+| [Concentrate dispenser on the feed table](concentrate_dispenser/README.md) | Doses concentrates or minerals on the feed along the fence while pushing feed, to draw cows to the fence. |
+| [Calf milk taxi](calf_milk_taxi/README.md) | Brings warm milk to the calves in their hutches or pens and doses each calf's portion, so the farmer does not have to carry buckets. |
+| [Fresh grass harvester (zero grazing)](fresh_grass_harvester/README.md) | Mows fresh grass in the field, loads it and brings it to the feed fence, several times a day. |
+| [Barn pressure washer](barn_pressure_washer/README.md) | Cleans pens, walls and floors with a high-pressure water jet when the barn is empty, around the clock. |
+
+## Transport & General
+
+| Idea | What it does |
+|---|---|
+| [Hedge trimmer, edger and leaf blower](landscaping_tools/README.md) | Trims hedges, cuts lawn edges along paths and blows leaves into a windrow, without a gardener walking along. |
+| [Sports field line marker](line_marker/README.md) | Paints the lines of sports fields (football, hockey) from a stored layout, with only a few minutes of setup. |
+| [Weeding bed (lying platform)](weeding_bed/README.md) | Carries one or more workers lying face down just above the crop, so they can weed or harvest by hand without bending, while the robot creeps along the bed. |
+| [Asparagus harvester](asparagus_harvester/README.md) | Finds white asparagus spears that push up through the ridge, cuts them below the surface and lifts them out. |
 
 Already worked out (in the folders next to this one): overseeder, liquid fertilizer applicator, feed pusher auger, disc brushes
 (broom), dockweed drill (CNC weed driller), trencher, spot sprayer (atomising boom), in-row weeder (finger weeders), around-pole
