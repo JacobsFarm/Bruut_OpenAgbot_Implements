@@ -631,4 +631,12 @@ export const implementsList = [
         text: "Broom sweeper (imported) with 60 spring tines O6 instead of bristles (tip circle O360, 150 rpm, 10 mm above the concrete), a climate sensor box under the rear beam with an inlet at 300 mm, and a 360 degree camera on a 1.4 m post.",
         facts: ["1500 m2 house in ~1.5 h", "~810 W rotor, 1.4 houses per charge", "122 kg"] },
     ] },
+  {
+    name: "Charging robot", folder: "charging robot", category: "Power & Drive",
+    summary: "A second Bruut as a mobile charger: 4 battery-pack pods (10.2 kWh) on a deck, a 1.5 kW DC/DC charger and the charging dock's contact head on an arm at the rear, so a working robot docks and charges in the field instead of driving to the shed.",
+    variants: [
+      { name: "Simple", folder: "charging robot/simple", hero: "charging robot/simple/previews/1_iso_robot_docked_behind.png",
+        text: "Deck on 3 flat bars across the upper beams with 4 LiFePO4 pods (battery pack, imported), DC/DC 54 V CC/CV 1.5 kW, fuse box; rear bracket and arm with the dock's PE head, copper bars and funnel (charging dock, imported).",
+        facts: ["9.2 kWh usable, ~5.6 charges per trip", "~73 min per charge (20 -> 100 %)", "~135 kg on the robot"] },
+    ] },
 ];
