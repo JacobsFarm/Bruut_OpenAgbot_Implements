@@ -79,16 +79,6 @@ export const moreIdeas = [
   },
   // Transport & general
   {
-    slug: "landscaping_tools",
-    source: CATALOGUE,
-    name: "Hedge trimmer, edger and leaf blower",
-    category: "Transport & General",
-    does: "Trims hedges, cuts lawn edges along paths and blows leaves into a windrow, without a gardener walking along. Seen on the Electric Sheep Verdie.",
-    concept: "A side arm with two axes that carries a hedge trimmer bar, swapped for an edger disc at ground level, and a separate blower nozzle at the front. The robot follows the hedge or path edge with a camera or a stored RTK line.",
-    reuse: "Arm and swing-out of the around-pole fence mower; following a line of plants of the windbreak and tree-row inspector; garden-tool motors of the heavy-duty electric motors; broom sweeper for picking up the windrow.",
-    open: ["Arm reach and height for hedges", "Detecting the hedge face and the path edge", "Safety of the trimmer bar near people", "Blower power and noise"],
-  },
-  {
     slug: "weeding_bed",
     source: CATALOGUE,
     name: "Weeding bed (lying platform)",

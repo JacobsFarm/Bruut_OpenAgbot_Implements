@@ -711,4 +711,12 @@ export const implementsList = [
         text: "Debris vacuum nozzle, lift and hose (imported) without the brush, a rubber squeegee lip at the rear; a stainless 130 l vacuum tank on the upper beams with float valve and moisture trap, a rotary-vane pump behind it and a knife-gate dump valve.",
         facts: ["~87 m of alley per load", "100 cows: ~17 loads, ~2.5 h a day", "182 kg empty, 476 kg full"] },
     ] },
+  {
+    name: "Hedge trimmer and leaf blower", folder: "landscaping tools", category: "Transport & General",
+    summary: "Trims hedges along a stored line and blows clippings and leaves off the path: a tilting double-sided trimmer bar on the fence inspector's mast and arm, a blower in front.",
+    variants: [
+      { name: "Simple", folder: "landscaping tools/simple", hero: "landscaping tools/simple/previews/1_iso_side_cut.png",
+        text: "Fence inspector mast, carriage and spring-hinged arm (imported) with a tilt gearmotor and a 1000 mm double-sided trimmer bar (0 = side cut, 90 = top cut, 45 = chamfer), a ToF sensor for the 60 mm gap, and a 48 V axial blower under the front beam.",
+        facts: ["Side cut 0.39-2.37 m, top cut up to 1.26 m", "~180 m of hedge per hour", "36 kg"] },
+    ] },
 ];
