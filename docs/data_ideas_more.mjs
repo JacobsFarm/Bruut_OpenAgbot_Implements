@@ -19,14 +19,4 @@ export const moreIdeas = [
   // Livestock & farm
   // Transport & general
   // Harvesting
-  {
-    slug: "asparagus_harvester",
-    source: CATALOGUE,
-    name: "Asparagus harvester",
-    category: "Transport & General",
-    does: "Finds white asparagus spears that push up through the ridge, cuts them below the surface and lifts them out. Seen on the AVL Compact S9000 and the Inaho harvesting robot.",
-    concept: "A module that straddles one ridge, with a camera or a sensor that detects spear tips breaking the plastic or soil, a narrow cutting and gripping tool on a vertical axis that goes into the ridge, and a crate on the robot. The robot creeps along the ridge.",
-    reuse: "Vertical axis and drill head layout of the dockweed drill; camera hood of the potato disease scout; crate carrier deck for the harvested spears.",
-    open: ["Detecting spears before they reach the light", "Cut depth and closing the ridge again", "Cycle time per spear versus the robot's speed", "Working under the plastic film"],
-  },
 ];

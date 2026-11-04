@@ -775,4 +775,12 @@ export const implementsList = [
         text: "Front arms under the lower beams with a 1.2 m sickle bar and a cross auger, a slatted elevator outside the right front wheel up to 1.42 m, a 0.41 m3 container that tips 55 degrees to the left, and 60 kg rear ballast.",
         facts: ["~73 kg per load, ~11 min per trip", "~1.3 t per charge: ~21 cows", "286 kg; front share 57 % empty, 51 % full"] },
     ] },
+  {
+    name: "Asparagus harvester", folder: "asparagus harvester", category: "Transport & General",
+    summary: "Straddles one ridge of white asparagus, finds spear tips cracking the ridge top with a camera, cuts each spear 220 mm deep and lifts it out on an X-Z gantry under the belly.",
+    variants: [
+      { name: "Simple", folder: "asparagus harvester/simple", hero: "asparagus harvester/simple/previews/1_iso_on_the_ridge.png",
+        text: "Belly rails (from the flail mulcher) with an X gantry (+-120) and a tall Z axis through the robot at y 0, a knife tube O30 with gripper fingers (tip 180-1000), a spear bin on the slide, a crate on a rear deck, and a camera hood with LEDs and a line laser at the front.",
+        facts: ["~3.5 s per spear", "~270 m of ridge, ~20 kg per hour", "44 kg, ~6.5 h per charge"] },
+    ] },
 ];
