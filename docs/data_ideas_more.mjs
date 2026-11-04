@@ -88,16 +88,6 @@ export const moreIdeas = [
     open: ["Bin volume versus mass and stability", "Mixing power of a vertical auger on a battery", "Loading: feed kitchen, hopper or by hand", "Feeding small groups (calves, young stock) versus the whole herd"],
   },
   {
-    slug: "calf_milk_taxi",
-    source: CATALOGUE,
-    name: "Calf milk taxi",
-    category: "Livestock & Farm",
-    does: "Brings warm milk to the calves in their hutches or pens and doses each calf's portion, so the farmer does not have to carry buckets. Inspired by the automatic calf feeders such as the Lely Calm.",
-    concept: "An insulated milk tank with a heater and a stirrer on the upper beams, a pump and a dosing nozzle on a short arm at the side. The robot drives along the hutches on a stored route and stops at each one to dose the set amount into the bucket.",
-    reuse: "Tank and pump of the liquid fertilizer applicator; flow dosing of the mobile refiller; stop-and-dose positioning of the field marker.",
-    open: ["Hygiene: cleaning the tank, pump and hoses after every round", "Keeping the milk at drinking temperature", "Dose per calf and identifying the calf or hutch", "Mixing milk powder on board or filling from a calf milk kitchen"],
-  },
-  {
     slug: "fresh_grass_harvester",
     source: CATALOGUE,
     name: "Fresh grass harvester (zero grazing)",

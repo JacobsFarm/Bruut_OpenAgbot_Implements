@@ -679,4 +679,12 @@ export const implementsList = [
         text: "The drop-on-demand boom's hood with 2 air knives low along the bed (8 mm slots, blowing in and up), 2 slot nozzles over the rows and a strip curtain; hoses up into a catch box with a 0.8 mm mesh basket; the fan on the lid blows the clean air back to the knives (closed loop).",
         facts: ["Jet ~23 / 13 m/s at the near / far row", "~670 W fan, ~0.43 ha per charge", "68 kg"] },
     ] },
+  {
+    name: "Calf milk taxi", folder: "calf milk taxi", category: "Livestock & Farm",
+    summary: "Brings warm milk from the calf milk kitchen to the hutches and doses each calf's portion into its teat bucket: insulated tank, peristaltic pump and a swing arm with an RFID reader.",
+    variants: [
+      { name: "Simple", folder: "calf milk taxi/simple", hero: "calf milk taxi/simple/previews/1_iso_dosing_at_hutch.png",
+        text: "83 l insulated stainless tank with stirrer and 300 W heating mat on the upper beams, a 6 l/min peristaltic pump, and a swing arm on a hollow-shaft gearmotor that puts the nozzle over the bucket at x 920; RFID and camera at the tip.",
+        facts: ["28 calves at 3 l per fill, ~18 min per round", "-0.4 K/h without heating", "76 kg empty, +86 kg milk"] },
+    ] },
 ];
