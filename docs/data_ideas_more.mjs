@@ -5,15 +5,6 @@ export const moreIdeas = [
   // ---------- Crop & soil ----------
   // ---------- Weed & crop protection ----------
   // ---------- Livestock & farm ----------
-  {
-    slug: "chicken_house_robot",
-    name: "Chicken house robot",
-    category: "Livestock & Farm",
-    does: "Drives through a poultry house to turn the litter, collect floor eggs, and check birds and climate with sensors.",
-    concept: "A small low variant with a litter-turning tool, a soft-brush egg collector and sensors for ammonia, temperature and humidity. Must be quiet and slow around the birds.",
-    reuse: "Disc brush and drive from the brushes; camera and logging from the crop scanner idea.",
-    open: ["Robot height and width for a poultry house", "Egg pick-up mechanism that does not break eggs", "Speed and noise near birds", "Cleaning and disinfection"],
-  },
   // ---------- Measuring & sensors ----------
   // ---------- Transport & general ----------
   // ---------- Power & infrastructure ----------

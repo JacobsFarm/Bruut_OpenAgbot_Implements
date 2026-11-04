@@ -623,4 +623,12 @@ export const implementsList = [
         text: "Aluminium plate 1000 x 1000 at z 1100 on 4 posts and 2 cross bars over the upper beams, PE guide wedges for passive centring, copper charging strips with holding magnets, an AprilTag for landing, and the GNSS antenna moved to a platform corner.",
         facts: ["Catches landings up to 0.25 m off", "~60 min charge = 4.6 % of the robot battery", "42 kg"] },
     ] },
+  {
+    name: "Chicken house robot", folder: "chicken house robot", category: "Livestock & Farm",
+    summary: "Turns the litter in a poultry house with a tine rotor in the broom sweeper's head, measures NH3, CO2, temperature and humidity at bird height and watches the flock with a 360 degree camera.",
+    variants: [
+      { name: "Simple", folder: "chicken house robot/simple", hero: "chicken house robot/simple/previews/1_iso_in_house.png",
+        text: "Broom sweeper (imported) with 60 spring tines O6 instead of bristles (tip circle O360, 150 rpm, 10 mm above the concrete), a climate sensor box under the rear beam with an inlet at 300 mm, and a 360 degree camera on a 1.4 m post.",
+        facts: ["1500 m2 house in ~1.5 h", "~810 W rotor, 1.4 houses per charge", "122 kg"] },
+    ] },
 ];
