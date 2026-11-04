@@ -11,15 +11,6 @@ const websiteIdeas = [
   // ---------- Sowing & planting ----------
   // ---------- Spreading & bedding ----------
   // ---------- Power & drive ----------
-  {
-    slug: "heavy_duty_motors",
-    name: "Heavy-duty electric motors",
-    category: "Power & Drive",
-    does: "Electric motors such as the Ego Power+ or Greenworks units to drive implements that need real power, replacing small petrol engines.",
-    concept: "A standard interface plate for battery-powered garden-tool motors (their battery or the robot's bus via adapter), with a belt or shaft output to an implement. Gives a ready, cheap drive where a bought motor is easier than a custom 48 V BLDC.",
-    reuse: "Motor plates and V-belt drives of the around-pole mower and the weed picker.",
-    open: ["Which motors: brands, power, output shaft type", "Supply: own battery or the robot's 48 V", "Interface plate and quick-change mounting", "Protection against dust and water"],
-  },
   // ---------- Transport & general ----------
   // ---------- Measuring & sensors ----------
   // ---------- Cooperation & swarm ----------

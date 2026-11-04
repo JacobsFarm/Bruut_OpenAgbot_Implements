@@ -1,0 +1,313 @@
+"""Model of the heavy-duty motor module on its demonstrator, a mower deck under the Bruut OpenAgbot (standard robot).
+
+Use in FreeCAD (folder on sys.path, or via run_in_freecad.py):
+    import build_hdm
+    build_hdm.build()                      # saves FCStd and STEP (middle cutting height)
+    build_hdm.set_height(20)               # cutting height step (-20, 0, 20 mm)
+    build_hdm.check_interference()         # overlap (must be empty)
+    build_hdm.check_poses()                # height steps x steering +-30 (must be empty)
+    build_hdm.mass_properties()
+    build_hdm.render_all()                 # all images in previews/
+"""
+import os
+import sys
+
+import FreeCAD as App
+from FreeCAD import Vector as V
+
+import hdm_params as P
+import hdm_parts as G
+
+FOLDER = os.path.dirname(os.path.abspath(__file__))
+PREVIEW_DIR = os.path.join(FOLDER, "previews")
+AGBOT_FOLDER = os.path.join(os.path.dirname(os.path.dirname(FOLDER)), "agbots", "agbot design")
+DOC_NAME = "Heavy_Duty_Motor"
+SAVE_BASE = os.path.join(FOLDER, "Heavy_Duty_Motor")
+ROOT = "Heavy_duty_motor"
+
+COLOR = {"frame": (0.93, 0.42, 0.08), "zinc": (0.82, 0.84, 0.87), "deck": (0.15, 0.45, 0.20),
+         "steel": (0.75, 0.75, 0.78), "alu": (0.80, 0.81, 0.83), "motor": (0.20, 0.22, 0.25),
+         "brand": (0.30, 0.65, 0.20), "box": (0.25, 0.27, 0.30), "battery": (0.15, 0.15, 0.17),
+         "cable": (0.10, 0.10, 0.10), "rubber": (0.10, 0.10, 0.10), "red": (0.85, 0.10, 0.08)}
+
+
+def new_part(doc, parent, name, label, placement=None):
+    part = doc.addObject("App::Part", name)
+    part.Label = label
+    if placement is not None:
+        part.Placement = placement
+    if parent is not None:
+        parent.addObject(part)
+    return part
+
+
+def add_shape(doc, parent, name, label, shape, color, visible=True):
+    obj = doc.addObject("Part::Feature", name)
+    obj.Label = label
+    obj.Shape = shape
+    parent.addObject(obj)
+    if obj.ViewObject is not None:
+        obj.ViewObject.ShapeColor = COLOR[color]
+        obj.ViewObject.Visibility = visible
+    return obj
+
+
+def deck_placement(dz=0.0):
+    return App.Placement(V(0, 0, dz), App.Rotation())
+
+
+def build_into(doc, parent=None, dz=0.0):
+    root = new_part(doc, parent, ROOT, "heavy_duty_motor_module_on_mower_deck")
+    mt = new_part(doc, root, "Mount", "belly_rails_hangers")
+    add_shape(doc, mt, "rails", "belly_rails_40x40x3_x225", G.rails(), "frame")
+    add_shape(doc, mt, "rail_bolts", "rail_bolts_8xM10", G.rail_bolts(), "zinc")
+    add_shape(doc, mt, "hangers", "hangers_flat_40x8_3_heights", G.hangers(), "frame")
+    add_shape(doc, mt, "hanger_bolts", "hanger_foot_bolts_M8_rivet_nuts", G.hanger_bolts(), "zinc")
+    dk = new_part(doc, root, "Deck", "mower_deck_with_motor_module_moves_with_height_step", deck_placement(dz))
+    add_shape(doc, dk, "deck", "mower_deck_D600_side_discharge", G.deck(), "deck")
+    add_shape(doc, dk, "lugs", "deck_lugs_8mm", G.lugs(), "deck")
+    add_shape(doc, dk, "lug_bolts", "lug_bolts_M8", G.lug_bolts(), "zinc")
+    add_shape(doc, dk, "rollers", "anti_scalp_rollers_D60", G.rollers(), "rubber")
+    add_shape(doc, dk, "blade", "blade_530_boss", G.blade(), "steel")
+    md = new_part(doc, dk, "Module", "motor_module_quick_change")
+    add_shape(doc, md, "receiver", "dovetail_receiver_on_deck", G.receiver(), "alu")
+    add_shape(doc, md, "interface_plate", "interface_plate_alu_8mm_handle", G.interface_plate(), "alu")
+    add_shape(doc, md, "lock_pin", "lock_pin_D12_T_handle", G.lock_pin(), "red")
+    add_shape(doc, md, "adapter_ring", "brand_adapter_ring_D190", G.adapter_ring(), "brand")
+    add_shape(doc, md, "ring_bolts", "ring_bolts_4xM8", G.ring_bolts(), "zinc")
+    add_shape(doc, md, "motor", "mower_motor_56V_2kW_class", G.motor(), "motor")
+    add_shape(doc, md, "motor_shaft", "motor_shaft_D22_2", G.motor_shaft(), "steel")
+    add_shape(doc, md, "controller", "bldc_controller_IP67_box", G.controller(), "box")
+    add_shape(doc, md, "battery_clip", "optional_tool_battery_56V_in_clip", G.battery_clip(), "battery")
+    add_shape(doc, md, "cables", "cables_motor_phases_48V_bus", G.cables(), "cable")
+    return root
+
+
+def set_height(dz=0.0, doc=None):
+    if dz not in P.height_steps:
+        raise ValueError("height step %s not in %s" % (dz, P.height_steps))
+    doc = active_doc(doc)
+    doc.getObject("Deck").Placement = deck_placement(dz)
+    doc.recompute()
+
+
+def build_robot(doc):
+    if AGBOT_FOLDER not in sys.path:
+        sys.path.insert(0, AGBOT_FOLDER)
+    import build_agbot as BA
+    robot = BA.new_part(doc, None, "Robot", "Bruut_OpenAgbot_robot")
+    BA.build_chassis(doc, robot)
+    shapes = BA.make_shapes()
+    for tag in ("RL", "RR", "FL", "FR"):
+        BA.build_wheel_unit(doc, robot, tag, shapes, 0.0)
+    return robot
+
+
+def build(save=True, show_robot=False, step=True, dz=0.0):
+    if DOC_NAME in App.listDocuments():
+        App.closeDocument(DOC_NAME)
+    doc = App.newDocument(DOC_NAME)
+    doc.Label = "Heavy duty motor simple"
+    doc.Comment = ("Generated by build_hdm.py from hdm_params.py. Robot coordinates: x = right, y = driving direction "
+                   "(front = +y), z = up, ground = z 0. build_hdm.set_height() moves the deck.")
+    robot = None
+    try:
+        robot = build_robot(doc)
+    except Exception as exc:
+        print("robot model not loaded:", exc)
+    build_into(doc, robot, dz)
+    if robot is not None:
+        set_robot_visible(bool(show_robot), doc)
+    doc.recompute()
+    if save:
+        doc.saveAs(SAVE_BASE + ".FCStd")
+    if step:
+        export_step(doc, SAVE_BASE + ".step")
+    return doc
+
+
+def active_doc(doc=None):
+    if doc is not None:
+        return doc
+    for n in App.listDocuments():
+        d = App.getDocument(n)
+        if d.getObject(ROOT) is not None:
+            return d
+    raise RuntimeError("no document with %s open" % ROOT)
+
+
+def objects_of(doc, name):
+    g = doc.getObject(name)
+    return [o for o in g.OutListRecursive if o.TypeId == "Part::Feature"] if g else []
+
+
+def robot_objects(doc):
+    robot = doc.getObject("Robot")
+    if robot is None:
+        return []
+    mine = {o.Name for o in objects_of(doc, ROOT)}
+    return [o for o in robot.OutListRecursive if o.TypeId == "Part::Feature" and o.Name not in mine]
+
+
+def set_robot_visible(visible, doc=None):
+    doc = active_doc(doc)
+    for o in robot_objects(doc):
+        o.ViewObject.Visibility = visible
+
+
+def global_shape(obj):
+    s = obj.Shape.copy()
+    s.Placement = obj.getGlobalPlacement()
+    return s
+
+
+def export_step(doc, path):
+    import Import
+    objs = []
+    for o in objects_of(doc, ROOT):
+        f = doc.addObject("Part::Feature", "step_" + o.Name)
+        f.Label = o.Label
+        f.Shape = global_shape(o)
+        objs.append(f)
+    try:
+        Import.export(objs, path)
+    finally:
+        for f in objs:
+            doc.removeObject(f.Name)
+
+
+JOINTS = {("rail_bolts", "rails"), ("hanger_bolts", "rails"), ("hanger_bolts", "hangers"), ("lug_bolts", "lugs"),
+          ("lug_bolts", "hangers"), ("lugs", "deck"), ("rollers", "deck"), ("motor_shaft", "deck"),
+          ("motor_shaft", "interface_plate"), ("motor_shaft", "adapter_ring"), ("motor_shaft", "motor"),
+          ("motor_shaft", "blade"), ("ring_bolts", "adapter_ring"), ("ring_bolts", "interface_plate"),
+          ("ring_bolts", "motor"), ("lock_pin", "interface_plate"), ("lock_pin", "deck"), ("lock_pin", "receiver"),
+          ("cables", "controller"), ("cables", "motor"), ("receiver", "interface_plate")}
+
+
+def _joint(a, b):
+    if (a, b) in JOINTS or (b, a) in JOINTS:
+        return True
+    for x, y in ((a, b), (b, a)):
+        if x == "rail_bolts" and y.startswith("lower_beam"):
+            return True
+    return False
+
+
+def _overlaps(pairs, tol):
+    hits = []
+    for (oa, sa), (ob, sb) in pairs:
+        if not sa.BoundBox.intersect(sb.BoundBox):
+            continue
+        vol = sa.common(sb).Volume
+        if vol > tol:
+            hits.append((oa.Label, ob.Label, round(vol, 1)))
+    return hits
+
+
+def check_interference(doc=None, tol=1.0):
+    doc = active_doc(doc)
+    mine = [(o, global_shape(o)) for o in objects_of(doc, ROOT)]
+    robot = [(o, global_shape(o)) for o in robot_objects(doc)]
+    pairs = [(mine[i], mine[j]) for i in range(len(mine)) for j in range(i + 1, len(mine))
+             if not _joint(mine[i][0].Name, mine[j][0].Name)]
+    pairs += [(a, b) for a in mine for b in robot if not _joint(a[0].Name, b[0].Name)]
+    return _overlaps(pairs, tol)
+
+
+def set_steering(deg, doc=None):
+    doc = active_doc(doc)
+    for name in ("FL_steered", "FR_steered"):
+        o = doc.getObject(name)
+        if o is not None:
+            o.Placement = App.Placement(V(0, 0, 0), App.Rotation(V(0, 0, 1), deg))
+    doc.recompute()
+
+
+def check_poses(doc=None, tol=1.0):
+    """The deck group over the cutting height steps x steering angles against everything else. Must be empty."""
+    doc = active_doc(doc)
+    deck = objects_of(doc, "Deck")
+    names = {o.Name for o in deck}
+    others = [o for o in objects_of(doc, ROOT) + robot_objects(doc) if o.Name not in names]
+    out = {}
+    for st in (-P.robot_steer_max, 0.0, P.robot_steer_max):
+        set_steering(st, doc)
+        fixed = [(o, global_shape(o)) for o in others]
+        for dz in P.height_steps:
+            set_height(dz, doc)
+            dk = [(o, global_shape(o)) for o in deck]
+            hits = _overlaps([(a, b) for a in dk for b in fixed if not _joint(a[0].Name, b[0].Name)], tol)
+            if hits:
+                out[str((st, dz))] = hits
+    set_steering(0.0, doc)
+    set_height(0.0, doc)
+    return out
+
+
+DENSITY = {"receiver": P.alu, "interface_plate": P.alu, "adapter_ring": P.alu, "rollers": 1.2e-6, "cables": 3.0e-6}
+MASS_FIXED = {"motor": P.motor_kg, "controller": 0.9, "battery_clip": 2.0}
+MODULE = ("interface_plate", "lock_pin", "adapter_ring", "ring_bolts", "motor", "motor_shaft", "controller", "cables")
+
+
+def mass_properties(doc=None):
+    """Mass (kg): the whole demonstrator, and the motor module alone (what changes hands at a quick change)."""
+    doc = active_doc(doc)
+    m, mm = 0.0, 0.0
+    for o in objects_of(doc, ROOT):
+        s = global_shape(o)
+        mo = MASS_FIXED.get(o.Name, s.Volume * DENSITY.get(o.Name, P.steel))
+        m += mo
+        if o.Name in MODULE:
+            mm += mo
+    return {"total_kg": round(m, 1), "module_kg": round(mm, 1)}
+
+
+def set_camera(direction, target=None, height=None, up=(0.0, 0.0, 1.0)):
+    import FreeCADGui as Gui
+    from pivy import coin
+    view = Gui.ActiveDocument.ActiveView
+    view.setCameraType("Orthographic")
+    d = V(*direction)
+    d.normalize()
+    cam = view.getCameraNode()
+    tgt = V(*target) if target is not None else V(0, 0, 300)
+    eye = tgt - d * 12000.0
+    cam.position.setValue(coin.SbVec3f(eye.x, eye.y, eye.z))
+    cam.pointAt(coin.SbVec3f(tgt.x, tgt.y, tgt.z), coin.SbVec3f(*up))
+    cam.nearDistance.setValue(10.0)
+    cam.farDistance.setValue(40000.0)
+    if height is None:
+        view.fitAll()
+    else:
+        cam.height.setValue(height)
+    return view
+
+
+def save_view(name, direction, target=None, height=None, up=(0.0, 0.0, 1.0), size_px=(1600, 1100)):
+    import FreeCADGui as Gui
+    Gui.updateGui()
+    set_camera(direction, target, height, up)
+    Gui.updateGui()
+    view = set_camera(direction, target, height, up)
+    os.makedirs(PREVIEW_DIR, exist_ok=True)
+    path = os.path.join(PREVIEW_DIR, name)
+    view.saveImage(path, size_px[0], size_px[1], "White")
+    return path
+
+
+def render_all():
+    out = []
+    doc = build(save=False, show_robot=True, step=False)
+    gr = doc.addObject("Part::Feature", "render_grass")
+    gr.Shape = G.grass(-1300.0, 1300.0)
+    gr.ViewObject.ShapeColor = (0.47, 0.62, 0.30)
+    out.append(save_view("1_iso_on_robot.png", (-1.0, -1.1, -0.55), target=(0, 0, 350), height=2100))
+    out.append(save_view("2_side_on_robot.png", (1.0, 0.0, 0.0), target=(0, 0, 400), height=1700))
+    set_robot_visible(False, doc)
+    gr.ViewObject.Visibility = False
+    out.append(save_view("3_module_quick_change.png", (-1.0, -0.8, -0.7), target=(0, 0, 220), height=800))
+    doc.getObject("deck").ViewObject.Transparency = 70
+    out.append(save_view("4_deck_from_below_blade.png", (0.3, 0.4, 1.0), target=(0, 0, 100), height=900))
+    App.closeDocument(doc.Name)
+    build()
+    return out

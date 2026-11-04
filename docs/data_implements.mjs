@@ -647,4 +647,12 @@ export const implementsList = [
         text: "Swarm kit: a 1.5 m post on a bar across the inner upper beams with a 868 MHz mesh radio, a 4-colour status light tower and a swarm computer box. The calculation gives the speed-up per number of units, charger sharing, radio load and soil pressure.",
         facts: ["4 units: 3.8x faster, 95 % efficient", "One charger per ~3 units", "16 kPa per unit vs 42 kPa tractor"] },
     ] },
+  {
+    name: "Heavy-duty electric motors", folder: "heavy duty motors", category: "Power & Drive",
+    summary: "A universal quick-change module for bought battery garden-tool motors (56-60 V brushless lawnmower motors, ~2 kW) with an own BLDC controller on the robot's 48 V bus, shown on a 530 mm mid-mower deck under the belly.",
+    variants: [
+      { name: "Simple", folder: "heavy duty motors/simple", hero: "heavy duty motors/simple/previews/1_iso_on_robot.png",
+        text: "Aluminium interface plate with a brand adapter ring slides into a dovetail receiver on the implement and is held by one lock pin. A 75 V-class BLDC controller in an IP67 box runs the motor from the robot's 48 V bus (the tool battery in a clip is an option). Demonstrator: mower deck O600 with side discharge, hung from the belly rails with 3 cutting heights.",
+        facts: ["~1.55 kW electric mowing, 32 A at 48 V", "~1350 m2/h, ~1750 m2 per robot charge", "Module 8 kg, deck 39 kg"] },
+    ] },
 ];
