@@ -46,7 +46,6 @@ implements and the open questions, so it can be worked out later in the layout d
 | Idea | What it does |
 |---|---|
 | [Hedge trimmer, edger and leaf blower](landscaping_tools/README.md) | Trims hedges, cuts lawn edges along paths and blows leaves into a windrow, without a gardener walking along. |
-| [Sports field line marker](line_marker/README.md) | Paints the lines of sports fields (football, hockey) from a stored layout, with only a few minutes of setup. |
 | [Weeding bed (lying platform)](weeding_bed/README.md) | Carries one or more workers lying face down just above the crop, so they can weed or harvest by hand without bending, while the robot creeps along the bed. |
 | [Asparagus harvester](asparagus_harvester/README.md) | Finds white asparagus spears that push up through the ridge, cuts them below the surface and lifts them out. |
 
@@ -54,7 +53,7 @@ Already worked out (in the folders next to this one): overseeder, liquid fertili
 (broom), dockweed drill (CNC weed driller), trencher, spot sprayer (atomising boom), in-row weeder (finger weeders), around-pole
 mower (mowing arm), weed picker, irrigation (hose reel), field marker, mobile refiller, belt rake, weeds burner,
 push blade (also the manure scraper job), fertilizer spreader, grassland harrow (molehill spreader), soil sampler, inter-row hoe, grassland aerator, three-point hitch (with the small cultivator), crate carrier (also the tool cart), counterweights, battery pack, solar canopy, compost spreader, stone picker, mulch layer, grass meter (NIR sensor), soil compaction meter, charging dock, UV-C mildew light, sawdust spreader, bedding rake, dumper barrow, biocontrol spreader, bag trailer, broom sweeper (angle broom on the push-blade lift), lime spreader (drop auger), cover crop undersower, straw spreader (bale shredder), electric weeder (spot HV comb), hydraulic power pack, irrigation pump (direct pump), cauliflower root-crown applicator,
-potato disease scout, hybrid range extender (the generator / engine idea), magnet sweeper, drop-on-demand boom, metal detector, hot foam weeder, debris vacuum, biostimulant sprayer, fence inspector, drinking trough check, soil moisture sensor placer, mole, tunnel mapper, windbreak inspector, tray setter, yield estimator, speech speaker, laser weeder, security patrol, seat with canopy, frame extension, pheromone trap service, drone combination, chicken house robot, charging robot, swarm operation and heavy-duty electric motors.
+potato disease scout, hybrid range extender (the generator / engine idea), magnet sweeper, drop-on-demand boom, metal detector, hot foam weeder, debris vacuum, biostimulant sprayer, fence inspector, drinking trough check, soil moisture sensor placer, mole, tunnel mapper, windbreak inspector, tray setter, yield estimator, speech speaker, laser weeder, security patrol, seat with canopy, frame extension, pheromone trap service, drone combination, chicken house robot, charging robot, swarm operation, heavy-duty electric motors and sports field line marker.
 
 Covered elsewhere: the tow hitch (50 mm tow ball) and the patch seeder (drop seeder that a camera switches on over
 bare soil) are in [overseeding/](../overseeding/) (cambridge roll and overseeder). Merged: the small cabin into the

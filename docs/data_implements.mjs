@@ -655,4 +655,12 @@ export const implementsList = [
         text: "Aluminium interface plate with a brand adapter ring slides into a dovetail receiver on the implement and is held by one lock pin. A 75 V-class BLDC controller in an IP67 box runs the motor from the robot's 48 V bus (the tool battery in a clip is an option). Demonstrator: mower deck O600 with side discharge, hung from the belly rails with 3 cutting heights.",
         facts: ["~1.55 kW electric mowing, 32 A at 48 V", "~1350 m2/h, ~1750 m2 per robot charge", "Module 8 kg, deck 39 kg"] },
     ] },
+  {
+    name: "Sports field line marker", folder: "line marker", category: "Transport & General",
+    summary: "Paints the lines of a football or hockey field from a stored layout: one paint nozzle on the rear axle line follows the steered path exactly, a short slide across the robot corrects the line and draws the tight corner arcs.",
+    variants: [
+      { name: "Simple", folder: "line marker/simple", hero: "line marker/simple/previews/1_iso_on_robot_painting.png",
+        text: "Belt module (stroke 340) hung from the belly rails at the rear axle line, a paint head with a 12 V valve, an even flat-fan tip and a brush-skirted shroud, a drag chain for the hose; tank, pump, regulator (agitation) and control box of the spot sprayer.",
+        facts: ["Football field (717 m) in ~19 min, ~10 l paint", "~18 mm (95 %) at the nozzle, estimated", "62 kg empty"] },
+    ] },
 ];

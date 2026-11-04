@@ -149,16 +149,6 @@ export const moreIdeas = [
     open: ["Arm reach and height for hedges", "Detecting the hedge face and the path edge", "Safety of the trimmer bar near people", "Blower power and noise"],
   },
   {
-    slug: "line_marker",
-    source: CATALOGUE,
-    name: "Sports field line marker",
-    category: "Transport & General",
-    does: "Paints the lines of sports fields (football, hockey) from a stored layout, with only a few minutes of setup. Seen on the Turf Tank Two.",
-    concept: "A paint tank on the robot, a small pump and a spray nozzle with a shield, mounted at a known point under the robot. The robot drives the lines on RTK; the nozzle switches on and off at the ends. A field layout is placed on two measured corners, like the AB line.",
-    reuse: "Paint marking and point list of the field marker; pump and nozzle of the spot sprayer; RTK antenna offset of the robot.",
-    open: ["Line accuracy at the nozzle (antenna offset, tilt)", "Paint type, nozzle and line width", "Drawing curves (centre circle, penalty arc)", "Field templates and the user interface"],
-  },
-  {
     slug: "weeding_bed",
     source: CATALOGUE,
     name: "Weeding bed (lying platform)",
