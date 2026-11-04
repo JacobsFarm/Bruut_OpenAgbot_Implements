@@ -1,0 +1,325 @@
+"""Model of the insect vacuum on the Bruut OpenAgbot (standard robot).
+
+Rails, hanger posts, hood shell, brush skirt, post brackets and pins come from "drop on demand boom/simple" (ddb_parts);
+this file adds the suction nozzles, the air knives with their feed, the strip curtain, the hoses and the catch box with
+the mesh basket and the fan on the upper beams.
+
+Use in FreeCAD (folder on sys.path, or via run_in_freecad.py):
+    import build_isv
+    build_isv.build()
+    build_isv.check_interference()         # must be empty
+    build_isv.check_holes()                # bolts in the beam holes
+    build_isv.check_steering()             # hood and hoses against the steered front wheels (+-30): empty
+    build_isv.mass_properties()
+    build_isv.render_all()
+"""
+import os
+
+import FreeCAD as App
+import Part
+from FreeCAD import Vector as V
+
+import isv_params as P
+import isv_parts as G
+import build_ssp as BS
+
+FOLDER = os.path.dirname(os.path.abspath(__file__))
+PREVIEW_DIR = os.path.join(FOLDER, "previews")
+DOC_NAME = "Insect_Vacuum"
+SAVE_BASE = os.path.join(FOLDER, "Insect_Vacuum")
+ROOT = "Insect_vacuum"
+
+COLOR = dict(BS.COLOR)
+COLOR.update({"hood": (0.22, 0.24, 0.26), "brush": (0.12, 0.12, 0.12), "nozzle": (0.86, 0.87, 0.88),
+              "knife": (0.15, 0.55, 0.85), "curtain": (0.80, 0.85, 0.75), "fan": (0.20, 0.45, 0.25),
+              "basket": (0.70, 0.72, 0.74)})
+
+
+def new_part(doc, parent, name, label, placement=None):
+    return BS.new_part(doc, parent, name, label, placement)
+
+
+def add_shape(doc, parent, name, label, shape, color, visible=True, transparency=0):
+    if isinstance(shape, (list, tuple)):
+        shape = Part.makeCompound(list(shape))
+    obj = doc.addObject("Part::Feature", name)
+    obj.Label = label
+    obj.Shape = shape
+    parent.addObject(obj)
+    if obj.ViewObject is not None:
+        obj.ViewObject.ShapeColor = COLOR[color]
+        obj.ViewObject.Visibility = visible
+        obj.ViewObject.Transparency = transparency
+    return obj
+
+
+def build_into(doc, parent=None):
+    root = new_part(doc, parent, ROOT, "insect_vacuum_simple")
+    m = new_part(doc, root, "isv_Mount", "belly_rails_posts_cross_tubes")
+    add_shape(doc, m, "isv_rails", "belly_rails_40x40x3_x225", G.rails(), "frame")
+    add_shape(doc, m, "isv_rail_bolts", "rail_bolts_8xM10", G.rail_bolts(), "zinc")
+    add_shape(doc, m, "isv_posts", "hanger_posts_30x30x2", G.posts(), "frame")
+    add_shape(doc, m, "isv_post_bolts", "post_foot_bolts_M8", G.post_bolts(), "zinc")
+    add_shape(doc, m, "isv_bars", "cross_tubes_40x40x3_y325", G.bars(), "frame")
+    add_shape(doc, m, "isv_bar_bolts", "cross_tube_bolts_8xM10", G.bar_bolts(), "zinc")
+    add_shape(doc, m, "isv_box_rails", "box_rails_30x30x2_x230", G.box_rails(), "frame")
+    h = new_part(doc, root, "isv_Hood", "hood_nozzles_air_knives_curtain")
+    add_shape(doc, h, "isv_hood", "hood_alu_2mm_from_drop_on_demand_boom", G.hood_shell(), "hood")
+    add_shape(doc, h, "isv_brush_holder", "brush_holder_alu_U", G.holder(), "alu")
+    add_shape(doc, h, "isv_brush", "brush_strip_nylon_50", G.brush(), "brush")
+    add_shape(doc, h, "isv_post_brackets", "post_brackets_6mm", G.post_brackets(), "frame")
+    add_shape(doc, h, "isv_bracket_bolts", "post_bracket_bolts_8xM8", G.bracket_bolts(), "zinc")
+    add_shape(doc, h, "isv_pins", "height_pins_M10", G.pins(), "steel")
+    add_shape(doc, h, "isv_nozzles", "suction_nozzles_slot_25x440_to_O90", G.nozzles(), "nozzle")
+    add_shape(doc, h, "isv_knives", "air_knives_O40_slot_8_risers", G.knives(), "knife")
+    add_shape(doc, h, "isv_knife_feed", "knife_cross_pipe_O50_inlet_O80", G.knife_feed(), "knife")
+    add_shape(doc, h, "isv_curtain_bar", "curtain_bar_flat_6mm", G.curtain_bar(), "alu")
+    add_shape(doc, h, "isv_curtain", "strip_curtain_PVC_100x3", G.curtain_strips(), "curtain", transparency=30)
+    b = new_part(doc, root, "isv_Box", "catch_box_basket_fan")
+    add_shape(doc, b, "isv_box", "catch_box_stainless_520x450x300", G.catch_box(), "stainless")
+    add_shape(doc, b, "isv_basket", "mesh_basket_0_8mm", G.basket(), "basket")
+    add_shape(doc, b, "isv_lid", "lid_3mm", G.lid(), "alu")
+    add_shape(doc, b, "isv_fan", "centrifugal_fan_O320_duct", G.fan(), "fan")
+    add_shape(doc, b, "isv_fan_motor", "fan_motor_48V_BLDC_800W", G.fan_motor(), "pump")
+    add_shape(doc, b, "isv_hose_suction", "suction_hoses_O100", G.suction_hoses(), "hose")
+    add_shape(doc, b, "isv_hose_exhaust", "exhaust_hose_O84_to_air_knives", G.exhaust_hose(), "hose")
+    return root
+
+
+build_robot = BS.build_robot
+global_shape = BS.global_shape
+_overlaps = BS._overlaps
+
+
+def set_steering(deg, doc=None):
+    BS.set_steering(deg, deg, active_doc(doc))
+
+
+def build(save=True, show_robot=False, step=True):
+    if DOC_NAME in App.listDocuments():
+        App.closeDocument(DOC_NAME)
+    doc = App.newDocument(DOC_NAME)
+    doc.Label = "Insect vacuum simple"
+    doc.Comment = ("Generated by build_isv.py from isv_params.py (hood, rails, posts from drop on demand boom/simple). "
+                   "Robot coordinates: x = right, y = driving direction (front = +y), z = up, z 0 = bed top.")
+    robot = None
+    try:
+        robot = build_robot(doc)
+    except Exception as exc:
+        print("robot model not loaded:", exc)
+    build_into(doc, robot)
+    if robot is not None:
+        set_robot_visible(bool(show_robot), doc)
+    doc.recompute()
+    if save:
+        doc.saveAs(SAVE_BASE + ".FCStd")
+    if step:
+        export_step(doc, SAVE_BASE + ".step")
+    return doc
+
+
+def active_doc(doc=None):
+    if doc is not None:
+        return doc
+    if DOC_NAME in App.listDocuments():
+        return App.getDocument(DOC_NAME)
+    raise RuntimeError("no document %s open" % DOC_NAME)
+
+
+def objects_of(doc, name):
+    g = doc.getObject(name)
+    return [o for o in g.OutListRecursive if o.TypeId == "Part::Feature"] if g else []
+
+
+def robot_objects(doc):
+    robot = doc.getObject("Robot")
+    if robot is None:
+        return []
+    mine = {o.Name for o in objects_of(doc, ROOT)}
+    return [o for o in robot.OutListRecursive if o.TypeId == "Part::Feature" and o.Name not in mine]
+
+
+def set_robot_visible(visible, doc=None):
+    doc = active_doc(doc)
+    for o in robot_objects(doc):
+        o.ViewObject.Visibility = visible
+
+
+def export_step(doc, path):
+    import Import
+    objs = []
+    for o in objects_of(doc, ROOT):
+        f = doc.addObject("Part::Feature", "step_" + o.Name)
+        f.Label = o.Label
+        f.Shape = global_shape(o)
+        objs.append(f)
+    try:
+        Import.export(objs, path)
+    finally:
+        for f in objs:
+            doc.removeObject(f.Name)
+
+
+JOINTS = {("isv_rail_bolts", "isv_rails"), ("isv_post_bolts", "isv_rails"), ("isv_post_bolts", "isv_posts"),
+          ("isv_bar_bolts", "isv_bars"), ("isv_bracket_bolts", "isv_post_brackets"), ("isv_bracket_bolts", "isv_hood"),
+          ("isv_pins", "isv_post_brackets"), ("isv_pins", "isv_posts"),
+          ("isv_hose_suction", "isv_nozzles"), ("isv_hose_suction", "isv_box"),
+          ("isv_hose_exhaust", "isv_fan"), ("isv_hose_exhaust", "isv_knife_feed"),
+          ("isv_knife_feed", "isv_knives"), ("isv_basket", "isv_box"), ("isv_fan", "isv_lid")}
+BEAM_BOLTS = ("isv_rail_bolts", "isv_bar_bolts")
+
+
+def _joint(a, b):
+    if (a, b) in JOINTS or (b, a) in JOINTS:
+        return True
+    for x, y in ((a, b), (b, a)):
+        if x in BEAM_BOLTS and y.startswith(("lower_beam", "upper_beam")):
+            return True
+    return False
+
+
+def check_interference(doc=None, tol=1.0):
+    doc = active_doc(doc)
+    mine = [(o, global_shape(o)) for o in objects_of(doc, ROOT)]
+    robot = [(o, global_shape(o)) for o in robot_objects(doc)]
+    pairs = [(mine[i], mine[j]) for i in range(len(mine)) for j in range(i + 1, len(mine))
+             if not _joint(mine[i][0].Name, mine[j][0].Name)]
+    pairs += [(a, b) for a in mine for b in robot if not _joint(a[0].Name, b[0].Name)]
+    return _overlaps(pairs, tol)
+
+
+def check_holes(doc=None, tol=1.0):
+    """Bolt JOINTS pairs and the beam bolts against the beams must not overlap (bolts in holes)."""
+    doc = active_doc(doc)
+    objs = {o.Name: global_shape(o) for o in objects_of(doc, ROOT)}
+    for o in robot_objects(doc):
+        if o.Name.startswith(("lower_beam", "upper_beam")):
+            objs[o.Name] = global_shape(o)
+    pairs = {p for p in JOINTS if "bolts" in p[0] or p[0] == "isv_pins"}
+    for b in BEAM_BOLTS:
+        pairs |= {(b, n) for n in objs if n.startswith(("lower_beam", "upper_beam"))}
+    out = {}
+    for a, b in sorted(pairs):
+        if a in objs and b in objs and objs[a].BoundBox.intersect(objs[b].BoundBox):
+            v = objs[a].common(objs[b]).Volume
+            if v > tol:
+                out[str((a, b))] = round(v, 1)
+    return out
+
+
+def check_steering(doc=None, tol=1.0):
+    doc = active_doc(doc)
+    mine = [(o, global_shape(o)) for o in objects_of(doc, ROOT)]
+    out = {}
+    for st in (-P.robot_steer_max, P.robot_steer_max):
+        set_steering(st, doc)
+        rob = [(o, global_shape(o)) for o in robot_objects(doc) if o.Name.startswith(("FL", "FR"))]
+        hits = _overlaps([(a, b) for a in mine for b in rob], tol)
+        if hits:
+            out[str(st)] = hits
+    set_steering(0.0, doc)
+    return out
+
+
+MASS_FIXED = {"isv_fan_motor": 3.2, "isv_fan": 4.0}
+DENSITY = (("isv_hood", P.alu), ("isv_brush_holder", P.alu), ("isv_brush", P.D.nylon), ("isv_nozzles", P.stainless),
+           ("isv_knives", P.pvc), ("isv_knife_feed", P.pvc), ("isv_curtain_bar", P.alu), ("isv_curtain", P.pvc),
+           ("isv_box", P.stainless), ("isv_basket", 0.35 * P.stainless), ("isv_lid", P.alu), ("isv_hose", 1.6e-6))
+
+
+def _mass_cg(obj):
+    shape = global_shape(obj)
+    solids = shape.Solids or [shape]
+    vol = sum(s.Volume for s in solids)
+    cg = V(0, 0, 0)
+    for s in solids:
+        cg += s.CenterOfMass * s.Volume
+    cg = cg * (1.0 / vol) if vol > 0 else shape.BoundBox.Center
+    if obj.Name in MASS_FIXED:
+        return MASS_FIXED[obj.Name], cg
+    dens = P.steel
+    for key, d in DENSITY:
+        if obj.Name.startswith(key):
+            dens = d
+    return vol * dens, cg
+
+
+def mass_properties(doc=None):
+    doc = active_doc(doc)
+    out = {}
+    for name in (ROOT, "isv_Mount", "isv_Hood", "isv_Box"):
+        m, c = 0.0, V(0, 0, 0)
+        for o in objects_of(doc, name):
+            mo, co = _mass_cg(o)
+            m += mo
+            c += co * mo
+        c = c * (1.0 / m) if m > 0 else c
+        out[name.lower() + "_kg"] = round(m, 1)
+        out[name.lower() + "_cg"] = (round(c.x), round(c.y), round(c.z))
+    return out
+
+
+def size(doc=None):
+    doc = active_doc(doc)
+    bb = None
+    for o in objects_of(doc, ROOT):
+        b = global_shape(o).BoundBox
+        bb = b if bb is None else bb.united(b)
+    return (round(bb.XLength), round(bb.YLength), round(bb.ZLength)), (round(bb.XMin), round(bb.YMin), round(bb.ZMin))
+
+
+set_camera = BS.set_camera
+
+
+def save_view(name, direction, target=None, height=None, up=(0.0, 0.0, 1.0), size_px=(1600, 1100)):
+    import FreeCADGui as Gui
+    Gui.updateGui()
+    set_camera(direction, target, height, up)
+    Gui.updateGui()
+    view = set_camera(direction, target, height, up)
+    os.makedirs(PREVIEW_DIR, exist_ok=True)
+    path = os.path.join(PREVIEW_DIR, name)
+    view.saveImage(path, size_px[0], size_px[1], "White")
+    return path
+
+
+SCENE = ("render_soil", "render_plants")
+
+
+def add_scene(doc, y=(-1600.0, 1600.0)):
+    o = doc.addObject("Part::Feature", SCENE[0])
+    o.Shape = G.box_span((-1300.0, 1300.0), y, (-40.0, 0.0))
+    o.ViewObject.ShapeColor = (0.45, 0.33, 0.22)
+    p = doc.addObject("Part::Feature", SCENE[1])
+    p.Shape = G.plants(y[0], y[1])
+    p.ViewObject.ShapeColor = (0.30, 0.60, 0.22)
+
+
+def render_all():
+    out = []
+    doc = build(save=False, show_robot=True, step=False)
+    add_scene(doc)
+    out.append(save_view("1_iso_on_robot_over_bed.png", (-1.0, -1.1, -0.65), target=(0, 0, 550), height=2300))
+    out.append(save_view("2_side_on_robot.png", (1.0, 0.0, 0.0), target=(0, 0, 600), height=1700))
+    doc.getObject("isv_hood").ViewObject.Transparency = 75
+    for n in ("isv_brush", "isv_brush_holder"):
+        doc.getObject(n).ViewObject.Transparency = 60
+    out.append(save_view("3_hood_see_through_front.png", (0.0, -1.0, -0.12), target=(0, 0, 300), height=1000))
+    out.append(save_view("4_hood_see_through_iso.png", (-1.0, -0.9, -0.5), target=(0, 0, 250), height=1150))
+    for n in SCENE:
+        doc.removeObject(n)
+    set_robot_visible(False, doc)
+    out.append(save_view("5_inside_from_below.png", (0.25, 0.35, 1.0), target=(0, 0, 300), height=900))
+    doc.getObject("isv_box").ViewObject.Transparency = 60
+    doc.getObject("isv_lid").ViewObject.Visibility = False
+    out.append(save_view("6_catch_box_basket_fan.png", (-1.0, -1.0, -0.7), target=(0, 0, 900), height=1100))
+    doc.getObject("isv_box").ViewObject.Transparency = 0
+    doc.getObject("isv_lid").ViewObject.Visibility = True
+    doc.getObject("isv_hood").ViewObject.Transparency = 0
+    set_robot_visible(True, doc)
+    set_steering(P.robot_steer_max, doc)
+    out.append(save_view("7_top_steered_30deg.png", (0.0, 0.0, -1.0), target=(0, 0, 0), up=(0.0, 1.0, 0.0), height=1800))
+    set_steering(0.0, doc)
+    App.closeDocument(doc.Name)
+    build()
+    return out

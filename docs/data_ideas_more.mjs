@@ -57,16 +57,6 @@ export const moreIdeas = [
   },
   // Weed & crop protection
   {
-    slug: "insect_vacuum",
-    source: CATALOGUE,
-    name: "Insect vacuum / beetle catcher",
-    category: "Weed & Crop Protection",
-    does: "Sucks or knocks pest insects off the crop instead of spraying: lygus bugs in strawberries, Colorado beetles and larvae in potatoes. Seen on the Agrobot Bug Vacuum and the Fieldworkers Colorado beetle catcher.",
-    concept: "A hood over one or two rows with an air flow that pulls the insects off the plants into a catch box with a fine screen (or a fan that kills them), with flexible strips that shake the plants. For beetles: brushes or beaters that knock them into a tray below the canopy.",
-    reuse: "Fan, hose and bin of the debris vacuum; row hood and strip curtains of the potato disease scout.",
-    open: ["Air speed that lifts the insects without damaging the crop or flowers", "Catch box, killing method and emptying", "Fan power and battery use per hectare", "Effect on beneficial insects"],
-  },
-  {
     slug: "orchard_air_sprayer",
     source: CATALOGUE,
     name: "Air-assisted orchard sprayer",

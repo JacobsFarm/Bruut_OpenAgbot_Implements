@@ -671,4 +671,12 @@ export const implementsList = [
         text: "47 l stainless hopper in the middle of the robot on 4 load cells (loss-in-weight dosing), a metering auger O54 in a tube out past the feed pusher's discharge end and a rubber spout over the windrow; NEMA 23 with a 10:1 planetary.",
         facts: ["100 g per feeding place at 0.35 m/s (5-150 g)", "+-2 % by loss-in-weight (estimated)", "37 kg empty, 69 kg full"] },
     ] },
+  {
+    name: "Insect vacuum", folder: "insect vacuum", category: "Weed & Crop Protection",
+    summary: "Sucks pest insects (lygus bugs in strawberries, Colorado beetles) off the crop instead of spraying: push-pull under a closed belly hood, a mesh basket keeps the catch for counting.",
+    variants: [
+      { name: "Simple", folder: "insect vacuum/simple", hero: "insect vacuum/simple/previews/1_iso_on_robot_over_bed.png",
+        text: "The drop-on-demand boom's hood with 2 air knives low along the bed (8 mm slots, blowing in and up), 2 slot nozzles over the rows and a strip curtain; hoses up into a catch box with a 0.8 mm mesh basket; the fan on the lid blows the clean air back to the knives (closed loop).",
+        facts: ["Jet ~23 / 13 m/s at the near / far row", "~670 W fan, ~0.43 ha per charge", "68 kg"] },
+    ] },
 ];
