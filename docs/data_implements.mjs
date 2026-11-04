@@ -751,4 +751,12 @@ export const implementsList = [
         text: "The three-point hitch's mount, links, toolbar frame and gauge wheels (imported) with a 700 mm rotor (16 L-blades, O350, 250 rpm, 60 mm deep) under a hood with side skids, a rubber front skirt and a levelling flap, driven by a 48 V 1.5 kW gearmotor through a chain case.",
         facts: ["~0.6 kW at the rotor, 250-500 m2/h", "~1.6 h, ~400 m2 per charge", "94 kg; lifting needs 92 kg front ballast"] },
     ] },
+  {
+    name: "Flail mulcher", folder: "flail mulcher", category: "Crop & Soil",
+    summary: "Shreds tough grass, stubble, residues and thin prunings between the rows. Hung under the belly between the wheels, so its weight stays between the axles and no ballast is needed.",
+    variants: [
+      { name: "Simple", folder: "flail mulcher/simple", hero: "flail mulcher/simple/previews/1_iso_mulching.png",
+        text: "Belly rails under the lower beams, a closed housing (x +-300, y +-262) with a 548 mm flail rotor (72 Y-knives, O320, 2700 rpm), a shear bar, a rear roller for the 40 mm cutting height, a 48 V 2 kW motor with a poly-V belt, and 2 actuators on guide posts that lift it 100 mm.",
+        facts: ["45 m/s tips, 360 cuts/m at 0.5 m/s", "Grass: ~1580 m2/h, ~1.5 h per charge", "116 kg, front share 56 %"] },
+    ] },
 ];

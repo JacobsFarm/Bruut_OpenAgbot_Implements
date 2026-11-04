@@ -14,16 +14,6 @@ export const moreIdeas = [
 
   // ---------- From the robot catalogue (Agbots_website): functions other robots do that the Bruut has no implement for ----------
   // Crop & soil
-  {
-    slug: "flail_mulcher",
-    source: CATALOGUE,
-    name: "Flail mulcher",
-    category: "Crop & Soil",
-    does: "Shreds prunings, tough grass, stubble and crop residues between rows instead of only cutting them. Seen on orchard and vineyard robots (Slopehelper drum mulcher, XAG RM80, Bonsai OMC AR500).",
-    concept: "A rear-mounted flail rotor with Y-knives or hammers in a closed housing with a rear roller that sets the cutting height. Belt-driven from a strong electric motor. A swing-out side section could also reach under the tree row.",
-    reuse: "Housing, belt drive and height setting of the mower unit (mowing deck); motor options of the heavy-duty electric motors; swing-out arm of the around-pole fence mower.",
-    open: ["Power needed for prunings versus grass", "Rotor speed, knife type and stone throw protection", "Width that fits the row spacing", "Mass on the rear and balance with counterweights"],
-  },
   // Sowing & planting
   // Weed & crop protection
   // Livestock & farm
