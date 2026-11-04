@@ -15,16 +15,6 @@ export const moreIdeas = [
   // ---------- From the robot catalogue (Agbots_website): functions other robots do that the Bruut has no implement for ----------
   // Crop & soil
   {
-    slug: "power_harrow",
-    source: CATALOGUE,
-    name: "Power harrow / rotary tiller",
-    category: "Crop & Soil",
-    does: "Driven tines or blades work the top soil into a seedbed, or loosen the soil between vines and trees. Seen on vineyard and orchard robots (Slopehelper power harrow, Pellenc RX-20, Naïo Ted) and small electric tractors.",
-    concept: "A narrow rear-mounted rotor with vertical tines (power harrow) or L-blades (rotary tiller) and a crumbler roller that sets the depth, driven by a geared electric motor. Lifted by a linear actuator like the grassland harrow. Works in strips, so the power stays within what the robot can supply.",
-    reuse: "Rear mount and lift of the grassland harrow; gearmotor and chain drive of the dockweed drill; power supply from the battery pack or hybrid range extender.",
-    open: ["Working width versus available power and traction", "Rotor speed, tine type and working depth", "Draft and reaction forces on a light robot", "Stones: overload protection of the rotor"],
-  },
-  {
     slug: "flail_mulcher",
     source: CATALOGUE,
     name: "Flail mulcher",

@@ -743,4 +743,12 @@ export const implementsList = [
         text: "The spot sprayer's 120 l tank, pump and control box (imported) with a tower behind the robot: arms under the rear lower beams, a mast with 6 axial fan pods O300 (48 V) at 0.8, 1.35 and 1.9 m blowing sideways, a nozzle ring with 2 hollow-cone nozzles and a section valve per pod, and a 2D lidar per side 225 mm ahead of the nozzles.",
         facts: ["5100 m3/h per side, up to 0.63 m/s", "317 l/ha, 0.68 ha/h, 48 min per tank", "~1.7 kW: ~0.9 h per charge; 105 kg empty"] },
     ] },
+  {
+    name: "Power harrow / rotary tiller", folder: "power harrow", category: "Crop & Soil",
+    summary: "A narrow rotary tiller for seedbeds in strips and loosening between rows, in the three-point hitch. The rotor turns forward (down-cut), so it pushes the light robot instead of pulling it back.",
+    variants: [
+      { name: "Simple", folder: "power harrow/simple", hero: "power harrow/simple/previews/1_iso_rear_tilling.png",
+        text: "The three-point hitch's mount, links, toolbar frame and gauge wheels (imported) with a 700 mm rotor (16 L-blades, O350, 250 rpm, 60 mm deep) under a hood with side skids, a rubber front skirt and a levelling flap, driven by a 48 V 1.5 kW gearmotor through a chain case.",
+        facts: ["~0.6 kW at the rotor, 250-500 m2/h", "~1.6 h, ~400 m2 per charge", "94 kg; lifting needs 92 kg front ballast"] },
+    ] },
 ];
