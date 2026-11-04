@@ -18,16 +18,6 @@ export const moreIdeas = [
   // Weed & crop protection
   // Livestock & farm
   {
-    slug: "feed_mixer_wagon",
-    source: CATALOGUE,
-    name: "Feed mixing and distribution wagon",
-    category: "Livestock & Farm",
-    does: "Loads, weighs and mixes a ration and lays it along the feed fence several times a day. Seen on the Lely Vector, DeLaval OptiWagon, GEA DairyFeed F4500, Kuhn Aura and Trioliet Triomatic.",
-    concept: "A small mixing bin with a vertical auger on the upper beams and a discharge door or cross conveyor at the side. Loads at a feed kitchen (loaded by hand or from a hopper), weighs on load cells and drives along the feed fence on the same route as the feed pusher.",
-    reuse: "Auger and side discharge of the feed pusher auger; load cell weighing of the mobile refiller; route along the feed fence of the feed pusher.",
-    open: ["Bin volume versus mass and stability", "Mixing power of a vertical auger on a battery", "Loading: feed kitchen, hopper or by hand", "Feeding small groups (calves, young stock) versus the whole herd"],
-  },
-  {
     slug: "fresh_grass_harvester",
     source: CATALOGUE,
     name: "Fresh grass harvester (zero grazing)",

@@ -759,4 +759,12 @@ export const implementsList = [
         text: "Belly rails under the lower beams, a closed housing (x +-300, y +-262) with a 548 mm flail rotor (72 Y-knives, O320, 2700 rpm), a shear bar, a rear roller for the 40 mm cutting height, a 48 V 2 kW motor with a poly-V belt, and 2 actuators on guide posts that lift it 100 mm.",
         facts: ["45 m/s tips, 360 cuts/m at 0.5 m/s", "Grass: ~1580 m2/h, ~1.5 h per charge", "116 kg, front share 56 %"] },
     ] },
+  {
+    name: "Feed mixing and distribution wagon", folder: "feed mixer wagon", category: "Livestock & Farm",
+    summary: "A small vertical mixer that is loaded at a feed kitchen, weighs, mixes and lays the ration along the feed fence several times a day; sized for calves, young stock and small groups.",
+    variants: [
+      { name: "Simple", folder: "feed mixer wagon/simple", hero: "feed mixer wagon/simple/previews/1_iso_feeding_along_fence.png",
+        text: "A 0.33 m3 cone bin on 4 load cells and a sub-frame on 2 cross tubes, a vertical conical auger with 2 knives (30 rpm, planetary gearbox, 48 V 2 kW motor under the floor), a door that slides up along the cone wall and a chute to the right.",
+        facts: ["~92 kg per batch, ~250 Wh", "~6 batches per charge: ~74 calves a day", "136 kg; full 390 kg, front share 51 %"] },
+    ] },
 ];
