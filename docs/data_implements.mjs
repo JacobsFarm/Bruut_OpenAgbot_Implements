@@ -615,4 +615,12 @@ export const implementsList = [
         text: "Fence-inspector mast and carriage (imported) with a fixed arm, MGN12 guide and 24 V actuator; the head has a hook, a 12 MP camera with LED ring and a revolver of 12 lure capsules with a plunger. Robot-friendly delta trap with a pull-out drawer.",
         facts: ["~50 s per trap", "40 traps: 2.4 h, 22 % of a charge", "~27 kg"] },
     ] },
+  {
+    name: "Drone combination", folder: "drone combination", category: "Cooperation & Swarm Operation",
+    summary: "A 1 m landing platform above the robot so a mapping drone uses it as a mobile base station: it takes off, maps ~97 ha per flight, lands back, sends its images and charges from the robot battery.",
+    variants: [
+      { name: "Simple", folder: "drone combination/simple", hero: "drone combination/simple/previews/1_iso_drone_on_platform.png",
+        text: "Aluminium plate 1000 x 1000 at z 1100 on 4 posts and 2 cross bars over the upper beams, PE guide wedges for passive centring, copper charging strips with holding magnets, an AprilTag for landing, and the GNSS antenna moved to a platform corner.",
+        facts: ["Catches landings up to 0.25 m off", "~60 min charge = 4.6 % of the robot battery", "42 kg"] },
+    ] },
 ];

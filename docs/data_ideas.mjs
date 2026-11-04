@@ -24,15 +24,6 @@ const websiteIdeas = [
   // ---------- Measuring & sensors ----------
   // ---------- Cooperation & swarm ----------
   {
-    slug: "drone_combination",
-    name: "Drone combination",
-    category: "Cooperation & Swarm Operation",
-    does: "The robot works together with a drone as a mobile base station. The drone flies out from the platform, maps the plot from above and passes its imagery straight to the robot, which converts it into a driving and treatment plan. The drone charges and swaps batteries on the robot, so the pair can keep scouting and working alternately for a full day without anyone coming out to the field.",
-    concept: "A landing platform on the robot's top plate with a charging contact or battery-swap mechanism, a data link to the robot computer and a way to align the drone on landing (RTK or visual markers). The plan generation reuses the task-map pipeline of the crop scanner.",
-    reuse: "Top-plate pattern; solar panel roof as an alternative platform; task-map pipeline of the grass meter and NIR sensor.",
-    open: ["Platform size and landing aid", "Charging versus battery swap", "Weather limits for flying and landing", "Regulations for autonomous flights"],
-  },
-  {
     slug: "swarm_operation",
     name: "Swarm operation (multiple robots per field)",
     category: "Cooperation & Swarm Operation",
