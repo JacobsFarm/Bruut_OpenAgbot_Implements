@@ -68,16 +68,6 @@ export const moreIdeas = [
     open: ["Load per trip versus mass and the field's bearing capacity", "Pick-up of fresh, heavy grass", "Unloading at the feed fence", "Trips per day for a given number of cows"],
   },
   // Transport & general
-  {
-    slug: "weeding_bed",
-    source: CATALOGUE,
-    name: "Weeding bed (lying platform)",
-    category: "Transport & General",
-    does: "Carries one or more workers lying face down just above the crop, so they can weed or harvest by hand without bending, while the robot creeps along the bed. Seen on the Fieldworkers Weed-E.",
-    concept: "A wide frame on the upper beams with padded lying boards and a sun canopy, the people facing down over the rows. The robot drives very slowly in a straight line; a hand button on each board stops or starts it.",
-    reuse: "Frame extensions, seat and canopy of the seat, canopy and frame extension; solar canopy; stop button and slow driving of the crate carrier (following a picker).",
-    open: ["Number of workers and frame width over the beds", "Speed control by the workers and safety stops", "Comfort: height above the crop, padding, shade", "Mass of the people versus the robot's payload"],
-  },
   // Harvesting
   {
     slug: "asparagus_harvester",

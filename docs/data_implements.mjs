@@ -727,4 +727,12 @@ export const implementsList = [
         text: "Fence inspector mast and arm with the hedge trimmer's tilt head (imported) and a 400 mm lance with a rotating turbo nozzle; a powered HP hose reel (30 m, slip clutch, rotary joint) at the rear of the upper beams.",
         facts: ["150 bar, 15 l/min from the barn's washer", "~41 min per 3 x 4 m pen", "69 kg, ~18 h per charge"] },
     ] },
+  {
+    name: "Weeding bed", folder: "weeding bed", category: "Transport & General",
+    summary: "A lying platform for hand weeding or harvesting: two workers lie face down on padded boards beside the robot, one on each side, and weed the row under them while the robot creeps along with hold-to-run.",
+    variants: [
+      { name: "Simple", folder: "weeding bed/simple", hero: "weeding bed/simple/previews/1_iso_with_workers.png",
+        text: "4 cross tubes on the upper beams (stubs at the GNSS dome) ending in C-frames that carry a bed per side outside the steering sweep: leg board, chest wedge and face rest on plywood and foam, a hold-to-run pendant and an e-stop per worker, drop-leg parking stands for getting on, and a sun canopy per side.",
+        facts: ["2 workers, 100-400 m2/h at 100-400 m/h", "~160 W, ~10 h per charge", "178 kg; stands down for getting on (factor 1.44)"] },
+    ] },
 ];
