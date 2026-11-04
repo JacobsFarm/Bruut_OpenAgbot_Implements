@@ -21,15 +21,6 @@ const websiteIdeas = [
     open: ["Which motors: brands, power, output shaft type", "Supply: own battery or the robot's 48 V", "Interface plate and quick-change mounting", "Protection against dust and water"],
   },
   // ---------- Transport & general ----------
-  {
-    slug: "seat_frame_extension",
-    name: "Seat, cabin & frame extension",
-    category: "Transport & General",
-    does: "Front or rear-mounted seat, with the option to widen the frame tubes at the sides and a small cabin as a protective enclosure for the operator.",
-    concept: "A seat on a tube frame so a person can ride on the robot, and side extensions that widen the frame for wider implements. Needs a manual-drive mode and clear operator-safety rules. A light cabin or canopy over the seat is the next step and only makes sense together with the seat.",
-    reuse: "Toolbar and hanger design of the disc brushes; tube sizes from the robot.",
-    open: ["Operator weight and the axle loads", "Controls and an emergency stop within reach", "Side-extension width versus stability", "Safety rules for a ridden robot", "Cabin weight, entry and exit, visibility and rollover protection"],
-  },
   // ---------- Measuring & sensors ----------
   // ---------- Cooperation & swarm ----------
   {

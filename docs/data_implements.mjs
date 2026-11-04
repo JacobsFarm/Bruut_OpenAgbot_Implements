@@ -599,4 +599,12 @@ export const implementsList = [
         text: "Mast 60 x 60 x 3 on an 8 mm plate across the 4 upper beams behind the centre (8 x M10); pan/tilt head at 2.23 m with a 4 MP 30x zoom camera, a 640 x 512 thermal camera and an 850 nm illuminator; 4 fixed 2 MP cameras, 2 horn speakers, beacon, microphone and an IP65 box with recorder and LTE router.",
         facts: ["Thermal: person detected at ~780 m", "~12 rounds of 2 km per charge", "~38 kg"] },
     ] },
+  {
+    name: "Seat, canopy and frame extension", folder: "seat frame extension", category: "Transport & General",
+    summary: "A seat so a person can ride on the robot and drive it by hand, a roll bar with a light canopy, and a pair of side extensions of the frame to x +-800 for wider implements.",
+    variants: [
+      { name: "Simple", folder: "seat frame extension/simple", hero: "seat frame extension/simple/previews/1_iso_with_operator.png",
+        text: "Cross tubes on the upper beams; the 2 rear ones are 1600 mm long side extensions with a 50 mm hole grid. Tractor seat with a seat switch over the rear axle, a console with joystick and emergency stop on the right armrest, a checker-plate footplate, a roll bar O42 at x +-600 with a polycarbonate canopy. Manual mode only, at most 1.5 m/s.",
+        facts: ["94 kg; 114 / 231 kg front / rear with a 90 kg operator", "Tip 23 degrees sideways, turn margin 5.5", "Extensions to x +-800"] },
+    ] },
 ];
