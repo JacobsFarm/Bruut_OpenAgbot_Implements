@@ -703,4 +703,12 @@ export const implementsList = [
         text: "The three-point hitch and its toolbar frame (imported) with 2 units on parallelograms for rows at 500 mm: 4 l hopper, vacuum disc on its own stepper, seed tube with an optical seed sensor, double-disc opener between depth wheels, press wheel; a 24 V vacuum blower.",
         facts: ["~13 mm (1 sigma) logged seed position, estimated", "0.23 ha/h, ~0.9 ha per charge", "107 kg with the hitch"] },
     ] },
+  {
+    name: "Manure vacuum collector", folder: "manure vacuum", category: "Livestock & Farm",
+    summary: "Sucks fresh manure from a solid barn floor into a 130 l vacuum tank and empties it at the pit, instead of pushing it: the debris vacuum's nozzle with a squeegee lip, a vacuum pump and a dump valve.",
+    variants: [
+      { name: "Simple", folder: "manure vacuum/simple", hero: "manure vacuum/simple/previews/1_iso_front_in_alley.png",
+        text: "Debris vacuum nozzle, lift and hose (imported) without the brush, a rubber squeegee lip at the rear; a stainless 130 l vacuum tank on the upper beams with float valve and moisture trap, a rotary-vane pump behind it and a knife-gate dump valve.",
+        facts: ["~87 m of alley per load", "100 cows: ~17 loads, ~2.5 h a day", "182 kg empty, 476 kg full"] },
+    ] },
 ];

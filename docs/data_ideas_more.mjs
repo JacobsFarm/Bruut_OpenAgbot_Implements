@@ -48,16 +48,6 @@ export const moreIdeas = [
   },
   // Livestock & farm
   {
-    slug: "manure_vacuum",
-    source: CATALOGUE,
-    name: "Manure vacuum collector",
-    category: "Livestock & Farm",
-    does: "Sucks fresh manure from a solid barn floor into a tank and empties it at a drain or pit, instead of pushing it. Seen on the Lely Discovery Collector, Hetwin Avenger Pickup, Schauer Enro Collect and JOZ Barn-E.",
-    concept: "A low tank on the upper beams, a vacuum pump and a wide suction nozzle with a rubber squeegee at the front. The robot drives a fixed route through the barn and drives to a dump point, where a valve at the bottom of the tank opens.",
-    reuse: "Nozzle and fan or pump layout of the debris vacuum; route driving and squeegee of the push blade (slurry scraping); mobile refiller docking for the dump point.",
-    open: ["Vacuum pump type that handles slurry with straw", "Tank volume versus mass and the floor's grip", "Navigation in a barn with cows (no RTK under the roof)", "Emptying point and cleaning"],
-  },
-  {
     slug: "feed_mixer_wagon",
     source: CATALOGUE,
     name: "Feed mixing and distribution wagon",
