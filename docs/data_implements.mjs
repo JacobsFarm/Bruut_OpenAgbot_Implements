@@ -639,4 +639,12 @@ export const implementsList = [
         text: "Deck on 3 flat bars across the upper beams with 4 LiFePO4 pods (battery pack, imported), DC/DC 54 V CC/CV 1.5 kW, fuse box; rear bracket and arm with the dock's PE head, copper bars and funnel (charging dock, imported).",
         facts: ["9.2 kWh usable, ~5.6 charges per trip", "~73 min per charge (20 -> 100 %)", "~135 kg on the robot"] },
     ] },
+  {
+    name: "Swarm operation", folder: "swarm operation", category: "Cooperation & Swarm Operation",
+    summary: "Several units work one field as a swarm: passes shared out, position and intent over a mesh radio, headland corridors reserved, a pass handed over when a unit stops. Per robot a swarm kit with radio, status light tower and computer.",
+    variants: [
+      { name: "Simple", folder: "swarm operation/simple", hero: "swarm operation/simple/previews/2_three_units_in_field.png",
+        text: "Swarm kit: a 1.5 m post on a bar across the inner upper beams with a 868 MHz mesh radio, a 4-colour status light tower and a swarm computer box. The calculation gives the speed-up per number of units, charger sharing, radio load and soil pressure.",
+        facts: ["4 units: 3.8x faster, 95 % efficient", "One charger per ~3 units", "16 kPa per unit vs 42 kPa tractor"] },
+    ] },
 ];
