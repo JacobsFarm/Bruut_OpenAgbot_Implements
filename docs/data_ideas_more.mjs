@@ -5,15 +5,6 @@ export const moreIdeas = [
   // ---------- Crop & soil ----------
   // ---------- Weed & crop protection ----------
   {
-    slug: "laser_weeder",
-    name: "Laser or UV weed treatment",
-    category: "Weed & Crop Protection",
-    does: "Kills individual weeds with a laser or a focused UV beam, without chemicals and without moving the soil.",
-    concept: "Camera finds the weeds (as in the spot sprayer), a galvo mirror aims the beam at the growing point. Needs a shroud against stray light and an interlock, and mostly works on small seedlings.",
-    reuse: "Camera mast and detection of the spot sprayer; shroud and safety interlock ideas of the weeds burner.",
-    open: ["Laser class and the safety rules that follow", "Power needed per weed and dwell time", "Working width versus galvo scan area", "Cost compared with a spot sprayer"],
-  },
-  {
     slug: "pheromone_trap_service",
     name: "Pheromone trap service",
     category: "Weed & Crop Protection",

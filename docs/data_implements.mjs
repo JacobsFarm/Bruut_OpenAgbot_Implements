@@ -583,4 +583,12 @@ export const implementsList = [
         text: "2 flat bars across the inner upper beams, each with a horn speaker on an upright plate (the front one over the GNSS dome), an IP65 amplifier box and a microphone.",
         facts: ["120 dB at 1 m", "~300 m reach on a farmyard", "Max 0.25 W near animals"] },
     ] },
+  {
+    name: "Laser weeder", folder: "laser weeder", category: "Weed & Crop Protection",
+    summary: "Kills weed seedlings with a laser under a light-tight hood: a camera finds each weed and a galvo scan head aims the beam of a fibre-coupled 60 W diode laser at its growing point, without chemicals or soil movement.",
+    variants: [
+      { name: "Simple", folder: "laser weeder/simple", hero: "laser weeder/simple/previews/1_iso_on_robot_in_bed.png",
+        text: "Hood, belly rails and camera of the drop-on-demand boom (imported); 2 galvo scan heads (one per 300 mm of the 0.6 m bed) and 2 x 60 W diode lasers in an air-cooled box on top, linked by armoured fibres. Class 4: fires only with the hood down and the robot level.",
+        facts: ["~19 J, 0.33 s per weed", "0.2 m/s, ~990 m2 per charge", "~48 kg"] },
+    ] },
 ];
