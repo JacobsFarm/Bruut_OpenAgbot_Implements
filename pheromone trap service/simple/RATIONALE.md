@@ -8,8 +8,7 @@
   gripper, one plunger. The revolver of 12 covers a round of 40 traps with a 4-week lure (~10 swaps).
 - **Fence-inspector mast reused.** Same mast, lead screw, stepper and carriage, so the Z range (drawer 0.2..1.0 m)
   and the parts are proven; only the arm is fixed (the trap position is known) and gets a guide and actuator.
-  The fin base plate bolts at y +-300, between the grid holes of the upper beams; this implement has its own plate
-  with 8 bolts in the holes at y +-275 / +-325.
+  This implement has its own, longer base plate with 8 bolts (grid holes y +-275 / +-325) for the extra reach.
 - **Hook from below + Z up.** The hook finger goes in under the handle bar, the carriage lifts 15 mm and the
   upturned tip is behind the bar: no extra gripper axis, and it lets go by moving down.
 - **Camera on a post, 55 degrees down.** It sees the whole pulled-out card (560 x 420 mm field) without moving; 7 px/mm

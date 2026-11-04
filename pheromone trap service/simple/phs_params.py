@@ -33,7 +33,7 @@ upper_beam_x = F.upper_beam_x
 upper_beam_top = F.upper_beam_top
 hole_y = (275.0, 325.0)         # grid holes used (both signs)
 
-# Own base plate (the fin plate bolts at y +-300, between the grid holes)
+# Own base plate: 8 bolts (2 per beam end) instead of the 4 of the fin plate
 plate_x = F.plate_x
 plate_y = (-360.0, 360.0)
 plate_t = F.plate_t
