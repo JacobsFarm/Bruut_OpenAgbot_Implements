@@ -22,11 +22,14 @@ agbots/agbot slim/         rear wheels 250 mm apart, with the liquid fertilizer 
 agbots/agbot comparison/   comparison of the two robots
 <implement>/advanced|simple/   per implement a folder per variant (liquid fertilizer applicator, overseeder,
                                feed pusher auger, ...), see below
-<implement>/v1..v6/        same, numbered versions (dockweed drill: v1 X on HGR15 rails, v2 X on PTO tubes, v3 = v2 with
+<implement>/v1..v7/        same, numbered versions (dockweed drill: v1 X on HGR15 rails, v2 X on PTO tubes, v3 = v2 with
                            a Z mast on corner rollers and a Ruud-style can, v4 = v3 with a drop-leg trailer jack as Z and
                            the 800 W gearmotor + chain on 2x UCP 204, v5 = v4 with the motor directly on the spindle
                            via a jaw coupling, no animation, v6 = v5 with a 40x40 frame, PTO tubes bolted between side
-                           plates, Z tube on HGR15 rails driven by a 24 V actuator and a O30 spindle in 2x UCP 206)
+                           plates, Z on 2 upright PTO tubes with a Linak LA36 and the spindle in the middle, O30 spindle in
+                           2x UCP 206, v7 = v6 without the X axis: spindle fixed at x 0, the robot steers to the
+                           plant, Z on 2 round tubes O50x4 in plain-bush housings with the LA36, no animation yet; v7 is
+                           mainly the Z part, an X axis still has to be added)
 cambridge roll/             three trailed variants on one 50 mm tow ball: "cambridge roll" (cbr, also holds the tow
                            hitch, coupling head, drawbar and the general tree/check helpers), "overrseeder" (ovd, drop
                            seeder) and "overseeder with cambridge roll" (osr); ovd and osr import cbr from the sibling
@@ -106,8 +109,9 @@ Beams: lower top z = `z_lower_beam_top`, upper `z_upper_beam_top` (local, +215 f
 - Live: `play()` and `stop()`. GIF: `render_all(folder)` writes frames, then `make_gif_<p>.main(folder, "previews/....gif")`.
   `summary()` gives the range of the key figures, to check the run.
 - The GIF goes in `previews/`; `make_gif_<p>.py` also copies it to `animations/` in the repo root via
-  `collect_animations.collect(out_path)` (new make_gif scripts: copy the `_to_animations` helper). `*.gif` and
-  `animations/` are in `.gitignore`, so the README lists the animations in a table instead of embedding them.
+  `collect_animations.collect(out_path)` (new make_gif scripts: copy the `_to_animations` helper). Videos (MP4)
+  go the same way to `animations/video's/`. `*.gif`, the video files and `animations/` are in `.gitignore`, so the
+  README lists the animations in a table instead of embedding them.
 
 ## Long runs in FreeCAD
 

@@ -1,6 +1,6 @@
 """Rekenwerk Dockweed drill v6 (puur Python, geen FreeCAD nodig).
 
-Spil en frees, snij-energie, Z-as (actuator: kracht, snelheid, stroom, inschakelduur), Z-rails, cyclus per plant,
+Spil en frees, snij-energie, Z-as (Linak LA36: kracht, snelheid, stroom, inschakelduur), Z-geleiding (2 staande aftakasbuizen), cyclus per plant,
 aftakasbuizen tussen de zijplaten, dwarsbalken, spilas O30 in 2x UCP 206, aanbouwbok (bouten), asbelasting van de
 robot (4 hubmotoren, voor stuurt) en energie per plant. v6 heeft geen eigen animatie (beweging als v2/v4).
 
@@ -16,19 +16,19 @@ E_STEEL = 210e3                      # N/mm2
 
 # laatste meting uit het model (build_dwd6.mass_properties: staal 7850 kg/m3, gekochte delen als vaste massa)
 MODEL = {
-    "implement_kg": 118.5,
-    "implement_cg": (90.0, -792.0, 740.0),    # robotcoordinaten, werkstand x 150, frees 150 diep
-    "x_moving_kg": 70.2,                      # alles dat met de X-as meegaat (slede, actuator, Z-slede, spil, bus, frees)
-    "x_moving_cg": (146.0, -865.0, 606.0),
-    "z_moving_kg": 46.0,
+    "implement_kg": 122.9,
+    "implement_cg": (100.0, -791.0, 749.0),    # robotcoordinaten, werkstand x 150, frees 150 diep
+    "x_moving_kg": 74.5,                      # alles dat met de X-as meegaat (slede, actuator, Z-slede, spil, bus, frees)
+    "x_moving_cg": (159.0, -858.0, 629.0),
+    "z_moving_kg": 44.4,
     "pot_kg": 5.9,
     "tool_kg": 2.5,
 }
 
 # geometrie uit de parameters (zelfde opbouw als dwd6_parts.stack)
 SLIDE_V1 = P.slide_v0 + P.slide_t
-ZT_V = SLIDE_V1 + P.rail_h + P.riser_t                 # voorkant Z-koker
-SPINDLE_V = ZT_V + P.zt_d + P.sb_back_t + P.spindle_dv
+SPINDLE_V = P.sb_back_v0 + P.sb_back_t + P.spindle_dv
+ZG_V = P.zg_v                                          # staande aftakasbuizen (Z-geleiding)
 SPINDLE_Y = P.v_to_y(SPINDLE_V)
 TUBE_Y = P.v_to_y(P.tube_v)
 REAR_AXLE_Y = -P.robot_wheel_y
@@ -93,7 +93,7 @@ def thrust(depth):
 
 
 # ---------------------------------------------------------------------
-# Z-as: elektrische actuator 24 V (pen-op-pen) + 2 HGR15-rails
+# Z-as: Linak LA36 24 V (pen-op-pen, midden) + 2 staande aftakasbuizen in 4 hulzen
 # ---------------------------------------------------------------------
 def z_lift_force():
     """Kracht om de Z-slede op te tillen (N): gewicht (de bus hangt eraan als hij los is van de grond)."""
@@ -101,23 +101,30 @@ def z_lift_force():
 
 
 def z_forces():
-    """Krachten op de actuator: insteken (frees drukt + Z-slede hangt eraan), optillen, en marge t.o.v. nominaal."""
+    """Krachten op de actuator: insteken (frees drukt + Z-slede hangt eraan), optillen, en marge t.o.v. de LA36.
+    De glijdende hulzen geven wrijving (z_guide) die de actuator in beide richtingen moet overwinnen."""
     W = MODEL["z_moving_kg"] * G_ACC
-    plunge = max(0.0, P.z_force_limit - W)           # duwen: het gewicht helpt mee
-    lift = z_lift_force() + P.thrust_n[0]            # trekken uit de grond (zuiging, wortels): geschat F0 extra
-    return {"push_plunge_n": plunge, "pull_lift_n": lift, "rated_n": P.act_force,
+    fr = z_guide()
+    plunge = max(0.0, P.z_force_limit - W) + fr["friction_cutting_n"]   # duwen: het gewicht helpt mee
+    lift = z_lift_force() + P.thrust_n[0] + fr["friction_idle_n"]       # trekken uit de grond: geschat F0 extra
+    return {"push_plunge_n": plunge, "pull_lift_n": lift, "friction_cutting_n": fr["friction_cutting_n"],
+            "rated_n": P.act_force, "selflock_n": P.act_selflock,
             "margin_push": P.act_force / plunge if plunge else float("inf"), "margin_pull": P.act_force / lift}
 
 
 def act_speed(F):
-    """Snelheid van de actuator (mm/s) bij last F: lineair tussen onbelast en de opgave bij 600 N."""
+    """Snelheid van de LA36 (mm/s) bij last F: lineair tussen onbelast en max. last (datasheet 24 V, 20 mm, F 1:18)."""
     v0, v1 = P.act_speed
-    return max(0.0, v0 - (v0 - v1) * F / 600.0)
+    return max(0.0, v0 - (v0 - v1) * F / P.act_force)
 
 
-def act_current(F, v):
-    """Stroom (A) op 24 V bij kracht F (N) en snelheid v (mm/s): mechanisch vermogen / rendement."""
-    return F * v / 1000.0 / P.act_eff / P.act_V + 0.8          # + nullast van de motor (geschat)
+def act_current(F, v=None):
+    """Stroom (A) op 24 V bij last F (N): lineair tussen onbelast en max. last (datasheet). Bij PWM (langzamer
+    insteken) blijft de stroom ongeveer gelijk aan de last; v wordt alleen voor de rust (0) gebruikt."""
+    if v is not None and v <= 0:
+        return 0.0
+    i0, i1 = P.act_amp
+    return i0 + (i1 - i0) * F / P.act_force
 
 
 def act_duty(depth=P.depth_std, overlap_x=False):
@@ -130,29 +137,47 @@ def act_duty(depth=P.depth_std, overlap_x=False):
 
 
 def dcdc():
-    """Omvormer 48 -> 24 V: piekstroom van de actuator (blokkeren tot de slipkoppeling) tegen het vermogen."""
+    """Omvormer 48 -> 24 V: stroom van de LA36 bij de werklast en bij max. last (tot de slipkoppeling)."""
     vin, vout, amp = P.dcdc
-    I_nom = act_current(P.z_force_limit, act_speed(P.z_force_limit))
-    I_peak = act_current(P.act_force * 1.3, act_speed(P.act_force)) if act_speed(P.act_force) > 0 else I_nom * 3
+    I_nom = act_current(z_forces()["push_plunge_n"])
+    I_peak = act_current(P.act_force) * 1.2                  # datasheet: +-20 % op de stroom
     return {"actuator_nom_a": I_nom, "actuator_peak_a_est": I_peak, "converter_a": amp,
             "converter_w": vout * amp, "input_a_at_48v": vout * amp / vin / 0.92}
 
 
-def z_rails(F_side=P.side_force, z=-P.depth_std):
-    """Wagenkrachten (N) op de HGR15: zijkracht F_side op de frees (op snijniveau), wagens 300 mm uit elkaar.
-    Ook het moment van de actuator die naast de koker duwt (act_x) met de Z-kracht."""
+def z_guide(F_side=P.side_force, z=-P.depth_std, mu=0.15):
+    """Z-geleiding: 2 staande aftakasbuizen (b 49 in v) in 2 x 2 hulzen (300 mm uit elkaar) op de X-slede.
+    Hulskrachten bij zijkracht F_side op het snijniveau en de Z-kracht op de spil (achter de actuator: moment om de
+    x-as). Buigspanning en doorbuiging van de buizen (overstek van de onderste huls tot het juk, daaronder de spilbok
+    als star), en de wrijving in de hulzen (mu staal op staal, gesmeerd)."""
     z_cut = z + 40.0
-    z_lo, z_hi = P.xbar_z
-    arm = z_lo - z_cut                                  # onderste wagen tot snijniveau
+    z_lo, z_hi = P.zg_sleeve_z
     d = z_hi - z_lo
-    R_lo = F_side * (arm + d) / d / 2.0                 # per wagen (2 naast elkaar)
+    arm = z_lo - z_cut                                  # onderste huls tot snijniveau
+    R_lo = F_side * (arm + d) / d / 2.0                 # per buis
     R_hi = F_side * arm / d / 2.0
-    M_act = P.z_force_limit * abs(P.act_x)              # Nmm, om de v-as
-    R_act = M_act / d / 2.0
-    lever_v = SPINDLE_V - (SLIDE_V1 + P.rail_h / 2)     # Z-kracht op de spil achter de wagens: moment om de x-as
-    R_tilt = P.z_force_limit * lever_v / d / 2.0
-    return {"arm_mm": arm, "block_lower_n": R_lo, "block_upper_n": R_hi, "from_actuator_offset_n": R_act,
-            "from_spindle_offset_n": R_tilt, "hgh15ca_C0_n": 15700.0}
+    lever_v = SPINDLE_V - P.act_v                       # grondreactie op de spil, actuator ervoor
+    R_tilt = P.z_force_limit * lever_v / d / 2.0        # per huls, in v
+    A, I_v, I_x = lemon_section(P.pto_b, P.pto_h, P.pto_t)    # I_v: buigen in v (b), I_x: buigen in x (h)
+    sigma_x = (F_side / 2.0) * arm * (P.pto_h / 2.0) / I_x
+    sigma_v = ((F_side / 2.0) * arm + P.z_force_limit * lever_v / 2.0) * (P.pto_b / 2.0) / I_v
+    a = z_lo - (z + P.zg_bottom)                        # overstek buis onder de onderste huls
+    c = (z + P.zg_bottom) - z_cut                       # spilbok (star) van het juk tot snijniveau
+    F = F_side / 2.0
+    M = F * c
+
+    def defl(I):
+        EI = E_STEEL * I
+        d_tip = F * a * a * (d + a) / (3 * EI) + M * a * (2 * d + 3 * a) / (6 * EI)
+        th = F * a * (2 * d + 3 * a) / (6 * EI) + M * (d + 3 * a) / (3 * EI)
+        return d_tip + th * c
+    f_cut = mu * 2 * (R_lo + R_hi + 2 * R_tilt)         # 2 buizen
+    f_idle = mu * 2 * 2 * (z_lift_force() * lever_v / d / 2.0)   # alleen het gewicht op de spil
+    return {"arm_mm": arm, "sleeve_lower_n": R_lo, "sleeve_upper_n": R_hi, "from_spindle_offset_n": R_tilt,
+            "stress_x_mpa": sigma_x, "stress_v_mpa": sigma_v, "overhang_mm": a,
+            "defl_cut_x_mm": defl(I_x), "defl_cut_v_mm": defl(I_v),
+            "friction_cutting_n": f_cut, "friction_idle_n": f_idle,
+            "tubes_kg": 2 * A * (P.zg_top - P.zg_bottom) * 7.85e-6}
 
 
 def x_force_max():
@@ -398,7 +423,7 @@ def report(model=None):
                                                round(act_current(zf["pull_lift_n"], P.rapid_z), 1)),
         "act_duty": _r(act_duty()),
         "dcdc": _r(dcdc(), 1),
-        "z_rails": _r(z_rails(), 0),
+        "z_guide": _r(z_guide(), 1),
         "x_force_max_n": round(x_force_max()),
         "cycle_s": {k: round(v, 1) for k, v in cycle()},
         "cycle_total_s": round(cycle_time(), 1),

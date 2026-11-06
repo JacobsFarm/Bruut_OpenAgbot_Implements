@@ -59,7 +59,7 @@ DENSITY = {"alu": 2.70e-6, "rubber": 1.2e-6, "pe": 0.95e-6, "stainless": 7.9e-6,
 STEEL = 7.85e-6
 MASS_FIXED = {"spindle_motor": P.motor_kg, "x_motor": 1.6, "x_gearbox": 0.9, "ebox": 3.0 + 0.6,   # E-kast + omvormer
               "camera": 0.4, "led_bar": 0.6, "bearing_lower": P.ucp_kg, "bearing_upper": P.ucp_kg,
-              "jaw_coupling": P.jaw_kg, "act_body": P.act_kg[0], "act_rod": P.act_kg[1], "z_blocks": 4 * 0.18,
+              "jaw_coupling": P.jaw_kg, "act_body": P.act_kg[0], "act_rod": P.act_kg[1],
               "chain_lower": 0.25, "chain_upper": 0.15, "chain_bend": 0.05, "spiral_cable": 0.4,
               "pot_sensor": 0.05, "limit_switch": 0.05, "x_pulley": 0.15, "x_idlers": 0.1}
 
@@ -168,10 +168,14 @@ def build_x_carriage(doc, root, x):
     add_shape(doc, xc, "x_motor", "nema23_closed_loop_3Nm_x", G.x_motor(), "black")
     add_shape(doc, xc, "x_pulley", "pulley_HTD5M_20T", G.x_pulley(), "chrome")
     add_shape(doc, xc, "x_idlers", "idlers_D30", G.x_idlers(), "chrome")
-    add_shape(doc, xc, "z_blocks", "z_carriages_HGH15CA_x4", G.z_blocks(), "steel")
+    add_shape(doc, xc, "z_sleeves", "z_guide_sleeves_pto_outer_57_5x48x4_x4", G.z_sleeves(), "frame")
+    add_shape(doc, xc, "z_saddles", "z_guide_sleeve_saddles_steel_x4", G.z_saddles(), "frame")
+    add_shape(doc, xc, "z_saddle_bolts", "z_guide_saddle_bolts_M8", G.z_saddle_bolts(), "galv")
+    add_shape(doc, xc, "z_scrapers", "z_guide_scrapers_rubber", G.z_scrapers(), "rubber")
+    add_shape(doc, xc, "z_grease_nipples", "z_guide_grease_nipples", G.z_grease_nipples(), "chrome")
     add_shape(doc, xc, "act_top_bracket", "actuator_top_bracket_8mm", G.act_top_bracket(), "frame")
     add_shape(doc, xc, "act_pin_top", "actuator_pin_D12_top", G.act_pin_top(), "chrome")
-    add_shape(doc, xc, "act_body", "electric_actuator_24V_LA36_class_stroke400", G.act_body(), "grey")
+    add_shape(doc, xc, "act_body", "linak_LA36_24V_1700N_stroke400_housing_and_tube", G.act_body(), "grey")
     add_shape(doc, xc, "chain_driver", "cable_chain_driver_3mm", G.chain_driver(), "galv")
     add_shape(doc, xc, "cable_bracket_x", "spiral_cable_bracket_x_slide", G.cable_bracket_x(), "galv")
     return xc
@@ -189,16 +193,19 @@ def build_camera(doc, root):
 
 
 def build_z_carriage(doc, xc, z):
-    zc = new_part(doc, xc, "Z_carriage", "z_tube_on_rails_moves_in_z", translation(z=z - P.z_ref))
-    add_shape(doc, zc, "z_tube", "z_tube_120x60x3", G.z_tube(), "frame")
-    add_shape(doc, zc, "z_risers", "z_rail_risers_flat_25x8", G.z_risers(), "frame")
-    add_shape(doc, zc, "z_rails", "z_rails_HGR15", G.z_rails(), "chrome")
+    zc = new_part(doc, xc, "Z_carriage", "z_two_pto_tubes_slide_in_z", translation(z=z - P.z_ref))
+    for side, tag in SIDES:
+        add_shape(doc, zc, "z_guide_tube_" + tag, "z_guide_pto_inner_tube_49x39_5x4_5_" + tag, G.z_guide_tube(side),
+                  "frame")
+    add_shape(doc, zc, "z_tube_plugs", "z_guide_tube_plugs_tapped_M10", G.z_tube_plugs(), "steel")
+    add_shape(doc, zc, "z_yoke", "z_lower_yoke_10mm", G.z_yoke(), "orange")
+    add_shape(doc, zc, "z_yoke_bolts", "z_yoke_bolts_M10", G.z_yoke_bolts(), "galv")
+    add_shape(doc, zc, "z_clamp_plate", "z_tube_clamp_plate_10mm", G.z_clamp_plate(), "orange")
     add_shape(doc, zc, "act_eye_bracket", "actuator_rod_eye_bracket_8mm", G.act_eye_bracket(), "orange")
-    add_shape(doc, zc, "act_rod", "actuator_rod_D30_with_eye", G.act_rod(), "chrome")
+    add_shape(doc, zc, "act_rod", "linak_LA36_inner_tube_with_rod_eye_D27_8", G.act_rod(), "chrome")
     add_shape(doc, zc, "act_pin_eye", "actuator_pin_D12_rod_eye", G.act_pin_eye(), "chrome")
-    add_shape(doc, zc, "cable_bracket_z", "spiral_cable_bracket_z_tube_top", G.cable_bracket_z(), "galv")
+    add_shape(doc, zc, "cable_bracket_z", "spiral_cable_bracket_right_z_tube_top", G.cable_bracket_z(), "galv")
     add_shape(doc, zc, "sb_back", "spindle_bracket_back_plate_6mm", G.sb_back_plate(), "orange")
-    add_shape(doc, zc, "sb_back_bolts", "spindle_bracket_bolts_M10", G.sb_back_bolts(), "galv")
     add_shape(doc, zc, "sb_lower", "spindle_bracket_lower_plate_8mm", G.sb_plate_lower(), "orange")
     add_shape(doc, zc, "sb_top", "spindle_bracket_top_plate_8mm", G.sb_top_plate(), "orange")
     for side, tag in SIDES:
@@ -508,6 +515,8 @@ def laser_parts():
         ("sleeve_pad_8mm", first(G.sleeve_pads()), "y"),
         ("x_slide_alu_10mm", G.x_slide(), "y"),
         ("spindle_bracket_back_plate_6mm", G.sb_back_plate(), "y"),
+        ("z_lower_yoke_10mm", G.z_yoke(), "z"),
+        ("z_tube_clamp_plate_10mm", G.z_clamp_plate(), "z"),
         ("spindle_bracket_lower_plate_8mm", G.sb_plate_lower(), "z"),
         ("spindle_bracket_bearing_plate_10mm", G.sb_bearing_plate(), "y"),
         ("spindle_bracket_top_plate_8mm", G.sb_top_plate(), "z"),

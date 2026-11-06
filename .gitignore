@@ -2,9 +2,16 @@ inspiration/
 agbots/
 parts/
 
-# animations: generated GIFs, too large for git. All of them are copied to animations/ (collect_animations.py)
+# animations: generated GIFs and videos, too large for git. All GIFs are copied to animations/, all videos to
+# animations/video's/ (collect_animations.py)
 /animations/
+/animations/video's/
 *.gif
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
 
 /liquid fertilizer applicator/precision_applicator/roller_pump/*
 !/liquid fertilizer applicator/precision_applicator/roller_pump/README.md
@@ -37,6 +44,13 @@ parts/
 !/liquid fertilizer applicator/precision_applicator/combined_v3/README.md
 !/liquid fertilizer applicator/precision_applicator/combined_v3/RATIONALE.md
 !/liquid fertilizer applicator/precision_applicator/combined_v3/previews/
+/liquid fertilizer applicator/precision_applicator/combined_v4/*
+!/liquid fertilizer applicator/precision_applicator/combined_v4/README.md
+!/liquid fertilizer applicator/precision_applicator/combined_v4/RATIONALE.md
+!/liquid fertilizer applicator/precision_applicator/combined_v4/previews/
 
 # veldanimaties: hele folder genegeerd (gegenereerd/groot)
 /liquid fertilizer applicator/precision_applicator/animations/
+
+# two-liquid refill animations: the videos are generated and large (as the GIFs)
+/mobile refiller/two_liquids_animations/previews/*.mp4

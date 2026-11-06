@@ -4,7 +4,7 @@ import math
 # Dockweed drill v6 (ridderzuringfrees) - parameters
 # Portaal achter op de Bruut OpenAgbot: X-as (links-rechts, slag 1000) + Z-as (op-neer), de robot is de Y-as.
 # v6: frame van kokers 40 x 40 x 3; de 2 aftakasbuizen zitten met 2x M10 per eind tussen 2 zijplaten (los te
-# bouten); Z-as = koker met 2 HGR15-rails en een elektrische actuator 24 V (LA36-klasse) pen-op-pen naast de koker;
+# bouten); Z-as = 2 staande aftakasbuizen links en rechts met een Linak LA36 (24 V) en de spil in het midden;
 # 800 W tandwielmotor direct op een spilas O30 in 2x UCP 206 (klauwkoppeling maat 28); stalen bus O219 zoals v5.
 #
 # Assen zoals het robotmodel: x = rechts, y = rijrichting (voor = +y), z = omhoog, grond = z 0, mm.
@@ -127,50 +127,64 @@ slide_t = 10.0                      # X-slede alu
 slide_v0 = tube_v + sl_h / 2.0 + pad_t
 slide_half_x = 150.0
 slide_z = (700.0, 1120.0)
-slide_tab = (-150.0, -40.0, 1300.0)  # verlengstuk links boven aan de slede (x0, x1, z1): bovenste pen actuator
+slide_tab = (-30.0, 30.0, 1450.0)    # verlengstuk midden boven aan de slede (x0, x1, z1): bovenste pen actuator
 belt_z = 880.0
 belt_w = 15.0
 pulley_z = 923.0
 motor_dx = 120.0                    # NEMA 23 + 5:1 naast het spilhart
 
 # ---------------------------------------------------------------------
-# Z-as: koker 120 x 60 x 3 met 2 HGR15-rails (beweegt), 4 HGH15CA-wagens vast op de X-slede (zoals v2).
-# Aandrijving: elektrische actuator 24 V pen-op-pen links naast de koker: bovenste pen op de X-slede, stangoog
-# onderaan de Z-koker. Ingetrokken = rijstand. Maten van een Linak LA36-klasse actuator, slag 400: AANNAME,
-# CONTROLEER op de datasheet van de gekozen variant (inbouwlengte, stangoog, kracht/snelheid).
+# Z-as (v6b): 2 staande aftakasbuizen (binnenbuis, zelfde profiel als de X-as) links en rechts, die met de Z-slede
+# mee naar beneden glijden door 2 x 2 hulzen (buitenbuis) vast op de X-slede. In het midden de spil (achter) en de
+# Linak LA36 (voor, tussen de buizen). Het citroenprofiel staat met de lange as (b) in v; de huls zit in een
+# zadelblok tegen de achterkant van de slede.
 # ---------------------------------------------------------------------
-rail_h = 28.0                       # HGR15 + HGH15CA
-riser_t = 8.0                        # platstaal 25 x 8 onder de rails (M4 getapt; geen spindel ertussen zoals v2)
-zt_w, zt_d, zt_wall = 120.0, 60.0, 3.0
-zt_L = 900.0
-zt_bottom = 410.0                   # onderkant Z-koker boven onderkant gereedschap
-z_rail = (110.0, 890.0)             # rails t.o.v. de onderkant van de koker (dekt de wagens over de hele slag)
-z_rail_dx = 40.0
+zg_dx = 64.0                        # hart buis op x = +-64: vrij van het actuatorhuis (+-38) en de X-kast (x 90)
+zg_saddle_t = 6.0                   # zadelblok: dikte op de punt van de huls
+zg_v = slide_v0 + slide_t + zg_saddle_t + sl_b / 2.0     # hart buizen in v (196.25)
+zg_bottom = 420.0                   # onderkant buizen boven onderkant gereedschap (prop, 2x M10 in het juk)
+zg_top = 1340.0                     # bovenkant buizen; tussen z+502 en z+1318 moet de buis kaal zijn (slag door de hulzen)
+zg_sleeve_z = xbar_z                # hart van de 2 hulzen per buis (op de hoogte van de X-buizen)
+zg_sleeve_L = 100.0
+zg_pad_half_x = 38.0                # zadelblok x = hart +- 38 (M8 op hart +- 31, kop naast de huls)
+zg_yoke_t = 10.0                    # onderjuk (z 410..420) en klemplaat (z 480..490), gelast aan de achterplaat
+zg_clamp_z = 480.0
+zg_yoke_half_x = zg_dx + 34.0
 
+# Actuator: Linak LA36 (parts/actuator/linear-actuator-la36-data-sheet-eng.pdf), 24 V, 1700 N, spindel 20 mm,
+# tandwiel F 1:18, slag 400, achterbevestiging en stangoog massief O12,2. Pen-op-pen recht in het midden tussen de
+# buizen (x 0), huis boven, naar achteren (+v) boven de spilmotor. Ingetrokken = rijstand.
 act_stroke = depth_max + drive_z    # 400
-act_Lr = 640.0                      # inbouwmaat ingetrokken, hart pen - hart pen (AANNAME: slag + 240)
-act_x = -(zt_w / 2.0 + 5.0 + 30.0)  # hart actuator: links naast de koker
-act_tube_d = 60.0                   # buitenbuis (rond getekend)
-act_rod_d = 30.0                    # binnenbuis / stang
-act_rod_out = 60.0                  # stang zichtbaar onder de buis, ingetrokken
-act_house = (90.0, 80.0, 150.0)     # huis met tandwielkast bovenaan (x, v, z)
-act_motor = (70.0, 190.0)           # motor parallel aan de spindel, naar -x (O, lengte)
-act_eye_dz = 25.0                   # hart stangoog boven de onderkant van de Z-koker
-act_pin_d = 12.2                    # pennen O12
-act_eye_w = 20.0                    # dikte stangoog / achterste oog
-act_force = 1700.0                  # nominale kracht [N] (AANNAME, kies de spindelvariant)
-act_speed = (100.0, 75.0)           # snelheid onbelast / bij 600 N [mm/s] (AANNAME)
-act_eff = 0.30                      # rendement trapeziumspindel + kast (zelfremmend)
-act_duty = 0.20                     # toegestane inschakelduur (catalogus LA36: 20 %)
+act_Lr = 250.0 + act_stroke         # inbouwmaat ingetrokken (datasheet: slag > 300 -> 250 + slag) = 650
+act_x = 0.0                         # in het midden: geen moment om de v-as meer
+act_v = 215.0                       # hart actuator in v (tussen slede en achterplaat spilbok)
+act_pin_z = 1420.0                  # bovenste pen (vast): huis 10 mm boven de spilmotor in rijstand
+act_tube = (44.5, 50.0)             # buitenprofiel alu (x, v); 44,5 uit de datasheet, 50 geschat
+act_rod_d = 28.0                    # binnenbuis (geschat; stangoog O27,8)
+act_tube_end = 45.0                 # einde buitenbuis boven het hart van het stangoog, ingetrokken (geschat)
+act_house_w = 76.0                  # huis: breedte 76, hoogte 148 waarvan 36 onder het hart, lengte 230 (datasheet)
+act_house_h = (36.0, 112.0)         # huis voor (-v) / achter (+v) van het hart van de spindel
+act_house_L = 230.0
+act_house_dz = 25.0                 # hart achterste pen tot achterkant huis
+act_eye_dz = act_pin_z - act_Lr - drive_z    # 570: hart stangoog boven de onderkant van het gereedschap
+act_pin_d = 12.2                    # pennen O12 (gat 12,2)
+act_eye_c = 27.8                    # stangoog O27,8, gat 13,5 van het eind (datasheet optie 2)
+act_back_c = 25.2                   # achterbevestiging O25,2, gat 13 van het eind
+act_force = 1700.0                  # max. last [N] (datasheet 24 V, 20 mm, F 1:18); zelfremming 2200 N
+act_selflock = 2200.0
+act_speed = (72.0, 52.0)            # snelheid onbelast / bij 1700 N [mm/s] (datasheet)
+act_amp = (2.4, 10.3)               # stroom onbelast / bij 1700 N [A] (datasheet)
+act_duty = 0.20                     # inschakelduur bij volle last, slag <= 600 (datasheet: 4 min aan, 16 uit)
 act_V = 24.0
-act_kg = (5.5, 0.8)                 # vast deel (huis, buis, motor) / bewegend deel (stang)
+act_kg = (5.3, 0.7)                 # datasheet 4,55 kg bij 100 slag + 0,24 per 50 = 6,0 kg; vast / stang
 dcdc = (48.0, 24.0, 20.0)           # omvormer 48 -> 24 V, 20 A
 
 # ---------------------------------------------------------------------
 # Spilbok, spil, motor
 # ---------------------------------------------------------------------
 sb_back_t = 6.0
-spindle_dv = 75.0                   # hart spil achter de achterplaat (achterplaat op de achterkant van de Z-koker)
+sb_back_v0 = slide_v0 + slide_t + 96.0   # voorkant achterplaat spilbok (257.5, zoals met de Z-koker: spil blijft staan)
+spindle_dv = 75.0                   # hart spil achter de achterplaat
 sb_lo = 408.0                       # onderste plaat boven onderkant gereedschap
 sb_side_x = 87.5                    # hart zijplaten (5 mm), net buiten de lagervoeten
 sb_back_top = 710.0                 # bovenkant achterplaat spilbok
@@ -266,7 +280,7 @@ x_pulley_T = 20
 htd_pitch = 5.0
 plunge_v = 25.0                     # insteeksnelheid [mm/s]
 rapid_x = 200.0
-rapid_z = act_speed[1]              # actuator bij last
+rapid_z = act_speed[0] - (act_speed[0] - act_speed[1]) * 800.0 / act_force   # LA36 bij ca. 800 N (optillen)
 dwell_s = 1.0
 z_force_limit = 600.0               # software-begrenzing [N]
 cut_energy = (0.5e6, 2.0e6)
@@ -288,5 +302,5 @@ ebox_z0 = 745.0
 ebox_plate_t = 3.0
 chain_z = xbar_z[1] + 60.0          # kabelrups boven de hulzen
 spiral_turns = 12
-spiral_x = 100.0                    # spiraalkabel rechts naast de Z-koker, boven de X-motor
+spiral_x = 135.0                    # spiraalkabel rechts naast de rechter Z-buis, boven de X-motor
 spiral_z0 = 965.0                   # onderste (vaste) anker op de X-slede

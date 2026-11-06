@@ -86,6 +86,9 @@ export const implementsList = [
       { name: "v6", folder: "dockweed drill/v6", hero: "dockweed drill/v6/previews/1_work_iso_rear_right.png",
         text: "v5 with a 40 x 40 frame, PTO tubes bolted between 12 mm side plates, a Z tube on HGR15 rails driven by a 24 V actuator, and a Ø30 spindle in 2 x UCP 206.",
         facts: ["Bolted PTO tubes", "24 V actuator Z axis", "Ø30 spindle in UCP 206"] },
+      { name: "v7", folder: "dockweed drill/v7", hero: "dockweed drill/v7/previews/1_work_iso_rear_right.png",
+        text: "v6 without the X axis: the spindle is fixed at x 0 and the robot steers to the plant. Z on 2 round precision tubes Ø50 x 4 in plain-bush housings with the Linak LA36 in the middle; 23 kg lighter.",
+        facts: ["No X axis, robot steers", "Round tubes in plain bushes", "99.9 kg", "No animation yet"] },
     ] },
   {
     name: "Trencher", folder: "trencher", category: "Soil Cultivation & Weed Control",

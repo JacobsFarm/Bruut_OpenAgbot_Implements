@@ -20,6 +20,7 @@ The concept, all uses and the moving refillers are in the [mobile refiller READM
 | | Carrier | IBCs | Contents |
 | --- | --- | --- | --- |
 | [IBC trailer](ibc_trailer/README.md) | dedicated single-axle trailer with an A-frame drawbar, jockey wheel and two drop legs | **1 or 2** | control box and mast on the drawbar; both configurations from one script (`cfg(1)`, `cfg(2)`); why: [RATIONALE](ibc_trailer/RATIONALE.md) |
+| [IBC trailer, two liquids](ibc_trailer_two_liquids/README.md) | the 2-IBC trailer with **one liquid per IBC**: two suction lines, a control box with two pumps, two hoses side by side to **two nozzles 455 mm apart**, and a **lifting arm** (round mast, linear actuator, +706 mm) that also fills the mobile refiller with two IBCs | **2** | for the precision applicator V4; why: [RATIONALE](ibc_trailer_two_liquids/RATIONALE.md) |
 | [Three-point frame](three_point/README.md) | welded frame on four legs with a cat. 2 three-point hitch; the mast is the hitch tower | **1** | control box under the platform; the tractor sets it down on the headland; why: [RATIONALE](three_point/RATIONALE.md) |
 | [Flat wagon](flat_wagon/README.md) | standard 8 m bale wagon (as in the photo), unchanged except two holes and two box hangers | **6** (2 to 8) | mast skid on the rear left corner, control box under the deck, suction header along the deck; why: [RATIONALE](flat_wagon/RATIONALE.md) |
 

@@ -3,8 +3,8 @@
 Intern wordt getekend in het portaalframe (x, v, z): v = afstand achter de achterkant van de achterste onderbalk
 van de robot. to_robot() spiegelt dat naar robot-y (y = robot_beam_rear_face - v).
 Bewegende groepen worden in hun referentiestand getekend:
-- X-slede op x = 0 (met de wagens van de Z-rails en het vaste deel van de actuator);
-- Z-slede (Z-koker met rails, stang van de actuator, spilbok, spil) met de onderkant van het gereedschap op z_ref
+- X-slede op x = 0 (met de 4 hulzen van de Z-geleiding en het vaste deel van de actuator);
+- Z-slede (2 staande aftakasbuizen, juk, stang van de actuator, spilbok, spil) met de onderkant van het gereedschap op z_ref
   (rijstand, actuator ingetrokken);
 - pot hangend onder de spilbok bij z_ref (rand op z_ref - pot_rim).
 """
@@ -115,10 +115,9 @@ def stack():
     s["tube"] = P.tube_v
     s["slide"] = (P.slide_v0, P.slide_v0 + P.slide_t)
     s["belt_ref"] = P.tube_v + 4.0                      # riem en riemklemmen
-    s["zr"] = s["slide"][1] + P.rail_h                  # railvoet Z-rails (wagens vast op de slede)
-    s["zt"] = (s["zr"] + P.riser_t, s["zr"] + P.riser_t + P.zt_d)
-    s["zt_c"] = (s["zt"][0] + s["zt"][1]) / 2.0
-    s["sb_back"] = (s["zt"][1], s["zt"][1] + P.sb_back_t)
+    s["zg"] = P.zg_v                                    # hart staande aftakasbuizen (Z-geleiding)
+    s["act"] = P.act_v                                  # hart actuator
+    s["sb_back"] = (P.sb_back_v0, P.sb_back_v0 + P.sb_back_t)
     s["spindle"] = s["sb_back"][1] + P.spindle_dv
     return s
 
@@ -350,12 +349,13 @@ def sleeve_pads():
 
 
 def sleeve_bolts():
+    """M8 in de opzetplaat getapt, kop verzonken in de slede (achterkant vlak voor de zadelblokken van de Z-hulzen)."""
     out = []
     v0 = S["tube"] + P.sl_h / 2 + 2
     v1 = S["slide"][1]
     for xh, Lh, zp in sleeve_positions():
         for (bx, bz) in _pad_bolt_pts(xh, Lh, zp):
-            out.append(cyl(4, V(bx, v0, bz), ALONG_V, v1 + 5 - v0).fuse(cyl(6.5, V(bx, v1, bz), ALONG_V, 5)))
+            out.append(cyl(4, V(bx, v0, bz), ALONG_V, v1 - v0).fuse(cyl(6.5, V(bx, v1 - 5.5, bz), ALONG_V, 5.5)))
     return to_robot(compound(out))
 
 
@@ -376,13 +376,14 @@ def grease_nipples():
 
 
 def x_slide():
-    """X-slede alu 10 mm, met een verlengstuk links boven voor de bovenste pen van de actuator."""
+    """X-slede alu 10 mm, met een verlengstuk in het midden boven voor de bovenste pen van de actuator.
+    Verzonken gaten voor de M8 van de X-hulzen (achterkant vlak), gaten voor de M8 van de zadelblokken (Z-hulzen)."""
     v0, v1 = S["slide"]
     h = P.slide_half_x
     tx0, tx1, tz1 = P.slide_tab
     sl = box(-h, h, v0, v1, P.slide_z[0], P.slide_z[1]).fuse(box(tx0, tx1, v0, v1, P.slide_z[1] - 1, tz1)).removeSplitter()
     sl = sl.cut(cyl(9, V(P.motor_dx, v0 - 1, P.pulley_z), ALONG_V, P.slide_t + 2))
-    for (gx, gz) in ((-100, 910), (70, 830)):
+    for (gx, gz) in ((-100, 910), (0, 905)):
         sl = sl.cut(cyl(20, V(gx, v0 - 1, gz), ALONG_V, P.slide_t + 2))
     for xh, Lh, zp in sleeve_positions():
         for (bx, bz) in _pad_bolt_pts(xh, Lh, zp):
@@ -390,6 +391,9 @@ def x_slide():
                 sl = sl.cut(cyl(4.5, V(bx, v0 - 1, bz), ALONG_V, P.slide_t + 2))
             else:                                   # onderste huls: sleufgaten (tolerantie in z)
                 sl = sl.cut(box(bx - 4.5, bx + 4.5, v0 - 1, v1 + 1, bz - 8, bz + 8))
+            sl = sl.cut(cyl(7.0, V(bx, v1 - 5.5, bz), ALONG_V, 6.5))        # verzinking kop
+    for (bx, bz) in _zg_bolt_pts():
+        sl = sl.cut(cyl(4.5, V(bx, v0 - 1, bz), ALONG_V, P.slide_t + 2))
     return to_robot(sl)
 
 
@@ -420,15 +424,75 @@ def x_idlers():
     return to_robot(compound([cyl(15, V(P.motor_dx + dx, br + 5, 897), ALONG_V, 18) for dx in (-32, 32)]))
 
 
-def hgh15_block_z(zc, vf, xc):
-    """HGH15CA-wagen op een Z-rail (railvoet op v = vf); bovenvlak op vf - 28 (tegen de slede)."""
-    b = box(xc - 17, xc + 17, vf - 28, vf - 4.3, zc - 30.7, zc + 30.7)
-    return b.cut(box(xc - 7.8, xc + 7.8, vf - 15.3, vf - 4.0, zc - 31, zc + 31))
+# Z-geleiding: 2 x 2 hulzen (buitenbuis) in zadelblokken op de achterkant van de X-slede
+def lemon_z(z0, z1, xc, vc, b, h):
+    """Massief citroenprofiel langs z: b = lengte in v (tip tot tip), h = dikte in x."""
+    R = (b * b / 4.0 + h * h / 4.0) / h
+    d = R - h / 2.0
+    c1 = Part.makeCylinder(R, z1 - z0, V(xc + d, vc, z0), UP)
+    c2 = Part.makeCylinder(R, z1 - z0, V(xc - d, vc, z0), UP)
+    return c1.common(c2)
 
 
-def z_blocks():
-    """4 wagens vast op de X-slede, op de hoogte van de buizen (zoals v2)."""
-    return to_robot(compound([hgh15_block_z(zp, S["zr"], dx) for zp in P.xbar_z for dx in (-P.z_rail_dx, P.z_rail_dx)]))
+def lemon_ring_z(z0, z1, xc, vc, bo, ho, bi, hi):
+    return lemon_z(z0, z1, xc, vc, bo, ho).cut(lemon_z(z0 - 1, z1 + 1, xc, vc, bi, hi))
+
+
+def zg_sleeve_positions():
+    """(x, z) van de 4 Z-hulzen: links en rechts, op de hoogte van de onderste en bovenste X-buis."""
+    return [(s * P.zg_dx, zp) for s in (-1, 1) for zp in P.zg_sleeve_z]
+
+
+def _zg_bolt_pts():
+    """4x M8 per zadelblok, buiten de huls (x hart +- 31), z hart +- 35."""
+    return [(xs + dx, zs + dz) for xs, zs in zg_sleeve_positions() for dx in (-31.0, 31.0) for dz in (-35.0, 35.0)]
+
+
+def z_sleeves():
+    v = S["zg"]
+    L = P.zg_sleeve_L
+    return to_robot(compound([lemon_ring_z(zs - L / 2, zs + L / 2, xs, v, P.sl_b, P.sl_h,
+                                           P.sl_b - 2 * P.sl_t, P.sl_h - 2 * P.sl_t) for xs, zs in zg_sleeve_positions()]))
+
+
+def z_saddles():
+    """Zadelblok staal (x hart +- 34, van de slede tot het hart van de huls), om de huls gelast."""
+    v1 = S["slide"][1]
+    v = S["zg"]
+    L = P.zg_sleeve_L
+    out = []
+    for xs, zs in zg_sleeve_positions():
+        b = box(xs - P.zg_pad_half_x, xs + P.zg_pad_half_x, v1, v, zs - L / 2, zs + L / 2)
+        b = b.cut(lemon_z(zs - L / 2 - 1, zs + L / 2 + 1, xs, v, P.sl_b, P.sl_h))
+        for (bx, bz) in _zg_bolt_pts():
+            if abs(bx - xs) < 40 and abs(bz - zs) < 50:
+                b = b.cut(cyl(4.5, V(bx, v1 - 1, bz), ALONG_V, v - v1 + 2))
+        out.append(b)
+    return to_robot(compound(out))
+
+
+def z_saddle_bolts():
+    """M8 van achteren door het zadelblok in de slede (kop op het zadelblok)."""
+    v0 = S["slide"][0]
+    v = S["zg"]
+    return to_robot(compound([cyl(4, V(bx, v0 + 1, bz), ALONG_V, v - v0 - 1).fuse(cyl(6.5, V(bx, v, bz), ALONG_V, 5.5))
+                              for bx, bz in _zg_bolt_pts()]))
+
+
+def z_scrapers():
+    v = S["zg"]
+    L = P.zg_sleeve_L
+    out = []
+    for xs, zs in zg_sleeve_positions():
+        for z0 in (zs - L / 2 - P.scraper_t, zs + L / 2):
+            out.append(lemon_ring_z(z0, z0 + P.scraper_t, xs, v, P.sl_b + 3, P.sl_h + 3, P.pto_b, P.pto_h))
+    return to_robot(compound(out))
+
+
+def z_grease_nipples():
+    """Smeernippel op de achterste punt van elke Z-huls (+v, vrij van het zadelblok)."""
+    v = S["zg"] + P.sl_b / 2
+    return to_robot(compound([cyl(3.2, V(xs, v, zs), ALONG_V, 12) for xs, zs in zg_sleeve_positions()]))
 
 
 def chain_driver():
@@ -441,66 +505,72 @@ def chain_driver():
         box(xm - 20, xm + 20, v0 - 3, v0, P.slide_z[1] - 8, zk + 86)))
 
 
-# Actuator (vast deel op de X-slede): bovenste pen, huis, buitenbuis, motor
+# Actuator Linak LA36 (vast deel op de X-slede): bovenste pen, huis, buitenbuis. Maten uit de datasheet.
 def _act_pin_z():
-    """Bovenste pen (vast): ingetrokken staat het stangoog op de rijstand."""
-    return P.z_ref + P.zt_bottom + P.act_eye_dz + P.act_Lr
+    """Bovenste pen (vast, op het verlengstuk van de slede)."""
+    return P.act_pin_z
 
 
 def _act_eye_z():
-    """Stangoog bij z_ref (getekend in de Z-slede)."""
-    return P.z_ref + P.zt_bottom + P.act_eye_dz
+    """Stangoog bij z_ref (getekend in de Z-slede): ingetrokken = rijstand."""
+    return P.z_ref + P.act_eye_dz
 
 
-def _clevis(xc, vc, zc, v_base):
-    """2 wangen (v-z-vlak) van v_base tot achter de pen, pengat langs x."""
-    w = P.act_eye_w / 2 + 1.0
+def _act_house_z():
+    """(onderkant, bovenkant) van het huis."""
+    top = _act_pin_z() - P.act_house_dz
+    return top - P.act_house_L, top
+
+
+def _clevis(xc, vc, zc, v_base, inner, z_lo=-22.0, z_hi=25.0):
+    """2 wangen 8 mm (v-z-vlak) van v_base tot achter de pen, pengat langs x; inner = halve binnenmaat."""
     out = []
     for s in (-1, 1):
-        x0 = xc + s * w if s > 0 else xc - w - 8.0
-        c = box(x0, x0 + 8.0, v_base, vc + 25, zc - 22, zc + 25)
+        x0 = xc + inner if s > 0 else xc - inner - 8.0
+        c = box(x0, x0 + 8.0, v_base, vc + 25, zc + z_lo, zc + z_hi)
         out.append(c.cut(cyl(P.act_pin_d / 2, V(x0 - 1, vc, zc), V(1, 0, 0), 10)))
     return out
 
 
 def act_top_bracket():
-    """Bovenste beugel: voetplaat 8 mm op het verlengstuk van de slede + 2 wangen 8 mm."""
+    """Bovenste beugel: voetplaat 8 mm op het verlengstuk van de slede + 2 wangen 8 mm om de achterbevestiging."""
     v1 = S["slide"][1]
     zp = _act_pin_z()
     xc = P.act_x
-    base = box(xc - 35, xc + 35, v1, v1 + 8, zp - 22, P.slide_tab[2])
-    return to_robot(fuse([base] + _clevis(xc, S["zt_c"], zp, v1 + 8)))
+    tx0, tx1, tz1 = P.slide_tab
+    base = box(tx0, tx1, v1, v1 + 8, zp - 22, tz1)
+    return to_robot(fuse([base] + _clevis(xc, S["act"], zp, v1 + 8, P.act_back_c / 2 + 1.0)))
 
 
 def act_pin_top():
     zp = _act_pin_z()
-    return to_robot(cyl(P.act_pin_d / 2 - 0.1, V(P.act_x - 22, S["zt_c"], zp), V(1, 0, 0), 44))
+    return to_robot(cyl(P.act_pin_d / 2 - 0.1, V(P.act_x - 24, S["act"], zp), V(1, 0, 0), 48))
 
 
 def act_body():
-    """Huis + achterste oog, buitenbuis en parallelle motor (LA36-klasse, maten AANNAME)."""
-    xc, vc = P.act_x, S["zt_c"]
+    """LA36: huis 76 breed, 148 hoog (36 voor / 112 achter het hart), 230 lang; achterbevestiging O25,2;
+    buitenbuis 44,5 x 50 tot act_tube_end boven het stangoog (ingetrokken)."""
+    xc, vc = P.act_x, S["act"]
     zp = _act_pin_z()
-    hx, hv, hz = P.act_house
-    top = zp - 25.0
-    house = box(xc - hx + 30, xc + 30, vc - hv / 2, vc + hv / 2, top - hz, top)
-    lug = box(xc - P.act_eye_w / 2, xc + P.act_eye_w / 2, vc - 18, vc + 18, top - 1, zp + 18)
-    lug = lug.fuse(cyl(18, V(xc - P.act_eye_w / 2, vc, zp), V(1, 0, 0), P.act_eye_w)).removeSplitter()
+    z0, z1 = _act_house_z()
+    w = P.act_house_w / 2
+    hf, hb = P.act_house_h
+    house = box(xc - w, xc + w, vc - hf, vc + hb, z0, z1)
+    lug = cyl(P.act_back_c / 2, V(xc, vc, z1 - 1), UP, zp + 13.0 - z1 + 1)
     lug = lug.cut(cyl(P.act_pin_d / 2, V(xc - 20, vc, zp), V(1, 0, 0), 40))
-    tube_z0 = _act_eye_z() + P.act_rod_out
-    tube = pipe(P.act_tube_d / 2, P.act_rod_d / 2 + 0.5, V(xc, vc, tube_z0), UP, top - hz - tube_z0 + 1)
-    md, ml = P.act_motor
-    mx = xc - P.act_tube_d / 2 - md / 2 - 2
-    motor = cyl(md / 2, V(mx, vc, top - hz - ml), UP, ml + 1)
-    return to_robot(fuse([house, lug, tube, motor]))
+    tz0 = _act_eye_z() + P.act_tube_end
+    tw, tv = P.act_tube
+    tube = box(xc - tw / 2, xc + tw / 2, vc - tv / 2, vc + tv / 2, tz0, z0 + 1)
+    tube = tube.cut(cyl(P.act_rod_d / 2 + 0.5, V(xc, vc, tz0 - 1), UP, z0 - tz0 + 1))
+    return to_robot(fuse([house, lug, tube]))
 
 
-SPIRAL_X = P.spiral_x        # rechts naast de Z-koker, boven de X-motor
+SPIRAL_X = P.spiral_x        # rechts naast de rechter Z-buis, boven de X-motor
 SPIRAL_Z0 = P.spiral_z0      # onderste (vaste) anker op de X-slede
 
 
 def _spiral_v():
-    return S["zt_c"]
+    return S["act"]
 
 
 def cable_bracket_x():
@@ -541,72 +611,93 @@ def led_bar():
 
 
 # ---------------------------------------------------------------------
-# Z-slede = Z-koker met rails, spilbok, spil en motor (beweegt in z; getekend bij z_ref)
+# Z-slede = 2 staande aftakasbuizen met juk, spilbok, spil en motor (beweegt in z; getekend bij z_ref)
 # ---------------------------------------------------------------------
 def _zc():
     return P.z_ref
 
 
-def _zt_bottom():
-    return _zc() + P.zt_bottom
+def _zg_z():
+    """(onderkant, bovenkant) van de staande aftakasbuizen bij z_ref."""
+    return _zc() + P.zg_bottom, _zc() + P.zg_top
 
 
-def z_tube():
-    v0, v1 = S["zt"]
-    b = _zt_bottom()
-    return to_robot(tube_rect(-P.zt_w / 2, P.zt_w / 2, v0, v1, b, b + P.zt_L, P.zt_wall, "z"))
+def z_guide_tube(side):
+    """Staande aftakasbuis (binnenbuis 49 x 39,5 x 4,5, b in v): glijdt met de Z-slede door de 2 hulzen."""
+    z0, z1 = _zg_z()
+    xs = side * P.zg_dx
+    return to_robot(lemon_ring_z(z0, z1, xs, S["zg"], P.pto_b, P.pto_h, P.pto_b - 2 * P.pto_t, P.pto_h - 2 * P.pto_t))
 
 
-def z_risers():
-    b = _zt_bottom()
-    r0, r1 = P.z_rail
-    return to_robot(compound([box(dx - 12.5, dx + 12.5, S["zr"], S["zt"][0], b + r0, b + r1)
-                              for dx in (-P.z_rail_dx, P.z_rail_dx)]))
+def _zg_plug_bolt_pts():
+    return [(s * P.zg_dx, S["zg"] + dv) for s in (-1, 1) for dv in (-P.tube_bolt_dz - 2.0, P.tube_bolt_dz + 2.0)]
 
 
-def hgr15_rail_z(z0, z1, vf, xc):
-    """HGR15-rail langs z, railvoet op v = vf, steekt uit naar -v."""
-    r = box(xc - 7.5, xc + 7.5, vf - 15, vf, z0, z1)
-    r = r.cut(box(xc - 8.5, xc - 5.0, vf - 11, vf - 8, z0 - 1, z1 + 1))
-    return r.cut(box(xc + 5.0, xc + 8.5, vf - 11, vf - 8, z0 - 1, z1 + 1))
+def z_tube_plugs():
+    """Prop (binnenprofiel, 25 mm, gelast) onderin elke buis, 2x M10 getapt (van onder door het juk)."""
+    z0 = _zg_z()[0]
+    out = []
+    for s in (-1, 1):
+        p = lemon_z(z0, z0 + P.plug_L, s * P.zg_dx, S["zg"], P.pto_b - 2 * P.pto_t, P.pto_h - 2 * P.pto_t)
+        out.append(holes_z(p, [pt for pt in _zg_plug_bolt_pts() if pt[0] * s > 0], 5.0, z0, P.plug_L))
+    return to_robot(compound(out))
 
 
-def z_rails():
-    b = _zt_bottom()
-    r0, r1 = P.z_rail
-    return to_robot(compound([hgr15_rail_z(b + r0, b + r1, S["zr"], dx) for dx in (-P.z_rail_dx, P.z_rail_dx)]))
+def z_yoke():
+    """Onderjuk 10 mm onder de buizen, van de buizen tot de achterplaat van de spilbok (gelast)."""
+    z0 = _zg_z()[0]
+    w = P.zg_yoke_half_x
+    p = box(-w, w, S["zg"] - P.pto_b / 2 - 6, S["sb_back"][0], z0 - P.zg_yoke_t, z0)
+    return to_robot(holes_z(p, _zg_plug_bolt_pts(), 5.5, z0 - P.zg_yoke_t, P.zg_yoke_t))
+
+
+def z_yoke_bolts():
+    z0 = _zg_z()[0] - P.zg_yoke_t
+    out = []
+    for (x, v) in _zg_plug_bolt_pts():
+        out.append(cyl(P.m10_d / 2, V(x, v, z0), UP, P.zg_yoke_t + 20).fuse(
+            cyl(P.m10_head_r, V(x, v, z0 - P.m10_head_k), UP, P.m10_head_k)))
+    return to_robot(compound(out))
+
+
+def z_clamp_plate():
+    """Klemplaat 10 mm 60 mm boven het juk: citroengaten om de buizen (gelast aan buis en achterplaat)."""
+    z0 = _zc() + P.zg_clamp_z
+    w = P.zg_yoke_half_x
+    p = box(-w, w, S["zg"] - P.pto_b / 2 - 6, S["sb_back"][0], z0, z0 + P.zg_yoke_t)
+    for s in (-1, 1):
+        p = p.cut(lemon_z(z0 - 1, z0 + P.zg_yoke_t + 1, s * P.zg_dx, S["zg"], P.pto_b, P.pto_h))
+    p = p.cut(box(-22, 22, S["zg"] - P.pto_b / 2 - 7, S["zg"] + 6, z0 - 1, z0 + P.zg_yoke_t + 1))   # lichtgat
+    return to_robot(p)
 
 
 def act_eye_bracket():
-    """Beugel onderaan de linkerkant van de Z-koker: zijplaat 8 mm, bodem 8 mm, 2 wangen 8 mm voor het stangoog."""
-    xc, vc = P.act_x, S["zt_c"]
+    """Beugel op de achterplaat van de spilbok (x 0): bodem 8 mm + 2 wangen 8 mm om het stangoog."""
+    xc, vc = P.act_x, S["act"]
     ze = _act_eye_z()
-    b = _zt_bottom()
-    x_face = -P.zt_w / 2
-    w = P.act_eye_w / 2 + 1.0
-    side = box(x_face - 8, x_face, S["zt"][0], S["zt"][1], b - 10, b + 70)
-    bottom = box(xc - w - 8, x_face, vc - 25, vc + 25, b - 10, b - 2)
+    inner = P.act_eye_c / 2 + 1.0
+    v0, v1 = vc - 22, S["sb_back"][0]
+    bottom = box(xc - inner - 8, xc + inner + 8, v0, v1, ze - 38, ze - 30)
     cheeks = []
-    for x0 in (xc - w - 8, xc + w):
-        c = box(x0, x0 + 8, vc - 25, vc + 25, b - 2, ze + 18)
+    for x0 in (xc - inner - 8, xc + inner):
+        c = box(x0, x0 + 8, v0, v1, ze - 30, ze + 18)
         cheeks.append(c.cut(cyl(P.act_pin_d / 2, V(x0 - 1, vc, ze), V(1, 0, 0), 10)))
-    return to_robot(fuse([side, bottom] + cheeks))
+    return to_robot(fuse([bottom] + cheeks))
 
 
 def act_rod():
-    """Stang O30 met stangoog (pen langs x); getekend ingetrokken (rijstand), boven tot net onder het huis."""
-    xc, vc = P.act_x, S["zt_c"]
+    """Binnenbuis met massief stangoog O27,8 (gat 13,5 van het eind); getekend ingetrokken (rijstand)."""
+    xc, vc = P.act_x, S["act"]
     ze = _act_eye_z()
-    top = _act_pin_z() - 25.0 - P.act_house[2] - 2.0
-    rod = cyl(P.act_rod_d / 2, V(xc, vc, ze + 20), UP, top - ze - 20)
-    eye = cyl(18, V(xc - P.act_eye_w / 2, vc, ze), V(1, 0, 0), P.act_eye_w).fuse(
-        box(xc - P.act_eye_w / 2, xc + P.act_eye_w / 2, vc - 15, vc + 15, ze, ze + 21))
+    top = _act_house_z()[0] - 2.0
+    eye = cyl(P.act_eye_c / 2, V(xc, vc, ze - 13.5), UP, 30.0)
     eye = eye.cut(cyl(P.act_pin_d / 2, V(xc - 20, vc, ze), V(1, 0, 0), 40))
+    rod = cyl(P.act_rod_d / 2, V(xc, vc, ze + 16.0), UP, top - ze - 16.0)
     return to_robot(rod.fuse(eye).removeSplitter())
 
 
 def act_pin_eye():
-    return to_robot(cyl(P.act_pin_d / 2 - 0.1, V(P.act_x - 22, S["zt_c"], _act_eye_z()), V(1, 0, 0), 44))
+    return to_robot(cyl(P.act_pin_d / 2 - 0.1, V(P.act_x - 26, S["act"], _act_eye_z()), V(1, 0, 0), 52))
 
 
 def _sb():
@@ -626,25 +717,13 @@ def _sb_rear_v():
 
 
 def sb_back_plate():
-    """Achterplaat van de spilbok (6 mm), geboute tegen de achterkant van de Z-koker."""
+    """Achterplaat van de spilbok (6 mm); onderjuk, klemplaat en de beugel van het stangoog zijn ertegen gelast."""
     z_lo, z_mo = _sb()
     v0, v1 = S["sb_back"]
     p = box(-80, 80, v0, v1, z_lo, _zc() + P.sb_back_top)
-    for (wz0, wz1) in ((z_lo + 30, z_lo + 120), (z_lo + 170, z_lo + 240)):     # lichtgaten
+    for (wz0, wz1) in ((z_lo + 95, z_lo + 120), (z_lo + 200, z_lo + 280)):     # lichtgaten (vrij van juk en beugel)
         p = p.cut(box(-32, 32, v0 - 1, v1 + 1, wz0, wz1))
-    for dx, dz in _sb_back_bolts():
-        p = p.cut(cyl(5.5, V(dx, v0 - 1, z_lo + dz), ALONG_V, 10))
     return to_robot(p)
-
-
-def _sb_back_bolts():
-    return [(dx, dz) for dx in (-45, 45) for dz in (25, 145, 270)]
-
-
-def sb_back_bolts():
-    z_lo = _sb()[0]
-    v1 = S["sb_back"][1]
-    return to_robot(compound([cyl(8.5, V(dx, v1, z_lo + dz), ALONG_V, 7) for dx, dz in _sb_back_bolts()]))
 
 
 def sb_plate_lower():
@@ -818,10 +897,10 @@ def motor_gussets():
 
 
 def cable_bracket_z():
-    """Beugel boven op de Z-koker (rechts): bewegend anker van de spiraalkabel."""
-    z1 = _zt_bottom() + P.zt_L
+    """Kapje met arm boven op de rechter Z-buis: bewegend anker van de spiraalkabel."""
+    z1 = _zg_z()[1]
     v = _spiral_v()
-    return to_robot(box(P.zt_w / 2 - 15, SPIRAL_X + 26, v - 15, v + 15, z1, z1 + 6))
+    return to_robot(box(P.zg_dx - 22, SPIRAL_X + 26, min(S["zg"] - P.pto_b / 2, v - 15), v + 15, z1, z1 + 6))
 
 
 def pot_bushes():
@@ -998,9 +1077,9 @@ def chain_shapes(x):
 
 
 def spiral_cable(x, z_tool):
-    """Spiraalkabel van de beugel op de X-slede (vast) omhoog naar de beugel boven op de Z-koker (beweegt)."""
+    """Spiraalkabel van de beugel op de X-slede (vast) omhoog naar het kapje op de rechter Z-buis (beweegt)."""
     z_a = SPIRAL_Z0
-    z_c = z_tool + P.zt_bottom + P.zt_L
+    z_c = z_tool + P.zg_top
     n = P.spiral_turns
     pitch = (z_c - z_a) / n
     v = _spiral_v()
