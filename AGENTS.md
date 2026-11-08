@@ -28,8 +28,10 @@ agbots/agbot comparison/   comparison of the two robots
                            via a jaw coupling, no animation, v6 = v5 with a 40x40 frame, PTO tubes bolted between side
                            plates, Z on 2 upright PTO tubes with a Linak LA36 and the spindle in the middle, O30 spindle in
                            2x UCP 206, v7 = v6 without the X axis: spindle fixed at x 0, the robot steers to the
-                           plant, Z on 2 round tubes O50x4 in plain-bush housings with the LA36, no animation yet; v7 is
-                           mainly the Z part, an X axis still has to be added)
+                           plant, Z on 2 round tubes O50x4 in plain-bush housings with the LA36, animation with the
+                           robot steering to each plant and an exploded-assembly animation (explode_dwd7); v7 is
+                           mainly the Z part, v8 = Z part of v7 on the X axis of v6 with round tubes O50x4 instead of
+                           PTO tubes, the same plain-bush housings on both axes, the v7 mount plate is the X slide)
 cambridge roll/             three trailed variants on one 50 mm tow ball: "cambridge roll" (cbr, also holds the tow
                            hitch, coupling head, drawbar and the general tree/check helpers), "overrseeder" (ovd, drop
                            seeder) and "overseeder with cambridge roll" (osr); ovd and osr import cbr from the sibling

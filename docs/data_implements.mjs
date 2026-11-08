@@ -66,7 +66,7 @@ export const implementsList = [
     ] },
   {
     name: "Dockweed drill", folder: "dockweed drill", category: "Soil Cultivation & Weed Control",
-    summary: "Finds a dock plant (broad-leaved dock) and mills out its root on a CNC gantry behind the robot, chemical-free. Six numbered versions that each change one part of the machine.",
+    summary: "Finds a dock plant (broad-leaved dock) and mills out its root on a CNC gantry behind the robot, chemical-free. Eight numbered versions that each change one part of the machine.",
     variants: [
       { name: "v1", folder: "dockweed drill/v1", hero: "dockweed drill/v1/previews/1_work_iso_rear_right.png",
         text: "X slide on 2 aluminium profiles 40 x 80 with HGR15 rails and 4 carriages; cutter Ø180 at 1500 rpm in a pot Ø250 and a mowing disc as second tool.",
@@ -88,7 +88,10 @@ export const implementsList = [
         facts: ["Bolted PTO tubes", "24 V actuator Z axis", "Ø30 spindle in UCP 206"] },
       { name: "v7", folder: "dockweed drill/v7", hero: "dockweed drill/v7/previews/1_work_iso_rear_right.png",
         text: "v6 without the X axis: the spindle is fixed at x 0 and the robot steers to the plant. Z on 2 round precision tubes Ø50 x 4 in plain-bush housings with the Linak LA36 in the middle; 23 kg lighter.",
-        facts: ["No X axis, robot steers", "Round tubes in plain bushes", "99.9 kg", "No animation yet"] },
+        facts: ["No X axis, robot steers", "Round tubes in plain bushes", "99.9 kg", "Steering and exploded-view animations"] },
+      { name: "v8", folder: "dockweed drill/v8", hero: "dockweed drill/v8/previews/1_work_iso_rear_right.png",
+        text: "The Z part of v7 on the X axis of v6, with round precision tubes Ø50 x 4 instead of PTO tubes: the same tube and plain-bush housing on both axes, and the v7 mount plate becomes the X slide.",
+        facts: ["X stroke 1000 mm on round tubes", "One tube and housing type for X and Z", "127 kg", "Includes an animation"] },
     ] },
   {
     name: "Trencher", folder: "trencher", category: "Soil Cultivation & Weed Control",
@@ -243,11 +246,20 @@ export const implementsList = [
     ] },
   {
     name: "Three-point hitch", folder: "three point hitch", category: "Transport & General",
-    summary: "Category 0 three-point linkage at the rear with two electric lift rods, so standard sub-compact implements can hang on the robot. Drawn with a small 5-tine cultivator, which covers the small cultivator idea.",
+    summary: "Ways to hang implements and machines at the rear: a category 0 three-point linkage with two electric lift rods, and three variants with an A-frame (triangle) quick coupler sized for the robot and a Linak LA36: the LA36 as top link, a parallel linkage as on the liquid fertilizer applicator, and a lift mast for picking up and setting down machines. Drawn with a small 5-tine cultivator (covers the small cultivator idea) and a demo machine on parking legs.",
     variants: [
       { name: "Simple", folder: "three point hitch/simple", hero: "three point hitch/simple/previews/1_iso_rear_right_on_robot.png",
         text: "Rear toolbar of the grassland harrow with lugs for 2 lower links (50 x 20, O16 pins, 500 spacing), a top link bracket and 2 x 24 V 3000 N actuators as lift rods with a slotted eye (the implement floats). Demo implement: 1.0 m cultivator, 5 S-tines with duckfoot shares, 2 gauge wheels.",
         facts: ["Lower pins 220 .. 425 mm, implement level within 2 degrees","Carries ~56 kg lifted with the 2 x 20 kg counterweight (front axle >= 20 %)","Cultivator: 808 N draft at 40 mm, grip margin 1.29, 0.29 ha/h"] },
+      { name: "A-frame", folder: "three point hitch/a_frame", hero: "three point hitch/a_frame/previews/1_iso_rear_right_on_robot.png",
+        text: "Male A-frame triangle (40 x 40 x 3, 400 / 120 mm, 390 high) on 2 lower arms with a cross tube and a pitch brace: one lift frame turning about the lower pivots of the simple hitch. A Linak LA36 (20F, 1700 N, stroke 200) in the place of the top link, from a tower on the toolbar to the apex, its rod eye in a 30 mm slot so the frame floats. The cultivator carries a female triangle.",
+        facts: ["Lower pins 230 .. 431 mm in 2.5 s, the implement tilts 25.6 degrees","LA36 678 .. 901 N (53 %), float +-19 mm","~48 kg lifted with the 2 x 20 kg counterweight, 84 kg in all"] },
+      { name: "Parallel", folder: "three point hitch/parallel", hero: "three point hitch/parallel/previews/1_iso_rear_right_on_robot.png",
+        text: "The suspension of the liquid fertilizer applicator as a general hitch: a headstock welded on the toolbar, 4 links 30 x 30 x 3 (300 mm), a carrier with the male A-frame triangle, a Linak LA36 (16F, 2000 N, stroke 150) on the diagonal with a 31 mm slot in the headstock.",
+        facts: ["Straight up 203 mm, level, in 2.4 s","Floats -40 / +41 mm, LA36 up to 1306 N (65 %)","~49 kg lifted with the 2 x 20 kg counterweight, 85 kg in all"] },
+      { name: "Lift mast", folder: "three point hitch/lift", hero: "three point hitch/lift/previews/1_iso_rear_right_on_robot.png",
+        text: "Mast with 2 fixed columns O50 x 4, a carriage on 4 iglidur bush housings with the male A-frame triangle and a vertical Linak LA36 (20F, stroke 300, motor turned along x). Picks up a machine on parking legs by reversing under it, lifts, carries and sets it down again.",
+        facts: ["280 mm travel: machine 220 mm off its legs in 4.6 s","LA36 957 N with the 50 kg demo machine (incl. 253 N bush friction)","Demo machine needs ~58 kg front counterweight"] },
     ] },
   {
     name: "Crate carrier", folder: "crate carrier", category: "Transport & General",

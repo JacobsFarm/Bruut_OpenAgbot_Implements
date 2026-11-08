@@ -250,16 +250,55 @@ def min_radius(steer_deg=P.robot_steer_max_deg):
 
 def lateral_run(d, steer_deg=P.robot_steer_max_deg):
     """Rijafstand (mm) om de spil d mm zijwaarts te verzetten en weer recht te staan: S-bocht van 2 bogen met de
-    kleinste straal (kortste), en een vloeiende cosinus-bocht (zoals de animatie) bij dezelfde max. stuurhoek.
+    kleinste straal (kortste), een vloeiende cosinus-bocht bij dezelfde max. stuurhoek (stuurt wel met een sprong in
+    en uit), en de sinus-bocht van de animatie (s_curve: stuurhoek 0 aan begin en eind, dus geen sturen bij stilstand).
     Bij stilstand met koers 0 staat de spil recht achter het hart van de achteras, dus de achteras volgt deze baan."""
     d = abs(d)
     R = min_radius(steer_deg)
     if d >= 2 * R:
-        return {"arcs_mm": float("inf"), "smooth_mm": float("inf")}
+        return {"arcs_mm": float("inf"), "smooth_mm": float("inf"), "sine_mm": float("inf")}
     th = math.acos(1 - d / (2 * R))
     k = math.tan(math.radians(steer_deg)) / WHEELBASE
     return {"arcs_mm": 2 * R * math.sin(th), "smooth_mm": math.pi * math.sqrt(d / (2 * k)) if d else 0.0,
-            "heading_max_deg": math.degrees(th)}
+            "sine_mm": s_curve_length(d, steer_deg), "heading_max_deg": math.degrees(th)}
+
+
+def steer_centre_max(steer_deg=P.robot_steer_max_deg, half_track=P.robot_wheel_x):
+    """Hoek van het (denkbeeldige) middenwiel (rad) waarbij het BINNENSTE voorwiel (Ackermann) steer_deg haalt."""
+    T = math.tan(math.radians(steer_deg))
+    return math.atan(WHEELBASE * T / (WHEELBASE + half_track * T))
+
+
+def s_curve_length(d, steer_deg=P.robot_steer_max_deg):
+    """Kortste rijafstand (mm, langs y) van de sinus-bocht s_curve voor een zijwaartse verzetting d, met het binnenste
+    voorwiel op de max. stuurhoek. Kromming x'' = 2 pi d / L^2 * sin(2 pi s / L): max 2 pi d / L^2 = tan(middenwiel) /
+    wielbasis (de echte kromming x'' / (1 + x'^2)^1.5 is kleiner, dus veilig)."""
+    k = math.tan(steer_centre_max(steer_deg)) / WHEELBASE
+    return math.sqrt(2 * math.pi * abs(d) / k) if d else 0.0
+
+
+def s_curve(d, L, s):
+    """Sinus-bocht van de achteras (animatie): zijwaartse verzetting x(s) over rijafstand L (langs y), met x' en x''.
+    Koers en stuurhoek zijn 0 aan begin en eind, de stuurhoek verloopt als een sinus (geen sprong)."""
+    if L <= 0 or d == 0:
+        return 0.0, 0.0, 0.0
+    u = max(0.0, min(1.0, s / L))
+    w = 2 * math.pi * u
+    return (d * (u - math.sin(w) / (2 * math.pi)), d / L * (1 - math.cos(w)), d * 2 * math.pi / (L * L) * math.sin(w))
+
+
+def steer_angle(x1, x2):
+    """Stuurhoek (rad, + = links, zoals de Placement-rotatie van FL/FR_steered) voor de achteras-baan x(s) met
+    x' = x1, x'' = x2, bij ACHTERUIT rijden naar -y (werktuig voorop). Fietsmodel om het hart van de achteras."""
+    kappa = x2 / (1 + x1 * x1) ** 1.5
+    return -math.atan(WHEELBASE * kappa)
+
+
+def ackermann(delta, half_track=P.robot_wheel_x):
+    """Stuurhoek links en rechts (rad) uit de hoek van het middenwiel (rad, + = links)."""
+    t = math.tan(delta)
+    return (math.atan2(WHEELBASE * t, WHEELBASE - half_track * t),
+            math.atan2(WHEELBASE * t, WHEELBASE + half_track * t))
 
 
 def tool_behind_rear_axle():

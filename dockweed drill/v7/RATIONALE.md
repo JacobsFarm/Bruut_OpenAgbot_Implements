@@ -26,6 +26,11 @@ a slide, a belt drive, a stepper, a cable chain and the frame to hold it all. Wi
   | 500 mm | 1.79 m | 2.07 m | 31° |
 
 - **Along the row** the robot stops with the plant under the spindle, as before.
+- The **animation** uses a third bend, a sine S-curve (`dwd7_calc.s_curve`): its curvature, and so the steering angle,
+  is 0 at the start and the end and follows a sine in between. The robot never has to steer while standing still
+  (turf damage, stepper load) and stops with its wheels straight. It needs more travel than the two arcs: with the
+  **inner** front wheel at 30° (Ackermann; the centre angle is then 26°) it is 1.82 m for 250 mm and 2.36 m for 400 mm
+  sideways (`s_curve_length`). The animation spreads the curve over the whole leg between two plants.
 
 What this costs:
 
@@ -113,5 +118,7 @@ by 10 mm in the driving position. There is no mowing disc: 500 rpm is too slow f
    400 mm stroke.
 4. LA36: bench test the real cycle (with ~600 N) for 1–2 hours and measure the housing temperature; ask Linak about
    duty and life at this load profile.
-5. Animation with the robot steering to plants that are off the centre line (not made yet).
+5. Steering speed of the front wheels: the animation asks up to 43°/s (`animate_dwd7.summary()`) on a 2.4 m leg
+   with 400 mm sideways at 500 mm/s; check what the NEMA34 + planetary gearbox can do, otherwise drive slower in the
+   bend.
 6. All open points of v6 (motor type plate, 500 rpm in real soil).

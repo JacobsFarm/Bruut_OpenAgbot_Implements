@@ -1,0 +1,289 @@
+"""Animation: the Bruut OpenAgbot picks up a machine standing on its parking legs with the lift mast, moves it and
+sets it down again.
+
+1. The robot reverses towards the machine with the carriage at the bottom: the male triangle passes 60 mm under the
+   female triangle of the machine.
+2. The LA36 retracts: the male triangle lifts into the female (it centres the machine, the latch drops into the lock
+   plate), then the machine comes off its legs: 220 mm at the top of the travel.
+3. The robot drives 2.2 m forward with the machine, stops, the LA36 lowers it onto its legs and further until the
+   triangle is free, and the robot drives away.
+The LA36 moves at its datasheet speed under the load (tpl_calc: weight plus friction of the bushes).
+
+Builds a separate document: robot from build_agbot, the mast from build_tpl, the machine at top level in the field.
+
+Use in FreeCAD:
+    import animate_tpl
+    animate_tpl.build(); animate_tpl.play(); animate_tpl.stop(); animate_tpl.summary()
+    animate_tpl.render_all(r"C:\\temp\\tpl_frames")
+    import make_gif_tpl; make_gif_tpl.main(r"C:\\temp\\tpl_frames", r"previews\\animation_pick_up_and_set_down.gif")
+"""
+import json
+import math
+import os
+import sys
+
+import FreeCAD as App
+import Part
+from FreeCAD import Vector as V
+
+import tpl_params as P
+import tpl_calc as C
+import tpa_params as Q
+import build_tpl
+
+DOC_NAME = "TPL_on_robot_animation"
+FPS = 10
+COLOR = {"grass": (0.47, 0.62, 0.30)}
+
+Y_START = 1600.0        # robot centre at the start (machine coupling position = robot at y 0)
+V_REVERSE = 400.0       # mm/s
+V_FORWARD = 600.0
+ACC = 0.6               # s to reach the speed
+MOVE = 2200.0           # machine moved this far
+LEAVE = 1400.0          # robot drives away this far after setting down
+PAUSE = 0.4
+HOLD = 0.6
+
+_timer = None
+_play = {}
+
+
+def _profile(dist, vmax, acc_t):
+    """Trapezoidal drive: list of positions (0..dist) per frame step."""
+    a = vmax / acc_t
+    d_acc = 0.5 * a * acc_t * acc_t
+    if 2 * d_acc > dist:
+        acc_t = math.sqrt(dist / a)
+        vmax = a * acc_t
+        d_acc = dist / 2.0
+    t_cruise = (dist - 2 * d_acc) / vmax
+    total = 2 * acc_t + t_cruise
+
+    def pos(t):
+        if t <= 0.0:
+            return 0.0
+        if t < acc_t:
+            return 0.5 * a * t * t
+        if t < acc_t + t_cruise:
+            return d_acc + vmax * (t - acc_t)
+        if t < total:
+            tr = total - t
+            return dist - 0.5 * a * tr * tr
+        return dist
+    return pos, total
+
+
+def _pull(dz):
+    return C.actuator(machine_kg=0.0)["pull_N"] if dz < P.couple_dz else C.actuator()["pull_N"]
+
+
+def prepare(fps=FPS):
+    dt = 1.0 / fps
+    frames = []
+    state = {"y": Y_START, "dz": 0.0, "my": 0.0}
+
+    def add(phase, v=0.0, moving_act=False):
+        dz = state["dz"]
+        dzm = P.machine_dz(dz)
+        frames.append({"t": round(len(frames) * dt, 2), "y": state["y"], "dz": dz, "dz_m": dzm, "my": state["my"],
+                       "v": v, "phase": phase, "act_len": P.act_length(dz),
+                       "act_N": _pull(dz) if moving_act else (_pull(dz) if dz > 0 else 0.0),
+                       "spin": state["y"] / (P.robot_tire_d / 2.0)})
+
+    for _ in range(int(HOLD * fps)):
+        add("approach")
+    pos, total = _profile(Y_START, V_REVERSE, ACC)
+    t = 0.0
+    while t < total:
+        t += dt
+        state["y"] = Y_START - pos(t)
+        add("approach", -V_REVERSE)
+    state["y"] = 0.0
+    for _ in range(int(PAUSE * fps)):
+        add("approach")
+    while state["dz"] < P.travel - 1e-6:                        # lift
+        v = Q.act_speed(_pull(state["dz"]), P.act_variant)
+        state["dz"] = min(P.travel, state["dz"] + v * dt)
+        add("coupling" if state["dz"] <= P.couple_dz else "lifting", 0.0, True)
+    for _ in range(int(PAUSE * fps)):
+        add("lifted")
+    pos, total = _profile(MOVE, V_FORWARD, ACC)
+    t = 0.0
+    while t < total:
+        t += dt
+        state["y"] = pos(t)
+        state["my"] = state["y"]
+        add("carrying", V_FORWARD)
+    state["y"] = state["my"] = MOVE
+    for _ in range(int(PAUSE * fps)):
+        add("carrying")
+    while state["dz"] > 1e-6:                                   # set down
+        v = Q.act_speed(_pull(state["dz"]), P.act_variant)
+        state["dz"] = max(0.0, state["dz"] - v * dt)
+        add("setting_down" if state["dz"] >= P.couple_dz else "uncoupling", 0.0, True)
+    for _ in range(int(PAUSE * fps)):
+        add("uncoupling")
+    pos, total = _profile(LEAVE, V_FORWARD, ACC)
+    t = 0.0
+    while t < total:
+        t += dt
+        state["y"] = MOVE + pos(t)
+        add("leaving", V_FORWARD)
+    for _ in range(int(HOLD * fps)):
+        add("leaving")
+    return frames
+
+
+def build():
+    if build_tpl.AGBOT_FOLDER not in sys.path:
+        sys.path.insert(0, build_tpl.AGBOT_FOLDER)
+    if DOC_NAME in App.listDocuments():
+        App.closeDocument(DOC_NAME)
+    doc = App.newDocument(DOC_NAME)
+    doc.Label = "Lift mast on robot - animation"
+    doc.Comment = "Generated by animate_tpl.py. Robot from agbot design, mast and machine from build_tpl."
+    robot = build_tpl.BA.build_robot(doc)
+    build_tpl.build_into(doc, robot, machine_parent=None)
+    floor = doc.addObject("Part::Feature", "anim_floor")
+    floor.Shape = Part.makeBox(6000.0, 12000.0, 40.0, V(-3000.0, -4500.0, -40.0))
+    floor.ViewObject.ShapeColor = COLOR["grass"]
+    doc.recompute()
+    return doc
+
+
+def apply_frame(doc, f):
+    doc.getObject("Robot").Placement = App.Placement(V(0.0, f["y"], 0.0), App.Rotation())
+    rot = App.Rotation(V(1, 0, 0), -math.degrees(f["spin"]))
+    for tag in ("RL", "RR", "FL", "FR"):
+        for part in ("tire", "rim", "hub"):
+            doc.getObject("%s_%s" % (tag, part)).Placement = App.Placement(V(0, 0, 0), rot)
+    build_tpl.set_pose(f["dz"], doc, machine=False)
+    doc.getObject(build_tpl.MACHINE).Placement = build_tpl.machine_placement(f["dz_m"], f["my"])
+
+
+CAM_A = ((2700.0, -2900.0, 1500.0), (-100.0, -1150.0, 430.0))
+
+
+def track_camera(f, fov=42.0):
+    import FreeCADGui as Gui
+    from pivy import coin
+    y = f["y"]
+    tgt = (CAM_A[1][0], y + CAM_A[1][1], CAM_A[1][2])
+    eye = (CAM_A[0][0], y + CAM_A[0][1], CAM_A[0][2])
+    cam = Gui.getDocument(DOC_NAME).ActiveView.getCameraNode()
+    cam.position.setValue(coin.SbVec3f(*eye))
+    cam.pointAt(coin.SbVec3f(*tgt), coin.SbVec3f(0, 0, 1))
+    cam.heightAngle.setValue(math.radians(fov))
+    cam.nearDistance.setValue(20.0)
+    cam.farDistance.setValue(60000.0)
+
+
+STATE = {"approach": "reversing under the machine: male triangle 60 mm below the female",
+         "coupling": "LA36 retracts: the male triangle lifts into the female, latch drops in",
+         "lifting": "machine comes off its parking legs",
+         "lifted": "machine lifted 220 mm",
+         "carrying": "carrying the machine to its new place",
+         "setting_down": "LA36 extends: machine back on its legs",
+         "uncoupling": "carriage down until the triangle is free",
+         "leaving": "robot drives away, the machine stays"}
+
+
+def meta(f):
+    return {"t": f["t"], "phase": f["phase"], "state": STATE[f["phase"]], "v": round(f["v"]),
+            "dz": round(f["dz"], 1), "dz_m": round(f["dz_m"], 1), "act_len": round(f["act_len"], 1),
+            "act_N": round(f["act_N"]), "y": round(f["y"] / 1000.0, 2)}
+
+
+def summary(frames=None):
+    frames = frames or prepare()
+    up = [f for f in frames if f["phase"] in ("coupling", "lifting")]
+    down = [f for f in frames if f["phase"] in ("setting_down", "uncoupling")]
+    return {"frames": len(frames), "t_end": frames[-1]["t"], "lift_s": round(len(up) / float(FPS), 1),
+            "lower_s": round(len(down) / float(FPS), 1), "machine_lift_max": round(max(f["dz_m"] for f in frames)),
+            "act_N_max": round(max(f["act_N"] for f in frames)), "machine_moved_mm": round(frames[-1]["my"])}
+
+
+def check_run(step=10):
+    """Interference between robot + mast and the machine over the run (every 'step' frames): must be empty."""
+    doc = App.getDocument(DOC_NAME)
+    frames = prepare()
+    g = build_tpl.global_shape
+    mine = [o for n in ("TPL_Carriage", "TPL_Actuator", "TPL_Mount") for o in build_tpl.objects_of(doc, n)]
+    robot = build_tpl.robot_objects(doc)
+    mach = build_tpl.objects_of(doc, build_tpl.MACHINE)
+    out = {}
+    for i in list(range(0, len(frames), step)) + [len(frames) - 1]:
+        apply_frame(doc, frames[i])
+        ms = [(o, g(o)) for o in mach]
+        pairs = [((a, g(a)), b) for a in mine + robot for b in ms
+                 if not build_tpl._joint(a.Name, b[0].Name)]
+        hits = build_tpl._overlaps(pairs, 1.0)
+        if hits:
+            out[i] = hits
+    return out
+
+
+def render_frames(folder, first=0, count=None, fps=FPS, size=(800, 500), frames=None):
+    import FreeCADGui as Gui
+    doc = App.getDocument(DOC_NAME)
+    frames = frames or prepare(fps)
+    os.makedirs(folder, exist_ok=True)
+    with open(os.path.join(folder, "frames.json"), "w", encoding="utf-8") as handle:
+        json.dump([meta(f) for f in frames], handle)
+    view = Gui.getDocument(DOC_NAME).ActiveView
+    view.setCameraType("Perspective")
+    last = len(frames) if count is None else min(len(frames), first + count)
+    for i in range(first, last):
+        apply_frame(doc, frames[i])
+        track_camera(frames[i])
+        Gui.updateGui()
+        view.saveImage(os.path.join(folder, "frame_%04d.png" % i), size[0], size[1], "White")
+    return last, len(frames)
+
+
+def render_all(folder, fps=FPS, size=(800, 500)):
+    build()
+    frames = prepare(fps)
+    first, total = 0, 1
+    while first < total:
+        first, total = render_frames(folder, first, 30, fps, size, frames)
+    return total
+
+
+def stop():
+    global _timer
+    if _timer is not None:
+        _timer.stop()
+        _timer = None
+
+
+def play(fps=FPS, loop=False, follow=True, speed=1.0):
+    import FreeCADGui as Gui
+    from PySide import QtCore
+    global _timer
+    stop()
+    doc = App.getDocument(DOC_NAME)
+    frames = prepare(fps)
+    Gui.getDocument(DOC_NAME).ActiveView.setCameraType("Perspective")
+    _play.update({"index": 0})
+
+    def step():
+        try:
+            if _play["index"] >= len(frames):
+                if loop:
+                    _play["index"] = 0
+                else:
+                    stop()
+                    return
+            f = frames[_play["index"]]
+            _play["index"] += 1
+            apply_frame(doc, f)
+            if follow:
+                track_camera(f)
+        except Exception:
+            stop()
+            raise
+
+    _timer = QtCore.QTimer()
+    _timer.timeout.connect(step)
+    _timer.start(int(1000 / (fps * speed)))
