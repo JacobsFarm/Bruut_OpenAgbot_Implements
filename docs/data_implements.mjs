@@ -798,4 +798,12 @@ export const implementsList = [
         text: "Belly rails (from the flail mulcher) with an X gantry (+-120) and a tall Z axis through the robot at y 0, a knife tube O30 with gripper fingers (tip 180-1000), a spear bin on the slide, a crate on a rear deck, and a camera hood with LEDs and a line laser at the front.",
         facts: ["~3.5 s per spear", "~270 m of ridge, ~20 kg per hour", "44 kg, ~6.5 h per charge"] },
     ] },
+  {
+    name: "Soil scanner", folder: "soil scanner", category: "Measuring & Sensors",
+    summary: "Passive gamma-ray soil scanner (as Interra Scan / SoilOptix) 0.6 m above the ground in front of the robot: counts Cs-137, U-238, K-40 and Th-232 from the topsoil in lanes of 10 m, ~830 points per ha; with calibration samples it maps texture, pH, organic matter, P, K and CEC.",
+    variants: [
+      { name: "Simple", folder: "soil scanner/simple", hero: "soil scanner/simple/previews/1_iso_front_right_on_robot.png",
+        text: "CsI(Tl) crystal 4 l with PMT and MCA in a sealed aluminium tube O200 with blue end caps, across the robot at y 880, in 2 clamp rings on 4 rubber mounts under 2 steel brackets on the front outer lower beam, a guard tube and a processor box; optional soil sampler in the middle for the calibration samples (animated).",
+        facts: ["4.2 ha/h, ~36 ha per charge", "90 % of the counts from within 4.6 m", "45 kg; 69 % on the front axle"] },
+    ] },
 ];

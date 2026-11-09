@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "fieldsim",
+      "runtimeExecutable": "F:/sim_world/.venv/Scripts/python.exe",
+      "runtimeArgs": ["-c", "import sys; sys.path.insert(0, 'F:/sim_world'); from openagbot_fieldsim.__main__ import main; main(['--headless'])"],
+      "port": 8765
+    }
+  ]
+}

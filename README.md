@@ -754,6 +754,16 @@ Every design is parametric: change a number, rebuild, and the whole model follow
       <b><a href="asparagus%20harvester/simple/">X-Z gantry</a></b><br>Cuts 220 mm deep
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="soil%20scanner/simple/"><img src="soil%20scanner/simple/previews/1_iso_front_right_on_robot.png" alt="Soil scanner on the robot"></a><br>
+      <b><a href="soil%20scanner/simple/">Soil scanner</a></b><br>Gamma-ray spectrometer 0.6 m above the ground
+    </td>
+    <td align="center">
+      <a href="soil%20scanner/simple/"><img src="soil%20scanner/simple/previews/5_cutaway_crystal_pmt.png" alt="CsI crystal and PMT in the tube"></a><br>
+      <b><a href="soil%20scanner/simple/">CsI crystal 4 l</a></b><br>Cs, U, K, Th; ~830 points per ha
+    </td>
+  </tr>
 </table>
 
 ## Animations
@@ -793,6 +803,7 @@ any GIF that is still missing.
 | [Three-point hitch, A-frame](three%20point%20hitch/a_frame/) | the LA36 top link holds the frame floating over mounds, then lifts the cultivator at the headland | `three point hitch a_frame - animation_work_and_lift.gif` |
 | [Three-point hitch, parallel](three%20point%20hitch/parallel/) | the parallel linkage floats level over mounds and lifts straight up at the headland | `three point hitch parallel - animation_float_and_lift.gif` |
 | [Three-point hitch, lift mast](three%20point%20hitch/lift/) | reverses under a machine on parking legs, lifts it with the triangle, carries it 2.2 m and sets it down | `three point hitch lift - animation_pick_up_and_set_down.gif` |
+| [Soil scanner](soil%20scanner/simple/) | scans 3 lanes, the pH map appears block by block (10 x 1.2 m), then the soil sampler takes 4 calibration samples | `soil scanner simple - animation_scan_and_calibrate.gif` |
 
 ## Implements
 
@@ -887,6 +898,7 @@ any GIF that is still missing.
 | [**Feed mixing and distribution wagon**](feed%20mixer%20wagon/) | [simple](feed%20mixer%20wagon/simple/) | Loads at a feed kitchen, weighs, mixes and lays the ration along the feed fence several times a day, for calves, young stock and small groups. 2 cross tubes on the upper beams (y -375, 275), 4 load cells (300 kg) under a sub-frame with a 6 mm floor, a 2 mm cone bin O640-900 x 700 (0.33 m3) at y -50, a vertical conical auger (2 turns, 2 knives, 30 rpm) on a planetary gearbox (i = 100) with a 48 V 2 kW motor under the floor; a door on the right that slides up along the cone wall (24 V actuator) and a chute to x 720. ~92 kg TMR per batch, ~1.4 kW mixing, ~250 Wh per batch, ~6 batches per charge (~74 calves or ~13 cows a day). 136 kg; full 390 kg, front share 51 % |
 | [**Fresh grass harvester (zero grazing)**](fresh%20grass%20harvester/) | [simple](fresh%20grass%20harvester/simple/) | Mows fresh grass and brings it to the feed fence in many small loads. Front arms under the lower beams (x +-225) with an auger trough, a cross auger O200 and a 1.2 m sickle bar on skids; a slatted elevator (300 wide) outside the right front wheel from y 900 up to y 0 at 1.42 m; a 0.41 m3 container on a tipping frame over cross tubes at y -625 / -375, hinged on the left and tipped 55 degrees by 2 actuators; 60 kg ballast behind the robot. ~73 kg per load, a 73 m strip at 0.5 m/s, ~11 min and ~92 Wh per 300 m trip; ~17 trips (~1.3 t, ~21 cows) per charge. 286 kg; front share 57 % empty, 51 % full |
 | [**Asparagus harvester**](asparagus%20harvester/) | [simple](asparagus%20harvester/simple/) | Straddles one ridge of white asparagus (wheels in the furrows) and harvests spear by spear. The flail mulcher's belly rails (imported), an X gantry at y 0 with an HGR15 rail and a carriage (x +-120), a 40 x 80 Z profile standing up through the robot (z 430-1450) with a slide, a knife tube O30 with 2 gripper fingers (tip 180-1000: 220 mm into the ridge), a spear bin that empties into a crate on a rear deck, and a camera hood with LEDs and a line laser at the front. ~3.5 s per spear; ~270 m of ridge and ~20 kg per hour at 3 spears/m; ~21 h per ha per harvest day; ~6.5 h per charge. 44 kg. Working under plastic film is left open |
+| [**Soil scanner**](soil%20scanner/) | [simple](soil%20scanner/simple/) | Passive gamma-ray spectrometer as the Interra Scan / SoilOptix sensor: a CsI(Tl) crystal 100 x 100 x 400 (4 l) with PMT and MCA in a sealed aluminium tube O200 lies across the robot in front of the front wheels, axis 600 mm above the ground, in 2 clamp rings on 4 rubber mounts under 2 steel brackets on the front outer lower beam, with a guard tube and a processor box (logger, 4G). Counts Cs-137, U-238, K-40 and Th-232: lanes 10 m apart at 1.2 m/s, one spectrum per second = blocks of 10 x 1.2 m, 833 per ha. At 0.6 m 90 % of the counts come from within 4.6 m. With calibration samples (at least 4 per field, 2 per ha; the [soil sampler](soil%20sampler/simple/) can take them in the same job) the spectra become maps of texture, pH, organic matter, P, K, CEC. 4.2 ha/h, ~36 ha per charge. 45 kg, 69 % on the front axle |
 | [Mower unit](mower%20unit/) | notes only | General mower unit |
 
 **Overview document** with every implement and variant on its own page, followed by the ideas:
@@ -897,7 +909,7 @@ any GIF that is still missing.
 
 <!-- ideas:start -->
 <!-- generated by docs/build_docs.mjs from docs/data_ideas*.mjs: edit those, not this list -->
-**89 implements are worked out** (117 variants, see [Implements](#implements)) and
+**90 implements are worked out** (118 variants, see [Implements](#implements)) and
 **0 ideas are not worked out yet**. Each idea has a folder in [implement ideas/](implement%20ideas/) with a
 `README.md`: what it does, a first concept, what can be reused and the open questions. Ideas marked * come from own
 brainstorming or the robot catalogue, the others from the website's list.
