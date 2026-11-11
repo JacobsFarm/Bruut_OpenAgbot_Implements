@@ -92,6 +92,12 @@ export const implementsList = [
       { name: "v8", folder: "dockweed drill/v8", hero: "dockweed drill/v8/previews/1_work_iso_rear_right.png",
         text: "The Z part of v7 on the X axis of v6, with round precision tubes Ø50 x 4 instead of PTO tubes: the same tube and plain-bush housing on both axes, and the v7 mount plate becomes the X slide.",
         facts: ["X stroke 1000 mm on round tubes", "One tube and housing type for X and Z", "127 kg", "Includes an animation"] },
+      { name: "v9 simple", folder: "dockweed drill/v9/simple", hero: "dockweed drill/v9/simple/previews/1_work_iso_rear_right.png",
+        text: "v8 with both axes on 80 mm 90A skate wheels in bent 4 mm U tracks (25 mm inside): 2 wheels per track, the Z tracks fixed on the X slide with the LA36, the drill plate rolls down in them; X tracks on 50 x 30 x 4 beams.",
+        facts: ["8 skate wheels in 4 mm U25 tracks", "Z tracks fixed on the X slide", "117.6 kg", "Includes an animation"] },
+      { name: "v9 advanced", folder: "dockweed drill/v9/advanced", hero: "dockweed drill/v9/advanced/previews/1_work_iso_rear_right.png",
+        text: "v8 with both axes on 80 mm 90A skate wheels running in UPE 100 channels that face each other: 8 identical bolt-on wheel blocks (2 flange wheels + 2 web wheels each), the X frame bolted straight onto the uprights and the X motor fixed at the end.",
+        facts: ["32 skate wheels 80 x 24 in UPE 100", "One wheel block for X and Z", "170 kg, counterweight needed", "Includes an animation"] },
     ] },
   {
     name: "Trencher", folder: "trencher", category: "Soil Cultivation & Weed Control",

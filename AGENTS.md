@@ -31,7 +31,10 @@ agbots/agbot comparison/   comparison of the two robots
                            plant, Z on 2 round tubes O50x4 in plain-bush housings with the LA36, animation with the
                            robot steering to each plant and an exploded-assembly animation (explode_dwd7); v7 is
                            mainly the Z part, v8 = Z part of v7 on the X axis of v6 with round tubes O50x4 instead of
-                           PTO tubes, the same plain-bush housings on both axes, the v7 mount plate is the X slide)
+                           PTO tubes, the same plain-bush housings on both axes, the v7 mount plate is the X slide, v9 = v8 with both axes on
+                           80 mm 90A skate wheels and the X motor fixed at the end, in v9/simple (prefix dwd9s: 2
+                           wheels per bent 4 mm U25 track, Z tracks fixed on the X slide, drill plate rolls down) and
+                           v9/advanced (dwd9: UPE 100 channels facing each other, 8 identical wheel blocks))
 cambridge roll/             three trailed variants on one 50 mm tow ball: "cambridge roll" (cbr, also holds the tow
                            hitch, coupling head, drawbar and the general tree/check helpers), "overrseeder" (ovd, drop
                            seeder) and "overseeder with cambridge roll" (osr); ovd and osr import cbr from the sibling
