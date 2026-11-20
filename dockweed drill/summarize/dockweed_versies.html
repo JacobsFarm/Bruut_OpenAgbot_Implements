@@ -1,0 +1,214 @@
+<title>Dockweed Drill Versies</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: één smalle leeskolom, brede tabellen scrollen in eigen vak. Accent = oranje van de spindelbeugel in het model. */
+:root{
+  --bg:#f3f4f5; --surface:#ffffff; --fg:#1d242b; --muted:#5b6671; --line:#d6dbe0;
+  --accent:#d9560b; --accent-soft:#fbe6d9; --good:#1f7a4d; --good-soft:#dff2e8; --bad:#b3261e; --bad-soft:#f8e0de; --base:#1b5fa8; --base-soft:#dce9f7;
+  --head:"Space Grotesk","Segoe UI",sans-serif; --body:"Inter","Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12171c; --surface:#1a2128; --fg:#e6eaee; --muted:#9aa6b1; --line:#2d3740;
+  --accent:#ff8a4c; --accent-soft:#3a2418; --good:#5fd59a; --good-soft:#16301f; --bad:#ff8f86; --bad-soft:#3a1c1a; --base:#7ab6f5; --base-soft:#15283d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12171c; --surface:#1a2128; --fg:#e6eaee; --muted:#9aa6b1; --line:#2d3740;
+  --accent:#ff8a4c; --accent-soft:#3a2418; --good:#5fd59a; --good-soft:#16301f; --bad:#ff8f86; --bad-soft:#3a1c1a; --base:#7ab6f5; --base-soft:#15283d; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--body);margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+main{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:40px;min-width:0}
+h1,h2,h3{font-family:var(--head);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,5vw,2.8rem);letter-spacing:-.01em}
+h2{font-size:1.5rem;margin-bottom:14px}
+h3{font-size:1.1rem}
+p{margin:0 0 .6em;max-width:68ch}
+.lede{color:var(--muted);font-size:1.05rem}
+.kicker{font:600 .75rem var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.note{font-size:.88rem;color:var(--muted);border-left:3px solid var(--line);padding-left:12px;max-width:72ch}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:760px}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{font:600 .72rem var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--bg);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.v{font:700 .95rem var(--head);white-space:nowrap}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag{display:inline-block;font:600 .7rem var(--body);letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:3px}
+.t-base{background:var(--base-soft);color:var(--base)}
+.t-good{background:var(--good-soft);color:var(--good)}
+.t-bad{background:var(--bad-soft);color:var(--bad)}
+.t-acc{background:var(--accent-soft);color:var(--accent)}
+.vers{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,430px),1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;min-width:0;display:flex;flex-direction:column;gap:10px}
+.card header{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.card h3 span{color:var(--muted);font-weight:500;font-size:.95rem}
+.card ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:3px;font-size:.92rem}
+.lab{font:600 .72rem var(--body);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
+.lab.g{color:var(--good)} .lab.r{color:var(--bad)} .lab.a{color:var(--accent)}
+.verdict{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:6px;padding:20px;display:flex;flex-direction:column;gap:16px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:20px}
+.verdict ol,.verdict ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;font-size:.95rem}
+.verdict li{max-width:62ch}
+footer{color:var(--muted);font-size:.82rem}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+
+<main>
+<header>
+  <div class="kicker">Bruut OpenAgbot · aanbouwdeel</div>
+  <h1>Dockweed drill: tien versies vergeleken</h1>
+  <p class="lede">Een portaal achter de robot freest ridderzuring (deraap) plant voor plant kapot: frees Ø 180, ongeveer 150 mm diep, in een stalen blik Ø 219. Van v1 tot v10 veranderen vooral de zijwaartse as (X), de op-en-neer as (Z), de aandrijving van de spindel en het frame.</p>
+  <p class="note">Bron: de README en RATIONALE van elke versie in de FreeCAD-map. Prijzen staan alleen voor v2, v3 en v4 in de repo. Alle andere prijzen zijn schattingen op basis van die lijst en marktprijzen, niet gecontroleerd bij leveranciers.</p>
+</header>
+
+<section>
+  <h2>Overzicht</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>Versie</th><th>X-as (zijwaarts)</th><th>Z-as (op/neer)</th><th>Spindel</th><th>Massa</th><th>Planten/u</th><th>Zwakste punt</th></tr></thead>
+    <tbody>
+      <tr><td class="v">v1</td><td>Alu-profiel 40×80 + HGR15-rail</td><td>Rail + kogelomloopspindel</td><td>Ø35, BLDC 1,5 kW, 1500 tpm</td><td class="num">88,6 kg</td><td class="num">153</td><td>Rails gevoelig voor vuil, veel precisie-onderdelen</td></tr>
+      <tr><td class="v">v2</td><td>2 PTO-buizen met glijhulzen</td><td>HGR15 + SFU1610 + rem</td><td>Als v1</td><td class="num">96 kg</td><td class="num">153</td><td>Glijwrijving ~190 N, lassen, PTO-maten niet gemeten</td></tr>
+      <tr><td class="v">v3</td><td>PTO-buizen</td><td>Mast 100×100 op 8 V-rollen, tandheugel + worm</td><td>Als v1</td><td class="num">95 kg</td><td class="num">153</td><td>Rollen op kokerhoek niet getest, 1,95 m hoog</td></tr>
+      <tr><td class="v">v4</td><td>PTO-buizen</td><td>Aanhangwagen-steunpoot (drop-leg jack)</td><td>800 W, ketting 38T→12T, Ø20 in 2×UCP204</td><td class="num">106 kg</td><td class="num">138</td><td>2,6 mm speling bij de frees, trage Z</td></tr>
+      <tr><td class="v">v5</td><td>PTO-buizen</td><td>Steunpoot</td><td>800 W direct op de as, 500 tpm</td><td class="num">102 kg</td><td class="num">138</td><td>500 tpm: grover frezen, geen maaien</td></tr>
+      <tr><td class="v">v6</td><td>PTO-buizen tussen zijplaten, 40×40 frame</td><td>2 PTO-buizen + Linak LA36</td><td>Ø30 in 2×UCP206</td><td class="num">123 kg</td><td class="num">150*</td><td>LA36 loopt 70 % van de tijd, toegestaan 20 %</td></tr>
+      <tr><td class="v">v7</td><td>Geen X-as: de robot stuurt naar de plant</td><td>2 ronde buizen Ø50×4 in lagerhuizen + LA36</td><td>Als v6</td><td class="num">99,9 kg</td><td class="num">165 / 139 / 113**</td><td>Robot moet ±40 mm nauwkeurig stoppen</td></tr>
+      <tr><td class="v">v8</td><td>2 ronde buizen Ø50×4, 3 lagerhuizen</td><td>Als v7</td><td>Als v6</td><td class="num">127 kg</td><td class="num">165 / 139 / 113**</td><td>Voor-as maar 13 % van het gewicht</td></tr>
+      <tr><td class="v">v9 simple</td><td>4 mm gebogen U-sporen, 2 skatewielen per kant</td><td>Sporen vast op X-slede</td><td>Als v6</td><td class="num">117,6 kg</td><td class="num">= v8</td><td>Berekeningen voorlopig, wielflens glijdt</td></tr>
+      <tr><td class="v">v9 advanced</td><td>2× UPE100, 8 wielblokken, 32 wielen</td><td>UPE100 + LA36</td><td>Als v6</td><td class="num">170,1 kg</td><td class="num">= v8</td><td>Voor-as 8 %, frees 4,4 tot 9,7 mm speling</td></tr>
+      <tr><td class="v">v10</td><td>Als v8, motor vast aan rechterkant</td><td>HGR20-rails + 4 wagens HGH20CA</td><td>Als v6</td><td class="num">131,2 kg</td><td class="num">= v8</td><td>Rails vuilgevoelig, rail-balken moeten vlak</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note" style="margin-top:10px">* Alleen als de LA36 het aankan. Bij 20 % duty zijn het maximaal 43 planten per uur. ** Direct achter elkaar / 2 m / 5 m plantafstand.</p>
+</section>
+
+<section>
+  <h2>Per versie</h2>
+  <div class="vers">
+
+    <article class="card"><header><h3>v1 <span>alu-profiel met rail</span></h3><span class="tag t-base">referentie</span></header>
+      <div><div class="lab g">Voordelen</div><ul><li>Rollende wrijving ~16 N, geen speling</li><li>Lichtste X-as (14,6 kg), geen lassen aan de X-as</li></ul></div>
+      <div><div class="lab r">Nadelen</div><ul><li>HGR-rails vuilgevoelig: spatkap en regelmatig vetten</li><li>Doorbuiging aluminium 0,85 mm</li></ul></div>
+    </article>
+
+    <article class="card"><header><h3>v2 <span>PTO-buizen als X-as</span></h3><span class="tag t-acc">€ 1.200–1.900</span></header>
+      <div><div class="lab a">Verbetering</div><ul><li>Vuil- en roestbestendig, goedkoop, bij elke landbouwdealer</li></ul></div>
+      <div><div class="lab g">Voordelen</div><ul><li>Stijver (0,45 mm), 3 korte hulzen met sleufgaten voorkomen klemmen</li></ul></div>
+      <div><div class="lab r">Nadelen</div><ul><li>Glijwrijving ~190 N, 0,5 tot 1 mm speling, lassen van ribben en pads</li><li>PTO-maten komen uit adverteerlijsten, niet gemeten</li></ul></div>
+    </article>
+
+    <article class="card"><header><h3>v3 <span>mast als Z-as, stalen blik</span></h3></header>
+      <div><div class="lab a">Verbetering</div><ul><li>Z-as als boormachine-mast zonder rails of kogelomloop, blik van DN200-buis, vaste hoge camera</li></ul></div>
+      <div><div class="lab g">Voordelen</div><ul><li>Z-deel ± € 35 goedkoper, zelfremmend, stijf (0,28 mm)</li><li>Spindel 67 mm dichter bij de robot</li></ul></div>
+      <div><div class="lab r">Nadelen</div><ul><li>V-rollen op koker-hoeken niet getest</li><li>1,95 m hoog, blik maar 60 mm van de achterband</li></ul></div>
+    </article>
+
+    <article class="card"><header><h3>v4 <span>steunpoot als Z-as</span></h3><span class="tag t-acc">≈ € 40 onder v2</span></header>
+      <div><div class="lab a">Verbetering</div><ul><li>Geleiding, schroef, tandwielkast en afdichting in één onderdeel van € 70–110; 800 W-motor en UCP204 uit voorraad</li></ul></div>
+      <div><div class="lab g">Voordelen</div><ul><li>Eenvoudigste Z-as, weerbestendig, zelfremmend</li></ul></div>
+      <div><div class="lab r">Nadelen</div><ul><li>138 planten/u (10 % minder), 2,6 mm speling bij de frees</li><li>Ø20-as buigt 2,35 mm, kritisch toerental 69 % van de frees</li><li>Jack is gemaakt voor honderden slagen per jaar, hier 150 per uur</li></ul></div>
+    </article>
+
+    <article class="card"><header><h3>v5 <span>motor direct op de as</span></h3><span class="tag t-bad">vermijden</span></header>
+      <div><div class="lab g">Voordelen</div><ul><li>Geen ketting, tandwielen of kettingkast, 4 kg lichter</li></ul></div>
+      <div><div class="lab r">Nadelen</div><ul><li>Frees draait nog maar 500 tpm (v4: 1500): 0,75 mm per tand, 15 Nm</li><li>Maaien niet meer mogelijk, risico op regroei</li><li>Motor staat hoog (1,11 m), geen eigen animatie</li></ul></div>
+    </article>
+
+    <article class="card"><header><h3>v6 <span>40×40 frame, Ø30 as, LA36</span></h3></header>
+      <div><div class="lab a">Verbetering</div><ul><li>Lichter frame, PTO-buizen los met 4 bouten, Ø30 massief in UCP206 (1,09 mm i.p.v. 2,35)</li></ul></div>
+      <div><div class="lab g">Voordelen</div><ul><li>Stijve spindel, onderhoudsarme actuator met marge 3,1</li></ul></div>
+      <div><div class="lab r">Nadelen</div><ul><li>Zwaarste PTO-versie (123 kg), voor-as 39 kg</li><li>LA36 duty 70 % tegen 20 % toegestaan: oververhitting, voor echt werk servo-cilinder</li></ul></div>
+    </article>
+
+    <article class="card"><header><h3>v7 <span>geen X-as, alleen Z</span></h3><span class="tag t-good">goedkoopst</span></header>
+      <div><div class="lab a">Verbetering</div><ul><li>Duurste deel (X-as, slede, riem, ketting, motor) vervalt</li><li>Ronde precisiebuis E355 in gekochte lagerhuizen</li><li>64 mm dichter bij de robot, 23 kg lichter, band 250 mm vrij</li></ul></div>
+      <div><div class="lab g">Voordelen</div><ul><li>Simpelste montage, 99,9 kg, 21,8 s per plant, voor-as 49 kg</li></ul></div>
+      <div><div class="lab r">Nadelen</div><ul><li>Robot stuurt zijwaarts: 250 mm kost 1,3 tot 1,8 m rijden</li><li>Stuursnelheid tot 43°/s en nauwkeurigheid niet getest; bij 5 m plantafstand 113/u</li></ul></div>
+    </article>
+
+    <article class="card"><header><h3>v8 <span>Z van v7 op X met ronde buizen</span></h3><span class="tag t-base">basis</span></header>
+      <div><div class="lab a">Verbetering</div><ul><li>Eén buistype, één lagerhuis, één lager voor beide assen; geen citroenprofiel, geen vet op blank staal</li></ul></div>
+      <div><div class="lab g">Voordelen</div><ul><li>Alles uit catalogus, 21,8 s per plant met X tijdens het rijden</li></ul></div>
+      <div><div class="lab r">Nadelen</div><ul><li>127 kg, voor-as 37 kg (13 %), lichtste wiel 11 kg</li><li>X-buis zakt 1,0 mm, 1,65 mm in v; motor reist mee op de slede</li></ul></div>
+    </article>
+
+    <article class="card"><header><h3>v9 simple <span>U-sporen met skatewielen</span></h3></header>
+      <div><div class="lab g">Voordelen</div><ul><li>4 mm staal, één M8-bout per wiel, 117,6 kg: lichtste met X-as</li><li>Spindel 86 mm dichter bij de robot, voor-as 47 kg (17,5 %)</li></ul></div>
+      <div><div class="lab r">Nadelen</div><ul><li>Rekenwerk nog voorlopig, wielzijde glijdt langs de flens (slijtage)</li><li>Slechts 3 mm ruimte tot de robot bij de X-as</li></ul></div>
+    </article>
+
+    <article class="card"><header><h3>v9 advanced <span>UPE100 en 8 wielblokken</span></h3><span class="tag t-bad">vermijden</span></header>
+      <div><div class="lab g">Voordelen</div><ul><li>Alles rolt, blokken instelbaar, X-profielen buigen maar 0,2 mm</li><li>Motor vast aan het uiteinde</li></ul></div>
+      <div><div class="lab r">Nadelen</div><ul><li>170 kg (+43 kg t.o.v. v8), voor-as 26 kg (8 %), lichtste wiel 6,8 kg</li><li>Tegengewicht van 30–40 kg verplicht, 32 wielen, 1570 mm breed</li><li>Frees 4,4 mm (100 N) tot 9,7 mm (300 N) speling</li></ul></div>
+    </article>
+
+    <article class="card" style="grid-column:1/-1"><header><h3>v10 <span>v8 + vaste X-motor + lineaire geleiding in Z</span></h3><span class="tag t-good">stijfste Z</span></header>
+      <div class="cols">
+        <div><div class="lab a">Verbetering</div><ul><li>HGR20-rails vast op de slede, wagens lopen mee met de frees</li><li>Motor vast rechts: kabel beweegt niet, slede 380 mm breed</li></ul></div>
+        <div><div class="lab g">Voordelen</div><ul><li>Frees 1,8 mm bij 300 N (v8: 2,4 mm)</li><li>Wrijving 26 N i.p.v. ~380 N, LA36 op 60 % belasting</li><li>Voor-as 37 kg als v8, geen extra tegengewicht</li></ul></div>
+        <div><div class="lab r">Nadelen</div><ul><li>Rails vuilgevoelig: dubbele afdichting en schraper</li><li>Rail-balken moeten vlak zijn over 900 mm</li><li>4,2 kg zwaarder dan v8 (131,2 tegen 127,0 kg)</li><li>HIWIN-maten uit catalogus, andere merken wijken af</li></ul></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section>
+  <h2>Prijs, complexiteit, montage en onderdelen</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>Versie</th><th>Prijs totaal</th><th>Complexiteit</th><th>Montage</th><th>Onderdelen verkrijgbaar</th></tr></thead>
+    <tbody>
+      <tr><td class="v">v1</td><td>≈ € 1.400–2.000 (schatting)</td><td>Hoog: rails, kogelomloop, riem</td><td>Geen lassen, wel precies uitlijnen</td><td>Rails en profielen online, niet bij de dealer</td></tr>
+      <tr><td class="v">v2</td><td><b>€ 1.200–1.900</b> (repo)</td><td>Hoog: PTO, lassen, kogelomloop, rem</td><td>Zwaar: lassen met vervorming, hulzen reamen</td><td>PTO-buis bij landbouwdealer, maten onzeker</td></tr>
+      <tr><td class="v">v3</td><td>≈ € 1.150–1.850 (repo-verschil)</td><td>Gemiddeld: mast, rollen, worm</td><td>Gemiddeld; één rollenkooi eerst testen</td><td>Rollen 6202 en NMRV030 standaard; mastkoker niet getest</td></tr>
+      <tr><td class="v">v4</td><td>≈ € 1.150–1.850 (repo-verschil)</td><td>Laag: jack is één onderdeel</td><td>Simpel; ketting uitlijnen</td><td>Jack, UCP204, 800 W-motor standaard; 12T met 20 mm gat nog checken</td></tr>
+      <tr><td class="v">v5</td><td>≈ € 1.100–1.800 (schatting)</td><td>Lager dan v4: geen ketting</td><td>Simpeler dan v4</td><td>Jack standaard</td></tr>
+      <tr><td class="v">v6</td><td>≈ € 1.700–2.500 (schatting)</td><td>Gemiddeld tot hoog: PTO, LA36, converter</td><td>PTO los met 4 bouten; pluggen lassen</td><td>LA36 duur met levertijd; PTO-maat onzeker</td></tr>
+      <tr><td class="v">v7</td><td>≈ € 1.200–1.800 (schatting)</td><td>Laagst: 2 buizen, 4 lagerhuizen</td><td>Eenvoudigst: buizen in de huizen als mal lassen</td><td>Precisiebuis E355 bij staalhandel, lagerhuizen standaard</td></tr>
+      <tr><td class="v">v8</td><td>≈ € 1.800–2.600 (schatting)</td><td>Gemiddeld: 1 buistype, 1 huistype</td><td>Gemiddeld: 4 bouten per buis, zijplaat als mal</td><td>Alles uit catalogus: beste leverbaarheid</td></tr>
+      <tr><td class="v">v9 simple</td><td>≈ € 1.500–2.200 (schatting)</td><td>Gemiddeld: gebogen U, 8 wielen</td><td>Simpel (M8 per wiel), toleranties 0,5 mm</td><td>Skatewielen en 608-lagers goedkoop, U op maat gebogen</td></tr>
+      <tr><td class="v">v9 advanced</td><td>≈ € 2.200–3.200 (schatting)</td><td>Hoogst: 4 UPE, 8 blokken, 32 wielen</td><td>Blokken instelbaar, maar zwaar en breed</td><td>UPE100 standaard; tegengewicht erbij</td></tr>
+      <tr><td class="v">v10</td><td>≈ € 2.000–2.900 (schatting)</td><td>Gemiddeld tot hoog: X-buizen plus rails</td><td>Rail-balken vlak stellen</td><td>HGR20/HGH20CA online, huizen standaard</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="verdict">
+  <div>
+    <div class="kicker">Conclusie</div>
+    <h2 style="margin:0">Bouw v8 met de Z-geleiding van v10. Begin klein met v7.</h2>
+  </div>
+  <div class="cols">
+    <div>
+      <div class="lab g">Overnemen</div>
+      <ol>
+        <li><b>Spindel:</b> Ø30 massief in 2×UCP206 met klauwkoppeling (vanaf v6). De Ø20-as van v4 en v5 is de zwakste schakel.</li>
+        <li><b>X-as:</b> ronde precisiebuis Ø50×4 met standaard lagerhuizen (v7/v8). Beter dan PTO-buizen en minder zwaar dan skatewielen.</li>
+        <li><b>X-motor:</b> vast aan het uiteinde (v9/v10).</li>
+        <li><b>Z-geleiding:</b> v10 is het stijfst (1,8 mm bij 300 N). Zijn rails onder vuil een zorg, dan de buizen van v8 (2,4 mm).</li>
+        <li><b>Goedkoop beginnen:</b> v7 en later een X-as op de montageplaat.</li>
+      </ol>
+    </div>
+    <div>
+      <div class="lab r">Vermijden</div>
+      <ul>
+        <li><b>v9 advanced:</b> te zwaar, voor-as 8 %, 4–10 mm speling.</li>
+        <li><b>v4 en v5:</b> steunpoot is niet gemaakt voor 150 slagen per uur; Ø20-as; bij v5 te laag toerental.</li>
+        <li><b>v1 en v2:</b> achterhaald ten opzichte van v8.</li>
+      </ul>
+    </div>
+  </div>
+  <div>
+    <div class="lab a">Nog te verbeteren of uit te zoeken</div>
+    <ul>
+      <li><b>Voor-aslast:</b> bij alle X-versies (v6–v10) rond 13 %, bij v9 advanced 8 %. Accu en gewicht naar voren, of spindel dichter bij de robot (v9 simple wint 86 mm).</li>
+      <li><b>LA36 duty:</b> vervangen door servo-cilinder of kogelomloop (100 % duty), in dezelfde beugels.</li>
+      <li><b>Toerental:</b> 500 tpm direct is een procesrisico. Overweeg een 1:3-overbrenging of een BLDC met VESC.</li>
+      <li><b>Proefbouw eerst:</b> spindelbeugel op een bok (± € 400), regroei na 6–8 weken meten.</li>
+      <li><b>Meten:</b> PTO-buis, HGR20-rail, lagerhuizen, wielstijfheid en LA36-maten, en de parameters bijwerken.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>Gebaseerd op de FreeCAD-modellen en documentatie in <code>dockweed drill/v1 … v10</code>. Alle maten, massa's en krachten komen uit de modellen en berekeningen en zijn niet gemeten aan een gebouwde machine.</footer>
+</main>

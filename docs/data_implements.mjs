@@ -66,7 +66,7 @@ export const implementsList = [
     ] },
   {
     name: "Dockweed drill", folder: "dockweed drill", category: "Soil Cultivation & Weed Control",
-    summary: "Finds a dock plant (broad-leaved dock) and mills out its root on a CNC gantry behind the robot, chemical-free. Eight numbered versions that each change one part of the machine.",
+    summary: "Finds a dock plant (broad-leaved dock) and mills out its root on a CNC gantry behind the robot, chemical-free. Ten numbered versions that each change one part of the machine.",
     variants: [
       { name: "v1", folder: "dockweed drill/v1", hero: "dockweed drill/v1/previews/1_work_iso_rear_right.png",
         text: "X slide on 2 aluminium profiles 40 x 80 with HGR15 rails and 4 carriages; cutter Ø180 at 1500 rpm in a pot Ø250 and a mowing disc as second tool.",
@@ -98,6 +98,9 @@ export const implementsList = [
       { name: "v9 advanced", folder: "dockweed drill/v9/advanced", hero: "dockweed drill/v9/advanced/previews/1_work_iso_rear_right.png",
         text: "v8 with both axes on 80 mm 90A skate wheels running in UPE 100 channels that face each other: 8 identical bolt-on wheel blocks (2 flange wheels + 2 web wheels each), the X frame bolted straight onto the uprights and the X motor fixed at the end.",
         facts: ["32 skate wheels 80 x 24 in UPE 100", "One wheel block for X and Z", "170 kg, counterweight needed", "Includes an animation"] },
+      { name: "v10", folder: "dockweed drill/v10", hero: "dockweed drill/v10/previews/1_work_iso_rear_right.png",
+        text: "v8 with the X motor fixed at the right side plate (as v9) and the Z sled on linear guides, after a test build: 2 HGR20 rails fixed on 2 rail beams on the X slide, 4 HGH20CA carriages on a bent U sled that carries the spindle drive, the LA36 in the middle between the rails.",
+        facts: ["Z on 2 HGR20 rails, 4 carriages", "X motor fixed at the end", "131 kg", "Three-plant and exploded-view animations, MP4"] },
     ] },
   {
     name: "Trencher", folder: "trencher", category: "Soil Cultivation & Weed Control",

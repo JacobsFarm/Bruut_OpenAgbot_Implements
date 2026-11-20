@@ -34,7 +34,12 @@ agbots/agbot comparison/   comparison of the two robots
                            PTO tubes, the same plain-bush housings on both axes, the v7 mount plate is the X slide, v9 = v8 with both axes on
                            80 mm 90A skate wheels and the X motor fixed at the end, in v9/simple (prefix dwd9s: 2
                            wheels per bent 4 mm U25 track, Z tracks fixed on the X slide, drill plate rolls down) and
-                           v9/advanced (dwd9: UPE 100 channels facing each other, 8 identical wheel blocks))
+                           v9/advanced (dwd9: UPE 100 channels facing each other, 8 identical wheel blocks), v10 = v8
+                           with the X motor fixed at the right side plate as v9 and the Z sled on linear guides after
+                           the photos in v10/inspiration: 2 HGR20 rails fixed on 2 RHS rail beams on the X slide, 4
+                           HGH20CA carriages on a bent U sled that is the spindle bracket back plate, LA36 between the
+                           rails; three-plant animation and an exploded-assembly animation (explode_dwd10), both also as
+                           MP4)
 cambridge roll/             three trailed variants on one 50 mm tow ball: "cambridge roll" (cbr, also holds the tow
                            hitch, coupling head, drawbar and the general tree/check helpers), "overrseeder" (ovd, drop
                            seeder) and "overseeder with cambridge roll" (osr); ovd and osr import cbr from the sibling
